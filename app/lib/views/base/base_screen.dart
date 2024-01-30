@@ -101,11 +101,11 @@ abstract class BaseScreen<T extends GetxController> extends GetView<T> {
   @protected
   bool get wrapWithInnerSafeArea => false;
 
-  // 내부 SafeArea의 위쪽 부분을 설정할지 여부를 정의하는 메서드
+  /// 내부 SafeArea의 위쪽 부분을 설정할지 여부를 정의하는 메서드
   @protected
   bool get setTopInnerSafeArea => false;
 
-  // 내부 SafeArea의 아래쪽 부분을 설정할지 여부를 정의하는 메서드
+  /// 내부 SafeArea의 아래쪽 부분을 설정할지 여부를 정의하는 메서드
   @protected
   bool get setBottomInnerSafeArea => false;
 
