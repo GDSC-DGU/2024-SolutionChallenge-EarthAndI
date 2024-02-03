@@ -42,7 +42,7 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
                 ),
                 const Flexible(
                   child: SizedBox(
-                    width: 60,
+                    width: 80,
                   ),
                 ),
                 _buildBottomNavigationBarItem(
@@ -66,12 +66,16 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
       Expanded(
         child: InkWell(
           onTap: () => viewModel.changeIndex(index),
-          child: SvgPicture.asset(
-            svgPath,
-            width: size,
-            colorFilter: viewModel.selectedIndex == index
-                ? const ColorFilter.mode(Color(0xFFD097F4), BlendMode.srcATop)
-                : const ColorFilter.mode(Color(0xFF67686D), BlendMode.srcATop),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: SvgPicture.asset(
+              svgPath,
+              width: size,
+              colorFilter: viewModel.selectedIndex == index
+                  ? const ColorFilter.mode(Color(0xFFD097F4), BlendMode.srcATop)
+                  : const ColorFilter.mode(
+                      Color(0xFF67686D), BlendMode.srcATop),
+            ),
           ),
         ),
       );
