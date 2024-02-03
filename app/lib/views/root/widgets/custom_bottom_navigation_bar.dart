@@ -17,41 +17,30 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
         ),
         child: BottomAppBar(
           elevation: 0,
-          color: Colors.black,
+          color: Colors.grey[300],
           padding: const EdgeInsets.all(0),
           shape: const CircularNotchedRectangle(),
           notchMargin: 10.0,
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Container(
-            height: 80,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildBottomNavigationBarItem(
+                index: 0,
+                size: 24,
+                svgPath: 'assets/icons/save.svg',
+              ),
+              const Flexible(
+                child: SizedBox(
+                  width: 80,
                 ),
               ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildBottomNavigationBarItem(
-                  index: 0,
-                  size: 24,
-                  svgPath: 'assets/icons/save.svg',
-                ),
-                const Flexible(
-                  child: SizedBox(
-                    width: 80,
-                  ),
-                ),
-                _buildBottomNavigationBarItem(
-                  index: 2,
-                  size: 24,
-                  svgPath: 'assets/icons/save.svg',
-                ),
-              ],
-            ),
+              _buildBottomNavigationBarItem(
+                index: 2,
+                size: 24,
+                svgPath: 'assets/icons/save.svg',
+              ),
+            ],
           ),
         ),
       ),

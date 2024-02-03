@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class RootViewModel extends GetxController {
+  static const duration = Duration(milliseconds: 300);
+  late final bool isAndroid;
+
   late final RxInt _selectedIndex;
   late final RxBool _isExpanded;
 
@@ -10,6 +14,9 @@ class RootViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    isAndroid =
+        (foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS);
 
     _selectedIndex = 1.obs;
     _isExpanded = false.obs;
