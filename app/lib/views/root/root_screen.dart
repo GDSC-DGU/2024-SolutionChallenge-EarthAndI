@@ -34,16 +34,14 @@ class RootScreen extends GetView<RootViewModel> {
 
   Widget buildScreen() => Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Obx(
-            () => IndexedStack(
-              index: viewModel.selectedIndex,
-              children: const [
-                LoadMapScreen(),
-                HomeScreen(),
-                ProfileScreen(),
-              ],
-            ),
+        body: Obx(
+          () => IndexedStack(
+            index: viewModel.selectedIndex,
+            children: const [
+              LoadMapScreen(),
+              HomeScreen(),
+              ProfileScreen(),
+            ],
           ),
         ),
 
