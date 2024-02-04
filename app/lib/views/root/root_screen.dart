@@ -11,9 +11,10 @@ class RootScreen extends BaseScreen<RootViewModel> {
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return const PreferredSize(
-      preferredSize: Size.fromHeight(80),
+      preferredSize: Size.fromHeight(56),
       child: DefaultBackAppBar(
-        title: "Root Screen",
+        title: "앱바 내용",
+        isFriendScreen: true,
       ),
     );
   }

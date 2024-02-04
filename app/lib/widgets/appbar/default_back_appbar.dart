@@ -5,37 +5,62 @@ import 'package:get/get.dart';
 
 class DefaultBackAppBar extends StatelessWidget {
   final String title;
-  const DefaultBackAppBar({super.key, required this.title});
+  final bool isFriendScreen;
+  const DefaultBackAppBar(
+      {super.key, required this.title, required this.isFriendScreen});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        title,
-        style: FontSystem.KR18M,
-      ),
-      centerTitle: true,
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: true,
-      leadingWidth: 90,
-      leading: TextButton.icon(
-        style: TextButton.styleFrom(
-          splashFactory: NoSplash.splashFactory,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
+      leadingWidth: Get.width,
+      leading: Row(
+        children: [
+          IconButton(
+            style: TextButton.styleFrom(
+              splashFactory: NoSplash.splashFactory,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            icon: SvgPicture.asset(
+              "assets/icons/arrow_back.svg",
+              width: 24,
+              height: 24,
+            ),
+            onPressed: () {
+              Get.back();
+            },
           ),
-        ),
-        icon: SvgPicture.asset("assets/icons/back.svg"),
-        label: const Text(
-          "뒤로",
-          style: FontSystem.KR18R,
-        ),
-        onPressed: () {
-          Get.back();
-        },
+          Text(
+            title,
+            style: FontSystem.KR20SB,
+          )
+        ],
       ),
+      actions: [
+        if (isFriendScreen)
+          IconButton(
+            style: IconButton.styleFrom(
+              splashFactory: NoSplash.splashFactory,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            icon: SvgPicture.asset(
+              "assets/icons/plus.svg",
+              width: 24,
+              height: 24,
+            ),
+            onPressed: () {
+              debugPrint("친구 추가로 이동");
+            },
+          )
+      ],
     );
   }
 }
