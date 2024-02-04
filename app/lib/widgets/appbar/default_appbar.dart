@@ -10,12 +10,12 @@ class DefaultAppBar extends StatelessWidget {
     return AppBar(
       title: Text(
         title,
-        style: FontSystem.KR18M,
+        style: FontSystem.KR20B,
       ),
-      centerTitle: true,
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: true,
+      centerTitle: false,
     );
   }
 }
