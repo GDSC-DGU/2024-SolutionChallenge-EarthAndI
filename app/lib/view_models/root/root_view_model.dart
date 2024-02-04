@@ -2,7 +2,10 @@ import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 class RootViewModel extends GetxController {
+  // Animation duration
   static const duration = Duration(milliseconds: 300);
+
+  // Platform
   late final bool isAndroid;
 
   late final RxInt _selectedIndex;

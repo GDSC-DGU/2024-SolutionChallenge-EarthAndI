@@ -5,6 +5,7 @@ import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// Verification Menu
 class VerificationMenu extends BaseWidget<RootViewModel> {
   const VerificationMenu({super.key});
 
@@ -21,6 +22,7 @@ class VerificationMenu extends BaseWidget<RootViewModel> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Verification menu
                 Container(
                   width: Get.width * 0.4,
                   padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
@@ -46,6 +48,8 @@ class VerificationMenu extends BaseWidget<RootViewModel> {
                     ],
                   ),
                 ),
+
+                // Relative to the height of the Verification Menu
                 SizedBox(
                   height: 55 + (viewModel.isAndroid ? 100 : 65),
                 ),
@@ -57,6 +61,7 @@ class VerificationMenu extends BaseWidget<RootViewModel> {
     );
   }
 
+  /// Floating item
   Widget floatItem({
     required String redirectUrl,
     required String title,

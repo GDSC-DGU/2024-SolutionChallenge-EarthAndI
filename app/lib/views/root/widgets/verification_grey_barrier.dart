@@ -3,6 +3,7 @@ import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// Gery Scale Barrier
 class VerificationGreyBarrier extends BaseWidget<RootViewModel> {
   const VerificationGreyBarrier({super.key});
 

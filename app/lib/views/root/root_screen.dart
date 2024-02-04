@@ -46,6 +46,8 @@ class RootScreen extends GetView<RootViewModel> {
             ),
           ),
         ),
+
+        // Floating action button
         floatingActionButton: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Container(
@@ -54,8 +56,14 @@ class RootScreen extends GetView<RootViewModel> {
             color: Colors.transparent,
           ),
         ),
+
+        // Floating action button Location
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+        // Enable Behind FAB
         extendBody: true,
+
+        // Bottom navigation bar
         bottomNavigationBar: const CustomBottomNavigationBar(),
       );
 }

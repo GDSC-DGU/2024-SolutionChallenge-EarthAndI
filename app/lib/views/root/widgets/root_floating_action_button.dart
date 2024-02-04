@@ -26,6 +26,7 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Obx(() {
+                // If the floating action button is expanded, the icon is changed to Rotated Add Icon
                 if (viewModel.isExpanded) {
                   return const AnimatedRotation(
                     duration: Duration(milliseconds: 200),
@@ -34,6 +35,9 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
                   );
                 }
 
+                // If the floating action button is not expanded,
+                // the icon is changed to search Icon When the Home Screen is displayed,
+                // the icon is changed to save Icon When the another screen is displayed.
                 return SvgPicture.asset(
                   viewModel.selectedIndex != 1
                       ? 'assets/icons/save.svg'
@@ -48,6 +52,8 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
               }),
             ),
           ),
+
+          // Relative to the height of the floating action button
           SizedBox(
             height: viewModel.isAndroid ? 85 : 50,
           ),

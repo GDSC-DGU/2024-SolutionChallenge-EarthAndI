@@ -5,14 +5,17 @@ abstract class DevOnLog {
     printer: PrettyPrinter(methodCount: 0),
   );
 
+  /// Info log
   static void i(dynamic message) {
     _logger.i(message);
   }
 
+  /// Debug log
   static void d(dynamic message) {
     _logger.d(message);
   }
 
+  /// Error log
   static void e(dynamic message) {
     _logger.e(message);
   }
