@@ -40,8 +40,8 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
                 // the icon is changed to save Icon When the another screen is displayed.
                 return SvgPicture.asset(
                   viewModel.selectedIndex != 1
-                      ? 'assets/icons/save.svg'
-                      : 'assets/icons/search.svg',
+                      ? 'assets/icons/home.svg'
+                      : 'assets/icons/verification_echo.svg',
                   width: 24,
                   height: 24,
                   colorFilter: const ColorFilter.mode(
@@ -55,7 +55,7 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
 
           // Relative to the height of the floating action button
           SizedBox(
-            height: viewModel.isAndroid ? 85 : 50,
+            height: viewModel.isAndroid ? 70 : 35,
           ),
         ],
       ),

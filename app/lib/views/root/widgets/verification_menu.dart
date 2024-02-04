@@ -51,7 +51,7 @@ class VerificationMenu extends BaseWidget<RootViewModel> {
 
                 // Relative to the height of the Verification Menu
                 SizedBox(
-                  height: 55 + (viewModel.isAndroid ? 100 : 65),
+                  height: 55 + (viewModel.isAndroid ? 85 : 50),
                 ),
               ],
             ),
