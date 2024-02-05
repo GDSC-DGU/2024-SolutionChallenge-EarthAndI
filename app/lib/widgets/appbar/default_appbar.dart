@@ -1,9 +1,15 @@
 import 'package:earth_and_i/utilities/system/font_system.dart';
+import 'package:earth_and_i/widgets/appbar/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class DefaultAppBar extends StatelessWidget {
   final String title;
-  const DefaultAppBar({super.key, required this.title});
+  final List<CustomIconButton> actions;
+  const DefaultAppBar({
+    super.key,
+    required this.title,
+    this.actions = const <CustomIconButton>[],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +22,7 @@ class DefaultAppBar extends StatelessWidget {
       backgroundColor: Colors.white,
       automaticallyImplyLeading: true,
       centerTitle: false,
+      actions: actions,
     );
   }
 }
