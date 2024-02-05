@@ -37,7 +37,7 @@ class DefaultBackAppBar extends StatelessWidget {
           ),
           Text(
             title,
-            style: FontSystem.KR20SB,
+            style: FontSystem.KR20SB120,
           )
         ],
       ),

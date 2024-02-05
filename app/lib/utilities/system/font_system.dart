@@ -137,13 +137,6 @@ abstract class FontSystem {
     color: Colors.black,
   );
 
-  static const TextStyle KR20SB = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    fontFamily: 'Pretendard',
-    color: Colors.black,
-  );
-
   static const TextStyle KR20M = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
@@ -303,6 +296,15 @@ abstract class FontSystem {
     fontWeight: FontWeight.w400,
     fontFamily: 'Pretendard',
     color: Colors.black,
+  );
+
+  /* SB - 120% */
+  static const TextStyle KR20SB120 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Pretendard',
+    color: Colors.black,
+    height: 1.2,
   );
 
   /* R - 130% */
