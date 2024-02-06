@@ -8,13 +8,16 @@ class FloorLayerClipper extends CustomClipper<Path> {
     // Start Point is 0, 50
     path.moveTo(0, 50);
 
-    // Rectangle is 0, 50 -> 0, size.height -> size.width, size.height -> size.width, 50
-    path.lineTo(0, 50);
+    // left
     path.lineTo(0, size.height);
+
+    // bottom
     path.lineTo(size.width, size.height);
+
+    // right
     path.lineTo(size.width, 50);
 
-    // Quadratic Bezier is size.width, 50 -> size.width / 2, 0 -> 0, 50
+    // top
     path.quadraticBezierTo(size.width / 2, 0, 0, 50);
 
     return path;
