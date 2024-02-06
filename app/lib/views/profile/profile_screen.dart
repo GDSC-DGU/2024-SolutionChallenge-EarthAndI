@@ -1,9 +1,11 @@
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/widgets/appbar/custom_icon_button.dart';
 import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends BaseScreen<ProfileViewModel> {
   const ProfileScreen({super.key});
@@ -18,7 +20,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
           CustomIconButton(
             assetPath: "assets/icons/setting.svg",
             onPressed: () {
-              debugPrint("plus button pressed");
+              Get.toNamed(Routes.SETTING);
             },
           ),
         ],
