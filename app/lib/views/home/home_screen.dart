@@ -28,11 +28,10 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   @override
   Widget buildBody(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Home Screen',
-        style: FontSystem.KR24B,
-      ),
+    return const Stack(
+      children: [
+        CharacterLayer(),
+      ],
     );
   }
 
