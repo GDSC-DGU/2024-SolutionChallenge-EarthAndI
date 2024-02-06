@@ -17,7 +17,7 @@ class HomeViewModel extends GetxController {
 
   void analysisSpeech() async {
     _isLoadingAnalysis.value = true;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     _isLoadingAnalysis.value = false;
   }
 }

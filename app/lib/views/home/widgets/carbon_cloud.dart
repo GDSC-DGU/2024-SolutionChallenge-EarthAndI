@@ -44,8 +44,8 @@ class CarbonCloudBubble extends BaseWidget<HomeViewModel> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
         constraints: BoxConstraints(
-          maxWidth: Get.width * 0.5,
-          maxHeight: Get.height * 0.2,
+          maxWidth: (Get.width - 32) * 0.5,
+          maxHeight: Get.height * 0.1,
         ),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -54,7 +54,8 @@ class CarbonCloudBubble extends BaseWidget<HomeViewModel> {
         ),
         child: AutoSizeText(
           text,
-          style: FontSystem.KR16M,
+          style: FontSystem.KR14M,
+          maxFontSize: 14.0,
           textAlign: TextAlign.center,
         ),
       ),
