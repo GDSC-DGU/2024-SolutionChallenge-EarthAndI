@@ -51,7 +51,8 @@ class UserProfile extends BaseWidget<ProfileViewModel> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.FRIEND);
+                    Get.toNamed(Routes.FRIEND,
+                        arguments: {"friendTabType": "follower"});
                   },
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   child: const Column(
@@ -80,7 +81,8 @@ class UserProfile extends BaseWidget<ProfileViewModel> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.FRIEND);
+                    Get.toNamed(Routes.FRIEND,
+                        arguments: {"friendTabType": "following"});
                   },
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                   child: const Column(
