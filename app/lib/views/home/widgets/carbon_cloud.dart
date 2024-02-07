@@ -14,31 +14,7 @@ class CarbonCloudBubble extends BaseWidget<HomeViewModel> {
   Widget buildView(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (viewModel.isLoadingAnalysis) {
-          Get.snackbar(
-            '분석 중',
-            '분석 중에는 탄소발자국을 확인할 수 없습니다.',
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: const Color(0xFFF3F1EE).withOpacity(0.7),
-            colorText: const Color(0xFF000000),
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            borderRadius: 24.0,
-            snackStyle: SnackStyle.FLOATING,
-            duration: const Duration(seconds: 2),
-          );
-        } else {
-          Get.snackbar(
-            '탄소발자국',
-            '탄소발자국은 탄소배출량을 의미합니다.',
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: const Color(0xFFF3F1EE).withOpacity(0.7),
-            colorText: const Color(0xFF000000),
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            borderRadius: 24.0,
-            snackStyle: SnackStyle.FLOATING,
-            duration: const Duration(seconds: 2),
-          );
-        }
+        viewModel.startSpeech();
       },
       borderRadius: BorderRadius.circular(24.0),
       child: Container(

@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Speech recognition is used to control the app with your voice</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone is used to record your voice</string>
 </dict>
 </plist>

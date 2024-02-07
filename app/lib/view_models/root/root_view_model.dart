@@ -3,33 +3,33 @@ import 'package:flutter/foundation.dart' as foundation;
 
 class RootViewModel extends GetxController {
   // Animation duration
-  static const duration = Duration(milliseconds: 300);
+  static const duration = Duration(milliseconds: 200);
 
-  // Platform
+  // Platform And SpeechToText Recognition
   late final bool isAndroid;
 
   late final RxInt _selectedIndex;
-  late final RxBool _isExpanded;
+  late final RxBool _isEnableGreyBarrier;
 
   int get selectedIndex => _selectedIndex.value;
-  bool get isExpanded => _isExpanded.value;
+  bool get isEnableGreyBarrier => _isEnableGreyBarrier.value;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
     isAndroid =
         (foundation.defaultTargetPlatform == foundation.TargetPlatform.iOS);
 
     _selectedIndex = 1.obs;
-    _isExpanded = false.obs;
+    _isEnableGreyBarrier = false.obs;
   }
 
   void changeIndex(int index) {
     _selectedIndex.value = index;
   }
 
-  void onTapFloatingActionButton() {
-    _isExpanded.value = !_isExpanded.value;
+  void changeMicState() {
+    _isEnableGreyBarrier.value = !_isEnableGreyBarrier.value;
   }
 }

@@ -30,8 +30,8 @@ class SpeechBubble extends BaseWidget<HomeViewModel> {
                 size: Get.width * 0.07,
               );
             } else {
-              return const AutoSizeText(
-                '안녕!! 오늘 하루도 수고했어!\n내일도 화이팅이야!',
+              return AutoSizeText(
+                viewModel.speechState.speechText,
                 style: FontSystem.KR16M,
                 textAlign: TextAlign.center,
               );

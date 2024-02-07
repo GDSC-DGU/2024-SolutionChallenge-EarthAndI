@@ -1,10 +1,11 @@
+import 'package:earth_and_i/utilities/system/font_system.dart';
+import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:earth_and_i/views/load_map/load_map_screen.dart';
 import 'package:earth_and_i/views/profile/profile_screen.dart';
-import 'package:earth_and_i/views/root/widgets/verification_menu.dart';
 import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar.dart';
-import 'package:earth_and_i/views/root/widgets/verification_grey_barrier.dart';
+import 'package:earth_and_i/views/root/widgets/overlay_grey_barrier.dart';
 import 'package:earth_and_i/views/root/widgets/root_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,9 +25,23 @@ class RootScreen extends GetView<RootViewModel> {
       child: Stack(
         children: [
           buildScreen(),
-          const VerificationGreyBarrier(),
+          const OverlayGreyBarrier(),
           const RootFloatingActionButton(),
-          const VerificationMenu(),
+          Obx(
+            () => viewModel.isEnableGreyBarrier
+                ? Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.find<HomeViewModel>().stopSpeech();
+                      },
+                      child: const Text(
+                        '음성인식',
+                        style: FontSystem.KR42B,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
         ],
       ),
     );

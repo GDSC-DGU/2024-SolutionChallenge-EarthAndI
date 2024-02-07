@@ -41,6 +41,9 @@ dependencies:
   # Auto Size Text
   auto_size_text: ^3.0.0
 
+  # Speech To Text
+  speech_to_text: ^6.6.0
+
 
 
 dev_dependencies:
