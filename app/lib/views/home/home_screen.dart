@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -11,13 +12,6 @@ import 'package:intl/intl.dart';
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});
-
-  static const List<String> speechBubbleTexts = [
-    '자기전에 너튜브, 인스타\n보지말고 잘꺼지?!',
-    '우린 멀 할 수 있지?\n팝콘이나 먹고 자자!',
-    '오늘 점심 뭐 먹었어?',
-    '왜 우린 쉬지 못하지?\n 나도 몰라 이 녀석아!',
-  ];
 
   @override
   bool get wrapWithOuterSafeArea => true;
@@ -55,39 +49,33 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         children: [
           floorLayer(),
           characterLayer(),
-          for (final String text in speechBubbleTexts)
-            if (speechBubbleTexts.indexOf(text) == 0)
-              Positioned(
-                top: Get.height * 0.02,
-                right: Get.width * 0.05,
-                child: CarbonCloudBubble(
-                  text: text,
-                ),
-              )
-            else if (speechBubbleTexts.indexOf(text) == 1)
-              Positioned(
-                top: Get.height * 0.07,
-                left: Get.width * 0.08,
-                child: CarbonCloudBubble(
-                  text: text,
-                ),
-              )
-            else if (speechBubbleTexts.indexOf(text) == 2)
-              Positioned(
-                top: Get.height * 0,
-                left: Get.width * 0.04,
-                child: CarbonCloudBubble(
-                  text: text,
-                ),
-              )
-            else
-              Positioned(
-                top: Get.height * 0.11,
-                right: Get.width * 0.07,
-                child: CarbonCloudBubble(
-                  text: text,
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Obx(
+              () {
+                if (viewModel.carbonCloudStates.isEmpty) {
+                  return Image(
+                    height: Get.height * 0.2,
+                    image: const AssetImage(
+                      'assets/images/sunny.jpg',
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: viewModel.carbonCloudStates.length > 4
+                      ? 4
+                      : viewModel.carbonCloudStates.length,
+                  itemBuilder: (context, index) {
+                    return CarbonCloudBubble(
+                      index: index,
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

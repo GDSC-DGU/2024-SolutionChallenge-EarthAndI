@@ -44,6 +44,9 @@ dependencies:
   # Speech To Text
   speech_to_text: ^6.6.0
 
+  # Staggered Animation
+  flutter_staggered_animations: ^1.0.0
+
 
 
 dev_dependencies:
