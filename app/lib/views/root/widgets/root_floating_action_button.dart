@@ -36,7 +36,7 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
 
           // Relative to the height of the floating action button
           SizedBox(
-            height: viewModel.isAndroid ? 70 : 35,
+            height: viewModel.isAndroid ? 35 : 70,
           ),
         ],
       ),
