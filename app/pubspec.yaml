@@ -50,6 +50,9 @@ dependencies:
   # Extended Nested Scroll View
   extended_nested_scroll_view: ^6.2.1
 
+  # Firebase
+  firebase_core: ^2.25.4
+
 
 dev_dependencies:
   # Default
