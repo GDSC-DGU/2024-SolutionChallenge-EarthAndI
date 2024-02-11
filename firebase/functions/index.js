@@ -7,7 +7,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
   const nickname = user.displayName || "Anonymous";
   const uid = user.uid;
 
-  return createUser(displayName, uid);
+  return createUser(nickname, uid);
 });
 
 async function createUser(nickname, uid) {
