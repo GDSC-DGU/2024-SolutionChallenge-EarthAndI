@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,42 +15,22 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          GestureDetector(
-            onTap: onTapBody,
-            child: AnimatedContainer(
-              duration: RootViewModel.duration,
-              height: 60,
-              width: 60,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                color: const Color(0xFF90CDBE),
-                borderRadius: BorderRadius.circular(30),
+          Obx(
+            () => GestureDetector(
+              onTap: onTapBody,
+              child: AnimatedContainer(
+                duration: RootViewModel.duration,
+                height: 60,
+                width: 60,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: viewModel.isEnableGreyBarrier
+                      ? Colors.transparent
+                      : const Color(0xFF90CDBE),
+                  shape: BoxShape.circle,
+                ),
+                child: buildFloatingActionButton(),
               ),
-              child: Obx(() {
-                // If the floating action button is expanded, the icon is changed to Rotated Add Icon
-                if (viewModel.isExpanded) {
-                  return const AnimatedRotation(
-                    duration: Duration(milliseconds: 200),
-                    turns: 0.125,
-                    child: Icon(Icons.add, color: Colors.white),
-                  );
-                }
-
-                // If the floating action button is not expanded,
-                // the icon is changed to search Icon When the Home Screen is displayed,
-                // the icon is changed to save Icon When the another screen is displayed.
-                return SvgPicture.asset(
-                  viewModel.selectedIndex != 1
-                      ? 'assets/icons/home.svg'
-                      : 'assets/icons/verification_echo.svg',
-                  width: 24,
-                  height: 24,
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.srcIn,
-                  ),
-                );
-              }),
             ),
           ),
 
@@ -63,10 +44,32 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
   }
 
   void onTapBody() {
+    if (viewModel.isEnableGreyBarrier) {
+      return;
+    }
+
     if (viewModel.selectedIndex != 1) {
       viewModel.changeIndex(1);
     } else {
-      viewModel.onTapFloatingActionButton();
+      DevOnLog.i("Go To Challenge Screen");
     }
+  }
+
+  Widget? buildFloatingActionButton() {
+    if (viewModel.isEnableGreyBarrier) {
+      return null;
+    }
+
+    return SvgPicture.asset(
+      viewModel.selectedIndex != 1
+          ? 'assets/icons/home.svg'
+          : 'assets/icons/verification_echo.svg',
+      width: 24,
+      height: 24,
+      colorFilter: const ColorFilter.mode(
+        Colors.white,
+        BlendMode.srcIn,
+      ),
+    );
   }
 }

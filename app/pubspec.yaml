@@ -35,6 +35,18 @@ dependencies:
   # Svg
   flutter_svg: ^2.0.9
 
+  # Loading Animation
+  loading_animation_widget: ^1.2.0+4
+
+  # Auto Size Text
+  auto_size_text: ^3.0.0
+
+  # Speech To Text
+  speech_to_text: ^6.6.0
+
+  # Staggered Animation
+  flutter_staggered_animations: ^1.0.0
+
   # Extended Nested Scroll View
   extended_nested_scroll_view: ^6.2.1
 

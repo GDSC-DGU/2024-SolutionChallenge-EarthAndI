@@ -1,6 +1,6 @@
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
-import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar_shape.dart';
+import 'package:earth_and_i/views/root/shapes/custom_bottom_navigation_bar_shape.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
