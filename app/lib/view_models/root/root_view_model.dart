@@ -22,7 +22,6 @@ class RootViewModel extends GetxController {
 
     isAndroid =
         (foundation.defaultTargetPlatform == foundation.TargetPlatform.android);
-    DevOnLog.d('isAndroid: $isAndroid, ${foundation.defaultTargetPlatform}');
 
     _selectedIndex = 1.obs;
     _isEnableGreyBarrier = false.obs;

@@ -28,6 +28,14 @@ class RootFloatingActionButton extends BaseWidget<RootViewModel> {
                       ? Colors.transparent
                       : const Color(0xFF90CDBE),
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
                 ),
                 child: buildFloatingActionButton(),
               ),

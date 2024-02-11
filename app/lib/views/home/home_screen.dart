@@ -4,6 +4,7 @@ import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
+import 'package:earth_and_i/widgets/button/temp_login_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

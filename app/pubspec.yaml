@@ -70,6 +70,7 @@ dependencies:
   # Permission And Health
   permission_handler: ^11.2.1
   health: ^8.1.0
+  firebase_database: ^10.4.5
 
 
 
