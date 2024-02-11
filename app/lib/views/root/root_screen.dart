@@ -8,6 +8,7 @@ import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar.dart
 import 'package:earth_and_i/views/root/widgets/overlay_grey_barrier.dart';
 import 'package:earth_and_i/views/root/widgets/root_floating_action_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 class RootScreen extends GetView<RootViewModel> {
@@ -17,6 +18,8 @@ class RootScreen extends GetView<RootViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+
     if (!viewModel.initialized) {
       viewModel.initialized;
     }
