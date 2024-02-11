@@ -1,6 +1,8 @@
 const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
 
+admin.initializeApp();
+
 exports.createUser = functions.auth.user().onCreate((user) => {
   const displayName = user.displayName || "Anonymous";
   const uid = user.uid;
