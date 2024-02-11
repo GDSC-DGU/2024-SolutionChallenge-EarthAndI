@@ -50,6 +50,9 @@ dependencies:
   # Extended Nested Scroll View
   extended_nested_scroll_view: ^6.2.1
 
+  # Carousel Slider
+  carousel_slider: ^4.2.1
+
 
 dev_dependencies:
   # Default
