@@ -2,4 +2,6 @@
 
 abstract class Routes {
   static const String ROOT = '/';
+  static const String SETTING = "/setting";
+  static const String FRIEND = "/friend";
 }

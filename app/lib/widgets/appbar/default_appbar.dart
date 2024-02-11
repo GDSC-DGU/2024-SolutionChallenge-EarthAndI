@@ -20,7 +20,7 @@ class DefaultAppBar extends StatelessWidget {
       ),
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
-      automaticallyImplyLeading: true,
+      automaticallyImplyLeading: false,
       centerTitle: false,
       actions: actions,
     );
