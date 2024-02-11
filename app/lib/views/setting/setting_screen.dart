@@ -1,4 +1,5 @@
 import 'package:earth_and_i/utilities/static/app_routes.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/setting/setting_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -21,19 +22,34 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
 
   @override
   Widget buildBody(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: InkWell(
-          onTap: () {
-            Get.toNamed(Routes.LANGUAGE);
-          },
-          child: const Text(
-            'Go to Language',
-            style: FontSystem.KR18R,
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          settingSection("사용자 인증", "/사용자 인증"),
+          settingSection("언어", Routes.LANGUAGE),
+        ],
       ),
     );
   }
+
+  Widget settingSection(String text, String route) => Container(
+        decoration: const BoxDecoration(
+          border:
+              Border(bottom: BorderSide(width: 1, color: ColorSystem.grey1)),
+        ),
+        width: double.infinity,
+        child: InkWell(
+          onTap: () {
+            Get.toNamed(route);
+          },
+          child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+              child: Text(
+                text,
+                style: FontSystem.KR16B,
+              )),
+        ),
+      );
 }
