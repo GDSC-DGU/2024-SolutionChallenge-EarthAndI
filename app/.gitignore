@@ -320,7 +320,7 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # FlutterFire Congigure
-lib/apps/database/firebase_options.dart
+lib/apps/firebase/firebase_options.dart
 ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 android/app/google-services.json
