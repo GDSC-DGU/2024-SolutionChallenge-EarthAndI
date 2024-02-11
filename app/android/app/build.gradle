@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "org.gdsc.solution_challenge.earth_and_i"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

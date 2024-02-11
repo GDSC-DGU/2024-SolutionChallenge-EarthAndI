@@ -50,6 +50,29 @@ dependencies:
   # Extended Nested Scroll View
   extended_nested_scroll_view: ^6.2.1
 
+  # Flutter Secure Storage
+  flutter_secure_storage: ^9.0.0
+
+  # SQLite3 Database
+  drift: ^2.14.1
+  sqlite3_flutter_libs: ^0.5.18
+  path_provider: ^2.1.2
+  path: ^1.8.3
+
+  # Firebase
+  firebase_core: ^2.25.4
+  cloud_firestore: ^4.15.4
+  firebase_auth: ^4.17.4
+
+  # OAuth2
+  google_sign_in: ^6.2.1
+
+  # Permission And Health
+  permission_handler: ^11.2.1
+  health: ^8.1.0
+  firebase_database: ^10.4.5
+
+
 
 dev_dependencies:
   # Default
@@ -59,6 +82,10 @@ dev_dependencies:
 
   # Localization
   intl_translation: ^0.18.1
+
+  # SQLite3 Database
+  drift_dev: ^2.14.1
+  build_runner: ^2.4.7
 
 flutter:
   uses-material-design: true
