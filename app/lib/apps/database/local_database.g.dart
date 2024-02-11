@@ -39,9 +39,9 @@ class $ActionHistoryTable extends ActionHistory
   static const VerificationMeta _changeCapacityMeta =
       const VerificationMeta('changeCapacity');
   @override
-  late final GeneratedColumn<int> changeCapacity = GeneratedColumn<int>(
+  late final GeneratedColumn<double> changeCapacity = GeneratedColumn<double>(
       'change_capacity', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.double, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, createdAt, updatedAt, type, changeCapacity];
@@ -97,8 +97,8 @@ class $ActionHistoryTable extends ActionHistory
       type: $ActionHistoryTable.$convertertype.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!),
-      changeCapacity: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}change_capacity'])!,
+      changeCapacity: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}change_capacity'])!,
     );
   }
 
@@ -117,7 +117,7 @@ class ActionHistoryData extends DataClass
   final DateTime createdAt;
   final DateTime updatedAt;
   final EAction type;
-  final int changeCapacity;
+  final double changeCapacity;
   const ActionHistoryData(
       {required this.id,
       required this.createdAt,
@@ -134,7 +134,7 @@ class ActionHistoryData extends DataClass
       map['type'] =
           Variable<String>($ActionHistoryTable.$convertertype.toSql(type));
     }
-    map['change_capacity'] = Variable<int>(changeCapacity);
+    map['change_capacity'] = Variable<double>(changeCapacity);
     return map;
   }
 
@@ -157,7 +157,7 @@ class ActionHistoryData extends DataClass
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       type: $ActionHistoryTable.$convertertype
           .fromJson(serializer.fromJson<String>(json['type'])),
-      changeCapacity: serializer.fromJson<int>(json['changeCapacity']),
+      changeCapacity: serializer.fromJson<double>(json['changeCapacity']),
     );
   }
   @override
@@ -169,7 +169,7 @@ class ActionHistoryData extends DataClass
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'type': serializer
           .toJson<String>($ActionHistoryTable.$convertertype.toJson(type)),
-      'changeCapacity': serializer.toJson<int>(changeCapacity),
+      'changeCapacity': serializer.toJson<double>(changeCapacity),
     };
   }
 
@@ -178,7 +178,7 @@ class ActionHistoryData extends DataClass
           DateTime? createdAt,
           DateTime? updatedAt,
           EAction? type,
-          int? changeCapacity}) =>
+          double? changeCapacity}) =>
       ActionHistoryData(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
@@ -217,7 +217,7 @@ class ActionHistoryCompanion extends UpdateCompanion<ActionHistoryData> {
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<EAction> type;
-  final Value<int> changeCapacity;
+  final Value<double> changeCapacity;
   const ActionHistoryCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -230,7 +230,7 @@ class ActionHistoryCompanion extends UpdateCompanion<ActionHistoryData> {
     required DateTime createdAt,
     required DateTime updatedAt,
     required EAction type,
-    required int changeCapacity,
+    required double changeCapacity,
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
         type = Value(type),
@@ -240,7 +240,7 @@ class ActionHistoryCompanion extends UpdateCompanion<ActionHistoryData> {
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<String>? type,
-    Expression<int>? changeCapacity,
+    Expression<double>? changeCapacity,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -256,7 +256,7 @@ class ActionHistoryCompanion extends UpdateCompanion<ActionHistoryData> {
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<EAction>? type,
-      Value<int>? changeCapacity}) {
+      Value<double>? changeCapacity}) {
     return ActionHistoryCompanion(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
@@ -283,7 +283,7 @@ class ActionHistoryCompanion extends UpdateCompanion<ActionHistoryData> {
           $ActionHistoryTable.$convertertype.toSql(type.value));
     }
     if (changeCapacity.present) {
-      map['change_capacity'] = Variable<int>(changeCapacity.value);
+      map['change_capacity'] = Variable<double>(changeCapacity.value);
     }
     return map;
   }
@@ -337,9 +337,9 @@ class $ChallengeHistoryTable extends ChallengeHistory
   static const VerificationMeta _changeCapacityMeta =
       const VerificationMeta('changeCapacity');
   @override
-  late final GeneratedColumn<int> changeCapacity = GeneratedColumn<int>(
+  late final GeneratedColumn<double> changeCapacity = GeneratedColumn<double>(
       'change_capacity', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+      type: DriftSqlType.double, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, createdAt, updatedAt, type, changeCapacity];
@@ -396,8 +396,8 @@ class $ChallengeHistoryTable extends ChallengeHistory
       type: $ChallengeHistoryTable.$convertertype.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!),
-      changeCapacity: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}change_capacity'])!,
+      changeCapacity: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}change_capacity'])!,
     );
   }
 
@@ -416,7 +416,7 @@ class ChallengeHistoryData extends DataClass
   final DateTime createdAt;
   final DateTime updatedAt;
   final EChallenge type;
-  final int changeCapacity;
+  final double changeCapacity;
   const ChallengeHistoryData(
       {required this.id,
       required this.createdAt,
@@ -433,7 +433,7 @@ class ChallengeHistoryData extends DataClass
       map['type'] =
           Variable<String>($ChallengeHistoryTable.$convertertype.toSql(type));
     }
-    map['change_capacity'] = Variable<int>(changeCapacity);
+    map['change_capacity'] = Variable<double>(changeCapacity);
     return map;
   }
 
@@ -456,7 +456,7 @@ class ChallengeHistoryData extends DataClass
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       type: $ChallengeHistoryTable.$convertertype
           .fromJson(serializer.fromJson<String>(json['type'])),
-      changeCapacity: serializer.fromJson<int>(json['changeCapacity']),
+      changeCapacity: serializer.fromJson<double>(json['changeCapacity']),
     );
   }
   @override
@@ -468,7 +468,7 @@ class ChallengeHistoryData extends DataClass
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'type': serializer
           .toJson<String>($ChallengeHistoryTable.$convertertype.toJson(type)),
-      'changeCapacity': serializer.toJson<int>(changeCapacity),
+      'changeCapacity': serializer.toJson<double>(changeCapacity),
     };
   }
 
@@ -477,7 +477,7 @@ class ChallengeHistoryData extends DataClass
           DateTime? createdAt,
           DateTime? updatedAt,
           EChallenge? type,
-          int? changeCapacity}) =>
+          double? changeCapacity}) =>
       ChallengeHistoryData(
         id: id ?? this.id,
         createdAt: createdAt ?? this.createdAt,
@@ -516,7 +516,7 @@ class ChallengeHistoryCompanion extends UpdateCompanion<ChallengeHistoryData> {
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<EChallenge> type;
-  final Value<int> changeCapacity;
+  final Value<double> changeCapacity;
   const ChallengeHistoryCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -529,7 +529,7 @@ class ChallengeHistoryCompanion extends UpdateCompanion<ChallengeHistoryData> {
     required DateTime createdAt,
     required DateTime updatedAt,
     required EChallenge type,
-    required int changeCapacity,
+    required double changeCapacity,
   })  : createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
         type = Value(type),
@@ -539,7 +539,7 @@ class ChallengeHistoryCompanion extends UpdateCompanion<ChallengeHistoryData> {
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<String>? type,
-    Expression<int>? changeCapacity,
+    Expression<double>? changeCapacity,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -555,7 +555,7 @@ class ChallengeHistoryCompanion extends UpdateCompanion<ChallengeHistoryData> {
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<EChallenge>? type,
-      Value<int>? changeCapacity}) {
+      Value<double>? changeCapacity}) {
     return ChallengeHistoryCompanion(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
@@ -582,7 +582,7 @@ class ChallengeHistoryCompanion extends UpdateCompanion<ChallengeHistoryData> {
           $ChallengeHistoryTable.$convertertype.toSql(type.value));
     }
     if (changeCapacity.present) {
-      map['change_capacity'] = Variable<int>(changeCapacity.value);
+      map['change_capacity'] = Variable<double>(changeCapacity.value);
     }
     return map;
   }

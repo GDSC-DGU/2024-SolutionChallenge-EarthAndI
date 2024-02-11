@@ -1,5 +1,5 @@
 enum EAction {
-  walk,
+  steps,
   data,
   morning,
   lunch,
@@ -10,4 +10,6 @@ enum EAction {
   tumbler,
   publicTransportation,
   ;
+
+  String get databaseValue => toString().split('.').last;
 }

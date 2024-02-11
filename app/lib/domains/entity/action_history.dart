@@ -7,5 +7,5 @@ class ActionHistory extends Table {
   DateTimeColumn get createdAt => dateTime().named('created_at')();
   DateTimeColumn get updatedAt => dateTime().named('updated_at')();
   TextColumn get type => textEnum<EAction>().named('type')();
-  IntColumn get changeCapacity => integer().named('change_capacity')();
+  RealColumn get changeCapacity => real().named('change_capacity')();
 }

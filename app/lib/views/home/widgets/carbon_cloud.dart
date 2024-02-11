@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

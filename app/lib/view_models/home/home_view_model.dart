@@ -2,19 +2,22 @@ import 'dart:math';
 
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
+import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
+  late final UserRepository _userRepository;
+
   late final SpeechToText _speechModule;
 
-  late final RxInt _reducedCO2;
+  late final RxDouble _reducedCO2;
   late final RxBool _isLoadingAnalysis;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
-  int get reducedCO2 => _reducedCO2.value;
+  double get reducedCO2 => _reducedCO2.value;
   bool get isLoadingAnalysis => _isLoadingAnalysis.value;
   SpeechState get speechState => _speechState.value;
   RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
@@ -22,10 +25,14 @@ class HomeViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    // Dependency Injection
+    _userRepository = Get.find<UserRepository>();
 
+    // Module Initialize
     _speechModule = SpeechToText();
 
-    _reducedCO2 = 12000.obs;
+    // Observable Initialize
+    _reducedCO2 = 0.0.obs;
     _isLoadingAnalysis = false.obs;
     _carbonCloudStates = [
       CarbonCloudState(text: '자기전에 너튜브, 인스타\n보지말고 잘꺼지?!', isLeftPos: true),
@@ -35,10 +42,12 @@ class HomeViewModel extends GetxController {
       CarbonCloudState(text: '오늘 저녁은 뭐였을까?', isLeftPos: true),
     ].obs;
 
+    // Load Data
     _speechState = SpeechState.initial().obs;
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
     );
+    _reducedCO2.value = await _userRepository.getTotalCarbonDiOxide();
   }
 
   void analysisSpeech() async {
@@ -68,5 +77,9 @@ class HomeViewModel extends GetxController {
   void stopSpeech() async {
     await _speechModule.stop();
     Get.find<RootViewModel>().changeMicState();
+  }
+
+  setReducedCO2(double value) {
+    _reducedCO2.value = value;
   }
 }

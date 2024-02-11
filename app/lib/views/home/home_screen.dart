@@ -4,7 +4,6 @@ import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
-import 'package:earth_and_i/widgets/button/temp_login_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -31,9 +30,11 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         height: 92.0,
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '${NumberFormat('#,###,###').format(viewModel.reducedCO2)} kg',
-            style: FontSystem.KR24B,
+          child: Obx(
+            () => Text(
+              '${NumberFormat('#,###,###.####').format(viewModel.reducedCO2)} kg',
+              style: FontSystem.KR24B,
+            ),
           ),
         ),
       ),
