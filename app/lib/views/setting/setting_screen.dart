@@ -27,7 +27,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          settingSection("사용자 인증", "/사용자 인증"),
+          settingSection("사용자 인증", Routes.USERAUTH),
           settingSection("언어", Routes.LANGUAGE),
         ],
       ),

@@ -4,5 +4,6 @@ abstract class Routes {
   static const String ROOT = '/';
   static const String SETTING = "/setting";
   static const String LANGUAGE = "/language";
+  static const String USERAUTH = "/userauth";
   static const String FRIEND = "/friend";
 }
