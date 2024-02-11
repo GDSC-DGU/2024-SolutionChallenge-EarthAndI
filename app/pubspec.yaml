@@ -47,6 +47,8 @@ dependencies:
   # Staggered Animation
   flutter_staggered_animations: ^1.0.0
 
+  # Extended Nested Scroll View
+  extended_nested_scroll_view: ^6.2.1
 
 
 dev_dependencies:
