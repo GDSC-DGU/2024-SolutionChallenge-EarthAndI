@@ -53,17 +53,17 @@ class UserRepository extends GetxService {
           DevOnLog.i(
               'Mental Negative Count: ${_localProvider.getMentalNegativeCnt()}');
         }
-      case EUserStatus.cache:
+      case EUserStatus.cash:
         if (value >= 0) {
           await _localProvider
-              .setCachePositiveCnt(_localProvider.getCachePositiveCnt() + 1);
+              .setCashPositiveCnt(_localProvider.getCashPositiveCnt() + 1);
           DevOnLog.i(
-              'Cache Positive Count: ${_localProvider.getCachePositiveCnt()}');
+              'Cache Positive Count: ${_localProvider.getCashPositiveCnt()}');
         } else {
           await _localProvider
-              .setCacheNegativeCnt(_localProvider.getCacheNegativeCnt() + 1);
+              .setCashNegativeCnt(_localProvider.getCashNegativeCnt() + 1);
           DevOnLog.i(
-              'Cache Negative Count: ${_localProvider.getCacheNegativeCnt()}');
+              'Cache Negative Count: ${_localProvider.getCashNegativeCnt()}');
         }
       case null:
         DevOnLog.i('Non Update User Status');

@@ -20,8 +20,8 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.healthNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.cachePositiveCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.cacheNegativeCnt, 0);
+    await _storage.writeIfNull(UserDAOExtension.cashPositiveCnt, 0);
+    await _storage.writeIfNull(UserDAOExtension.cashNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.totalCarbonDiOxide, 0.0);
   }
 
@@ -71,14 +71,14 @@ class UserDAO implements UserLocalProvider {
 
   /// Get the user's cache positive count.
   @override
-  int getCachePositiveCnt() {
-    return _storage.read(UserDAOExtension.cachePositiveCnt) ?? 0;
+  int getCashPositiveCnt() {
+    return _storage.read(UserDAOExtension.cashPositiveCnt) ?? 0;
   }
 
   /// Get the user's cache negative count.
   @override
-  int getCacheNegativeCnt() {
-    return _storage.read(UserDAOExtension.cacheNegativeCnt) ?? 0;
+  int getCashNegativeCnt() {
+    return _storage.read(UserDAOExtension.cashNegativeCnt) ?? 0;
   }
 
   /// Get the user's total carbon dioxide.
@@ -128,14 +128,14 @@ class UserDAO implements UserLocalProvider {
 
   /// Set the user's cache positive count.
   @override
-  Future<void> setCachePositiveCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.cachePositiveCnt, cnt);
+  Future<void> setCashPositiveCnt(int cnt) async {
+    await _storage.write(UserDAOExtension.cashPositiveCnt, cnt);
   }
 
   /// Set the user's cache negative count.
   @override
-  Future<void> setCacheNegativeCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.cacheNegativeCnt, cnt);
+  Future<void> setCashNegativeCnt(int cnt) async {
+    await _storage.write(UserDAOExtension.cashNegativeCnt, cnt);
   }
 
   /// Set the user's total carbon dioxide.
@@ -150,8 +150,8 @@ extension UserDAOExtension on UserDAO {
   static const String nickname = 'nickname';
   static const String healthPositiveCnt = 'health_positive_cnt';
   static const String healthNegativeCnt = 'health_negative_cnt';
-  static const String cachePositiveCnt = 'cache_positive_cnt';
-  static const String cacheNegativeCnt = 'cache_negative_cnt';
+  static const String cashPositiveCnt = 'cash_positive_cnt';
+  static const String cashNegativeCnt = 'cash_negative_cnt';
   static const String mentalPositiveCnt = 'mental_positive_cnt';
   static const String mentalNegativeCnt = 'mental_negative_cnt';
   static const String totalCarbonDiOxide = 'total_carbon_dioxide';

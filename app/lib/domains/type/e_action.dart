@@ -1,6 +1,8 @@
 enum EAction implements Comparable<EAction> {
   steps,
+  stairs,
   data,
+  sns,
   morning,
   lunch,
   dinner,

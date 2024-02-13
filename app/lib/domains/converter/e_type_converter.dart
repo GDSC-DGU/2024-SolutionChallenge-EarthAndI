@@ -13,6 +13,7 @@ abstract class ETypeConverter {
       case EUserStatus.health:
         return [
           EAction.steps,
+          EAction.stairs,
           EAction.morning,
           EAction.lunch,
           EAction.dinner,
@@ -21,10 +22,11 @@ abstract class ETypeConverter {
       case EUserStatus.mental:
         return [
           EAction.data,
+          EAction.sns,
           EAction.recycle,
         ];
 
-      case EUserStatus.cache:
+      case EUserStatus.cash:
         return [
           EAction.standbyPower,
           EAction.waterUsage,
@@ -42,12 +44,14 @@ abstract class ETypeConverter {
   static EUserStatus actionToUserStatus(EAction action) {
     switch (action) {
       case EAction.steps:
+      case EAction.stairs:
       case EAction.morning:
       case EAction.lunch:
       case EAction.dinner:
         return EUserStatus.health;
 
       case EAction.data:
+      case EAction.sns:
       case EAction.recycle:
         return EUserStatus.mental;
 
@@ -56,7 +60,7 @@ abstract class ETypeConverter {
       case EAction.optimalTemperature:
       case EAction.tumbler:
       case EAction.publicTransportation:
-        return EUserStatus.cache;
+        return EUserStatus.cash;
 
       default:
         throw Exception('Invalid action: $action');
@@ -79,7 +83,7 @@ abstract class ETypeConverter {
           EChallenge.useEcoFriendlyProducts,
         ];
 
-      case EUserStatus.cache:
+      case EUserStatus.cash:
         return [
           EChallenge.useColdWater,
         ];
@@ -97,7 +101,7 @@ abstract class ETypeConverter {
         return EUserStatus.mental;
 
       case EChallenge.useColdWater:
-        return EUserStatus.cache;
+        return EUserStatus.cash;
 
       default:
         throw Exception('Invalid challenge: $challenge');

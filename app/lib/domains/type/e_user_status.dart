@@ -1,7 +1,7 @@
 enum EUserStatus implements Comparable<EUserStatus> {
   health,
   mental,
-  cache,
+  cash,
   ;
 
   const EUserStatus();
