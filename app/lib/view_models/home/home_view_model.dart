@@ -12,12 +12,12 @@ class HomeViewModel extends GetxController {
 
   late final SpeechToText _speechModule;
 
-  late final RxDouble _reducedCO2;
+  late final RxDouble _changedCO2;
   late final RxBool _isLoadingAnalysis;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
-  double get reducedCO2 => _reducedCO2.value;
+  double get changedCO2 => _changedCO2.value;
   bool get isLoadingAnalysis => _isLoadingAnalysis.value;
   SpeechState get speechState => _speechState.value;
   RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
@@ -32,7 +32,7 @@ class HomeViewModel extends GetxController {
     _speechModule = SpeechToText();
 
     // Observable Initialize
-    _reducedCO2 = 0.0.obs;
+    _changedCO2 = 0.0.obs;
     _isLoadingAnalysis = false.obs;
     _carbonCloudStates = [
       CarbonCloudState(text: '자기전에 너튜브, 인스타\n보지말고 잘꺼지?!', isLeftPos: true),
@@ -47,7 +47,7 @@ class HomeViewModel extends GetxController {
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
     );
-    _reducedCO2.value = await _userRepository.getTotalCarbonDiOxide();
+    _changedCO2.value = _userRepository.getTotalCarbonDiOxide();
   }
 
   void analysisSpeech() async {
@@ -65,7 +65,7 @@ class HomeViewModel extends GetxController {
           );
           analysisSpeech();
           _carbonCloudStates.removeAt(index);
-          _reducedCO2.value += Random().nextInt(100);
+          _changedCO2.value += Random().nextInt(100);
         }
       },
       localeId: 'ko_KR',
@@ -80,6 +80,6 @@ class HomeViewModel extends GetxController {
   }
 
   setReducedCO2(double value) {
-    _reducedCO2.value = value;
+    _changedCO2.value = value;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
@@ -74,9 +75,9 @@ class RootViewModel extends GetxController {
       endAt,
     );
 
-    // 증가되는 이산화탄소량을 계산함
-    double increasedCO2 = currentChangeCapacity -
-        (data != null ? data.changeCapacity.abs() : 0.0);
+    // 이산화탄소량의 변화량을 계산함
+    double changedCO2 = (data != null ? data.changeCapacity.abs() : 0.0) -
+        currentChangeCapacity;
 
     // 금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 저장하는데
     // 저장된 걸음 수가 없다면 새로운 데이터를 생성하고
@@ -88,24 +89,36 @@ class RootViewModel extends GetxController {
           changeCapacity: -currentChangeCapacity,
           createdAt: _currentDate,
           updatedAt: _currentDate,
+          question: "오늘의 걸음 수는?",
+          answer: "${currentChangeCapacity ~/ 0.000125} 보",
+          userStatus: EUserStatus.health,
           type: EAction.steps,
         ),
       );
 
       Get.find<HomeViewModel>().setReducedCO2(
-          await _userRepository.increaseTotalCarbonDiOxide(increasedCO2));
+        await _userRepository.changeTotalCarbonDiOxide(
+          EUserStatus.health,
+          changedCO2,
+        ),
+      );
     } else if (data.changeCapacity.abs() < currentChangeCapacity) {
       data = await _actionHistoryRepository.createOrUpdate(
         data
             .copyWith(
               changeCapacity: -currentChangeCapacity,
               updatedAt: _currentDate,
+              answer: "${currentChangeCapacity ~/ 0.000125} 보",
             )
             .toCompanion(true),
       );
 
       Get.find<HomeViewModel>().setReducedCO2(
-          await _userRepository.increaseTotalCarbonDiOxide(increasedCO2));
+        await _userRepository.changeTotalCarbonDiOxide(
+          null,
+          changedCO2,
+        ),
+      );
     }
   }
 }

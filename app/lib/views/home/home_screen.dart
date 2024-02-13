@@ -30,13 +30,28 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         height: 92.0,
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Obx(
-            () => Text(
-              '${NumberFormat('#,###,###.####').format(viewModel.reducedCO2)} kg',
-              style: FontSystem.KR24B,
-            ),
-          ),
+          child: Obx(() => carbonDiOxide()),
         ),
+      ),
+    );
+  }
+
+  Widget carbonDiOxide() {
+    String firstChar = "";
+    Color color = const Color(0xFF000000);
+
+    if (viewModel.changedCO2 > 0) {
+      firstChar = "↑ ";
+      color = const Color(0xFFF2ABAB);
+    } else {
+      firstChar = "↓ ";
+      color = const Color(0xFF90CDBE);
+    }
+
+    return Text(
+      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.changedCO2.abs())} kg',
+      style: FontSystem.KR24B.copyWith(
+        color: color,
       ),
     );
   }
