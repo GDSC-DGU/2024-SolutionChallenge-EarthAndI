@@ -52,11 +52,15 @@ dependencies:
 
   # Local Secure Storage
   get_storage: ^2.1.1
+
   # Carousel Slider
   carousel_slider: ^4.2.1
 
   # image_picker
   image_picker: ^1.0.7
+
+  # Time Calendar
+  table_calendar: ^3.0.9
 
   # SQLite3 Database
   drift: ^2.14.1
