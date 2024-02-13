@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:earth_and_i/apps/factory/local_database_factory.dart';
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/apps/main_app.dart';
@@ -23,7 +25,7 @@ void main() async {
   await LocalStorageFactory.onInit();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // LocalStorageFactory.delete();
+  // LocalStorageFactory.deleteData();
 
   runApp(const MainApp());
 }

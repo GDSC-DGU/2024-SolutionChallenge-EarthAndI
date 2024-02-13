@@ -96,11 +96,17 @@ class RootViewModel extends GetxController {
         ),
       );
 
-      Get.find<HomeViewModel>().setReducedCO2(
-        await _userRepository.changeTotalCarbonDiOxide(
-          EUserStatus.health,
+      Get.find<HomeViewModel>().fetchDeltaCO2(
+        await _userRepository.updateDeltaCO2(
           changedCO2,
         ),
+      );
+      await _userRepository.updateUserInformationCount(
+        EUserStatus.health,
+        true,
+      );
+      Get.find<HomeViewModel>().fetchCharacterStatsState(
+        await _userRepository.updateCharacterStats(null, null),
       );
     } else if (data.changeCapacity.abs() < currentChangeCapacity) {
       data = await _actionHistoryRepository.createOrUpdate(
@@ -113,11 +119,14 @@ class RootViewModel extends GetxController {
             .toCompanion(true),
       );
 
-      Get.find<HomeViewModel>().setReducedCO2(
-        await _userRepository.changeTotalCarbonDiOxide(
-          null,
+      Get.find<HomeViewModel>().fetchDeltaCO2(
+        await _userRepository.updateDeltaCO2(
           changedCO2,
         ),
+      );
+
+      Get.find<HomeViewModel>().fetchCharacterStatsState(
+        await _userRepository.updateCharacterStats(null, null),
       );
     }
   }

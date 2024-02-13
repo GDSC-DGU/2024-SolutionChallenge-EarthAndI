@@ -1,7 +1,10 @@
 import 'dart:math';
 
 import 'package:earth_and_i/apps/database/local_database.dart';
+import 'package:earth_and_i/domains/type/e_action.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
+import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
@@ -18,11 +21,13 @@ class HomeViewModel extends GetxController {
   late final SpeechToText _speechModule;
 
   late final RxDouble _changedCO2;
+  late final Rx<CharacterStatsState> _characterStatsState;
   late final RxBool _isLoadingAnalysis;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
   double get changedCO2 => _changedCO2.value;
+  CharacterStatsState get characterStatsState => _characterStatsState.value;
   bool get isLoadingAnalysis => _isLoadingAnalysis.value;
   SpeechState get speechState => _speechState.value;
   RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
@@ -39,7 +44,8 @@ class HomeViewModel extends GetxController {
     _speechModule = SpeechToText();
 
     // Observable Initialize
-    _changedCO2 = 0.0.obs;
+    _changedCO2 = _userRepository.getTotalCarbonDiOxide().obs;
+    _characterStatsState = _userRepository.getCharacterStatsState().obs;
     _isLoadingAnalysis = false.obs;
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
@@ -51,14 +57,20 @@ class HomeViewModel extends GetxController {
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
     );
-    _changedCO2.value = _userRepository.getTotalCarbonDiOxide();
   }
 
   Future<void> analysisSpeech(int index) async {
     _isLoadingAnalysis.value = true;
+
+    // 분석
+    EUserStatus userStatus = _carbonCloudStates[index].userStatus;
+    EAction action = _carbonCloudStates[index].action;
+    String question = _carbonCloudStates[index].text;
+    String speechText = _speechState.value.speechText;
+
     Map<String, dynamic> result = await _analysisRepository.analysisAction(
-      _carbonCloudStates[index].userStatus,
-      _speechState.value.speechText,
+      userStatus,
+      speechText,
     );
 
     // DB 저장
@@ -66,20 +78,28 @@ class HomeViewModel extends GetxController {
       ActionHistoryCompanion.insert(
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-        userStatus: _carbonCloudStates[index].userStatus,
-        type: _carbonCloudStates[index].action,
-        question: _carbonCloudStates[index].text,
-        answer: _speechState.value.speechText,
+        userStatus: userStatus,
+        type: action,
+        question: question,
+        answer: speechText,
         changeCapacity: result['changeCapacity'],
       ),
     );
 
-    // User Update
-    await _userRepository.changeTotalCarbonDiOxide(
-        _carbonCloudStates[index].userStatus, data.changeCapacity);
+    // Update User Information, Character Stats And UI
+    bool isPositive = result['changeCapacity'] < 0;
+    _changedCO2.value =
+        await _userRepository.updateDeltaCO2(data.changeCapacity);
+    await _userRepository.updateUserInformationCount(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
+    _characterStatsState.value = await _userRepository.updateCharacterStats(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
 
-    // UI Update
-    _changedCO2.value = _userRepository.getTotalCarbonDiOxide();
+    // Update Data
     _carbonCloudStates.removeAt(index);
     _speechState.value = _speechState.value.copyWith(
       speechText: result['answer'],
@@ -109,7 +129,11 @@ class HomeViewModel extends GetxController {
     Get.find<RootViewModel>().changeMicState();
   }
 
-  setReducedCO2(double value) {
+  void fetchDeltaCO2(double value) {
     _changedCO2.value = value;
+  }
+
+  void fetchCharacterStatsState(CharacterStatsState state) {
+    _characterStatsState.value = state;
   }
 }

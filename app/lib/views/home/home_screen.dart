@@ -98,7 +98,9 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                 onTap: () {
                   DevOnLog.i('characterLayer onTap');
                 },
-                child: character(),
+                child: Obx(
+                  () => character(),
+                ),
               ),
             ],
           ),
@@ -130,10 +132,18 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       );
 
   Widget character() {
-    String assets = 'assets/images/character_1_2_1_1.svg';
+    // 각 스탯에 따라 이미지 경로 결정
+    String prefix = 'assets/images/character';
+    String suffix = '.svg';
+
+    String environment =
+        viewModel.characterStatsState.isGoodEnvironment ? '1' : '2';
+    String health = viewModel.characterStatsState.isGoodHealth ? '1' : '2';
+    String mental = viewModel.characterStatsState.isGoodMental ? '1' : '2';
+    String cash = viewModel.characterStatsState.isGoodCash ? '1' : '2';
 
     return SvgPicture.asset(
-      assets,
+      '${prefix}_${environment}_${health}_${mental}_$cash$suffix',
       height: Get.height * 0.2,
     );
   }

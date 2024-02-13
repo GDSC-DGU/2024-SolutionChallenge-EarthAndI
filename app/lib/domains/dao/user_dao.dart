@@ -1,3 +1,4 @@
+import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/providers/user_local_provider.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -23,6 +24,12 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.cashPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.cashNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.totalCarbonDiOxide, 0.0);
+    await _storage.writeIfNull(UserDAOExtension.environmentCondition, true);
+    await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
+    await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
+    await _storage.writeIfNull(UserDAOExtension.cashCondition, true);
+    await _storage.writeIfNull(
+        UserDAOExtension.currentChallenge, EChallenge.useColdWater.toString());
   }
 
   @override
@@ -87,6 +94,32 @@ class UserDAO implements UserLocalProvider {
     return _storage.read(UserDAOExtension.totalCarbonDiOxide) ?? 0.0;
   }
 
+  /// Get the user's health condition.
+  @override
+  bool getHealthCondition() {
+    return _storage.read(UserDAOExtension.healthCondition) ?? true;
+  }
+
+  /// Get the user's mental condition.
+  @override
+  bool getMentalCondition() {
+    return _storage.read(UserDAOExtension.mentalCondition) ?? true;
+  }
+
+  /// Get the user's cash condition.
+  @override
+  bool getCashCondition() {
+    return _storage.read(UserDAOExtension.cashCondition) ?? true;
+  }
+
+  /// Get the user's current challenge.
+  @override
+  EChallenge getCurrentChallenge() {
+    return EChallenge.fromName(
+        _storage.read(UserDAOExtension.currentChallenge) ??
+            EChallenge.useColdWater.toString());
+  }
+
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
@@ -143,9 +176,35 @@ class UserDAO implements UserLocalProvider {
   Future<void> setTotalCarbonDiOxide(double value) async {
     await _storage.write(UserDAOExtension.totalCarbonDiOxide, value);
   }
+
+  /// Set the user's health condition.
+  @override
+  Future<void> setHealthCondition(bool isGood) async {
+    await _storage.write(UserDAOExtension.healthCondition, isGood);
+  }
+
+  /// Set the user's mental condition.
+  @override
+  Future<void> setMentalCondition(bool isGood) async {
+    await _storage.write(UserDAOExtension.mentalCondition, isGood);
+  }
+
+  /// Set the user's cash condition.
+  @override
+  Future<void> setCashCondition(bool isGood) async {
+    await _storage.write(UserDAOExtension.cashCondition, isGood);
+  }
+
+  /// Set the user's current challenge.
+  @override
+  Future<void> setCurrentChallenge(EChallenge challenge) async {
+    await _storage.write(
+        UserDAOExtension.currentChallenge, challenge.toString());
+  }
 }
 
 extension UserDAOExtension on UserDAO {
+  // User Information
   static const String id = 'id';
   static const String nickname = 'nickname';
   static const String healthPositiveCnt = 'health_positive_cnt';
@@ -155,4 +214,13 @@ extension UserDAOExtension on UserDAO {
   static const String mentalPositiveCnt = 'mental_positive_cnt';
   static const String mentalNegativeCnt = 'mental_negative_cnt';
   static const String totalCarbonDiOxide = 'total_carbon_dioxide';
+
+  // Character State
+  static const String environmentCondition = 'environment_condition';
+  static const String healthCondition = 'health_condition';
+  static const String mentalCondition = 'mental_condition';
+  static const String cashCondition = 'cash_condition';
+
+  // Challenge State
+  static const String currentChallenge = 'current_challenge';
 }
