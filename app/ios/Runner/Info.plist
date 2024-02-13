@@ -68,6 +68,8 @@
 	<string>Speech recognition is used to control the app with your voice</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone is used to record your voice</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs permission for choosing image from your photo library</string>
 	<key>NSHealthShareUsageDescription</key>
     <string>We will sync your data with the Apple Health app to give you better insights</string>
     <key>NSHealthUpdateUsageDescription</key>
