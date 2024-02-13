@@ -65,8 +65,8 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       child: Stack(
         children: [
           floorLayer(),
-          characterLayer(),
           carbonCloudLayer(),
+          characterLayer(),
         ],
       ),
     );
@@ -93,34 +93,48 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           child: Column(
             children: [
               const SpeechBubble(),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
                   DevOnLog.i('characterLayer onTap');
                 },
-                child: SvgPicture.asset(
-                  'assets/images/character.svg',
-                  width: Get.width * 0.6,
-                ),
+                child: character(),
               ),
             ],
           ),
         ),
       );
 
-  Widget carbonCloudLayer() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Obx(
-          () => ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: viewModel.carbonCloudStates.length > 4
-                ? 4
-                : viewModel.carbonCloudStates.length,
-            itemBuilder: (context, index) {
-              return CarbonCloudBubble(
-                index: index,
-              );
-            },
+  Widget carbonCloudLayer() => Positioned(
+        left: 0,
+        right: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SizedBox(
+            height: Get.height * 0.3,
+            child: Obx(
+              () => ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: viewModel.carbonCloudStates.length > 4
+                    ? 4
+                    : viewModel.carbonCloudStates.length,
+                itemBuilder: (context, index) {
+                  return CarbonCloudBubble(
+                    index: index,
+                  );
+                },
+              ),
+            ),
           ),
         ),
       );
+
+  Widget character() {
+    String assets = 'assets/images/character_1_2_1_1.svg';
+
+    return SvgPicture.asset(
+      assets,
+      height: Get.height * 0.2,
+    );
+  }
 }
