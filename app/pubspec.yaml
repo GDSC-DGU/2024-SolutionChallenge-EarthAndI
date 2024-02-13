@@ -52,6 +52,11 @@ dependencies:
 
   # Local Secure Storage
   get_storage: ^2.1.1
+  # Carousel Slider
+  carousel_slider: ^4.2.1
+
+  # image_picker
+  image_picker: ^1.0.7
 
   # SQLite3 Database
   drift: ^2.14.1
@@ -71,7 +76,6 @@ dependencies:
   # Permission And Health
   permission_handler: ^11.2.1
   health: ^8.1.0
-
 
 
 dev_dependencies:
