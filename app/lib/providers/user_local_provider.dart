@@ -6,8 +6,8 @@ abstract class UserLocalProvider {
   String getNickname();
   int getHealthPositiveCnt();
   int getHealthNegativeCnt();
-  int getMoneyPositiveCnt();
-  int getMoneyNegativeCnt();
+  int getCachePositiveCnt();
+  int getCacheNegativeCnt();
   int getMentalPositiveCnt();
   int getMentalNegativeCnt();
   double getTotalCarbonDiOxide();
@@ -16,8 +16,8 @@ abstract class UserLocalProvider {
   Future<void> setNickname(String nickname);
   Future<void> setHealthPositiveCnt(int cnt);
   Future<void> setHealthNegativeCnt(int cnt);
-  Future<void> setMoneyPositiveCnt(int cnt);
-  Future<void> setMoneyNegativeCnt(int cnt);
+  Future<void> setCachePositiveCnt(int cnt);
+  Future<void> setCacheNegativeCnt(int cnt);
   Future<void> setMentalPositiveCnt(int cnt);
   Future<void> setMentalNegativeCnt(int cnt);
   Future<void> setTotalCarbonDiOxide(double value);

@@ -20,8 +20,8 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.healthNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.moneyPositiveCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.moneyNegativeCnt, 0);
+    await _storage.writeIfNull(UserDAOExtension.cachePositiveCnt, 0);
+    await _storage.writeIfNull(UserDAOExtension.cacheNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.totalCarbonDiOxide, 0.0);
   }
 
@@ -69,16 +69,16 @@ class UserDAO implements UserLocalProvider {
     return _storage.read(UserDAOExtension.mentalNegativeCnt) ?? 0;
   }
 
-  /// Get the user's money positive count.
+  /// Get the user's cache positive count.
   @override
-  int getMoneyPositiveCnt() {
-    return _storage.read(UserDAOExtension.moneyPositiveCnt) ?? 0;
+  int getCachePositiveCnt() {
+    return _storage.read(UserDAOExtension.cachePositiveCnt) ?? 0;
   }
 
-  /// Get the user's money negative count.
+  /// Get the user's cache negative count.
   @override
-  int getMoneyNegativeCnt() {
-    return _storage.read(UserDAOExtension.moneyNegativeCnt) ?? 0;
+  int getCacheNegativeCnt() {
+    return _storage.read(UserDAOExtension.cacheNegativeCnt) ?? 0;
   }
 
   /// Get the user's total carbon dioxide.
@@ -126,16 +126,16 @@ class UserDAO implements UserLocalProvider {
     await _storage.write(UserDAOExtension.mentalNegativeCnt, cnt);
   }
 
-  /// Set the user's money positive count.
+  /// Set the user's cache positive count.
   @override
-  Future<void> setMoneyPositiveCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.moneyPositiveCnt, cnt);
+  Future<void> setCachePositiveCnt(int cnt) async {
+    await _storage.write(UserDAOExtension.cachePositiveCnt, cnt);
   }
 
-  /// Set the user's money negative count.
+  /// Set the user's cache negative count.
   @override
-  Future<void> setMoneyNegativeCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.moneyNegativeCnt, cnt);
+  Future<void> setCacheNegativeCnt(int cnt) async {
+    await _storage.write(UserDAOExtension.cacheNegativeCnt, cnt);
   }
 
   /// Set the user's total carbon dioxide.
@@ -150,8 +150,8 @@ extension UserDAOExtension on UserDAO {
   static const String nickname = 'nickname';
   static const String healthPositiveCnt = 'health_positive_cnt';
   static const String healthNegativeCnt = 'health_negative_cnt';
-  static const String moneyPositiveCnt = 'money_positive_cnt';
-  static const String moneyNegativeCnt = 'money_negative_cnt';
+  static const String cachePositiveCnt = 'cache_positive_cnt';
+  static const String cacheNegativeCnt = 'cache_negative_cnt';
   static const String mentalPositiveCnt = 'mental_positive_cnt';
   static const String mentalNegativeCnt = 'mental_negative_cnt';
   static const String totalCarbonDiOxide = 'total_carbon_dioxide';

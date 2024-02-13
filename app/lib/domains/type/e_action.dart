@@ -1,9 +1,10 @@
-enum EAction {
+enum EAction implements Comparable<EAction> {
   steps,
   data,
   morning,
   lunch,
   dinner,
+  recycle,
   standbyPower,
   waterUsage,
   optimalTemperature,
@@ -11,5 +12,11 @@ enum EAction {
   publicTransportation,
   ;
 
-  String get databaseValue => toString().split('.').last;
+  const EAction();
+
+  @override
+  int compareTo(EAction other) => index.compareTo(other.index);
+
+  @override
+  String toString() => name;
 }
