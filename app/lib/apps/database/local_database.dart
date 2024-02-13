@@ -5,6 +5,7 @@ import 'package:earth_and_i/domains/entity/action_history.dart';
 import 'package:earth_and_i/domains/entity/challenge_history.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:drift/drift.dart';
@@ -34,5 +35,5 @@ class LocalDatabase extends _$LocalDatabase {
   LocalDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 }

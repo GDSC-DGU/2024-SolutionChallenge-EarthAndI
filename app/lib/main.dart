@@ -2,6 +2,7 @@ import 'package:earth_and_i/apps/factory/local_database_factory.dart';
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/apps/main_app.dart';
 import 'package:earth_and_i/apps/firebase/firebase_options.dart';
+import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -15,11 +16,14 @@ void main() async {
 
   // Permission
   await Permission.activityRecognition.request();
+  await HealthUtil.initialize();
 
   // Database
-  LocalStorageFactory.onInit();
   LocalDatabaseFactory.onInit();
+  await LocalStorageFactory.onInit();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // LocalStorageFactory.delete();
 
   runApp(const MainApp());
 }

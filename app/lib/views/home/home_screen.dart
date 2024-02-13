@@ -1,10 +1,10 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
-import 'package:earth_and_i/widgets/button/temp_login_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -31,11 +31,28 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         height: 92.0,
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '${NumberFormat('#,###,###').format(viewModel.reducedCO2)} kg',
-            style: FontSystem.KR24B,
-          ),
+          child: Obx(() => carbonDiOxide()),
         ),
+      ),
+    );
+  }
+
+  Widget carbonDiOxide() {
+    String firstChar = "";
+    Color color = const Color(0xFF000000);
+
+    if (viewModel.changedCO2 > 0) {
+      firstChar = "↑ ";
+      color = const Color(0xFFF2ABAB);
+    } else {
+      firstChar = "↓ ";
+      color = const Color(0xFF90CDBE);
+    }
+
+    return Text(
+      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.changedCO2.abs())} kg',
+      style: FontSystem.KR24B.copyWith(
+        color: color,
       ),
     );
   }
@@ -49,33 +66,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         children: [
           floorLayer(),
           characterLayer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Obx(
-              () {
-                if (viewModel.carbonCloudStates.isEmpty) {
-                  return Image(
-                    height: Get.height * 0.2,
-                    image: const AssetImage(
-                      'assets/images/sunny.jpg',
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: viewModel.carbonCloudStates.length > 4
-                      ? 4
-                      : viewModel.carbonCloudStates.length,
-                  itemBuilder: (context, index) {
-                    return CarbonCloudBubble(
-                      index: index,
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+          carbonCloudLayer(),
         ],
       ),
     );
@@ -103,8 +94,8 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
             children: [
               const SpeechBubble(),
               GestureDetector(
-                onLongPress: () {
-                  viewModel.analysisSpeech();
+                onTap: () {
+                  DevOnLog.i('characterLayer onTap');
                 },
                 child: SvgPicture.asset(
                   'assets/images/character.svg',
@@ -112,6 +103,23 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                 ),
               ),
             ],
+          ),
+        ),
+      );
+
+  Widget carbonCloudLayer() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Obx(
+          () => ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: viewModel.carbonCloudStates.length > 4
+                ? 4
+                : viewModel.carbonCloudStates.length,
+            itemBuilder: (context, index) {
+              return CarbonCloudBubble(
+                index: index,
+              );
+            },
           ),
         ),
       );
