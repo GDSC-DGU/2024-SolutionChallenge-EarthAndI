@@ -2,10 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/entity/action_history.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
-import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/providers/action_history_local_provider.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
-import 'package:get_storage/get_storage.dart';
 
 part 'action_history_dao.g.dart';
 
@@ -52,5 +49,20 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
           )
           ..limit(1))
         .getSingleOrNull();
+  }
+
+  @override
+  Future<List<ActionHistoryData>> findByTypesAndDateRange(
+      List<EAction> types, DateTime startAt, DateTime endAt) {
+    return (select(actionHistory)
+          ..where((t) => t.type.isIn(types.map((e) => e.toString()).toList()))
+          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt))
+          ..orderBy(
+            [
+              (t) => OrderingTerm(
+                  expression: t.createdAt, mode: OrderingMode.desc),
+            ],
+          ))
+        .get();
   }
 }

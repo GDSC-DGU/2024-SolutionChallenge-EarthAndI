@@ -30,7 +30,7 @@ class UserRepository extends GetxService {
 
     switch (userStatus) {
       case EUserStatus.health:
-        if (value >= 0) {
+        if (value < 0) {
           await _localProvider
               .setHealthPositiveCnt(_localProvider.getHealthPositiveCnt() + 1);
           DevOnLog.i(
@@ -42,7 +42,7 @@ class UserRepository extends GetxService {
               'Health Negative Count: ${_localProvider.getHealthNegativeCnt()}');
         }
       case EUserStatus.mental:
-        if (value >= 0) {
+        if (value < 0) {
           await _localProvider
               .setMentalPositiveCnt(_localProvider.getMentalPositiveCnt() + 1);
           DevOnLog.i(
@@ -54,7 +54,7 @@ class UserRepository extends GetxService {
               'Mental Negative Count: ${_localProvider.getMentalNegativeCnt()}');
         }
       case EUserStatus.cash:
-        if (value >= 0) {
+        if (value < 0) {
           await _localProvider
               .setCashPositiveCnt(_localProvider.getCashPositiveCnt() + 1);
           DevOnLog.i(

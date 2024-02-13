@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -65,33 +66,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         children: [
           floorLayer(),
           characterLayer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Obx(
-              () {
-                if (viewModel.carbonCloudStates.isEmpty) {
-                  return Image(
-                    height: Get.height * 0.2,
-                    image: const AssetImage(
-                      'assets/images/sunny.jpg',
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: viewModel.carbonCloudStates.length > 4
-                      ? 4
-                      : viewModel.carbonCloudStates.length,
-                  itemBuilder: (context, index) {
-                    return CarbonCloudBubble(
-                      index: index,
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+          carbonCloudLayer(),
         ],
       ),
     );
@@ -119,8 +94,8 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
             children: [
               const SpeechBubble(),
               GestureDetector(
-                onLongPress: () {
-                  viewModel.analysisSpeech();
+                onTap: () {
+                  DevOnLog.i('characterLayer onTap');
                 },
                 child: SvgPicture.asset(
                   'assets/images/character.svg',
@@ -128,6 +103,23 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                 ),
               ),
             ],
+          ),
+        ),
+      );
+
+  Widget carbonCloudLayer() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Obx(
+          () => ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: viewModel.carbonCloudStates.length > 4
+                ? 4
+                : viewModel.carbonCloudStates.length,
+            itemBuilder: (context, index) {
+              return CarbonCloudBubble(
+                index: index,
+              );
+            },
           ),
         ),
       );

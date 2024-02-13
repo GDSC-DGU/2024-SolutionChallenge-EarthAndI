@@ -14,7 +14,7 @@ abstract class ETypeConverter {
         return [
           EAction.steps,
           EAction.stairs,
-          EAction.morning,
+          EAction.breakfast,
           EAction.lunch,
           EAction.dinner,
         ];
@@ -45,7 +45,7 @@ abstract class ETypeConverter {
     switch (action) {
       case EAction.steps:
       case EAction.stairs:
-      case EAction.morning:
+      case EAction.breakfast:
       case EAction.lunch:
       case EAction.dinner:
         return EUserStatus.health;
