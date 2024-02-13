@@ -78,7 +78,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           clipper: FloorLayerClipper(),
           child: Container(
             width: Get.width,
-            height: Get.height * 0.32,
+            height: Get.height * 0.3,
             color: const Color(0xFFF3F0EB),
           ),
         ),
@@ -87,7 +87,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
   Widget characterLayer() => Positioned(
         left: 0,
         right: 0,
-        bottom: Get.height * 0.26,
+        bottom: Get.height * 0.25,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Column(

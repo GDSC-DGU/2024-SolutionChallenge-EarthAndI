@@ -3,12 +3,13 @@ import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:earth_and_i/views/load_map/load_map_screen.dart';
+import 'package:earth_and_i/views/load_map/widgets/challenge_dialog.dart';
 import 'package:earth_and_i/views/profile/profile_screen.dart';
 import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar.dart';
 import 'package:earth_and_i/views/root/widgets/overlay_grey_barrier.dart';
-import 'package:earth_and_i/views/root/widgets/root_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class RootScreen extends GetView<RootViewModel> {
@@ -29,7 +30,6 @@ class RootScreen extends GetView<RootViewModel> {
         children: [
           buildScreen(),
           const OverlayGreyBarrier(),
-          const RootFloatingActionButton(),
           Obx(
             () => viewModel.isEnableGreyBarrier
                 ? Center(
@@ -64,14 +64,7 @@ class RootScreen extends GetView<RootViewModel> {
         ),
 
         // Floating action button
-        floatingActionButton: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Container(
-            width: 60,
-            height: 60,
-            color: Colors.transparent,
-          ),
-        ),
+        floatingActionButton: buildFloatingActionButton(),
 
         // Floating action button Location
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -81,5 +74,35 @@ class RootScreen extends GetView<RootViewModel> {
 
         // Bottom navigation bar
         bottomNavigationBar: const CustomBottomNavigationBar(),
+      );
+
+  FloatingActionButton buildFloatingActionButton() => FloatingActionButton(
+        elevation: 2,
+        shape: const CircleBorder(),
+        onPressed: () {
+          if (viewModel.isEnableGreyBarrier) {
+            return;
+          }
+
+          if (viewModel.selectedIndex != 1) {
+            viewModel.changeIndex(1);
+          } else {
+            Get.dialog(const ChallengeDialog(isCompleted: false));
+          }
+        },
+        backgroundColor: const Color(0xFF90CDBE),
+        child: Obx(
+          () => SvgPicture.asset(
+            viewModel.selectedIndex != 1
+                ? 'assets/icons/home.svg'
+                : 'assets/icons/verification_echo.svg',
+            width: 32,
+            height: 32,
+            colorFilter: const ColorFilter.mode(
+              Colors.white,
+              BlendMode.srcIn,
+            ),
+          ),
+        ),
       );
 }
