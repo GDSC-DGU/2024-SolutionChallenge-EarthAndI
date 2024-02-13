@@ -1,4 +1,3 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
@@ -28,7 +27,9 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
           height: 56,
           child: OutlinedButton(
             onPressed: () {
-              isCompleted ? Get.back() : DevOnLog.d("챌린지 인증하기로 이동");
+              isCompleted
+                  ? Get.back()
+                  : Get.toNamed("/challenge_authentication");
             },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
