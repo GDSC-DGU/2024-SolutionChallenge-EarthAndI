@@ -19,7 +19,7 @@ abstract class UserLocalProvider {
   int getCashNegativeCnt();
   int getMentalPositiveCnt();
   int getMentalNegativeCnt();
-  double getTotalCarbonDiOxide();
+  double getTotalDeltaCO2();
 
   // Character State
   bool getHealthCondition();
@@ -30,7 +30,7 @@ abstract class UserLocalProvider {
   EChallenge getCurrentChallenge();
 
   /* ------------------------------------------------------------ */
-  /* -------------------------- Getter -------------------------- */
+  /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
   // User Information
   Future<void> setId(String id);
@@ -41,7 +41,7 @@ abstract class UserLocalProvider {
   Future<void> setCashNegativeCnt(int cnt);
   Future<void> setMentalPositiveCnt(int cnt);
   Future<void> setMentalNegativeCnt(int cnt);
-  Future<void> setTotalCarbonDiOxide(double value);
+  Future<void> setTotalDeltaCO2(double value);
 
   // Character State
   Future<void> setHealthCondition(bool isGood);

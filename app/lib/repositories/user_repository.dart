@@ -18,30 +18,29 @@ class UserRepository extends GetxService {
     await _localProvider.init();
   }
 
-  double getTotalCarbonDiOxide() {
-    return _localProvider.getTotalCarbonDiOxide();
+  double readTotalDeltaCO2() {
+    return _localProvider.getTotalDeltaCO2();
   }
 
-  CharacterStatsState getCharacterStatsState() {
+  CharacterStatsState readCharacterStatsState() {
     return CharacterStatsState(
-      isGoodEnvironment: _localProvider.getTotalCarbonDiOxide() <= 0,
+      isGoodEnvironment: _localProvider.getTotalDeltaCO2() <= 0,
       isGoodHealth: _localProvider.getHealthCondition(),
       isGoodMental: _localProvider.getMentalCondition(),
       isGoodCash: _localProvider.getCashCondition(),
     );
   }
 
-  Future<double> updateDeltaCO2(
+  Future<double> updateTotalDeltaCO2(
     double changedDeltaCO2,
   ) async {
-    double currentDeltaCO2 = _localProvider.getTotalCarbonDiOxide();
-    await _localProvider
-        .setTotalCarbonDiOxide(currentDeltaCO2 + changedDeltaCO2);
+    double currentDeltaCO2 = _localProvider.getTotalDeltaCO2();
+    await _localProvider.setTotalDeltaCO2(currentDeltaCO2 + changedDeltaCO2);
 
     DevOnLog.i(
-        'Total Carbon DiOxide: ${_localProvider.getTotalCarbonDiOxide()}');
+        'After Update, Total Delta CO2: ${_localProvider.getTotalDeltaCO2()}');
 
-    return _localProvider.getTotalCarbonDiOxide();
+    return _localProvider.getTotalDeltaCO2();
   }
 
   Future<void> updateUserInformationCount(
@@ -106,7 +105,7 @@ class UserRepository extends GetxService {
     }
 
     return CharacterStatsState(
-      isGoodEnvironment: _localProvider.getTotalCarbonDiOxide() < 0,
+      isGoodEnvironment: _localProvider.getTotalDeltaCO2() < 0,
       isGoodHealth: _localProvider.getHealthCondition(),
       isGoodMental: _localProvider.getMentalCondition(),
       isGoodCash: _localProvider.getCashCondition(),

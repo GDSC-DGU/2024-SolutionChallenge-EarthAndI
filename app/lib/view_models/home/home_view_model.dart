@@ -18,13 +18,13 @@ class HomeViewModel extends GetxController {
 
   late final SpeechToText _speechModule;
 
-  late final RxDouble _changedCO2;
+  late final RxDouble _totalDeltaCO2;
   late final Rx<CharacterStatsState> _characterStatsState;
   late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
-  double get changedCO2 => _changedCO2.value;
+  double get totalDeltaCO2 => _totalDeltaCO2.value;
   CharacterStatsState get characterStatsState => _characterStatsState.value;
   AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
@@ -42,8 +42,8 @@ class HomeViewModel extends GetxController {
     _speechModule = SpeechToText();
 
     // Observable Initialize
-    _changedCO2 = _userRepository.getTotalCarbonDiOxide().obs;
-    _characterStatsState = _userRepository.getCharacterStatsState().obs;
+    _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
+    _characterStatsState = _userRepository.readCharacterStatsState().obs;
     _analysisState = AnalysisState.initial()
         .copyWith(speechBubble: _characterStatsState.value.getTranslation())
         .obs;
@@ -129,8 +129,8 @@ class HomeViewModel extends GetxController {
 
     // Update User Information, Character Stats And UI
     bool isPositive = result['changeCapacity'] < 0;
-    _changedCO2.value =
-        await _userRepository.updateDeltaCO2(data.changeCapacity);
+    _totalDeltaCO2.value =
+        await _userRepository.updateTotalDeltaCO2(data.changeCapacity);
     await _userRepository.updateUserInformationCount(
       _carbonCloudStates[index].userStatus,
       isPositive,
@@ -150,7 +150,7 @@ class HomeViewModel extends GetxController {
   }
 
   void fetchDeltaCO2(double value) {
-    _changedCO2.value = value;
+    _totalDeltaCO2.value = value;
   }
 
   void fetchCharacterStatsState(CharacterStatsState state) {

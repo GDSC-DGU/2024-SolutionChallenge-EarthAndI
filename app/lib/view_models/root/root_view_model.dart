@@ -3,7 +3,6 @@ import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:get/get.dart';
@@ -81,8 +80,6 @@ class RootViewModel extends GetxController {
       endAt,
     );
 
-    DevOnLog.e("currentChangeCapacity: $currentChangeCapacity");
-
     // 이산화탄소량의 변화량을 계산함
     double changedCO2 = (data != null ? data.changeCapacity.abs() : 0.0) -
         currentChangeCapacity;
@@ -104,10 +101,8 @@ class RootViewModel extends GetxController {
         ),
       );
 
-      DevOnLog.e(data.toString());
-
       Get.find<HomeViewModel>().fetchDeltaCO2(
-        await _userRepository.updateDeltaCO2(
+        await _userRepository.updateTotalDeltaCO2(
           changedCO2,
         ),
       );
@@ -129,14 +124,11 @@ class RootViewModel extends GetxController {
             .toCompanion(true),
       );
 
-      DevOnLog.e(data.toString());
-
       Get.find<HomeViewModel>().fetchDeltaCO2(
-        await _userRepository.updateDeltaCO2(
+        await _userRepository.updateTotalDeltaCO2(
           changedCO2,
         ),
       );
-
       Get.find<HomeViewModel>().fetchCharacterStatsState(
         await _userRepository.updateCharacterStats(null, null),
       );

@@ -23,7 +23,7 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.mentalNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.cashPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.cashNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.totalCarbonDiOxide, 0.0);
+    await _storage.writeIfNull(UserDAOExtension.totalDeltaCO2, 0.0);
     await _storage.writeIfNull(UserDAOExtension.environmentCondition, true);
     await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
     await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
@@ -90,8 +90,8 @@ class UserDAO implements UserLocalProvider {
 
   /// Get the user's total carbon dioxide.
   @override
-  double getTotalCarbonDiOxide() {
-    return _storage.read(UserDAOExtension.totalCarbonDiOxide) ?? 0.0;
+  double getTotalDeltaCO2() {
+    return _storage.read(UserDAOExtension.totalDeltaCO2) ?? 0.0;
   }
 
   /// Get the user's health condition.
@@ -173,8 +173,8 @@ class UserDAO implements UserLocalProvider {
 
   /// Set the user's total carbon dioxide.
   @override
-  Future<void> setTotalCarbonDiOxide(double value) async {
-    await _storage.write(UserDAOExtension.totalCarbonDiOxide, value);
+  Future<void> setTotalDeltaCO2(double value) async {
+    await _storage.write(UserDAOExtension.totalDeltaCO2, value);
   }
 
   /// Set the user's health condition.
@@ -213,7 +213,7 @@ extension UserDAOExtension on UserDAO {
   static const String cashNegativeCnt = 'cash_negative_cnt';
   static const String mentalPositiveCnt = 'mental_positive_cnt';
   static const String mentalNegativeCnt = 'mental_negative_cnt';
-  static const String totalCarbonDiOxide = 'total_carbon_dioxide';
+  static const String totalDeltaCO2 = 'total_delta_co2';
 
   // Character State
   static const String environmentCondition = 'environment_condition';

@@ -42,7 +42,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
     String firstChar = "";
     Color color = const Color(0xFF000000);
 
-    if (viewModel.changedCO2 > 0) {
+    if (viewModel.totalDeltaCO2 > 0) {
       firstChar = "↑ ";
       color = ColorSystem.pink;
     } else {
@@ -51,7 +51,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
     }
 
     return Text(
-      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.changedCO2.abs())} kg',
+      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.totalDeltaCO2.abs())} kg',
       style: FontSystem.KR24B.copyWith(
         color: color,
       ),
