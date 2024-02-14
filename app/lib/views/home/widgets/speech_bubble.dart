@@ -24,14 +24,14 @@ class SpeechBubble extends BaseWidget<HomeViewModel> {
         color: const Color(0xFFF3F1EE).withOpacity(0.9),
         child: Obx(
           () {
-            if (viewModel.isLoadingAnalysis) {
+            if (viewModel.analysisState.isLoading) {
               return LoadingAnimationWidget.prograssiveDots(
                 color: Colors.grey,
                 size: Get.width * 0.07,
               );
             } else {
               return AutoSizeText(
-                viewModel.speechState.speechText,
+                viewModel.analysisState.speechBubble,
                 style: FontSystem.KR16M,
                 textAlign: TextAlign.center,
               );

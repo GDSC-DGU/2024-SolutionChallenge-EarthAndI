@@ -1,4 +1,5 @@
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -43,10 +44,10 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
     if (viewModel.changedCO2 > 0) {
       firstChar = "↑ ";
-      color = const Color(0xFFF2ABAB);
+      color = ColorSystem.pink;
     } else {
       firstChar = "↓ ";
-      color = const Color(0xFF90CDBE);
+      color = ColorSystem.green;
     }
 
     return Text(
