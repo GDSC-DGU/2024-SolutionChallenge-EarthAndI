@@ -8,21 +8,35 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
+import 'package:rive/rive.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
+  /* ------------------------------------------------------ */
+  /* -------------------- DI Fields ----------------------- */
+  /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
   late final ActionHistoryRepository _actionHistoryRepository;
   late final AnalysisRepository _analysisRepository;
 
+  /* ------------------------------------------------------ */
+  /* ----------------- Private Fields --------------------- */
+  /* ------------------------------------------------------ */
   late final SpeechToText _speechModule;
+  late final RiveAnimationController _animationController;
 
   late final RxDouble _totalDeltaCO2;
   late final Rx<CharacterStatsState> _characterStatsState;
   late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
+
+  /* ------------------------------------------------------ */
+  /* ----------------- Public Fields ---------------------- */
+  /* ------------------------------------------------------ */
+  RiveAnimationController get animationController => _animationController;
 
   double get totalDeltaCO2 => _totalDeltaCO2.value;
   CharacterStatsState get characterStatsState => _characterStatsState.value;
@@ -40,6 +54,7 @@ class HomeViewModel extends GetxController {
 
     // Module Initialize
     _speechModule = SpeechToText();
+    _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
     // Observable Initialize
     _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
@@ -59,6 +74,10 @@ class HomeViewModel extends GetxController {
     );
   }
 
+  void test() {
+    DevOnLog.i('Change Animation State : ${_animationController.isActive}');
+  }
+
   void initializeSpeechState() {
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
@@ -68,9 +87,13 @@ class HomeViewModel extends GetxController {
   }
 
   void startSpeech(int index) async {
+    // 음성인식 시작을 위한 상태 변화
     _speechState.value = _speechState.value.copyWith(
       isListening: true,
     );
+    _animationController.isActive = true;
+
+    // 음성인식 시작
     await _speechModule.listen(
       onResult: (result) async {
         _speechState.value = _speechState.value.copyWith(
@@ -83,7 +106,11 @@ class HomeViewModel extends GetxController {
   }
 
   Future<void> stopSpeech() async {
+    // 음성인식 종료
     await _speechModule.stop();
+
+    // 음성인식 종료를 위한 상태 변화
+    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: true,
@@ -91,7 +118,11 @@ class HomeViewModel extends GetxController {
   }
 
   void forceStopSpeech() async {
+    // 음성인식 종료
     await _speechModule.stop();
+
+    // 음성인식 종료를 위한 상태 변화(강제 종료 되었으므로 완료된 상태는 아님)
+    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: false,

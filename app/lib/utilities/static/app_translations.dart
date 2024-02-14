@@ -12,10 +12,12 @@ class AppTranslations extends Translations {
   static Map<String, String> get korean => {
         ...CharacterTranslations.kr,
         ...EActionTranslations.kr,
+        "start_speech_recognize": "음성 인식을 시작해주세요!"
       };
 
   static Map<String, String> get english => {
         ...CharacterTranslations.en,
         ...EActionTranslations.en,
+        "start_speech_recognize": "Please start\nspeech recognition!"
       };
 }

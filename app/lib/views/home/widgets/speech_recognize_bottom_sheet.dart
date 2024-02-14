@@ -4,6 +4,7 @@ import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rive/rive.dart';
 
 class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
   final int index;
@@ -52,10 +53,18 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Obx(
-                () => centerText(
-                  viewModel.speechState.speechText,
-                  style: FontSystem.KR16R.copyWith(color: Colors.grey[600]),
-                ),
+                () {
+                  if (!viewModel.speechState.isListening) {
+                    return centerText(
+                      'start_speech_recognize'.tr,
+                      style: FontSystem.KR16R.copyWith(color: Colors.grey[600]),
+                    );
+                  }
+                  return centerText(
+                    viewModel.speechState.speechText,
+                    style: FontSystem.KR16R.copyWith(color: Colors.grey[600]),
+                  );
+                },
               ),
             ),
             const Spacer(),
@@ -71,57 +80,42 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
   Widget _speechAnimationView() => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Obx(
-            () => ElevatedButton(
-              onPressed: !viewModel.speechState.isListening
-                  ? () {
-                      viewModel.startSpeech(index);
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorSystem.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Container(
-                width: 100.0,
-                height: 40.0,
-                alignment: Alignment.center,
-                child: Text(
-                  '시작',
-                  style: FontSystem.KR16M.copyWith(
-                    color: const Color(0xFFFFFFFF),
+          GestureDetector(
+            onTap: () {
+              if (viewModel.speechState.isListening) {
+                viewModel.stopSpeech().then((value) => {
+                      Get.back(),
+                    });
+              } else {
+                viewModel.startSpeech(index);
+              }
+            },
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: Stack(
+                children: [
+                  RiveAnimation.asset(
+                    'assets/riv/record_animation_for_vox.riv',
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    // Tap시 애니메이션 시작
+                    controllers: [
+                      viewModel.animationController,
+                    ],
                   ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 16.0),
-          Obx(
-            () => ElevatedButton(
-              onPressed: viewModel.speechState.isListening
-                  ? () async {
-                      await viewModel.stopSpeech();
-                      Get.back();
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorSystem.pink,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Container(
-                width: 100.0,
-                height: 40.0,
-                alignment: Alignment.center,
-                child: Text(
-                  '종료',
-                  style: FontSystem.KR16M.copyWith(
-                    color: ColorSystem.white,
+                  Center(
+                    child: Obx(
+                      () => Icon(
+                        viewModel.speechState.isListening
+                            ? Icons.stop
+                            : Icons.mic_rounded,
+                        size: 40.0,
+                        color: ColorSystem.white,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
