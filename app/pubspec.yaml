@@ -96,6 +96,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/character/
+    - assets/images/analysis/
     - assets/icons/
 #    - assets/config/.env
 

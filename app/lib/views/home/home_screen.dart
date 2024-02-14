@@ -134,7 +134,9 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   Widget character() {
     // 각 스탯에 따라 이미지 경로 결정
-    String prefix = 'assets/images/character';
+    String prefix = viewModel.analysisState.isLoading
+        ? 'assets/images/analysis/'
+        : 'assets/images/character/';
     String suffix = '.svg';
 
     String environment =
@@ -144,7 +146,9 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
     String cash = viewModel.characterStatsState.isGoodCash ? '1' : '2';
 
     return SvgPicture.asset(
-      '${prefix}_${environment}_${health}_${mental}_$cash$suffix',
+      viewModel.analysisState.isLoading
+          ? '$prefix${health}_${mental}_$cash$suffix'
+          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
       height: Get.height * 0.2,
     );
   }
