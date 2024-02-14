@@ -1,21 +1,24 @@
 enum EAction implements Comparable<EAction> {
+  /* Default */
   steps(
-    dawn: 'none',
-    morning: 'none',
-    afternoon: 'none',
-    evening: 'none',
+    dawn: 'steps_dawn',
+    morning: 'steps_morning',
+    afternoon: 'steps_afternoon',
+    evening: 'steps_evening',
   ),
+  data(
+    dawn: 'data_dawn',
+    morning: 'data_morning',
+    afternoon: 'data_afternoon',
+    evening: 'data_evening',
+  ),
+
+  /* Custom */
   stairs(
     dawn: 'stair_dawn',
     morning: 'stair_morning',
     afternoon: 'stair_afternoon',
     evening: 'stair_evening',
-  ),
-  data(
-    dawn: 'none',
-    morning: 'none',
-    afternoon: 'none',
-    evening: 'none',
   ),
   sns(
     dawn: 'sns_dawn',
@@ -23,23 +26,11 @@ enum EAction implements Comparable<EAction> {
     afternoon: 'sns_afternoon',
     evening: 'sns_evening',
   ),
-  breakfast(
-    dawn: 'none',
-    morning: 'breakfast_morning',
-    afternoon: 'none',
-    evening: 'none',
-  ),
-  lunch(
-    dawn: 'none',
-    morning: 'none',
-    afternoon: 'lunch_afternoon',
-    evening: 'none',
-  ),
-  dinner(
-    dawn: 'none',
-    morning: 'none',
-    afternoon: 'none',
-    evening: 'dinner_afternoon',
+  meal(
+    dawn: 'meal_dawn',
+    morning: 'meal_morning',
+    afternoon: 'meal_afternoon',
+    evening: 'meal_evening',
   ),
   recycle(
     dawn: 'recycle_dawn',

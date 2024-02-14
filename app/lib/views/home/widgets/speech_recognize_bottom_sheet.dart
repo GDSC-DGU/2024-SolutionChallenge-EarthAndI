@@ -30,29 +30,32 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
               width: Get.width * 0.2,
               height: 4.0,
               decoration: BoxDecoration(
-                color: const Color(0xFFD9D9D9),
+                color: ColorSystem.grey[300],
                 borderRadius: BorderRadius.circular(2.0),
               ),
             ),
             const SizedBox(height: 80.0),
-            Text(
-              viewModel.carbonCloudStates[index].longQuestion,
+            centerText(
+              viewModel.carbonCloudStates[index].longQuestion.tr,
               style: FontSystem.KR24B.copyWith(
-                color: const Color(0xFF000000),
+                color: ColorSystem.black,
               ),
             ),
             const SizedBox(height: 20.0),
-            Text(
-              viewModel.carbonCloudStates[index].exampleAnswer,
+            centerText(
+              viewModel.carbonCloudStates[index].exampleAnswer.tr,
               style: FontSystem.KR16R.copyWith(
-                color: const Color(0xFFACADB2),
+                color: ColorSystem.grey[500],
               ),
             ),
-            const SizedBox(height: 20.0),
-            Obx(
-              () => Text(
-                viewModel.speechState.speechText,
-                style: FontSystem.KR16R.copyWith(color: Colors.grey[600]),
+            const SizedBox(height: 50.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Obx(
+                () => centerText(
+                  viewModel.speechState.speechText,
+                  style: FontSystem.KR16R.copyWith(color: Colors.grey[600]),
+                ),
               ),
             ),
             const Spacer(),
@@ -124,4 +127,12 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
           ),
         ],
       );
+
+  Widget centerText(String text, {TextStyle? style}) {
+    return Text(
+      text,
+      style: style,
+      textAlign: TextAlign.center,
+    );
+  }
 }

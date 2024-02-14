@@ -24,7 +24,7 @@ class AnalysisState {
   factory AnalysisState.initial() {
     return AnalysisState(
       isLoading: false,
-      speechBubble: '안녕~~',
+      speechBubble: 'hello',
     );
   }
 

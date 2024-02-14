@@ -44,7 +44,9 @@ class HomeViewModel extends GetxController {
     // Observable Initialize
     _changedCO2 = _userRepository.getTotalCarbonDiOxide().obs;
     _characterStatsState = _userRepository.getCharacterStatsState().obs;
-    _analysisState = AnalysisState.initial().obs;
+    _analysisState = AnalysisState.initial()
+        .copyWith(speechBubble: _characterStatsState.value.getTranslation())
+        .obs;
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
 

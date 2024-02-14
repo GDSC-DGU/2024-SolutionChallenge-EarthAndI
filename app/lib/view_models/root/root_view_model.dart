@@ -3,6 +3,7 @@ import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:get/get.dart';
@@ -68,12 +69,19 @@ class RootViewModel extends GetxController {
     double currentChangeCapacity =
         (await HealthUtil.getSteps(startAt, endAt)) * 0.000125;
 
+    // 걸음 수가 0이라면 업데이트를 하지 않음
+    if (currentChangeCapacity == 0) {
+      return;
+    }
+
     ActionHistoryData? data =
         await _actionHistoryRepository.readOneByTypeAndDateRange(
       EAction.steps,
       startAt,
       endAt,
     );
+
+    DevOnLog.e("currentChangeCapacity: $currentChangeCapacity");
 
     // 이산화탄소량의 변화량을 계산함
     double changedCO2 = (data != null ? data.changeCapacity.abs() : 0.0) -
@@ -95,6 +103,8 @@ class RootViewModel extends GetxController {
           type: EAction.steps,
         ),
       );
+
+      DevOnLog.e(data.toString());
 
       Get.find<HomeViewModel>().fetchDeltaCO2(
         await _userRepository.updateDeltaCO2(
@@ -118,6 +128,8 @@ class RootViewModel extends GetxController {
             )
             .toCompanion(true),
       );
+
+      DevOnLog.e(data.toString());
 
       Get.find<HomeViewModel>().fetchDeltaCO2(
         await _userRepository.updateDeltaCO2(

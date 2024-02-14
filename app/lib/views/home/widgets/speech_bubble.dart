@@ -31,7 +31,7 @@ class SpeechBubble extends BaseWidget<HomeViewModel> {
               );
             } else {
               return AutoSizeText(
-                viewModel.analysisState.speechBubble,
+                viewModel.analysisState.speechBubble.tr,
                 style: FontSystem.KR16M,
                 textAlign: TextAlign.center,
               );

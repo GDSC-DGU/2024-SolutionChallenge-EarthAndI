@@ -78,7 +78,7 @@ class CarbonCloudBubble extends BaseWidget<HomeViewModel> {
                         maxHeight: Get.height * 0.1,
                       ),
                       child: AutoSizeText(
-                        viewModel.carbonCloudStates[index].shortQuestion,
+                        viewModel.carbonCloudStates[index].shortQuestion.tr,
                         style: FontSystem.KR14M,
                         maxFontSize: 14.0,
                         textAlign: TextAlign.center,

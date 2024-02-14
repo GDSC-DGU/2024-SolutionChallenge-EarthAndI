@@ -13,19 +13,19 @@ class ActionHistoryRepository extends GetxService {
   static final List<List<EAction>> _actionGroups = [
     [],
     [
-      EAction.breakfast,
+      EAction.meal,
       EAction.publicTransportation,
       EAction.sns,
     ],
     [
-      EAction.lunch,
+      EAction.meal,
       EAction.tumbler,
       EAction.stairs,
       EAction.recycle,
     ],
     [
       EAction.optimalTemperature,
-      EAction.dinner,
+      EAction.meal,
       EAction.sns,
       EAction.waterUsage,
       EAction.standbyPower,

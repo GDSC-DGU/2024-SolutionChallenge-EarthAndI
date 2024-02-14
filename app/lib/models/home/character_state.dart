@@ -33,6 +33,18 @@ class CharacterStatsState {
     );
   }
 
+  String getTranslation() {
+    // 각 스탯에 따라 이미지 경로 결정
+    String prefix = 'character';
+
+    String environment = _isGoodEnvironment ? '1' : '2';
+    String health = _isGoodHealth ? '1' : '2';
+    String mental = _isGoodMental ? '1' : '2';
+    String cash = _isGoodCash ? '1' : '2';
+
+    return '${prefix}_${environment}_${health}_${mental}_$cash';
+  }
+
   @override
   String toString() {
     return '[CharacterStatsState]\n'
