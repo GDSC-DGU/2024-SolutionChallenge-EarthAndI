@@ -40,12 +40,12 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   Widget carbonDiOxide() {
     String firstChar = "";
-    Color color = const Color(0xFF000000);
+    Color color = ColorSystem.grey;
 
     if (viewModel.totalDeltaCO2 > 0) {
       firstChar = "↑ ";
       color = ColorSystem.pink;
-    } else {
+    } else if (viewModel.totalDeltaCO2 < 0) {
       firstChar = "↓ ";
       color = ColorSystem.green;
     }

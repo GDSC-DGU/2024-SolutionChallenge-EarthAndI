@@ -26,6 +26,7 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // Top Indicator
             Container(
               margin: const EdgeInsets.only(top: 16.0),
               width: Get.width * 0.2,
@@ -36,6 +37,8 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
               ),
             ),
             const SizedBox(height: 80.0),
+
+            // Long Question
             centerText(
               viewModel.carbonCloudStates[index].longQuestion.tr,
               style: FontSystem.KR24B.copyWith(
@@ -43,6 +46,8 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
               ),
             ),
             const SizedBox(height: 20.0),
+
+            // Example Answer
             centerText(
               viewModel.carbonCloudStates[index].exampleAnswer.tr,
               style: FontSystem.KR16R.copyWith(
@@ -50,6 +55,8 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
               ),
             ),
             const SizedBox(height: 50.0),
+
+            // Speech Recognize Text
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Obx(
@@ -67,8 +74,14 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
                 },
               ),
             ),
+
+            // Spacer
             const Spacer(),
+
+            // Speech Animation
             _speechAnimationView(),
+
+            // Padding
             SizedBox(height: Get.height * 0.1),
           ],
         ),
@@ -77,49 +90,44 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
   }
 
   // 음성인식 버튼에 대한 애니메이션 박스
-  Widget _speechAnimationView() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              if (viewModel.speechState.isListening) {
-                viewModel.stopSpeech().then((value) => {
-                      Get.back(),
-                    });
-              } else {
-                viewModel.startSpeech(index);
-              }
-            },
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Stack(
-                children: [
-                  RiveAnimation.asset(
-                    'assets/riv/record_animation_for_vox.riv',
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
-                    // Tap시 애니메이션 시작
-                    controllers: [
-                      viewModel.animationController,
-                    ],
-                  ),
-                  Center(
-                    child: Obx(
-                      () => Icon(
-                        viewModel.speechState.isListening
-                            ? Icons.stop
-                            : Icons.mic_rounded,
-                        size: 40.0,
-                        color: ColorSystem.white,
-                      ),
-                    ),
-                  ),
+  Widget _speechAnimationView() => GestureDetector(
+        onTap: () {
+          if (viewModel.speechState.isListening) {
+            viewModel.stopSpeech().then((value) => {
+                  Get.back(),
+                });
+          } else {
+            viewModel.startSpeech(index);
+          }
+        },
+        child: SizedBox(
+          width: 100,
+          height: 100,
+          child: Stack(
+            children: [
+              RiveAnimation.asset(
+                'assets/riv/record_animation_for_vox.riv',
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+                // Tap시 애니메이션 시작
+                controllers: [
+                  viewModel.animationController,
                 ],
               ),
-            ),
+              Center(
+                child: Obx(
+                  () => Icon(
+                    viewModel.speechState.isListening
+                        ? Icons.stop
+                        : Icons.mic_rounded,
+                    size: 40.0,
+                    color: ColorSystem.white,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       );
 
   Widget centerText(String text, {TextStyle? style}) {
