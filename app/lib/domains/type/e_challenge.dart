@@ -11,4 +11,17 @@ enum EChallenge implements Comparable<EChallenge> {
 
   @override
   String toString() => name;
+
+  static EChallenge fromName(String name) {
+    switch (name) {
+      case 'deleteEmail':
+        return EChallenge.deleteEmail;
+      case 'useEcoFriendlyProducts':
+        return EChallenge.useEcoFriendlyProducts;
+      case 'useColdWater':
+        return EChallenge.useColdWater;
+      default:
+        throw Exception('Unknown EChallenge name: $name');
+    }
+  }
 }

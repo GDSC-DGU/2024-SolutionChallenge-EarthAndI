@@ -1,4 +1,5 @@
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -39,18 +40,18 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
   Widget carbonDiOxide() {
     String firstChar = "";
-    Color color = const Color(0xFF000000);
+    Color color = ColorSystem.grey;
 
-    if (viewModel.changedCO2 > 0) {
+    if (viewModel.totalDeltaCO2 > 0) {
       firstChar = "↑ ";
-      color = const Color(0xFFF2ABAB);
-    } else {
+      color = ColorSystem.pink;
+    } else if (viewModel.totalDeltaCO2 < 0) {
       firstChar = "↓ ";
-      color = const Color(0xFF90CDBE);
+      color = ColorSystem.green;
     }
 
     return Text(
-      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.changedCO2.abs())} kg',
+      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.totalDeltaCO2.abs())} kg',
       style: FontSystem.KR24B.copyWith(
         color: color,
       ),
@@ -65,8 +66,8 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       child: Stack(
         children: [
           floorLayer(),
-          characterLayer(),
           carbonCloudLayer(),
+          characterLayer(),
         ],
       ),
     );
@@ -78,7 +79,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           clipper: FloorLayerClipper(),
           child: Container(
             width: Get.width,
-            height: Get.height * 0.32,
+            height: Get.height * 0.3,
             color: const Color(0xFFF3F0EB),
           ),
         ),
@@ -87,19 +88,19 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
   Widget characterLayer() => Positioned(
         left: 0,
         right: 0,
-        bottom: Get.height * 0.26,
+        bottom: Get.height * 0.25,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Column(
             children: [
               const SpeechBubble(),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
                   DevOnLog.i('characterLayer onTap');
                 },
-                child: SvgPicture.asset(
-                  'assets/images/character.svg',
-                  width: Get.width * 0.6,
+                child: Obx(
+                  () => character(),
                 ),
               ),
             ],
@@ -107,20 +108,48 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         ),
       );
 
-  Widget carbonCloudLayer() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Obx(
-          () => ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: viewModel.carbonCloudStates.length > 4
-                ? 4
-                : viewModel.carbonCloudStates.length,
-            itemBuilder: (context, index) {
-              return CarbonCloudBubble(
-                index: index,
-              );
-            },
+  Widget carbonCloudLayer() => Positioned(
+        left: 0,
+        right: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SizedBox(
+            height: Get.height * 0.3,
+            child: Obx(
+              () => ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: viewModel.carbonCloudStates.length > 4
+                    ? 4
+                    : viewModel.carbonCloudStates.length,
+                itemBuilder: (context, index) {
+                  return CarbonCloudBubble(
+                    index: index,
+                  );
+                },
+              ),
+            ),
           ),
         ),
       );
+
+  Widget character() {
+    // 각 스탯에 따라 이미지 경로 결정
+    String prefix = viewModel.analysisState.isLoading
+        ? 'assets/images/analysis/'
+        : 'assets/images/character/';
+    String suffix = '.svg';
+
+    String environment =
+        viewModel.characterStatsState.isGoodEnvironment ? '1' : '2';
+    String health = viewModel.characterStatsState.isGoodHealth ? '1' : '2';
+    String mental = viewModel.characterStatsState.isGoodMental ? '1' : '2';
+    String cash = viewModel.characterStatsState.isGoodCash ? '1' : '2';
+
+    return SvgPicture.asset(
+      viewModel.analysisState.isLoading
+          ? '$prefix${health}_${mental}_$cash$suffix'
+          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
+      height: Get.height * 0.2,
+    );
+  }
 }

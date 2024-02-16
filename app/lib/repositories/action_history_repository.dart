@@ -13,19 +13,19 @@ class ActionHistoryRepository extends GetxService {
   static final List<List<EAction>> _actionGroups = [
     [],
     [
-      EAction.breakfast,
+      EAction.meal,
       EAction.publicTransportation,
       EAction.sns,
     ],
     [
-      EAction.lunch,
+      EAction.meal,
       EAction.tumbler,
       EAction.stairs,
       EAction.recycle,
     ],
     [
       EAction.optimalTemperature,
-      EAction.dinner,
+      EAction.meal,
       EAction.sns,
       EAction.waterUsage,
       EAction.standbyPower,
@@ -48,7 +48,7 @@ class ActionHistoryRepository extends GetxService {
     // 12 ~ 18시면, _actionGroups[2]
     // 18 ~ 24시면, _actionGroups[3]
     // 위 값을 구하고 현재 시간에 해당하는 액션들을 가져온다.
-    int groupIndex = currentAt.hour ~/ 6;
+    int groupIndex = 3;
     List<EAction> actions = _actionGroups[groupIndex];
 
     if (groupIndex == 0) {
@@ -77,7 +77,9 @@ class ActionHistoryRepository extends GetxService {
       if (histories.indexWhere((element) => element.type == action) == -1) {
         // groupIndex에 따라서 dawn, morning, afternoon, evening을 설정한다.
         states.add(CarbonCloudState(
-          text: action.getContent(groupIndex),
+          shortQuestion: "${action.getContent(groupIndex)}_short",
+          longQuestion: "${action.getContent(groupIndex)}_long",
+          exampleAnswer: "${action.getContent(groupIndex)}_example_answer",
           userStatus: ETypeConverter.actionToUserStatus(action),
           action: action,
           isLeftPos: index.isEven,

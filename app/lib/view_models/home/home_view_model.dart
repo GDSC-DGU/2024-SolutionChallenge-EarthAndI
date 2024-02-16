@@ -1,29 +1,46 @@
-import 'dart:math';
-
 import 'package:earth_and_i/apps/database/local_database.dart';
+import 'package:earth_and_i/domains/type/e_action.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
+import 'package:earth_and_i/models/home/analysis_state.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
+import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/view_models/root/root_view_model.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
+import 'package:rive/rive.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
+  /* ------------------------------------------------------ */
+  /* -------------------- DI Fields ----------------------- */
+  /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
   late final ActionHistoryRepository _actionHistoryRepository;
   late final AnalysisRepository _analysisRepository;
 
+  /* ------------------------------------------------------ */
+  /* ----------------- Private Fields --------------------- */
+  /* ------------------------------------------------------ */
   late final SpeechToText _speechModule;
+  late final RiveAnimationController _animationController;
 
-  late final RxDouble _changedCO2;
-  late final RxBool _isLoadingAnalysis;
+  late final RxDouble _totalDeltaCO2;
+  late final Rx<CharacterStatsState> _characterStatsState;
+  late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
-  double get changedCO2 => _changedCO2.value;
-  bool get isLoadingAnalysis => _isLoadingAnalysis.value;
+  /* ------------------------------------------------------ */
+  /* ----------------- Public Fields ---------------------- */
+  /* ------------------------------------------------------ */
+  RiveAnimationController get animationController => _animationController;
+
+  double get totalDeltaCO2 => _totalDeltaCO2.value;
+  CharacterStatsState get characterStatsState => _characterStatsState.value;
+  AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
   RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
 
@@ -37,28 +54,95 @@ class HomeViewModel extends GetxController {
 
     // Module Initialize
     _speechModule = SpeechToText();
+    _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
     // Observable Initialize
-    _changedCO2 = 0.0.obs;
-    _isLoadingAnalysis = false.obs;
+    _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
+    _characterStatsState = _userRepository.readCharacterStatsState().obs;
+    _analysisState = AnalysisState.initial()
+        .copyWith(speechBubble: _characterStatsState.value.getTranslation())
+        .obs;
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
 
-    // Load Data
+    // Load Data And Initialize Module
     _carbonCloudStates.addAll(
       await _actionHistoryRepository.readCarbonCloudStates(DateTime.now()),
     );
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
     );
-    _changedCO2.value = _userRepository.getTotalCarbonDiOxide();
+  }
+
+  void test() {
+    DevOnLog.i('Change Animation State : ${_animationController.isActive}');
+  }
+
+  void initializeSpeechState() {
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: false,
+      speechText: '',
+    );
+  }
+
+  void startSpeech(int index) async {
+    // 음성인식 시작을 위한 상태 변화
+    _speechState.value = _speechState.value.copyWith(
+      isListening: true,
+    );
+    _animationController.isActive = true;
+
+    // 음성인식 시작
+    await _speechModule.listen(
+      onResult: (result) async {
+        _speechState.value = _speechState.value.copyWith(
+          speechText: result.recognizedWords,
+          isListening: !result.finalResult,
+        );
+      },
+      localeId: Get.deviceLocale?.languageCode == 'ko' ? 'ko_KR' : 'en_US',
+    );
+  }
+
+  Future<void> stopSpeech() async {
+    // 음성인식 종료
+    await _speechModule.stop();
+
+    // 음성인식 종료를 위한 상태 변화
+    _animationController.isActive = false;
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: true,
+    );
+  }
+
+  void forceStopSpeech() async {
+    // 음성인식 종료
+    await _speechModule.stop();
+
+    // 음성인식 종료를 위한 상태 변화(강제 종료 되었으므로 완료된 상태는 아님)
+    _animationController.isActive = false;
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: false,
+    );
   }
 
   Future<void> analysisSpeech(int index) async {
-    _isLoadingAnalysis.value = true;
+    _analysisState.value = _analysisState.value.copyWith(
+      isLoading: true,
+    );
+
+    // 분석
+    EUserStatus userStatus = _carbonCloudStates[index].userStatus;
+    EAction action = _carbonCloudStates[index].action;
+    String question = _carbonCloudStates[index].shortQuestion;
+    String speechText = _speechState.value.speechText;
+
     Map<String, dynamic> result = await _analysisRepository.analysisAction(
-      _carbonCloudStates[index].userStatus,
-      _speechState.value.speechText,
+      userStatus,
+      speechText,
     );
 
     // DB 저장
@@ -66,50 +150,41 @@ class HomeViewModel extends GetxController {
       ActionHistoryCompanion.insert(
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-        userStatus: _carbonCloudStates[index].userStatus,
-        type: _carbonCloudStates[index].action,
-        question: _carbonCloudStates[index].text,
-        answer: _speechState.value.speechText,
+        userStatus: userStatus,
+        type: action,
+        question: question,
+        answer: speechText,
         changeCapacity: result['changeCapacity'],
       ),
     );
 
-    // User Update
-    await _userRepository.changeTotalCarbonDiOxide(
-        _carbonCloudStates[index].userStatus, data.changeCapacity);
+    // Update User Information, Character Stats And UI
+    bool isPositive = result['changeCapacity'] < 0;
+    _totalDeltaCO2.value =
+        await _userRepository.updateTotalDeltaCO2(data.changeCapacity);
+    await _userRepository.updateUserInformationCount(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
+    _characterStatsState.value = await _userRepository.updateCharacterStats(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
 
-    // UI Update
-    _changedCO2.value = _userRepository.getTotalCarbonDiOxide();
+    // Update Data
     _carbonCloudStates.removeAt(index);
-    _speechState.value = _speechState.value.copyWith(
-      speechText: result['answer'],
+
+    _analysisState.value = _analysisState.value.copyWith(
+      isLoading: false,
+      speechBubble: result['answer'],
     );
-
-    _isLoadingAnalysis.value = false;
   }
 
-  void startSpeech(int index) async {
-    await _speechModule.listen(
-      onResult: (result) async {
-        if (result.finalResult) {
-          _speechState.value = _speechState.value.copyWith(
-            speechText: result.recognizedWords,
-          );
-          await analysisSpeech(index);
-        }
-      },
-      localeId: Get.deviceLocale.toString(),
-    );
-
-    Get.find<RootViewModel>().changeMicState();
+  void fetchDeltaCO2(double value) {
+    _totalDeltaCO2.value = value;
   }
 
-  void stopSpeech() async {
-    await _speechModule.stop();
-    Get.find<RootViewModel>().changeMicState();
-  }
-
-  setReducedCO2(double value) {
-    _changedCO2.value = value;
+  void fetchCharacterStatsState(CharacterStatsState state) {
+    _characterStatsState.value = state;
   }
 }

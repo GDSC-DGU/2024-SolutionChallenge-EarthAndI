@@ -68,6 +68,11 @@ class RootViewModel extends GetxController {
     double currentChangeCapacity =
         (await HealthUtil.getSteps(startAt, endAt)) * 0.000125;
 
+    // 걸음 수가 0이라면 업데이트를 하지 않음
+    if (currentChangeCapacity == 0) {
+      return;
+    }
+
     ActionHistoryData? data =
         await _actionHistoryRepository.readOneByTypeAndDateRange(
       EAction.steps,
@@ -96,11 +101,17 @@ class RootViewModel extends GetxController {
         ),
       );
 
-      Get.find<HomeViewModel>().setReducedCO2(
-        await _userRepository.changeTotalCarbonDiOxide(
-          EUserStatus.health,
+      Get.find<HomeViewModel>().fetchDeltaCO2(
+        await _userRepository.updateTotalDeltaCO2(
           changedCO2,
         ),
+      );
+      await _userRepository.updateUserInformationCount(
+        EUserStatus.health,
+        true,
+      );
+      Get.find<HomeViewModel>().fetchCharacterStatsState(
+        await _userRepository.updateCharacterStats(null, null),
       );
     } else if (data.changeCapacity.abs() < currentChangeCapacity) {
       data = await _actionHistoryRepository.createOrUpdate(
@@ -113,11 +124,13 @@ class RootViewModel extends GetxController {
             .toCompanion(true),
       );
 
-      Get.find<HomeViewModel>().setReducedCO2(
-        await _userRepository.changeTotalCarbonDiOxide(
-          null,
+      Get.find<HomeViewModel>().fetchDeltaCO2(
+        await _userRepository.updateTotalDeltaCO2(
           changedCO2,
         ),
+      );
+      Get.find<HomeViewModel>().fetchCharacterStatsState(
+        await _userRepository.updateCharacterStats(null, null),
       );
     }
   }

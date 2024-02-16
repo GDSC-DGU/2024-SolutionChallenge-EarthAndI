@@ -77,6 +77,9 @@ dependencies:
   permission_handler: ^11.2.1
   health: ^8.1.0
 
+  # Animation
+  rive: ^0.12.4
+
 
 dev_dependencies:
   # Default
@@ -96,7 +99,10 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/character/
+    - assets/images/analysis/
     - assets/icons/
+    - assets/riv/
 #    - assets/config/.env
 
   fonts:
