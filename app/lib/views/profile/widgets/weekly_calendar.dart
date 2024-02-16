@@ -1,12 +1,12 @@
 import 'package:earth_and_i/utilities/system/font_system.dart';
-import 'package:earth_and_i/view_models/profile/weekly_calendar_view_model.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
+class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
   const WeeklyCalendar({super.key});
 
   @override
