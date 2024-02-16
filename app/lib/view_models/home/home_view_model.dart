@@ -65,7 +65,9 @@ class HomeViewModel extends GetxController {
     ).obs;
     _characterStatsState = _userRepository.readCharacterStatsState().obs;
     _analysisState = AnalysisState.initial()
-        .copyWith(speechBubble: _characterStatsState.value.getTranslation())
+        .copyWith(
+          speechBubble: _characterStatsState.value.getTranslation(),
+        )
         .obs;
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
@@ -147,6 +149,7 @@ class HomeViewModel extends GetxController {
 
     Map<String, dynamic> result = await _analysisRepository.analysisAction(
       userStatus,
+      _carbonCloudStates[index].longQuestion.tr,
       speechText,
     );
 
