@@ -6,6 +6,8 @@ import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
+import 'package:earth_and_i/widgets/text_box/animated_num_blink.dart';
+import 'package:earth_and_i/widgets/text_box/animated_num_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -29,31 +31,53 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       preferredSize: const Size.fromHeight(92.0),
       child: Container(
         padding: const EdgeInsets.only(left: 16.0),
-        height: 92.0,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Obx(() => carbonDiOxide()),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Obx(() => totalDeltaCO2()),
+            const SizedBox(width: 10),
+            Obx(() => changeDeltaCO2()),
+          ],
         ),
       ),
     );
   }
 
-  Widget carbonDiOxide() {
-    String firstChar = "";
+  Widget totalDeltaCO2() {
     Color color = ColorSystem.grey;
 
-    if (viewModel.totalDeltaCO2 > 0) {
-      firstChar = "↑ ";
+    if (viewModel.deltaCO2State.totalCO2 > 0) {
       color = ColorSystem.pink;
-    } else if (viewModel.totalDeltaCO2 < 0) {
-      firstChar = "↓ ";
+    } else if (viewModel.deltaCO2State.totalCO2 < 0) {
       color = ColorSystem.green;
     }
 
-    return Text(
-      '$firstChar${NumberFormat('#,###,###.####').format(viewModel.totalDeltaCO2.abs())} kg',
-      style: FontSystem.KR24B.copyWith(
-        color: color,
+    return AnimatedNumCounter(
+      value: viewModel.deltaCO2State.totalCO2,
+      textStyle: FontSystem.KR24B.copyWith(color: color),
+      suffix: ' kg',
+    );
+  }
+
+  Widget changeDeltaCO2() {
+    if (viewModel.deltaCO2State.changeCO2 == 0) {
+      return const SizedBox();
+    }
+
+    Color color = viewModel.deltaCO2State.changeCO2 > 0
+        ? ColorSystem.pink
+        : ColorSystem.green;
+    String prefix = viewModel.deltaCO2State.changeCO2 > 0 ? "↑ " : "↓ ";
+    String value = NumberFormat('###,###,###,###.####')
+        .format(viewModel.deltaCO2State.changeCO2);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: AnimatedNumBlink(
+        value: '$prefix$value kg',
+        duration: const Duration(milliseconds: 800),
+        textStyle: FontSystem.KR16B.copyWith(color: color),
       ),
     );
   }

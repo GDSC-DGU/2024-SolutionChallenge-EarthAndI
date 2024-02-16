@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/analysis_state.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
+import 'package:earth_and_i/models/home/delta_co2_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
@@ -27,7 +30,7 @@ class HomeViewModel extends GetxController {
   late final SpeechToText _speechModule;
   late final RiveAnimationController _animationController;
 
-  late final RxDouble _totalDeltaCO2;
+  late final Rx<DeltaCO2State> _deltaCO2State;
   late final Rx<CharacterStatsState> _characterStatsState;
   late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
@@ -38,7 +41,7 @@ class HomeViewModel extends GetxController {
   /* ------------------------------------------------------ */
   RiveAnimationController get animationController => _animationController;
 
-  double get totalDeltaCO2 => _totalDeltaCO2.value;
+  DeltaCO2State get deltaCO2State => _deltaCO2State.value;
   CharacterStatsState get characterStatsState => _characterStatsState.value;
   AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
@@ -57,7 +60,9 @@ class HomeViewModel extends GetxController {
     _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
     // Observable Initialize
-    _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
+    _deltaCO2State = DeltaCO2State(
+      totalCO2: _userRepository.readTotalDeltaCO2(),
+    ).obs;
     _characterStatsState = _userRepository.readCharacterStatsState().obs;
     _analysisState = AnalysisState.initial()
         .copyWith(speechBubble: _characterStatsState.value.getTranslation())
@@ -160,8 +165,11 @@ class HomeViewModel extends GetxController {
 
     // Update User Information, Character Stats And UI
     bool isPositive = result['changeCapacity'] < 0;
-    _totalDeltaCO2.value =
-        await _userRepository.updateTotalDeltaCO2(data.changeCapacity);
+
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
+      changeCO2: data.changeCapacity,
+    );
     await _userRepository.updateUserInformationCount(
       _carbonCloudStates[index].userStatus,
       isPositive,
@@ -181,7 +189,17 @@ class HomeViewModel extends GetxController {
   }
 
   void fetchDeltaCO2(double value) {
-    _totalDeltaCO2.value = value;
+    double? currentCO2;
+    if (_deltaCO2State.value.totalCO2 > value) {
+      currentCO2 = _deltaCO2State.value.totalCO2 - value;
+    } else if (_deltaCO2State.value.totalCO2 < value) {
+      currentCO2 = value - _deltaCO2State.value.totalCO2;
+    }
+
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: value,
+      changeCO2: currentCO2,
+    );
   }
 
   void fetchCharacterStatsState(CharacterStatsState state) {
