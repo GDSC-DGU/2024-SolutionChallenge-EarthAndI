@@ -6,8 +6,8 @@ import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
-import 'package:earth_and_i/widgets/text_box/animated_num_blink.dart';
-import 'package:earth_and_i/widgets/text_box/animated_num_counter.dart';
+import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
+import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -53,7 +53,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       color = ColorSystem.green;
     }
 
-    return AnimatedNumCounter(
+    return AnimatedNumCounterText(
       value: viewModel.deltaCO2State.totalCO2,
       textStyle: FontSystem.KR24B.copyWith(color: color),
       suffix: ' kg',
@@ -70,11 +70,11 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         : ColorSystem.green;
     String prefix = viewModel.deltaCO2State.changeCO2 > 0 ? "↑ " : "↓ ";
     String value = NumberFormat('###,###,###,###.####')
-        .format(viewModel.deltaCO2State.changeCO2);
+        .format(viewModel.deltaCO2State.changeCO2.abs());
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: AnimatedNumBlink(
+      child: AnimatedNumBlinkText(
         value: '$prefix$value kg',
         duration: const Duration(milliseconds: 800),
         textStyle: FontSystem.KR16B.copyWith(color: color),
@@ -124,7 +124,31 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                   DevOnLog.i('characterLayer onTap');
                 },
                 child: Obx(
-                  () => character(),
+                  () {
+                    // 각 스탯에 따라 이미지 경로 결정
+                    String prefix = viewModel.analysisState.isLoading
+                        ? 'assets/images/analysis/'
+                        : 'assets/images/character/';
+                    String suffix = '.svg';
+
+                    String environment =
+                        viewModel.characterStatsState.isGoodEnvironment
+                            ? '1'
+                            : '2';
+                    String health =
+                        viewModel.characterStatsState.isGoodHealth ? '1' : '2';
+                    String mental =
+                        viewModel.characterStatsState.isGoodMental ? '1' : '2';
+                    String cash =
+                        viewModel.characterStatsState.isGoodCash ? '1' : '2';
+
+                    return SvgPicture.asset(
+                      viewModel.analysisState.isLoading
+                          ? '$prefix${health}_${mental}_$cash$suffix'
+                          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
+                      height: Get.height * 0.2,
+                    );
+                  },
                 ),
               ),
             ],
@@ -155,25 +179,4 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           ),
         ),
       );
-
-  Widget character() {
-    // 각 스탯에 따라 이미지 경로 결정
-    String prefix = viewModel.analysisState.isLoading
-        ? 'assets/images/analysis/'
-        : 'assets/images/character/';
-    String suffix = '.svg';
-
-    String environment =
-        viewModel.characterStatsState.isGoodEnvironment ? '1' : '2';
-    String health = viewModel.characterStatsState.isGoodHealth ? '1' : '2';
-    String mental = viewModel.characterStatsState.isGoodMental ? '1' : '2';
-    String cash = viewModel.characterStatsState.isGoodCash ? '1' : '2';
-
-    return SvgPicture.asset(
-      viewModel.analysisState.isLoading
-          ? '$prefix${health}_${mental}_$cash$suffix'
-          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
-      height: Get.height * 0.2,
-    );
-  }
 }

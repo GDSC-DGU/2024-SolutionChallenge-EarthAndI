@@ -11,9 +11,7 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
-import 'package:rive/rive.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
@@ -28,7 +26,6 @@ class HomeViewModel extends GetxController {
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final SpeechToText _speechModule;
-  late final RiveAnimationController _animationController;
 
   late final Rx<DeltaCO2State> _deltaCO2State;
   late final Rx<CharacterStatsState> _characterStatsState;
@@ -39,8 +36,6 @@ class HomeViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
-  RiveAnimationController get animationController => _animationController;
-
   DeltaCO2State get deltaCO2State => _deltaCO2State.value;
   CharacterStatsState get characterStatsState => _characterStatsState.value;
   AnalysisState get analysisState => _analysisState.value;
@@ -57,7 +52,6 @@ class HomeViewModel extends GetxController {
 
     // Module Initialize
     _speechModule = SpeechToText();
-    _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
     // Observable Initialize
     _deltaCO2State = DeltaCO2State(
@@ -81,10 +75,6 @@ class HomeViewModel extends GetxController {
     );
   }
 
-  void test() {
-    DevOnLog.i('Change Animation State : ${_animationController.isActive}');
-  }
-
   void initializeSpeechState() {
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
@@ -93,12 +83,11 @@ class HomeViewModel extends GetxController {
     );
   }
 
-  void startSpeech(int index) async {
+  void startSpeech() async {
     // 음성인식 시작을 위한 상태 변화
     _speechState.value = _speechState.value.copyWith(
       isListening: true,
     );
-    _animationController.isActive = true;
 
     // 음성인식 시작
     await _speechModule.listen(
@@ -117,7 +106,6 @@ class HomeViewModel extends GetxController {
     await _speechModule.stop();
 
     // 음성인식 종료를 위한 상태 변화
-    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: true,
@@ -129,7 +117,6 @@ class HomeViewModel extends GetxController {
     await _speechModule.stop();
 
     // 음성인식 종료를 위한 상태 변화(강제 종료 되었으므로 완료된 상태는 아님)
-    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: false,

@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-class AnimatedNumCounter extends StatelessWidget {
-  const AnimatedNumCounter({
+class AnimatedNumCounterText extends StatelessWidget {
+  const AnimatedNumCounterText({
     super.key,
     required this.value,
     this.duration = const Duration(milliseconds: 300),

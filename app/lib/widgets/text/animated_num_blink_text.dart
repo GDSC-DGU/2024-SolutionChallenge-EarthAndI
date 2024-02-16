@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AnimatedNumBlink extends StatefulWidget {
-  const AnimatedNumBlink({
+class AnimatedNumBlinkText extends StatefulWidget {
+  const AnimatedNumBlinkText({
     super.key,
     required this.value,
     required this.duration,
@@ -13,10 +13,10 @@ class AnimatedNumBlink extends StatefulWidget {
   final Duration duration;
 
   @override
-  State<AnimatedNumBlink> createState() => _AnimatedNumBlinkState();
+  State<AnimatedNumBlinkText> createState() => _AnimatedNumBlinkTextState();
 }
 
-class _AnimatedNumBlinkState extends State<AnimatedNumBlink>
+class _AnimatedNumBlinkTextState extends State<AnimatedNumBlinkText>
     with SingleTickerProviderStateMixin {
   late int _count;
   late String _value;
@@ -37,7 +37,6 @@ class _AnimatedNumBlinkState extends State<AnimatedNumBlink>
 
     _animationController.forward();
 
-    // 3번 반복하면 애니메이션 종료
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reverse();
@@ -60,7 +59,7 @@ class _AnimatedNumBlinkState extends State<AnimatedNumBlink>
   }
 
   @override
-  void didUpdateWidget(covariant AnimatedNumBlink oldWidget) {
+  void didUpdateWidget(covariant AnimatedNumBlinkText oldWidget) {
     super.didUpdateWidget(oldWidget);
     _count = 0;
     _animationController.forward();
