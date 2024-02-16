@@ -27,11 +27,7 @@ class HistoryItem extends BaseWidget<ProfileViewModel> {
           ),
           child: Row(
             children: [
-              SvgPicture.asset(
-                "assets/images/action_history_character.svg",
-                width: 72,
-                height: 72,
-              ),
+              character(),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -83,6 +79,35 @@ class HistoryItem extends BaseWidget<ProfileViewModel> {
         ),
         const SizedBox(height: 12),
       ],
+    );
+  }
+
+  Widget character() {
+    String prefix = 'assets/images/analysis/';
+    String suffix = '.svg';
+
+    String userStatus = viewModel.dailyHistory[index].userStatus.toString();
+    String health = '1', mental = '1', cash = '1';
+
+    if (userStatus == "cash") {
+      health = '1';
+      mental = '1';
+
+      cash = viewModel.dailyHistory[index].changeCapacity < 0 ? '1' : '2';
+    } else if (userStatus == "mental") {
+      health = '1';
+      mental = viewModel.dailyHistory[index].changeCapacity < 0 ? '1' : '2';
+      cash = '1';
+    } else if (userStatus == "health") {
+      health = viewModel.dailyHistory[index].changeCapacity < 0 ? '1' : '2';
+      mental = '1';
+      cash = '1';
+    }
+
+    return SvgPicture.asset(
+      '$prefix${health}_${mental}_$cash$suffix',
+      width: 72,
+      height: 72,
     );
   }
 }
