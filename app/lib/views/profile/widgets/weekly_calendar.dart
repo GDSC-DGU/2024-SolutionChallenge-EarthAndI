@@ -26,7 +26,7 @@ class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
             selectedDayPredicate: (day) =>
                 isSameDay(day, viewModel.calendarState.selectedDate),
             enabledDayPredicate: (DateTime date) {
-              return date.isBefore(DateTime.now().add(const Duration(days: 1)));
+              return date.isBefore(DateTime.now());
             },
             daysOfWeekVisible: false,
             headerStyle: HeaderStyle(
