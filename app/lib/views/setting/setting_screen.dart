@@ -30,7 +30,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         children: [
           settingRouter("사용자 인증", Routes.USERAUTH),
           settingRouter("언어", Routes.LANGUAGE),
-          Obx(() => settingAlram()),
+          settingAlram(),
         ],
       ),
     );
@@ -40,19 +40,23 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //알림 활성화
-          settingSection("알림 활성화",
-              toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch), true),
+          Obx(
+            () => settingSection(
+                "알림 활성화",
+                toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch),
+                true),
+          ),
 
           const SizedBox(
             height: 8,
           ),
 
           //알림 시간
-          settingSection(
+          Obx(() => settingSection(
               "알림 시간",
               timePicker(viewModel.alramTime, viewModel.isAlram,
                   viewModel.onAlramTimeSet),
-              viewModel.isAlram)
+              viewModel.isAlram)),
         ],
       );
 }
@@ -103,19 +107,18 @@ Widget toggleButton(bool value, void Function() action) => InkWell(
         color: value ? ColorSystem.green.shade500 : ColorSystem.grey.shade500,
         borderRadius: BorderRadius.circular(22),
       ),
-      child: Row(
-        mainAxisAlignment:
-            value ? MainAxisAlignment.start : MainAxisAlignment.end,
-        children: [
-          Container(
-            width: 22,
-            height: 22,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: ColorSystem.white,
-            ),
+      child: AnimatedAlign(
+        alignment: value ? Alignment.centerLeft : Alignment.centerRight,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        child: Container(
+          width: 22,
+          height: 22,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: ColorSystem.grey.shade100,
           ),
-        ],
+        ),
       ),
     ));
 
@@ -131,7 +134,8 @@ Widget timePicker(String initialTime, bool active, void Function() action) =>
         children: [
           Text(initialTime,
               style: FontSystem.KR16R.copyWith(
-                  color: active ? ColorSystem.black : const Color(0xFFACADB2))),
+                  color:
+                      active ? ColorSystem.black : ColorSystem.grey.shade500)),
           const SizedBox(
             width: 4,
           ),
@@ -139,7 +143,7 @@ Widget timePicker(String initialTime, bool active, void Function() action) =>
             'assets/icons/right.svg',
             width: 16,
             colorFilter: ColorFilter.mode(
-                active ? ColorSystem.black : const Color(0xFFACADB2),
+                active ? ColorSystem.black : ColorSystem.grey.shade500,
                 BlendMode.srcATop),
           ),
         ],

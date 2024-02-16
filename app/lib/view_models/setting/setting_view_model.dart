@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingViewModel extends GetxController {
-  late final RxBool _isAlram = true.obs;
-  late final RxString _alramTime = "09:00".obs;
-
+  late final RxBool _isAlram;
+  late final RxString _alramTime;
   bool get isAlram => _isAlram.value;
   String get alramTime => _alramTime.value;
 
   @override
   void onInit() {
     super.onInit();
+    _isAlram = true.obs;
+    _alramTime = "09:00".obs;
   }
 
   void onIsAlramSwitch() {
@@ -18,7 +19,6 @@ class SettingViewModel extends GetxController {
   }
 
   void onAlramTimeSet() {
-    print("시간...");
     List<String> parts = _alramTime.split(':');
     int hourPart = int.parse(parts[0]);
     int minutePart = int.parse(parts[1]);
