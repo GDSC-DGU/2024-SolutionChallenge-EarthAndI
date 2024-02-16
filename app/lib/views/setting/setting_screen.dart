@@ -71,7 +71,6 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
                       "알림 활성화",
                       style: FontSystem.KR16B,
                     ),
-
                     //---토글버튼
                     toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch)
                   ],
@@ -150,7 +149,7 @@ Widget toggleButton(bool value, void Function() action) => InkWell(
             height: 22,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white, // 하얀 동그라미
+              color: Colors.white,
             ),
           ),
         ],
