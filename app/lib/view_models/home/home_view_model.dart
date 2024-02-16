@@ -1,72 +1,190 @@
-import 'dart:math';
-
+import 'package:earth_and_i/apps/database/local_database.dart';
+import 'package:earth_and_i/domains/type/e_action.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
+import 'package:earth_and_i/models/home/analysis_state.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
+import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
-import 'package:earth_and_i/view_models/root/root_view_model.dart';
+import 'package:earth_and_i/repositories/action_history_repository.dart';
+import 'package:earth_and_i/repositories/analysis_repository.dart';
+import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
+import 'package:rive/rive.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
-  late final SpeechToText _speechModule;
+  /* ------------------------------------------------------ */
+  /* -------------------- DI Fields ----------------------- */
+  /* ------------------------------------------------------ */
+  late final UserRepository _userRepository;
+  late final ActionHistoryRepository _actionHistoryRepository;
+  late final AnalysisRepository _analysisRepository;
 
-  late final RxInt _reducedCO2;
-  late final RxBool _isLoadingAnalysis;
+  /* ------------------------------------------------------ */
+  /* ----------------- Private Fields --------------------- */
+  /* ------------------------------------------------------ */
+  late final SpeechToText _speechModule;
+  late final RiveAnimationController _animationController;
+
+  late final RxDouble _totalDeltaCO2;
+  late final Rx<CharacterStatsState> _characterStatsState;
+  late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
   late final RxList<CarbonCloudState> _carbonCloudStates;
 
-  int get reducedCO2 => _reducedCO2.value;
-  bool get isLoadingAnalysis => _isLoadingAnalysis.value;
+  /* ------------------------------------------------------ */
+  /* ----------------- Public Fields ---------------------- */
+  /* ------------------------------------------------------ */
+  RiveAnimationController get animationController => _animationController;
+
+  double get totalDeltaCO2 => _totalDeltaCO2.value;
+  CharacterStatsState get characterStatsState => _characterStatsState.value;
+  AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
   RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
 
   @override
   void onInit() async {
     super.onInit();
+    // Dependency Injection
+    _userRepository = Get.find<UserRepository>();
+    _actionHistoryRepository = Get.find<ActionHistoryRepository>();
+    _analysisRepository = Get.find<AnalysisRepository>();
 
+    // Module Initialize
     _speechModule = SpeechToText();
+    _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
-    _reducedCO2 = 12000.obs;
-    _isLoadingAnalysis = false.obs;
-    _carbonCloudStates = [
-      CarbonCloudState(text: '자기전에 너튜브, 인스타\n보지말고 잘꺼지?!', isLeftPos: true),
-      CarbonCloudState(text: '우린 멀 할 수 있지?\n팝콘이나 먹고 자자!', isLeftPos: false),
-      CarbonCloudState(text: '오늘 점심 뭐 먹었어?', isLeftPos: true),
-      CarbonCloudState(text: '왜 우린 쉬지 못하지?\n 나도 몰라 이 녀석아!', isLeftPos: false),
-      CarbonCloudState(text: '오늘 저녁은 뭐였을까?', isLeftPos: true),
-    ].obs;
-
+    // Observable Initialize
+    _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
+    _characterStatsState = _userRepository.readCharacterStatsState().obs;
+    _analysisState = AnalysisState.initial()
+        .copyWith(speechBubble: _characterStatsState.value.getTranslation())
+        .obs;
+    _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
+
+    // Load Data And Initialize Module
+    _carbonCloudStates.addAll(
+      await _actionHistoryRepository.readCarbonCloudStates(DateTime.now()),
+    );
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
     );
   }
 
-  void analysisSpeech() async {
-    _isLoadingAnalysis.value = true;
-    await Future.delayed(const Duration(seconds: 3));
-    _isLoadingAnalysis.value = false;
+  void test() {
+    DevOnLog.i('Change Animation State : ${_animationController.isActive}');
+  }
+
+  void initializeSpeechState() {
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: false,
+      speechText: '',
+    );
   }
 
   void startSpeech(int index) async {
-    await _speechModule.listen(
-      onResult: (result) {
-        if (result.finalResult) {
-          _speechState.value = _speechState.value.copyWith(
-            speechText: result.recognizedWords,
-          );
-          analysisSpeech();
-          _carbonCloudStates.removeAt(index);
-          _reducedCO2.value += Random().nextInt(100);
-        }
-      },
-      localeId: 'ko_KR',
+    // 음성인식 시작을 위한 상태 변화
+    _speechState.value = _speechState.value.copyWith(
+      isListening: true,
     );
+    _animationController.isActive = true;
 
-    Get.find<RootViewModel>().changeMicState();
+    // 음성인식 시작
+    await _speechModule.listen(
+      onResult: (result) async {
+        _speechState.value = _speechState.value.copyWith(
+          speechText: result.recognizedWords,
+          isListening: !result.finalResult,
+        );
+      },
+      localeId: Get.deviceLocale?.languageCode == 'ko' ? 'ko_KR' : 'en_US',
+    );
   }
 
-  void stopSpeech() async {
+  Future<void> stopSpeech() async {
+    // 음성인식 종료
     await _speechModule.stop();
-    Get.find<RootViewModel>().changeMicState();
+
+    // 음성인식 종료를 위한 상태 변화
+    _animationController.isActive = false;
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: true,
+    );
+  }
+
+  void forceStopSpeech() async {
+    // 음성인식 종료
+    await _speechModule.stop();
+
+    // 음성인식 종료를 위한 상태 변화(강제 종료 되었으므로 완료된 상태는 아님)
+    _animationController.isActive = false;
+    _speechState.value = _speechState.value.copyWith(
+      isListening: false,
+      isComplete: false,
+    );
+  }
+
+  Future<void> analysisSpeech(int index) async {
+    _analysisState.value = _analysisState.value.copyWith(
+      isLoading: true,
+    );
+
+    // 분석
+    EUserStatus userStatus = _carbonCloudStates[index].userStatus;
+    EAction action = _carbonCloudStates[index].action;
+    String question = _carbonCloudStates[index].shortQuestion;
+    String speechText = _speechState.value.speechText;
+
+    Map<String, dynamic> result = await _analysisRepository.analysisAction(
+      userStatus,
+      speechText,
+    );
+
+    // DB 저장
+    ActionHistoryData data = await _actionHistoryRepository.createOrUpdate(
+      ActionHistoryCompanion.insert(
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        userStatus: userStatus,
+        type: action,
+        question: question,
+        answer: speechText,
+        changeCapacity: result['changeCapacity'],
+      ),
+    );
+
+    // Update User Information, Character Stats And UI
+    bool isPositive = result['changeCapacity'] < 0;
+    _totalDeltaCO2.value =
+        await _userRepository.updateTotalDeltaCO2(data.changeCapacity);
+    await _userRepository.updateUserInformationCount(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
+    _characterStatsState.value = await _userRepository.updateCharacterStats(
+      _carbonCloudStates[index].userStatus,
+      isPositive,
+    );
+
+    // Update Data
+    _carbonCloudStates.removeAt(index);
+
+    _analysisState.value = _analysisState.value.copyWith(
+      isLoading: false,
+      speechBubble: result['answer'],
+    );
+  }
+
+  void fetchDeltaCO2(double value) {
+    _totalDeltaCO2.value = value;
+  }
+
+  void fetchCharacterStatsState(CharacterStatsState state) {
+    _characterStatsState.value = state;
   }
 }

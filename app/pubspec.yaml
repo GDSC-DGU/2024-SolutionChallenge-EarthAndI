@@ -50,8 +50,17 @@ dependencies:
   # Extended Nested Scroll View
   extended_nested_scroll_view: ^6.2.1
 
-  # Flutter Secure Storage
-  flutter_secure_storage: ^9.0.0
+  # Local Secure Storage
+  get_storage: ^2.1.1
+
+  # Carousel Slider
+  carousel_slider: ^4.2.1
+
+  # image_picker
+  image_picker: ^1.0.7
+
+  # Time Calendar
+  table_calendar: ^3.0.9
 
   # SQLite3 Database
   drift: ^2.14.1
@@ -63,6 +72,7 @@ dependencies:
   firebase_core: ^2.25.4
   cloud_firestore: ^4.15.4
   firebase_auth: ^4.17.4
+  firebase_database: ^10.4.5
 
   # OAuth2
   google_sign_in: ^6.2.1
@@ -70,8 +80,9 @@ dependencies:
   # Permission And Health
   permission_handler: ^11.2.1
   health: ^8.1.0
-  firebase_database: ^10.4.5
 
+  # Animation
+  rive: ^0.12.4
 
 
 dev_dependencies:
@@ -92,7 +103,10 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/character/
+    - assets/images/analysis/
     - assets/icons/
+    - assets/riv/
 #    - assets/config/.env
 
   fonts:

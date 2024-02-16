@@ -6,4 +6,5 @@ abstract class Routes {
   static const String LANGUAGE = "/language";
   static const String USERAUTH = "/userauth";
   static const String FRIEND = "/friend";
+  static const String CHALLENGE_AUTHENTICATION = "/challenge_authentication";
 }
