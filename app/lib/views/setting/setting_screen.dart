@@ -66,15 +66,18 @@ Widget settingSection(String text, Widget button, bool active) => SizedBox(
             children: [
               Text(text,
                   style: FontSystem.KR16B.copyWith(
-                      color: active ? Colors.black : const Color(0xFFACADB2))),
+                      color: active
+                          ? ColorSystem.black
+                          : ColorSystem.grey.shade500)),
               button
             ],
           )),
     );
 
 Widget settingRouter(String text, String route) => Container(
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(width: 1, color: ColorSystem.grey1)),
+      decoration: BoxDecoration(
+        border: Border(
+            bottom: BorderSide(width: 1, color: ColorSystem.grey.shade200)),
       ),
       width: double.infinity,
       child: InkWell(
@@ -97,7 +100,7 @@ Widget toggleButton(bool value, void Function() action) => InkWell(
       width: 44,
       height: 22,
       decoration: BoxDecoration(
-        color: value ? const Color(0xFF90CDBE) : const Color(0xFFACADB2),
+        color: value ? ColorSystem.green.shade500 : ColorSystem.grey.shade500,
         borderRadius: BorderRadius.circular(22),
       ),
       child: Row(
@@ -107,9 +110,9 @@ Widget toggleButton(bool value, void Function() action) => InkWell(
           Container(
             width: 22,
             height: 22,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: ColorSystem.white,
             ),
           ),
         ],
@@ -128,7 +131,7 @@ Widget timePicker(String initialTime, bool active, void Function() action) =>
         children: [
           Text(initialTime,
               style: FontSystem.KR16R.copyWith(
-                  color: active ? Colors.black : const Color(0xFFACADB2))),
+                  color: active ? ColorSystem.black : const Color(0xFFACADB2))),
           const SizedBox(
             width: 4,
           ),
@@ -136,7 +139,7 @@ Widget timePicker(String initialTime, bool active, void Function() action) =>
             'assets/icons/right.svg',
             width: 16,
             colorFilter: ColorFilter.mode(
-                active ? Colors.black : const Color(0xFFACADB2),
+                active ? ColorSystem.black : const Color(0xFFACADB2),
                 BlendMode.srcATop),
           ),
         ],

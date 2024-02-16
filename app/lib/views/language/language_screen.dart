@@ -38,9 +38,9 @@ class LanguageScreen extends BaseScreen<LanguageViewModel> {
     String language,
   ) =>
       Container(
-        decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1, color: ColorSystem.grey1)),
+        decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(width: 1, color: ColorSystem.grey.shade200)),
         ),
         width: double.infinity,
         child: Padding(
