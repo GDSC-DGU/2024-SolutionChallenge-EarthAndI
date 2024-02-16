@@ -28,109 +28,69 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          settingSection("사용자 인증", Routes.USERAUTH),
-          settingSection("언어", Routes.LANGUAGE),
+          settingRouter("사용자 인증", Routes.USERAUTH),
+          settingRouter("언어", Routes.LANGUAGE),
           Obx(() => settingAlram()),
         ],
       ),
     );
   }
 
-  Widget settingSection(String text, String route) => Container(
-        decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1, color: ColorSystem.grey1)),
-        ),
-        width: double.infinity,
-        child: InkWell(
-          onTap: () {
-            Get.toNamed(route);
-          },
-          child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-              child: Text(
-                text,
-                style: FontSystem.KR16B,
-              )),
-        ),
-      );
-
   Widget settingAlram() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //알림 활성화
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "알림 활성화",
-                      style: FontSystem.KR16B,
-                    ),
-                    //---토글버튼
-                    toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch)
-                  ],
-                )),
-          ),
+          settingSection("알림 활성화",
+              toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch), true),
 
           const SizedBox(
             height: 8,
           ),
 
           //알림 시간
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("알림 시간",
-                        style: FontSystem.KR16B.copyWith(
-                            color: viewModel.isAlram
-                                ? Colors.black
-                                : const Color(0xFFACADB2))),
-
-                    //--- 시간선택 버튼
-
-                    InkWell(
-                      onTap: () {
-                        viewModel.isAlram ? viewModel.onAlramTimeSet() : {};
-                      },
-                      child: Row(
-                        children: [
-                          Text(viewModel.alramTime,
-                              style: FontSystem.KR16R.copyWith(
-                                  color: viewModel.isAlram
-                                      ? Colors.black
-                                      : const Color(0xFFACADB2))),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          SvgPicture.asset(
-                            'assets/icons/right.svg',
-                            width: 16,
-                            colorFilter: ColorFilter.mode(
-                                viewModel.isAlram
-                                    ? Colors.black
-                                    : const Color(0xFFACADB2),
-                                BlendMode.srcATop),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )),
-          ),
+          settingSection(
+              "알림 시간",
+              timePicker(viewModel.alramTime, viewModel.isAlram,
+                  viewModel.onAlramTimeSet),
+              viewModel.isAlram)
         ],
       );
 }
 
+Widget settingSection(String text, Widget button, bool active) => SizedBox(
+      width: double.infinity,
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text,
+                  style: FontSystem.KR16B.copyWith(
+                      color: active ? Colors.black : const Color(0xFFACADB2))),
+              button
+            ],
+          )),
+    );
+
+Widget settingRouter(String text, String route) => Container(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(width: 1, color: ColorSystem.grey1)),
+      ),
+      width: double.infinity,
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(route);
+        },
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+            child: Text(
+              text,
+              style: FontSystem.KR16B,
+            )),
+      ),
+    );
+
+// 토글버튼
 Widget toggleButton(bool value, void Function() action) => InkWell(
     onTap: action,
     child: Container(
@@ -155,3 +115,30 @@ Widget toggleButton(bool value, void Function() action) => InkWell(
         ],
       ),
     ));
+
+//현재시간 보여줌 + 시간 선택
+Widget timePicker(String initialTime, bool active, void Function() action) =>
+    InkWell(
+      onTap: () {
+        if (active) {
+          action();
+        }
+      },
+      child: Row(
+        children: [
+          Text(initialTime,
+              style: FontSystem.KR16R.copyWith(
+                  color: active ? Colors.black : const Color(0xFFACADB2))),
+          const SizedBox(
+            width: 4,
+          ),
+          SvgPicture.asset(
+            'assets/icons/right.svg',
+            width: 16,
+            colorFilter: ColorFilter.mode(
+                active ? Colors.black : const Color(0xFFACADB2),
+                BlendMode.srcATop),
+          ),
+        ],
+      ),
+    );

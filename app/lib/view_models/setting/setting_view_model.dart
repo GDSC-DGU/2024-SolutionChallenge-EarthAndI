@@ -18,6 +18,7 @@ class SettingViewModel extends GetxController {
   }
 
   void onAlramTimeSet() {
+    print("시간...");
     List<String> parts = _alramTime.split(':');
     int hourPart = int.parse(parts[0]);
     int minutePart = int.parse(parts[1]);
