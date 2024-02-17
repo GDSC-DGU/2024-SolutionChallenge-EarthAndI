@@ -61,12 +61,12 @@ class _AnimatedNumBlinkTextState extends State<AnimatedNumBlinkText>
   @override
   void didUpdateWidget(covariant AnimatedNumBlinkText oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _count = 0;
-    _animationController.forward();
-
     if (oldWidget.value != widget.value) {
       _value = widget.value;
       _textStyle = widget.textStyle;
+
+      _count = 0;
+      _animationController.forward();
     }
   }
 
