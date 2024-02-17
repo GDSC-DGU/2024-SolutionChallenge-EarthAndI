@@ -70,9 +70,7 @@ dependencies:
 
   # Firebase
   firebase_core: ^2.25.4
-  cloud_firestore: ^4.15.4
   firebase_auth: ^4.17.4
-  firebase_database: ^10.4.5
 
   # OAuth2
   google_sign_in: ^6.2.1
