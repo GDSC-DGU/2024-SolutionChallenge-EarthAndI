@@ -9,7 +9,6 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -152,8 +151,13 @@ class HomeViewModel extends GetxController {
       ),
     );
 
-    // Update User Information, Character Stats And UI
+    // Update Data, Character Stats And UI
     bool isPositive = result['changeCapacity'] < 0;
+
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
+      changeCO2: data.changeCapacity,
+    );
 
     await _userRepository.updateUserInformationCount(
       _carbonCloudStates[index].userStatus,
@@ -165,10 +169,6 @@ class HomeViewModel extends GetxController {
     );
 
     // Update Data
-    _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
-      changeCO2: data.changeCapacity,
-    );
     _carbonCloudStates.removeAt(index);
 
     _analysisState.value = _analysisState.value.copyWith(
