@@ -34,6 +34,8 @@ abstract class EActionTranslations {
   /* ------------------- EAction.steps ------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krSteps => {
+        // 행위 이름
+        'steps': '걷기',
         // dawn
         'steps_dawn_short': 'none',
         'steps_dawn_long': 'none',
@@ -56,6 +58,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enSteps => {
+        // 행위 이름
+        'steps': 'Walking',
         // dawn
         'steps_dawn_short': 'none',
         'steps_dawn_long': 'none',
@@ -81,6 +85,8 @@ abstract class EActionTranslations {
   /* ------------------- EAction.stairs ------------------ */
   /* ----------------------------------------------------- */
   static Map<String, String> get krStairs => {
+        // 행위 이름
+        'stairs': '계단 이용하기',
         // dawn
         'stair_dawn_short': 'none',
         'stair_dawn_long': 'none',
@@ -103,6 +109,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enStairs => {
+        // 행위 이름
+        'stairs': 'Use Stairs',
         // dawn
         'stair_dawn_short': 'none',
         'stair_dawn_long': 'none',
@@ -128,6 +136,8 @@ abstract class EActionTranslations {
   /* ------------------- EAction.meal ------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krMeal => {
+        // 행위 이름
+        'meal': '채식하기',
         // dawn
         'meal_dawn_short': 'none',
         'meal_dawn_long': 'none',
@@ -150,6 +160,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enMeal => {
+        // 행위 이름
+        'meal': 'Vegetarian Diet',
         // dawn
         'meal_dawn_short': 'none',
         'meal_dawn_long': 'none',
@@ -222,6 +234,8 @@ abstract class EActionTranslations {
   /* ------------------- EAction.sns --------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krSns => {
+        // 행위 이름
+        'sns': 'SNS 줄이기',
         // dawn
         'sns_dawn_short': 'none',
         'sns_dawn_long': 'none',
@@ -244,6 +258,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enSns => {
+        // 행위 이름
+        'sns': 'SNS',
         // dawn
         'sns_dawn_short': 'none',
         'sns_dawn_long': 'none',
@@ -269,6 +285,8 @@ abstract class EActionTranslations {
   /* ----------------- EAction.recycle ------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krRecycle => {
+        // 행위 이름
+        'recycle': '재활용하기',
         // dawn
         'recycle_dawn_short': 'none',
         'recycle_dawn_long': 'none',
@@ -291,6 +309,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enRecycle => {
+        // 행위 이름
+        'recycle': 'Recycle',
         // dawn
         'recycle_dawn_short': 'none',
         'recycle_dawn_long': 'none',
@@ -316,6 +336,8 @@ abstract class EActionTranslations {
   /* --------------- EAction.standbyPower ---------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krStandbyPower => {
+        // 행위 이름
+        'standbyPower': '대기 전력 줄이기',
         // dawn
         'standbyPower_dawn_short': 'none',
         'standbyPower_dawn_long': 'none',
@@ -338,6 +360,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enStandbyPower => {
+        // 행위 이름
+        'standbyPower': 'Standby Power',
         // dawn
         'standbyPower_dawn_short': 'none',
         'standbyPower_dawn_long': 'none',
@@ -363,6 +387,8 @@ abstract class EActionTranslations {
   /* --------------- EAction.waterUsage ------------------ */
   /* ----------------------------------------------------- */
   static Map<String, String> get krWaterUsage => {
+        // 행위 이름
+        'waterUsage': '물 사용량 줄이기',
         // dawn
         'waterUsage_dawn_short': 'none',
         'waterUsage_dawn_long': 'none',
@@ -385,6 +411,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enWaterUsage => {
+        // 행위 이름
+        'waterUsage': 'Water Usage',
         // dawn
         'waterUsage_dawn_short': 'none',
         'waterUsage_dawn_long': 'none',
@@ -410,6 +438,8 @@ abstract class EActionTranslations {
   /* ------------ EAction.optimalTemperature ------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krOptimalTemperature => {
+        // 행위 이름
+        'optimalTemperature': '적정 온도 맞추기',
         // dawn
         'optimalTemperature_dawn_short': 'none',
         'optimalTemperature_dawn_long': 'none',
@@ -432,6 +462,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enOptimalTemperature => {
+        // 행위 이름
+        'optimalTemperature': 'Optimal Temperature',
         // dawn
         'optimalTemperature_dawn_short': 'none',
         'optimalTemperature_dawn_long': 'none',
@@ -457,6 +489,8 @@ abstract class EActionTranslations {
   /* ----------------- EAction.tumbler -------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krTumbler => {
+        // 행위 이름
+        'tumbler': '텀블러 사용하기',
         // dawn
         'tumbler_dawn_short': 'none',
         'tumbler_dawn_long': 'none',
@@ -479,6 +513,8 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enTumbler => {
+        // 행위 이름
+        'tumbler': 'Use Tumbler',
         // dawn
         'tumbler_dawn_short': 'none',
         'tumbler_dawn_long': 'none',
@@ -504,6 +540,8 @@ abstract class EActionTranslations {
   /* ------------ EAction.publicTransportation ----------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krPublicTransportation => {
+        // 행위 이름
+        'publicTransportation': '대중교통 이용하기',
         // dawn
         'publicTransportation_dawn_short': 'none',
         'publicTransportation_dawn_long': 'none',
