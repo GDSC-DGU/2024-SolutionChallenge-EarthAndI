@@ -40,12 +40,10 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //알림 활성화
-          Obx(
-            () => settingSection(
-              "알림 활성화",
-              toggleButton(),
-            ),
-          ),
+          Obx(() => settingSection(
+                "알림 활성화",
+                toggleButton(),
+              )),
 
           const SizedBox(
             height: 8,
@@ -55,25 +53,28 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
           Obx(() => settingSection(
                 "알림 시간",
                 timePicker(),
-              )),
+              ))
         ],
       );
 
   Widget settingSection(String text, Widget button) => SizedBox(
         width: double.infinity,
         child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(text,
-                    style: FontSystem.KR16B.copyWith(
-                        color: viewModel.isAlram
-                            ? ColorSystem.black
-                            : ColorSystem.grey.shade500)),
-                button
-              ],
-            )),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                text,
+                style: FontSystem.KR16B.copyWith(
+                    color: viewModel.isAlram
+                        ? ColorSystem.black
+                        : ColorSystem.grey.shade500),
+              ),
+              button
+            ],
+          ),
+        ),
       );
 
   // 토글버튼
@@ -104,11 +105,29 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         ),
       ));
 
+  void onAlramTimeSet() {
+    List<String> parts = viewModel.alramTime.split(':');
+    int hourPart = int.parse(parts[0]);
+    int minutePart = int.parse(parts[1]);
+    TimeOfDay initialTime = TimeOfDay(hour: hourPart, minute: minutePart);
+
+    showTimePicker(context: Get.context!, initialTime: initialTime)
+        .then((selectedTime) {
+      if (selectedTime != null && selectedTime != initialTime) {
+        int hour = selectedTime.hour;
+        int minute = selectedTime.minute;
+
+        viewModel.setAlramTime(
+            "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}");
+      }
+    });
+  }
+
 //현재시간 보여줌 + 시간 선택
   Widget timePicker() => InkWell(
         onTap: () {
           if (viewModel.isAlram) {
-            viewModel.onAlramTimeSet();
+            onAlramTimeSet();
           }
         },
         child: Row(

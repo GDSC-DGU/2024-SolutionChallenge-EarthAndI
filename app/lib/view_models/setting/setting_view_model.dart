@@ -18,21 +18,8 @@ class SettingViewModel extends GetxController {
     _isAlram.value = !_isAlram.value;
   }
 
-  void onAlramTimeSet() {
-    List<String> parts = _alramTime.split(':');
-    int hourPart = int.parse(parts[0]);
-    int minutePart = int.parse(parts[1]);
-    TimeOfDay initialTime = TimeOfDay(hour: hourPart, minute: minutePart);
-
-    showTimePicker(context: Get.context!, initialTime: initialTime)
-        .then((selectedTime) {
-      if (selectedTime != null && selectedTime != initialTime) {
-        int hour = selectedTime.hour;
-        int minute = selectedTime.minute;
-        _alramTime.value =
-            "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}";
-      }
-    });
+  void setAlramTime(String currentAlramTime) {
+    _alramTime.value = currentAlramTime;
   }
 
   @override
