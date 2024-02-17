@@ -42,9 +42,9 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
           //알림 활성화
           Obx(
             () => settingSection(
-                "알림 활성화",
-                toggleButton(viewModel.isAlram, viewModel.onIsAlramSwitch),
-                true),
+              "알림 활성화",
+              toggleButton(),
+            ),
           ),
 
           const SizedBox(
@@ -53,30 +53,87 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
 
           //알림 시간
           Obx(() => settingSection(
-              "알림 시간",
-              timePicker(viewModel.alramTime, viewModel.isAlram,
-                  viewModel.onAlramTimeSet),
-              viewModel.isAlram)),
+                "알림 시간",
+                timePicker(),
+              )),
         ],
       );
-}
 
-Widget settingSection(String text, Widget button, bool active) => SizedBox(
-      width: double.infinity,
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(text,
-                  style: FontSystem.KR16B.copyWith(
-                      color: active
-                          ? ColorSystem.black
-                          : ColorSystem.grey.shade500)),
-              button
-            ],
-          )),
-    );
+  Widget settingSection(String text, Widget button) => SizedBox(
+        width: double.infinity,
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(text,
+                    style: FontSystem.KR16B.copyWith(
+                        color: viewModel.isAlram
+                            ? ColorSystem.black
+                            : ColorSystem.grey.shade500)),
+                button
+              ],
+            )),
+      );
+
+  // 토글버튼
+  Widget toggleButton() => InkWell(
+      onTap: viewModel.onIsAlramSwitch,
+      child: Container(
+        width: 44,
+        height: 22,
+        decoration: BoxDecoration(
+          color: viewModel.isAlram
+              ? ColorSystem.green.shade500
+              : ColorSystem.grey.shade500,
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: AnimatedAlign(
+          alignment:
+              viewModel.isAlram ? Alignment.centerLeft : Alignment.centerRight,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          child: Container(
+            width: 22,
+            height: 22,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: ColorSystem.grey.shade100,
+            ),
+          ),
+        ),
+      ));
+
+//현재시간 보여줌 + 시간 선택
+  Widget timePicker() => InkWell(
+        onTap: () {
+          if (viewModel.isAlram) {
+            viewModel.onAlramTimeSet();
+          }
+        },
+        child: Row(
+          children: [
+            Text(viewModel.alramTime,
+                style: FontSystem.KR16R.copyWith(
+                    color: viewModel.isAlram
+                        ? ColorSystem.black
+                        : ColorSystem.grey.shade500)),
+            const SizedBox(
+              width: 4,
+            ),
+            SvgPicture.asset(
+              'assets/icons/right.svg',
+              width: 16,
+              colorFilter: ColorFilter.mode(
+                  viewModel.isAlram
+                      ? ColorSystem.black
+                      : ColorSystem.grey.shade500,
+                  BlendMode.srcATop),
+            ),
+          ],
+        ),
+      );
+}
 
 Widget settingRouter(String text, String route) => Container(
       decoration: BoxDecoration(
@@ -94,58 +151,5 @@ Widget settingRouter(String text, String route) => Container(
               text,
               style: FontSystem.KR16B,
             )),
-      ),
-    );
-
-// 토글버튼
-Widget toggleButton(bool value, void Function() action) => InkWell(
-    onTap: action,
-    child: Container(
-      width: 44,
-      height: 22,
-      decoration: BoxDecoration(
-        color: value ? ColorSystem.green.shade500 : ColorSystem.grey.shade500,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: AnimatedAlign(
-        alignment: value ? Alignment.centerLeft : Alignment.centerRight,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        child: Container(
-          width: 22,
-          height: 22,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: ColorSystem.grey.shade100,
-          ),
-        ),
-      ),
-    ));
-
-//현재시간 보여줌 + 시간 선택
-Widget timePicker(String initialTime, bool active, void Function() action) =>
-    InkWell(
-      onTap: () {
-        if (active) {
-          action();
-        }
-      },
-      child: Row(
-        children: [
-          Text(initialTime,
-              style: FontSystem.KR16R.copyWith(
-                  color:
-                      active ? ColorSystem.black : ColorSystem.grey.shade500)),
-          const SizedBox(
-            width: 4,
-          ),
-          SvgPicture.asset(
-            'assets/icons/right.svg',
-            width: 16,
-            colorFilter: ColorFilter.mode(
-                active ? ColorSystem.black : ColorSystem.grey.shade500,
-                BlendMode.srcATop),
-          ),
-        ],
       ),
     );
