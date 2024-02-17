@@ -107,7 +107,7 @@ flutter:
     - assets/images/analysis/
     - assets/icons/
     - assets/riv/
-#    - assets/config/.env
+    - assets/config/.env
 
   fonts:
     - family: Pretendard

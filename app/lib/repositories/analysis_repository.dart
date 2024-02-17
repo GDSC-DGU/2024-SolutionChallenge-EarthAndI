@@ -13,16 +13,27 @@ class AnalysisRepository extends GetxService {
 
   Future<Map<String, dynamic>> analysisAction(
     EUserStatus userStatus,
-    String speechText,
+    String question,
+    String answer,
   ) async {
-    Map<String, dynamic> result =
-        await _analysisProvider.analysisSpeechText(userStatus, speechText);
+    Map<String, dynamic> result;
+
+    try {
+      result = await _analysisProvider.postAnalysisAction(
+        userStatus,
+        question,
+        answer,
+      );
+    } catch (e) {
+      rethrow;
+    }
+
+    bool isGood = result["carbon"]["reduce"] == " good";
+    double changeCapacity = double.parse(result["carbon"]["output"]);
 
     return {
       "answer": result["answer"],
-      "changeCapacity": result["carbon"]["reduce"] == "good"
-          ? -result["carbon"]["output"]
-          : result["carbon"]["output"],
+      "changeCapacity": isGood ? -changeCapacity : changeCapacity,
     };
   }
 }

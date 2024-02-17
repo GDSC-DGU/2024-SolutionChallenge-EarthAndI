@@ -57,9 +57,9 @@ class ActionHistoryRepository extends GetxService {
 
     // 현재 시간에 해당하는 시간 범위를 구한다.
     DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
-        0 + 6 * (currentAt.hour ~/ 6), 0, 0);
+        0 + 6 * groupIndex, 0, 0);
     DateTime endAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
-        5 + 6 * (currentAt.hour ~/ 6), 59, 59);
+        5 + 6 * groupIndex, 59, 59);
 
     // 위에서 구한 값을 기반으로 액션 히스토리를 가져온다.
     List<ActionHistoryData> histories =

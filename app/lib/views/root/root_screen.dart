@@ -55,10 +55,10 @@ class RootScreen extends GetView<RootViewModel> {
         body: Obx(
           () => IndexedStack(
             index: viewModel.selectedIndex,
-            children: const [
-              LoadMapScreen(),
+            children: [
+              const LoadMapScreen(),
               HomeScreen(),
-              ProfileScreen(),
+              const ProfileScreen(),
             ],
           ),
         ),
