@@ -65,4 +65,18 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
           ))
         .get();
   }
+
+  @override
+  Future<List<ActionHistoryData>> findAllByDateRange(
+      DateTime startAt, DateTime endAt) {
+    return (select(actionHistory)
+          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt))
+          ..orderBy(
+            [
+              (t) => OrderingTerm(
+                  expression: t.createdAt, mode: OrderingMode.desc),
+            ],
+          ))
+        .get();
+  }
 }
