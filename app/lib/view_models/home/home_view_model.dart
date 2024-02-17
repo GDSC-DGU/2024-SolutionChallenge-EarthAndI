@@ -82,20 +82,19 @@ class HomeViewModel extends GetxController {
   }
 
   void startSpeech() async {
-    // 음성인식 시작을 위한 상태 변화
-    _speechState.value = _speechState.value.copyWith(
-      isListening: true,
-    );
-
     // 음성인식 시작
     await _speechModule.listen(
       onResult: (result) async {
         _speechState.value = _speechState.value.copyWith(
           speechText: result.recognizedWords,
-          isListening: !result.finalResult,
         );
       },
       localeId: Get.deviceLocale?.languageCode == 'ko' ? 'ko_KR' : 'en_US',
+    );
+
+    // 음성인식 시작을 위한 상태 변화
+    _speechState.value = _speechState.value.copyWith(
+      isListening: true,
     );
   }
 

@@ -28,7 +28,6 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
           children: [
             // Top Indicator
             Container(
-              margin: const EdgeInsets.only(top: 16.0),
               width: Get.width * 0.2,
               height: 4.0,
               decoration: BoxDecoration(

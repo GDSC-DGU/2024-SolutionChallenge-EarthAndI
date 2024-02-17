@@ -52,7 +52,7 @@ class AnimatedNumCounterText extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = DefaultTextStyle.of(context).style.merge(textStyle);
     final TextPainter prototypeDigit = TextPainter(
-      text: TextSpan(text: "8", style: textStyle),
+      text: TextSpan(text: "1 ", style: textStyle),
       textDirection: TextDirection.ltr,
       // textScaleFactor: MediaQuery.of(context).textScaleFactor,
     )..layout();
@@ -127,7 +127,11 @@ class AnimatedNumCounterText extends StatelessWidget {
               size: prototypeDigit.size,
               color: color,
             ),
-          if (suffix != null) Text(suffix!),
+          if (suffix != null)
+            Text(
+              suffix!,
+              textAlign: TextAlign.center,
+            ),
         ],
       ),
     );
@@ -162,22 +166,25 @@ class _SingleDigitFlip extends StatelessWidget {
         final w = size.width;
         final h = size.height;
 
-        return SizedBox(
-          width: w,
-          height: h,
-          child: Stack(
-            children: <Widget>[
-              _buildSingleDigit(
-                digit: whole % 10,
-                offset: h * decimal,
-                opacity: 1 - decimal,
-              ),
-              _buildSingleDigit(
-                digit: (whole + 1) % 10,
-                offset: h * decimal - h,
-                opacity: decimal,
-              ),
-            ],
+        return Container(
+          margin: const EdgeInsets.only(top: 8),
+          child: SizedBox(
+            width: w,
+            height: h,
+            child: Stack(
+              children: <Widget>[
+                _buildSingleDigit(
+                  digit: whole % 10,
+                  offset: h * decimal,
+                  opacity: 1 - decimal,
+                ),
+                _buildSingleDigit(
+                  digit: (whole + 1) % 10,
+                  offset: h * decimal - h,
+                  opacity: decimal,
+                ),
+              ],
+            ),
           ),
         );
       },
