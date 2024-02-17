@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
@@ -19,8 +20,8 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
         child: const DialogContent(),
       ),
       insetPadding: const EdgeInsets.all(28),
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
+      backgroundColor: ColorSystem.white,
+      surfaceTintColor: ColorSystem.white,
       actions: [
         SizedBox(
           width: Get.width * 0.8,
@@ -35,11 +36,11 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-              backgroundColor: const Color(0xFF90CDBE),
+              backgroundColor: ColorSystem.green[500],
               textStyle: FontSystem.KR20M,
-              foregroundColor: Colors.white,
-              side: const BorderSide(
-                color: Color(0xFF90CDBE),
+              foregroundColor: ColorSystem.white,
+              side: BorderSide(
+                color: ColorSystem.green[500]!,
                 width: 1,
               ),
             ),

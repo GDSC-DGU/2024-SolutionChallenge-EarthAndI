@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
@@ -13,21 +14,23 @@ class UserProfile extends BaseWidget<ProfileViewModel> {
       width: Get.width,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "유저이름",
-              style: FontSystem.KR20SB120,
-            ),
-            Text(
-              "#123",
-              style: FontSystem.KR16R.copyWith(
-                color: const Color(0xFFACADB2),
+        child: Obx(
+          () => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                viewModel.nickname,
+                style: FontSystem.KR20SB120,
               ),
-            ),
-          ],
+              Text(
+                "#123",
+                style: FontSystem.KR16R.copyWith(
+                  color: ColorSystem.grey[500],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

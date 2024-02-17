@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/challenge_authentication/challenge_authentication_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -48,7 +49,7 @@ class ChallengeAuthenticationScreen
                 ? Expanded(
                     child: Center(
                       child: Container(
-                        color: const Color(0xFFF8F9FC),
+                        color: ColorSystem.grey[100],
                       ),
                     ),
                   )
@@ -72,11 +73,11 @@ class ChallengeAuthenticationScreen
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  backgroundColor: const Color(0xFF90CDBE),
+                  backgroundColor: ColorSystem.green[500],
                   textStyle: FontSystem.KR20M,
                   foregroundColor: Colors.white,
-                  side: const BorderSide(
-                    color: Color(0xFF90CDBE),
+                  side: BorderSide(
+                    color: ColorSystem.green[500]!,
                     width: 1,
                   ),
                 ),
@@ -99,11 +100,11 @@ class ChallengeAuthenticationScreen
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            backgroundColor: const Color(0xFFF8F9FC),
+                            backgroundColor: ColorSystem.grey[100],
                             textStyle: FontSystem.KR20M,
-                            foregroundColor: const Color(0xFFACADB2),
-                            side: const BorderSide(
-                              color: Color(0xFFF8F9FC),
+                            foregroundColor: ColorSystem.grey[500],
+                            side: BorderSide(
+                              color: ColorSystem.grey[100]!,
                               width: 1,
                             ),
                           ),
@@ -117,11 +118,11 @@ class ChallengeAuthenticationScreen
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            backgroundColor: const Color(0xFF90CDBE),
+                            backgroundColor: ColorSystem.green[500],
                             textStyle: FontSystem.KR20M,
-                            foregroundColor: Colors.white,
-                            side: const BorderSide(
-                              color: Color(0xFF90CDBE),
+                            foregroundColor: ColorSystem.white,
+                            side: BorderSide(
+                              color: ColorSystem.green[500]!,
                               width: 1,
                             ),
                           ),
