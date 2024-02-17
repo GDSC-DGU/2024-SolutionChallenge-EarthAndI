@@ -32,19 +32,21 @@ class SettingViewModel extends GetxController {
     // Rx
     _isSignin = (FirebaseAuth.instance.currentUser != null).obs;
     _languageName = Get.deviceLocale.toString().obs;
-    _alarmState = AlarmState.initial().obs;
+    _alarmState = _userRepository.readAlarmState().obs;
   }
 
   void onIsAlarmSwitch() {
-    _alarmState.value = _alarmState.value.copyWith(
-      isActive: !_alarmState.value.isActive,
-    );
+    _userRepository
+        .updateAlarmState(isActive: !_alarmState.value.isActive)
+        .then((value) => _alarmState.value = value);
   }
 
   void changeAlarmTime(int hour, int minute) {
-    _alarmState.value = _alarmState.value.copyWith(
-      hour: hour,
-      minute: minute,
-    );
+    _userRepository
+        .updateAlarmState(
+          hour: hour,
+          minute: minute,
+        )
+        .then((value) => _alarmState.value = value);
   }
 }

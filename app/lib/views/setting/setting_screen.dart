@@ -119,48 +119,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
 
   Widget alRamTimeSection() => Obx(
         () => SectionItem(
-          onTap: viewModel.alarmState.isActive
-              ? () {
-                  Get.dialog(
-                    Dialog(
-                      child: Container(
-                        constraints: BoxConstraints(
-                          minHeight: Get.height * 0.4,
-                          maxHeight: Get.height * 0.5,
-                        ),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: ColorSystem.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 20),
-                            Text(
-                              '${"alarm_time".tr} ${"setting".tr}',
-                              style: FontSystem.KR20B,
-                            ),
-                            Expanded(
-                              child: CustomTimePicker(
-                                hour: viewModel.alarmState.hour,
-                                minute: viewModel.alarmState.minute,
-                                onCancel: () {
-                                  Get.back();
-                                },
-                                onConfirm: (hour, minute) {
-                                  viewModel.changeAlarmTime(hour, minute);
-                                  Get.back();
-                                },
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              : null,
+          onTap: viewModel.alarmState.isActive ? onTapAlarmTime : null,
           children: [
             Text(
               "alarm_time".tr,
@@ -189,4 +148,45 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
           ],
         ),
       );
+
+  void onTapAlarmTime() {
+    Get.dialog(
+      Dialog(
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight: Get.height * 0.4,
+            maxHeight: Get.height * 0.5,
+          ),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: ColorSystem.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Text(
+                '${"alarm_time".tr} ${"setting".tr}',
+                style: FontSystem.KR20B,
+              ),
+              Expanded(
+                child: CustomTimePicker(
+                  hour: viewModel.alarmState.hour,
+                  minute: viewModel.alarmState.minute,
+                  onCancel: () {
+                    Get.back();
+                  },
+                  onConfirm: (hour, minute) {
+                    viewModel.changeAlarmTime(hour, minute);
+                    Get.back();
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
