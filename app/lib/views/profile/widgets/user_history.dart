@@ -41,11 +41,11 @@ class UserHistory extends BaseWidget<ProfileViewModel> {
                     const Text("탄소량 총합", style: FontSystem.KR16SB),
                     const SizedBox(height: 4),
                     Text(
-                      viewModel.dailyCarbonState.totalDeltaCO2 > 0
-                          ? "↑ ${NumberFormat('#,###,###.####').format(viewModel.dailyCarbonState.totalDeltaCO2.abs())} kg"
-                          : "↓ ${NumberFormat('#,###,###.####').format(viewModel.dailyCarbonState.totalDeltaCO2.abs())} kg",
+                      viewModel.totalCarbonState.totalDeltaCO2 > 0
+                          ? "↑ ${NumberFormat('#,###,###.####').format(viewModel.totalCarbonState.totalDeltaCO2.abs())} kg"
+                          : "↓ ${NumberFormat('#,###,###.####').format(viewModel.totalCarbonState.totalDeltaCO2.abs())} kg",
                       style: FontSystem.KR24B.copyWith(
-                          color: viewModel.dailyCarbonState.totalDeltaCO2 > 0
+                          color: viewModel.totalCarbonState.totalDeltaCO2 > 0
                               ? ColorSystem.pink
                               : ColorSystem.green[500]),
                     ),

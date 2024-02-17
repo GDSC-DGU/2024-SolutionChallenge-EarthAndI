@@ -27,7 +27,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
             selectedDayPredicate: (day) =>
                 isSameDay(day, viewModel.calendarState.selectedDate),
             enabledDayPredicate: (DateTime date) {
-              return date.isBefore(DateTime.now());
+              return date.isBefore(DateTime.now().add(const Duration(days: 1)));
             },
             daysOfWeekVisible: false,
             headerStyle: HeaderStyle(

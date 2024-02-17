@@ -1,4 +1,5 @@
 import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
+import 'package:earth_and_i/models/profile/total_carbon_state.dart';
 import 'package:earth_and_i/models/profile/weekly_calendar_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
@@ -18,6 +19,7 @@ class ProfileViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final Rx<WeeklyCalendarState> _calendarState;
   late final Rx<DailyCarbonState> _dailyCarbonState;
+  late final Rx<TotalCarbonState> _totalCarbonState;
   late final RxString _nickname;
   late final RxInt _dailySteps;
   late final RxDouble _dailyStepsCarbonAmount;
@@ -28,6 +30,7 @@ class ProfileViewModel extends GetxController {
   /* ------------------------------------------------------ */
   WeeklyCalendarState get calendarState => _calendarState.value;
   DailyCarbonState get dailyCarbonState => _dailyCarbonState.value;
+  TotalCarbonState get totalCarbonState => _totalCarbonState.value;
   String get nickname => _nickname.value;
   int get dailySteps => _dailySteps.value;
   double get dailyStepsCarbonAmount => _dailyStepsCarbonAmount.value;
@@ -44,6 +47,7 @@ class ProfileViewModel extends GetxController {
 
     _calendarState = WeeklyCalendarState.initial().obs;
     _dailyCarbonState = _userRepository.readDailyCarbonState().obs;
+    _totalCarbonState = TotalCarbonState.initial().obs;
     _dailySteps = 0.obs;
     _dailyStepsCarbonAmount = 0.0.obs;
     _dailyHistory = <dynamic>[].obs;
@@ -74,6 +78,10 @@ class ProfileViewModel extends GetxController {
 
     _dailyHistory.value =
         await _actionHistoryRepository.readAllByDateRange(startAt, endAt);
+    _dailyCarbonState.value =
+        await _actionHistoryRepository.readDailyCarbonState(startAt, endAt);
+    _totalCarbonState.value =
+        await _actionHistoryRepository.readTotalCarbonState(startAt, endAt);
   }
 
   @override
