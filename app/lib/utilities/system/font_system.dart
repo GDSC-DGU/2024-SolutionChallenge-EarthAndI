@@ -139,7 +139,7 @@ abstract class FontSystem {
 
   static const TextStyle KR20M = TextStyle(
     fontSize: 20,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w500,
     fontFamily: 'Pretendard',
     color: Colors.black,
   );

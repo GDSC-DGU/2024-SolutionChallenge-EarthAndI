@@ -1,4 +1,5 @@
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
@@ -10,10 +11,13 @@ import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
 import 'package:earth_and_i/views/home/widgets/speech_recognize_bottom_sheet.dart';
 import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
 import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+part 'package:earth_and_i/views/base/p_functions.dart';
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});
@@ -174,6 +178,26 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                       : 4,
                   items: viewModel.carbonCloudStates,
                   onTapItem: (state) {
+                    if (isSignIn() == false) {
+                      return;
+                    }
+
+                    if (viewModel.analysisState.isLoading) {
+                      Get.snackbar(
+                        'analysis_snackBar_title'.tr,
+                        'analysis_snackBar_content'.tr,
+                        snackPosition: SnackPosition.TOP,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
+                        backgroundColor: ColorSystem.grey.withOpacity(0.3),
+                        colorText: ColorSystem.black,
+                        duration: const Duration(seconds: 2),
+                      );
+
+                      return;
+                    }
                     int index = viewModel.carbonCloudStates.indexOf(state);
                     viewModel.initializeSpeechState();
 

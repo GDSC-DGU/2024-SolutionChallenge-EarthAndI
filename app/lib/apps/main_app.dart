@@ -3,7 +3,6 @@ import 'package:earth_and_i/utilities/static/app_pages.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/static/app_translations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
