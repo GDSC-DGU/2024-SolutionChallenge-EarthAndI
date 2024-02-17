@@ -1,3 +1,5 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
+import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_dialog.dart';
@@ -19,15 +21,15 @@ class ChallengeList extends BaseWidget<LoadMapViewModel> {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: ColorSystem.white,
           borderRadius: BorderRadius.circular(10),
           border: isCompleted
               ? Border.all(
-                  color: const Color(0xFFF0F1F5),
+                  color: ColorSystem.grey[200]!,
                   width: 2,
                 )
               : Border.all(
-                  color: const Color(0xFF66C798),
+                  color: ColorSystem.green[500]!,
                   width: 2,
                 ),
         ),
@@ -56,17 +58,11 @@ class ChallengeList extends BaseWidget<LoadMapViewModel> {
                   children: [
                     Text(
                       "친환경 제품 사용하기",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: FontSystem.KR16B,
                     ),
                     Text(
                       "친환경 제품 마크가 부착된 상품을 구매해요!",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: FontSystem.KR12R,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -81,11 +77,10 @@ class ChallengeList extends BaseWidget<LoadMapViewModel> {
                   child: Column(
                     children: [
                       SvgPicture.asset("assets/icons/check_small.svg"),
-                      const Text(
+                      Text(
                         "24/02/11",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
+                        style: FontSystem.KR12R.copyWith(
+                          color: ColorSystem.grey[500],
                         ),
                       ),
                     ],

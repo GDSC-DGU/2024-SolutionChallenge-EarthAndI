@@ -2,7 +2,10 @@ import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/apps/factory/local_database_factory.dart';
 import 'package:earth_and_i/domains/converter/e_type_converter.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
+import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
+import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
+import 'package:earth_and_i/models/profile/total_carbon_state.dart';
 import 'package:earth_and_i/providers/action_history_local_provider.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
@@ -116,5 +119,93 @@ class ActionHistoryRepository extends GetxService {
       DevOnLog.e(e);
       rethrow;
     }
+  }
+
+  Future<List<ActionHistoryData>> readAllByDateRange(
+    DateTime startAt,
+    DateTime endAt,
+  ) async {
+    try {
+      return await _localProvider.findAllByDateRange(startAt, endAt);
+    } on Exception catch (e) {
+      DevOnLog.e(e);
+      rethrow;
+    }
+  }
+
+  Future<DailyCarbonState> readDailyCarbonState(
+    DateTime startAt,
+    DateTime endAt,
+  ) async {
+    List<ActionHistoryData> histories =
+        await _localProvider.findAllByDateRange(startAt, endAt);
+
+    DailyCarbonState currentState = DailyCarbonState.initial();
+
+    for (var history in histories) {
+      switch (history.userStatus) {
+        case EUserStatus.health:
+          if (history.changeCapacity > 0) {
+            currentState = currentState.copyWith(
+              healthNegativeCnt: currentState.healthNegativeCnt + 1,
+            );
+          } else {
+            currentState = currentState.copyWith(
+              healthPositiveCnt: currentState.healthPositiveCnt + 1,
+            );
+          }
+          break;
+        case EUserStatus.mental:
+          if (history.changeCapacity > 0) {
+            currentState = currentState.copyWith(
+              mentalNegativeCnt: currentState.mentalNegativeCnt + 1,
+            );
+          } else {
+            currentState = currentState.copyWith(
+              mentalPositiveCnt: currentState.mentalPositiveCnt + 1,
+            );
+          }
+          break;
+        case EUserStatus.cash:
+          if (history.changeCapacity > 0) {
+            currentState = currentState.copyWith(
+              cashNegativeCnt: currentState.cashNegativeCnt + 1,
+            );
+          } else {
+            currentState = currentState.copyWith(
+              cashPositiveCnt: currentState.cashPositiveCnt + 1,
+            );
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return currentState;
+  }
+
+  Future<TotalCarbonState> readTotalCarbonState(
+    DateTime startAt,
+    DateTime endAt,
+  ) async {
+    List<ActionHistoryData> histories =
+        await _localProvider.findAllByDateRange(startAt, endAt);
+
+    TotalCarbonState currentState = TotalCarbonState.initial();
+    for (var history in histories) {
+      if (history.changeCapacity > 0) {
+        currentState = currentState.copyWith(
+            negativeTotalDeltaCO2:
+                currentState.negativeTotalDeltaCO2 + history.changeCapacity);
+      } else {
+        currentState = currentState.copyWith(
+            positiveTotalDeltaCO2:
+                currentState.positiveTotalDeltaCO2 + history.changeCapacity);
+      }
+    }
+    currentState = currentState.copyWith(
+        totalDeltaCO2: currentState.positiveTotalDeltaCO2 +
+            currentState.negativeTotalDeltaCO2);
+    return currentState;
   }
 }

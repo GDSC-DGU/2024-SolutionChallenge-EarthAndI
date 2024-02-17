@@ -1,12 +1,13 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
-import 'package:earth_and_i/view_models/profile/weekly_calendar_view_model.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
+class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
   const WeeklyCalendar({super.key});
 
   @override
@@ -26,7 +27,7 @@ class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
             selectedDayPredicate: (day) =>
                 isSameDay(day, viewModel.calendarState.selectedDate),
             enabledDayPredicate: (DateTime date) {
-              return date.isBefore(DateTime.now());
+              return date.isBefore(DateTime.now().add(const Duration(days: 1)));
             },
             daysOfWeekVisible: false,
             headerStyle: HeaderStyle(
@@ -37,7 +38,7 @@ class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
               titleTextFormatter: (date, locale) =>
                   DateFormat.yMMMMEEEEd('ko_KR').format(date),
               titleTextStyle:
-                  FontSystem.KR12R.copyWith(color: Colors.grey.shade500),
+                  FontSystem.KR12R.copyWith(color: ColorSystem.grey[500]),
             ),
             calendarStyle: CalendarStyle(
               selectedDecoration: BoxDecoration(
@@ -47,10 +48,14 @@ class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
               todayDecoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              defaultTextStyle: FontSystem.KR16R.copyWith(color: Colors.black),
-              weekendTextStyle: FontSystem.KR16R.copyWith(color: Colors.black),
-              todayTextStyle: FontSystem.KR16R.copyWith(color: Colors.black),
-              selectedTextStyle: FontSystem.KR16R.copyWith(color: Colors.black),
+              defaultTextStyle:
+                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
+              weekendTextStyle:
+                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
+              todayTextStyle:
+                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
+              selectedTextStyle:
+                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
             ),
             onDaySelected: (selectedDay, focusedDay) {
               viewModel.changeSelectedDate(selectedDay);
@@ -63,7 +68,7 @@ class WeeklyCalendar extends BaseWidget<WeeklyCalendarViewModel> {
                   child: Text(
                     day.day.toString(),
                     style:
-                        FontSystem.KR16R.copyWith(color: Colors.grey.shade300),
+                        FontSystem.KR16R.copyWith(color: ColorSystem.grey[300]),
                   ),
                 );
               },

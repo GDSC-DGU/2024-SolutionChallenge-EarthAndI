@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
@@ -26,7 +27,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: const Color(0xFF66C798),
+              color: ColorSystem.green[500]!,
               width: 1,
             ),
           ),
@@ -43,7 +44,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: const Color(0xFF66C798),
+              color: ColorSystem.green[500]!,
               width: 1,
             ),
           ),
@@ -60,7 +61,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: const Color(0xFF66C798),
+              color: ColorSystem.green[500]!,
               width: 1,
             ),
           ),

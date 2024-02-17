@@ -9,4 +9,7 @@ abstract class ActionHistoryLocalProvider {
 
   Future<List<ActionHistoryData>> findByTypesAndDateRange(
       List<EAction> types, DateTime startAt, DateTime endAt);
+
+  Future<List<ActionHistoryData>> findAllByDateRange(
+      DateTime startAt, DateTime endAt);
 }
