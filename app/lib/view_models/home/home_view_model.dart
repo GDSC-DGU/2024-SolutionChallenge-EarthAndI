@@ -4,13 +4,12 @@ import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/analysis_state.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
+import 'package:earth_and_i/models/home/delta_co2_state.dart';
 import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
-import 'package:rive/rive.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeViewModel extends GetxController {
@@ -25,9 +24,8 @@ class HomeViewModel extends GetxController {
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final SpeechToText _speechModule;
-  late final RiveAnimationController _animationController;
 
-  late final RxDouble _totalDeltaCO2;
+  late final Rx<DeltaCO2State> _deltaCO2State;
   late final Rx<CharacterStatsState> _characterStatsState;
   late final Rx<AnalysisState> _analysisState;
   late final Rx<SpeechState> _speechState;
@@ -36,13 +34,11 @@ class HomeViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
-  RiveAnimationController get animationController => _animationController;
-
-  double get totalDeltaCO2 => _totalDeltaCO2.value;
+  DeltaCO2State get deltaCO2State => _deltaCO2State.value;
   CharacterStatsState get characterStatsState => _characterStatsState.value;
   AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
-  RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
+  List<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
 
   @override
   void onInit() async {
@@ -54,13 +50,16 @@ class HomeViewModel extends GetxController {
 
     // Module Initialize
     _speechModule = SpeechToText();
-    _animationController = SimpleAnimation('RoundAnimation', autoplay: false);
 
     // Observable Initialize
-    _totalDeltaCO2 = _userRepository.readTotalDeltaCO2().obs;
+    _deltaCO2State = DeltaCO2State(
+      totalCO2: _userRepository.readTotalDeltaCO2(),
+    ).obs;
     _characterStatsState = _userRepository.readCharacterStatsState().obs;
     _analysisState = AnalysisState.initial()
-        .copyWith(speechBubble: _characterStatsState.value.getTranslation())
+        .copyWith(
+          speechBubble: _characterStatsState.value.getTranslation(),
+        )
         .obs;
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
@@ -74,10 +73,6 @@ class HomeViewModel extends GetxController {
     );
   }
 
-  void test() {
-    DevOnLog.i('Change Animation State : ${_animationController.isActive}');
-  }
-
   void initializeSpeechState() {
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
@@ -86,22 +81,20 @@ class HomeViewModel extends GetxController {
     );
   }
 
-  void startSpeech(int index) async {
-    // 음성인식 시작을 위한 상태 변화
-    _speechState.value = _speechState.value.copyWith(
-      isListening: true,
-    );
-    _animationController.isActive = true;
-
+  void startSpeech() async {
     // 음성인식 시작
     await _speechModule.listen(
       onResult: (result) async {
         _speechState.value = _speechState.value.copyWith(
           speechText: result.recognizedWords,
-          isListening: !result.finalResult,
         );
       },
       localeId: Get.deviceLocale?.languageCode == 'ko' ? 'ko_KR' : 'en_US',
+    );
+
+    // 음성인식 시작을 위한 상태 변화
+    _speechState.value = _speechState.value.copyWith(
+      isListening: true,
     );
   }
 
@@ -110,7 +103,6 @@ class HomeViewModel extends GetxController {
     await _speechModule.stop();
 
     // 음성인식 종료를 위한 상태 변화
-    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: true,
@@ -122,7 +114,6 @@ class HomeViewModel extends GetxController {
     await _speechModule.stop();
 
     // 음성인식 종료를 위한 상태 변화(강제 종료 되었으므로 완료된 상태는 아님)
-    _animationController.isActive = false;
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: false,
@@ -142,6 +133,7 @@ class HomeViewModel extends GetxController {
 
     Map<String, dynamic> result = await _analysisRepository.analysisAction(
       userStatus,
+      _carbonCloudStates[index].longQuestion.tr,
       speechText,
     );
 
@@ -158,10 +150,14 @@ class HomeViewModel extends GetxController {
       ),
     );
 
-    // Update User Information, Character Stats And UI
+    // Update Data, Character Stats And UI
     bool isPositive = result['changeCapacity'] < 0;
-    _totalDeltaCO2.value =
-        await _userRepository.updateTotalDeltaCO2(data.changeCapacity);
+
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
+      changeCO2: data.changeCapacity,
+    );
+
     await _userRepository.updateUserInformationCount(
       _carbonCloudStates[index].userStatus,
       isPositive,
@@ -181,7 +177,12 @@ class HomeViewModel extends GetxController {
   }
 
   void fetchDeltaCO2(double value) {
-    _totalDeltaCO2.value = value;
+    double currentCO2 = value - _deltaCO2State.value.totalCO2;
+
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: value,
+      changeCO2: currentCO2,
+    );
   }
 
   void fetchCharacterStatsState(CharacterStatsState state) {

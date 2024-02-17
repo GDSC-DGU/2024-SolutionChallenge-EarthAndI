@@ -2,9 +2,9 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
+import 'package:earth_and_i/views/home/widgets/rive_animated_micro_phone_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rive/rive.dart';
 
 class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
   final int index;
@@ -28,7 +28,6 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
           children: [
             // Top Indicator
             Container(
-              margin: const EdgeInsets.only(top: 16.0),
               width: Get.width * 0.2,
               height: 4.0,
               decoration: BoxDecoration(
@@ -79,7 +78,21 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
             const Spacer(),
 
             // Speech Animation
-            _speechAnimationView(),
+            RiveAnimatedMicroPhoneButton(
+              width: 100.0,
+              height: 100.0,
+              riveFileName: 'assets/riv/record_animation_for_vox.riv',
+              animationName: 'RoundAnimation',
+              onTap: () {
+                if (viewModel.speechState.isListening) {
+                  viewModel.stopSpeech().then((value) => {
+                        Get.back(),
+                      });
+                } else {
+                  viewModel.startSpeech();
+                }
+              },
+            ),
 
             // Padding
             SizedBox(height: Get.height * 0.1),
@@ -88,47 +101,6 @@ class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
       ),
     );
   }
-
-  // 음성인식 버튼에 대한 애니메이션 박스
-  Widget _speechAnimationView() => GestureDetector(
-        onTap: () {
-          if (viewModel.speechState.isListening) {
-            viewModel.stopSpeech().then((value) => {
-                  Get.back(),
-                });
-          } else {
-            viewModel.startSpeech(index);
-          }
-        },
-        child: SizedBox(
-          width: 100,
-          height: 100,
-          child: Stack(
-            children: [
-              RiveAnimation.asset(
-                'assets/riv/record_animation_for_vox.riv',
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-                // Tap시 애니메이션 시작
-                controllers: [
-                  viewModel.animationController,
-                ],
-              ),
-              Center(
-                child: Obx(
-                  () => Icon(
-                    viewModel.speechState.isListening
-                        ? Icons.stop
-                        : Icons.mic_rounded,
-                    size: 40.0,
-                    color: ColorSystem.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
 
   Widget centerText(String text, {TextStyle? style}) {
     return Text(
