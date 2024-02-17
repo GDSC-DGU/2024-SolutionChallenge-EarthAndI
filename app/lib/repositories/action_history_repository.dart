@@ -48,7 +48,7 @@ class ActionHistoryRepository extends GetxService {
     // 12 ~ 18시면, _actionGroups[2]
     // 18 ~ 24시면, _actionGroups[3]
     // 위 값을 구하고 현재 시간에 해당하는 액션들을 가져온다.
-    int groupIndex = 3;
+    int groupIndex = currentAt.hour ~/ 6;
     List<EAction> actions = _actionGroups[groupIndex];
 
     if (groupIndex == 0) {
@@ -57,9 +57,9 @@ class ActionHistoryRepository extends GetxService {
 
     // 현재 시간에 해당하는 시간 범위를 구한다.
     DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
-        0 + 6 * (currentAt.hour ~/ 6), 0, 0);
+        0 + 6 * groupIndex, 0, 0);
     DateTime endAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
-        5 + 6 * (currentAt.hour ~/ 6), 59, 59);
+        5 + 6 * groupIndex, 59, 59);
 
     // 위에서 구한 값을 기반으로 액션 히스토리를 가져온다.
     List<ActionHistoryData> histories =

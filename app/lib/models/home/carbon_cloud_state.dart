@@ -58,4 +58,16 @@ class CarbonCloudState {
         'action: $_action\n'
         'isLeftPos: $_isLeftPos';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CarbonCloudState &&
+        other._action == _action &&
+        other._isLeftPos == _isLeftPos;
+  }
+
+  @override
+  int get hashCode => Object.hash(_action, _isLeftPos);
 }

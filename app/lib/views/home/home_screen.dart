@@ -5,7 +5,9 @@ import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
+import 'package:earth_and_i/views/home/widgets/carbon_cloud_listview.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
+import 'package:earth_and_i/views/home/widgets/speech_recognize_bottom_sheet.dart';
 import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
 import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
 import 'package:flutter/material.dart';
@@ -164,17 +166,58 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           child: SizedBox(
             height: Get.height * 0.3,
             child: Obx(
-              () => ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: viewModel.carbonCloudStates.length > 4
-                    ? 4
-                    : viewModel.carbonCloudStates.length,
-                itemBuilder: (context, index) {
-                  return CarbonCloudBubble(
-                    index: index,
-                  );
-                },
-              ),
+              () {
+                return CarbonCloudListView(
+                  listKey: GlobalKey<AnimatedListState>(),
+                  itemCount: viewModel.carbonCloudStates.length < 4
+                      ? viewModel.carbonCloudStates.length
+                      : 4,
+                  items: viewModel.carbonCloudStates,
+                  onTapItem: (state) {
+                    int index = viewModel.carbonCloudStates.indexOf(state);
+                    viewModel.initializeSpeechState();
+
+                    // Show Bottom Sheet
+                    Get.bottomSheet(
+                      SpeechRecognizeBottomSheet(
+                        index: index,
+                      ),
+                      isScrollControlled: true,
+                      enableDrag: true,
+                      barrierColor: Colors.black.withOpacity(0.5),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24.0),
+                          topRight: Radius.circular(24.0),
+                        ),
+                      ),
+                    ).then((value) => {
+                          // If Speech State is Complete, Analysis Speech
+                          // Else, Force Stop Speech(Stop Listening)
+                          viewModel.speechState.isComplete
+                              ? viewModel.analysisSpeech(index)
+                              : viewModel.forceStopSpeech(),
+                        });
+                  },
+                  itemBuilder: (state, animation, onTap) {
+                    Animation<double> fadeAnimate = Tween(
+                      begin: 0.0,
+                      end: 1.0,
+                    ).animate(animation);
+
+                    return FadeTransition(
+                      opacity: fadeAnimate,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        child: CarbonCloudBubble(
+                          state: state,
+                          onTap: onTap,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

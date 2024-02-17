@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
@@ -11,6 +9,7 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -40,7 +39,7 @@ class HomeViewModel extends GetxController {
   CharacterStatsState get characterStatsState => _characterStatsState.value;
   AnalysisState get analysisState => _analysisState.value;
   SpeechState get speechState => _speechState.value;
-  RxList<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
+  List<CarbonCloudState> get carbonCloudStates => _carbonCloudStates;
 
   @override
   void onInit() async {
@@ -156,10 +155,6 @@ class HomeViewModel extends GetxController {
     // Update User Information, Character Stats And UI
     bool isPositive = result['changeCapacity'] < 0;
 
-    _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
-      changeCO2: data.changeCapacity,
-    );
     await _userRepository.updateUserInformationCount(
       _carbonCloudStates[index].userStatus,
       isPositive,
@@ -170,6 +165,10 @@ class HomeViewModel extends GetxController {
     );
 
     // Update Data
+    _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
+      changeCO2: data.changeCapacity,
+    );
     _carbonCloudStates.removeAt(index);
 
     _analysisState.value = _analysisState.value.copyWith(
@@ -179,12 +178,7 @@ class HomeViewModel extends GetxController {
   }
 
   void fetchDeltaCO2(double value) {
-    double? currentCO2;
-    if (_deltaCO2State.value.totalCO2 > value) {
-      currentCO2 = _deltaCO2State.value.totalCO2 - value;
-    } else if (_deltaCO2State.value.totalCO2 < value) {
-      currentCO2 = value - _deltaCO2State.value.totalCO2;
-    }
+    double currentCO2 = value - _deltaCO2State.value.totalCO2;
 
     _deltaCO2State.value = _deltaCO2State.value.copyWith(
       totalCO2: value,

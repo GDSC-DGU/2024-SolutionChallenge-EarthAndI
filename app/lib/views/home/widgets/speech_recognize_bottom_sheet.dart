@@ -5,7 +5,6 @@ import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:earth_and_i/views/home/widgets/rive_animated_micro_phone_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rive/rive.dart';
 
 class SpeechRecognizeBottomSheet extends BaseWidget<HomeViewModel> {
   final int index;
