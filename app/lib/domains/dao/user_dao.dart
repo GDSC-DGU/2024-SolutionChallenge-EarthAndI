@@ -20,9 +20,11 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
     await _storage.writeIfNull(UserDAOExtension.alarmMinute, 0);
 
-    // User Information
+    // User Brief Information
     await _storage.writeIfNull(UserDAOExtension.id, 'GUEST');
     await _storage.writeIfNull(UserDAOExtension.nickname, 'GUEST');
+
+    // User Detail Information
     await _storage.writeIfNull(UserDAOExtension.healthPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.healthNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalPositiveCnt, 0);
@@ -253,9 +255,11 @@ extension UserDAOExtension on UserDAO {
   static const String alarmHour = 'alarm_hour';
   static const String alarmMinute = 'alarm_minute';
 
-  // User Information
+  // User Brief Information
   static const String id = 'id';
   static const String nickname = 'nickname';
+
+  // User Detail Information
   static const String healthPositiveCnt = 'health_positive_cnt';
   static const String healthNegativeCnt = 'health_negative_cnt';
   static const String cashPositiveCnt = 'cash_positive_cnt';

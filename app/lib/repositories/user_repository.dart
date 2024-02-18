@@ -20,6 +20,9 @@ class UserRepository extends GetxService {
     await _localProvider.init();
   }
 
+  /* ------------------------------------------------------------ */
+  /* --------------------------- Read --------------------------- */
+  /* ------------------------------------------------------------ */
   double readTotalDeltaCO2() {
     return _localProvider.getTotalDeltaCO2();
   }
@@ -54,6 +57,39 @@ class UserRepository extends GetxService {
       isGoodMental: _localProvider.getMentalCondition(),
       isGoodCash: _localProvider.getCashCondition(),
     );
+  }
+
+  /* ------------------------------------------------------------ */
+  /* -------------------------- Update -------------------------- */
+  /* ------------------------------------------------------------ */
+  Future<AlarmState> updateUserSetting({
+    bool? isActive,
+    int? hour,
+    int? minute,
+  }) async {
+    DevOnLog.i(
+        'Update Alarm State: isActive: $isActive, hour: $hour, minute: $minute');
+    if (isActive != null) {
+      await _localProvider.setAlarmActive(isActive);
+    }
+    if (hour != null && minute != null) {
+      await _localProvider.setAlarmHour(hour);
+      await _localProvider.setAlarmMinute(minute);
+    }
+
+    return AlarmState(
+      isActive: _localProvider.getAlarmActive(),
+      hour: _localProvider.getAlarmHour(),
+      minute: _localProvider.getAlarmMinute(),
+    );
+  }
+
+  Future<void> updateUserBriefInformation({
+    required String id,
+    required String nickname,
+  }) async {
+    await _localProvider.setId(id.substring(0, 3));
+    await _localProvider.setNickname(nickname);
   }
 
   Future<double> updateTotalDeltaCO2(
@@ -110,28 +146,6 @@ class UserRepository extends GetxService {
 
     DevOnLog.i(
         'Update $userStatus ${isPositive ? 'Positive' : 'Negative'} Count: ${getCount()}');
-  }
-
-  Future<AlarmState> updateAlarmState({
-    bool? isActive,
-    int? hour,
-    int? minute,
-  }) async {
-    DevOnLog.i(
-        'Update Alarm State: isActive: $isActive, hour: $hour, minute: $minute');
-    if (isActive != null) {
-      await _localProvider.setAlarmActive(isActive);
-    }
-    if (hour != null && minute != null) {
-      await _localProvider.setAlarmHour(hour);
-      await _localProvider.setAlarmMinute(minute);
-    }
-
-    return AlarmState(
-      isActive: _localProvider.getAlarmActive(),
-      hour: _localProvider.getAlarmHour(),
-      minute: _localProvider.getAlarmMinute(),
-    );
   }
 
   Future<CharacterStatsState> updateCharacterStats(

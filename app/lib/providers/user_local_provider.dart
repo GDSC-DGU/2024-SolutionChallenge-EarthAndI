@@ -15,9 +15,11 @@ abstract class UserLocalProvider {
   int getAlarmHour();
   int getAlarmMinute();
 
-  // User Information
+  // User Brief Information
   String getId();
   String getNickname();
+
+  // User Detail Information
   int getHealthPositiveCnt();
   int getHealthNegativeCnt();
   int getCashPositiveCnt();
@@ -42,9 +44,11 @@ abstract class UserLocalProvider {
   Future<void> setAlarmHour(int hour);
   Future<void> setAlarmMinute(int minute);
 
-  // User Information
+  // User Brief Information
   Future<void> setId(String id);
   Future<void> setNickname(String nickname);
+
+  // User Detail Information
   Future<void> setHealthPositiveCnt(int cnt);
   Future<void> setHealthNegativeCnt(int cnt);
   Future<void> setCashPositiveCnt(int cnt);

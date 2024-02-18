@@ -37,16 +37,31 @@ class SettingViewModel extends GetxController {
 
   void onIsAlarmSwitch() {
     _userRepository
-        .updateAlarmState(isActive: !_alarmState.value.isActive)
+        .updateUserSetting(isActive: !_alarmState.value.isActive)
         .then((value) => _alarmState.value = value);
   }
 
   void changeAlarmTime(int hour, int minute) {
     _userRepository
-        .updateAlarmState(
+        .updateUserSetting(
           hour: hour,
           minute: minute,
         )
         .then((value) => _alarmState.value = value);
+  }
+
+  Future<bool> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await _userRepository.updateUserBriefInformation(
+        id: 'GUEST',
+        nickname: 'GUEST',
+      );
+      _isSignin.value = false;
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
 }

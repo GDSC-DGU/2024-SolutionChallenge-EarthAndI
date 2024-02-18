@@ -15,6 +15,7 @@ class SectionItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
         child: Row(
