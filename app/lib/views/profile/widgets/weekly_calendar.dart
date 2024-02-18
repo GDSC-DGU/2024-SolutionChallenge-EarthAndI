@@ -34,6 +34,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
               focusedDay: viewModel.calendarState.focusedDate,
               calendarFormat: CalendarFormat.week,
               daysOfWeekVisible: true,
+              daysOfWeekHeight: 20,
 
               // Calendar Properties
               headerVisible: false,
