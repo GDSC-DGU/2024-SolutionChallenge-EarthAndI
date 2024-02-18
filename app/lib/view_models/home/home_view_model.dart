@@ -9,6 +9,7 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
@@ -211,7 +212,7 @@ class HomeViewModel extends GetxController {
         currentChangeCapacity;
 
     // 이산화탄소량의 변화량이 0이라면 업데이트를 하지 않음
-    if (changedCO2 <= 0) {
+    if (changedCO2 >= 0) {
       return;
     }
 
@@ -247,6 +248,8 @@ class HomeViewModel extends GetxController {
             .toCompanion(true),
       );
     }
+
+    DevOnLog.i('changedCO2: $changedCO2');
 
     fetchDeltaCO2(
       await _userRepository.updateTotalDeltaCO2(
