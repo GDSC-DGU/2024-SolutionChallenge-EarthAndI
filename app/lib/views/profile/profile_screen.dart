@@ -153,17 +153,17 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 Obx(
                   () => DeltaCO2Text(
                     deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                    style: FontSystem.KR14B,
+                    style: FontSystem.KR12B,
                   ),
                 ),
                 Text(
-                  "배출한 탄소량  |  절약한 탄소량",
-                  style: FontSystem.KR12M.copyWith(color: ColorSystem.grey),
+                  "배출한 탄소량 | 절약한 탄소량",
+                  style: FontSystem.KR10M.copyWith(color: ColorSystem.grey),
                 ),
                 Obx(
                   () => DeltaCO2Text(
                     deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
-                    style: FontSystem.KR14B,
+                    style: FontSystem.KR12B,
                   ),
                 ),
               ],
@@ -201,7 +201,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 const SizedBox(width: 4),
                 Text(
                   "건강",
-                  style: FontSystem.KR12R.copyWith(color: ColorSystem.grey),
+                  style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
                 const SizedBox(width: 8),
                 Container(
@@ -214,7 +214,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 const SizedBox(width: 4),
                 Text(
                   "멘탈",
-                  style: FontSystem.KR12R.copyWith(color: ColorSystem.grey),
+                  style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
                 const SizedBox(width: 8),
                 Container(
@@ -227,7 +227,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 const SizedBox(width: 4),
                 Text(
                   "금전",
-                  style: FontSystem.KR12R.copyWith(color: ColorSystem.grey),
+                  style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
               ],
             ),

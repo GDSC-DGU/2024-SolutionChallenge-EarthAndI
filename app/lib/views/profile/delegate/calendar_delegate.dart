@@ -25,10 +25,10 @@ class CalendarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 120;
+  double get maxExtent => 125;
 
   @override
-  double get minExtent => 120;
+  double get minExtent => 125;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

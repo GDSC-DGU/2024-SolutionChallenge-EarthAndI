@@ -150,7 +150,7 @@ class ActionHistoryItem extends StatelessWidget {
   Widget rightBottomView() {
     return DeltaCO2Text(
       deltaCO2: state.changeCapacity,
-      style: FontSystem.KR14B,
+      style: FontSystem.KR12B,
     );
   }
 }
