@@ -12,69 +12,109 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
 
   @override
   Widget buildView(BuildContext context) {
-    return Obx(
-      () => Container(
-        width: Get.width,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: Center(
-          child: TableCalendar(
-            locale: "ko_KR",
-            focusedDay: viewModel.calendarState.focusedDate,
-            firstDay: DateTime.now().subtract(const Duration(days: 365)),
-            lastDay: DateTime.now().add(const Duration(days: 365)),
-            currentDay: DateTime.now(),
-            calendarFormat: CalendarFormat.week,
-            selectedDayPredicate: (day) =>
-                isSameDay(day, viewModel.calendarState.selectedDate),
-            enabledDayPredicate: (DateTime date) {
-              return date.isBefore(DateTime.now().add(const Duration(days: 1)));
-            },
-            daysOfWeekVisible: false,
-            headerStyle: HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true,
-              leftChevronVisible: false,
-              rightChevronVisible: false,
-              titleTextFormatter: (date, locale) =>
-                  DateFormat.yMMMMEEEEd('ko_KR').format(date),
-              titleTextStyle:
-                  FontSystem.KR12R.copyWith(color: ColorSystem.grey[500]),
-            ),
-            calendarStyle: CalendarStyle(
-              selectedDecoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                shape: BoxShape.circle,
-              ),
-              todayDecoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              defaultTextStyle:
-                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
-              weekendTextStyle:
-                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
-              todayTextStyle:
-                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
-              selectedTextStyle:
-                  FontSystem.KR16R.copyWith(color: ColorSystem.black),
-            ),
-            onDaySelected: (selectedDay, focusedDay) {
-              viewModel.changeSelectedDate(selectedDay);
-            },
-            calendarBuilders: CalendarBuilders(
-              disabledBuilder: (context, day, focusedDay) {
-                return Container(
-                  margin: const EdgeInsets.all(4.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    day.day.toString(),
-                    style:
-                        FontSystem.KR16R.copyWith(color: ColorSystem.grey[300]),
-                  ),
-                );
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      color: ColorSystem.white,
+      child: Column(
+        children: [
+          Obx(
+            () => TableCalendar(
+              // Default Properties
+              locale: Get.deviceLocale.toString(),
+              firstDay: DateTime.now().subtract(const Duration(days: 365)),
+              lastDay: DateTime.now().add(const Duration(days: 365)),
+
+              // Date Properties
+              currentDay: DateTime.now(),
+              focusedDay: viewModel.calendarState.focusedDate,
+              calendarFormat: CalendarFormat.week,
+              daysOfWeekVisible: true,
+
+              // Calendar Properties
+              headerVisible: false,
+              selectedDayPredicate: (day) =>
+                  isSameDay(day, viewModel.calendarState.selectedDate),
+              enabledDayPredicate: (DateTime date) {
+                DateTime localDate = date.toLocal().subtract(Duration(
+                      hours: date.toLocal().timeZoneOffset.inHours,
+                    ));
+                return localDate.isBefore(DateTime.now());
               },
+
+              calendarStyle: CalendarStyle(
+                // Default Day Style
+                defaultTextStyle:
+                    FontSystem.KR16R.copyWith(color: ColorSystem.black),
+
+                // Selected Day Style
+                selectedDecoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  shape: BoxShape.circle,
+                ),
+                selectedTextStyle:
+                    FontSystem.KR16R.copyWith(color: ColorSystem.black),
+
+                // Today Style
+                todayDecoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                todayTextStyle:
+                    FontSystem.KR16R.copyWith(color: ColorSystem.black),
+
+                // Outside Day Style
+                outsideTextStyle:
+                    FontSystem.KR16R.copyWith(color: ColorSystem.black),
+
+                // Weekend Style
+                weekendTextStyle:
+                    FontSystem.KR16R.copyWith(color: ColorSystem.black),
+              ),
+
+              // Event Properties
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(
+                    selectedDay, viewModel.calendarState.selectedDate)) {
+                  viewModel.changeSelectedDate(selectedDay);
+                }
+              },
+              onPageChanged: (focusedDay) {
+                viewModel.updateFocusedDate(focusedDay);
+              },
+
+              // Calendar Builders
+              calendarBuilders: CalendarBuilders(
+                disabledBuilder: (context, day, focusedDay) {
+                  return Container(
+                    margin: const EdgeInsets.all(4.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      day.day.toString(),
+                      style: FontSystem.KR16R
+                          .copyWith(color: ColorSystem.grey[300]),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Center(
+            child: Obx(
+              () => GestureDetector(
+                onTap: () {
+                  viewModel
+                      .updateFocusedDate(viewModel.calendarState.selectedDate);
+                },
+                child: Text(
+                  DateFormat.yMMMMEEEEd('ko_KR')
+                      .format(viewModel.calendarState.selectedDate),
+                  style: FontSystem.KR14R.copyWith(color: ColorSystem.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

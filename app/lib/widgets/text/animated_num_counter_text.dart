@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/platform/platform.dart';
 
 class AnimatedNumCounterText extends StatelessWidget {
   const AnimatedNumCounterText({
@@ -156,6 +157,7 @@ class _SingleDigitFlip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAndroid = GetPlatform.isAndroid;
     return TweenAnimationBuilder(
       tween: Tween(end: value),
       duration: duration,
@@ -167,7 +169,7 @@ class _SingleDigitFlip extends StatelessWidget {
         final h = size.height;
 
         return Container(
-          margin: const EdgeInsets.only(top: 8),
+          margin: EdgeInsets.only(top: isAndroid ? 8 : 4),
           child: SizedBox(
             width: w,
             height: h,

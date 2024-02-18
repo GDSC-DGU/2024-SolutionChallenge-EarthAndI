@@ -33,7 +33,7 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
   }
 
   @override
-  Future<ActionHistoryData?> findOneByTypeAndDateRange(
+  Future<ActionHistoryData?> findByTypeAndDateRange(
     EAction type,
     DateTime startAt,
     DateTime endAt,
@@ -52,17 +52,11 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
   }
 
   @override
-  Future<List<ActionHistoryData>> findByTypesAndDateRange(
+  Future<List<ActionHistoryData>> findAllByTypesAndDateRange(
       List<EAction> types, DateTime startAt, DateTime endAt) {
     return (select(actionHistory)
           ..where((t) => t.type.isIn(types.map((e) => e.toString()).toList()))
-          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt))
-          ..orderBy(
-            [
-              (t) => OrderingTerm(
-                  expression: t.createdAt, mode: OrderingMode.desc),
-            ],
-          ))
+          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt)))
         .get();
   }
 
@@ -70,13 +64,7 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
   Future<List<ActionHistoryData>> findAllByDateRange(
       DateTime startAt, DateTime endAt) {
     return (select(actionHistory)
-          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt))
-          ..orderBy(
-            [
-              (t) => OrderingTerm(
-                  expression: t.createdAt, mode: OrderingMode.desc),
-            ],
-          ))
+          ..where((t) => t.createdAt.isBetweenValues(startAt, endAt)))
         .get();
   }
 }

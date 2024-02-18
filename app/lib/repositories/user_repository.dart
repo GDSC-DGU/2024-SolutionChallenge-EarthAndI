@@ -1,6 +1,7 @@
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
-import 'package:earth_and_i/models/alarm_state.dart';
+import 'package:earth_and_i/models/profile/user_brief_state.dart';
+import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
 import 'package:earth_and_i/providers/user_local_provider.dart';
@@ -25,6 +26,13 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   double readTotalDeltaCO2() {
     return _localProvider.getTotalDeltaCO2();
+  }
+
+  UserBriefState readUserBriefState() {
+    return UserBriefState(
+      id: _localProvider.getId(),
+      nickname: _localProvider.getNickname(),
+    );
   }
 
   String readNickname() {

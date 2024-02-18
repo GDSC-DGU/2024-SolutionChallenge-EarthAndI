@@ -95,7 +95,7 @@ class RootViewModel extends GetxController {
           createdAt: _currentDate,
           updatedAt: _currentDate,
           question: "오늘의 걸음 수는?",
-          answer: "${currentChangeCapacity ~/ 0.000125} 보",
+          answer: "${currentChangeCapacity ~/ 0.000125}",
           userStatus: EUserStatus.health,
           type: EAction.steps,
         ),
@@ -119,7 +119,7 @@ class RootViewModel extends GetxController {
             .copyWith(
               changeCapacity: -currentChangeCapacity,
               updatedAt: _currentDate,
-              answer: "${currentChangeCapacity ~/ 0.000125} 보",
+              answer: "${currentChangeCapacity ~/ 0.000125}",
             )
             .toCompanion(true),
       );

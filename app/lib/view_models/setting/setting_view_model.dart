@@ -1,4 +1,4 @@
-import 'package:earth_and_i/models/alarm_state.dart';
+import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
