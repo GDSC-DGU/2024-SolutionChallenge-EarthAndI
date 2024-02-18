@@ -1,3 +1,4 @@
+import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
@@ -7,17 +8,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
+  final ChallengeHistoryState challenge;
   final bool isCompleted;
-  const ChallengeDialog({super.key, required this.isCompleted});
+  const ChallengeDialog(
+      {super.key, required this.challenge, required this.isCompleted});
 
   @override
   Widget buildView(BuildContext context) {
     return AlertDialog(
-      title: DialogTitle(isCompleted: isCompleted),
+      title: DialogTitle(
+          challengeHistoryState: challenge, isCompleted: isCompleted),
       content: SizedBox(
         width: Get.width * 0.8,
-        height: Get.height * 0.4,
-        child: const DialogContent(),
+        height: Get.height * 0.45,
+        child: DialogContent(challengeHistoryState: challenge),
       ),
       insetPadding: const EdgeInsets.all(28),
       backgroundColor: ColorSystem.white,
@@ -30,7 +34,8 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
             onPressed: () {
               isCompleted
                   ? Get.back()
-                  : Get.toNamed("/challenge_authentication");
+                  : Get.toNamed("/challenge_authentication",
+                      arguments: challenge);
             },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -52,9 +57,14 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
   }
 }
 
+// Dialog의 타이틀을 나타내는 위젯
 class DialogTitle extends BaseWidget<LoadMapViewModel> {
+  final ChallengeHistoryState challengeHistoryState;
   final bool isCompleted;
-  const DialogTitle({super.key, required this.isCompleted});
+  const DialogTitle(
+      {super.key,
+      required this.challengeHistoryState,
+      required this.isCompleted});
 
   @override
   Widget buildView(BuildContext context) {
@@ -63,18 +73,18 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "친환경 제품 사용하기",
-                style: FontSystem.KR20B,
+                challengeHistoryState.shortTitle.tr,
+                style: FontSystem.KR24B,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                "친환경 제품 마크가 부착된 상품을 구매해요!",
-                style: FontSystem.KR12M,
+                challengeHistoryState.longTitle.tr,
+                style: FontSystem.KR14M,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -96,34 +106,32 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
   }
 }
 
-// Dialog content Widget
+// Dialog의 내용을 나타내는 위젯
 class DialogContent extends BaseWidget<LoadMapViewModel> {
-  const DialogContent({super.key});
+  final ChallengeHistoryState challengeHistoryState;
+
+  const DialogContent({super.key, required this.challengeHistoryState});
 
   @override
   Widget buildView(BuildContext context) {
     return SizedBox(
-      width: Get.width * 0.8,
-      height: Get.height * 0.4,
       child: Column(
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: AssetImage("assets/icons/thumbnail.png"),
-                  fit: BoxFit.cover,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                challengeHistoryState.iconPath.tr,
+                fit: BoxFit.fill,
+                width: 280,
+                height: 280,
               ),
-              child: null,
             ),
           ),
           const SizedBox(height: 12),
-          const SizedBox(
+          SizedBox(
             height: 96,
-            child: Text(
-                "챌린지에 대한 상세한 설명... 뒤에는 그냥 아무말입니다. 확실히 하드웨어(아두이노라 하더라도)가 포함된 프로젝트가 상 더라도)가 포함된 프로젝트가 상 ",
+            child: Text(challengeHistoryState.description.tr,
                 style: FontSystem.KR16M),
           )
         ],

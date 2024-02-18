@@ -38,8 +38,8 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
     await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
     await _storage.writeIfNull(UserDAOExtension.cashCondition, true);
-    await _storage.writeIfNull(
-        UserDAOExtension.currentChallenge, EChallenge.useColdWater.toString());
+    await _storage.writeIfNull(UserDAOExtension.currentChallenge,
+        EChallenge.useEcoFriendlyProducts.toString());
   }
 
   @override
@@ -145,7 +145,7 @@ class UserDAO implements UserLocalProvider {
   EChallenge getCurrentChallenge() {
     return EChallenge.fromName(
         _storage.read(UserDAOExtension.currentChallenge) ??
-            EChallenge.useColdWater.toString());
+            EChallenge.useEcoFriendlyProducts.toString());
   }
 
   /* ------------------------------------------------------------ */

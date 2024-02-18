@@ -1,9 +1,11 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
 import 'package:earth_and_i/views/load_map/widgets/load_map_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   const LoadMapScreen({super.key});
@@ -31,28 +33,51 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
 
             const SizedBox(height: 12),
             // 현재 진행중인 챌린지 (한 개만 표시)
-            const Text("현재 진행중인 챌린지", style: FontSystem.KR16B),
+            const Text("진행중인 챌린지", style: FontSystem.KR20SB120),
             const SizedBox(height: 4),
-            const ChallengeList(isCompleted: false),
-
-            // 사이 간격
+            Obx(
+              () => ChallengeList(
+                  challenge: viewModel.currentChallengeHistoryState[0],
+                  isCompleted:
+                      viewModel.currentChallengeHistoryState[0].isCompleted),
+            ),
             const SizedBox(height: 32),
+            // 완료한 챌린지 헤더
+            Row(
+              children: [
+                const Text("완료한 챌린지", style: FontSystem.KR20SB120),
+                const SizedBox(width: 8),
+                Obx(
+                  () => Text(
+                      "${viewModel.completedChallengeHistoryState.length}",
+                      style: FontSystem.KR20SB120
+                          .copyWith(color: ColorSystem.grey[500]!)),
+                ),
+              ],
+            ),
 
-            const Text("완료한 챌린지", style: FontSystem.KR16B),
             const SizedBox(height: 4),
             // 완료한 챌린지 리스트 뷰 (여러 개 표시)
             ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 2,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  return const Column(
+              scrollDirection: Axis.vertical,
+              itemCount: viewModel.completedChallengeHistoryState.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, index) {
+                return Obx(
+                  () => Column(
                     children: [
-                      ChallengeList(isCompleted: true),
-                      SizedBox(height: 12),
+                      ChallengeList(
+                          challenge:
+                              viewModel.completedChallengeHistoryState[index],
+                          isCompleted: viewModel
+                              .completedChallengeHistoryState[index]
+                              .isCompleted),
+                      const SizedBox(height: 12),
                     ],
-                  );
-                })
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

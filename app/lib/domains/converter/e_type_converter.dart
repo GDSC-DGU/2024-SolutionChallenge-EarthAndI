@@ -71,7 +71,9 @@ abstract class ETypeConverter {
   static List<EChallenge> userStatusToChallenges(EUserStatus status) {
     switch (status) {
       case EUserStatus.health:
-        return [];
+        return [
+          EChallenge.eatVegetarian,
+        ];
 
       case EUserStatus.mental:
         return [
@@ -98,6 +100,9 @@ abstract class ETypeConverter {
 
       case EChallenge.useColdWater:
         return EUserStatus.cash;
+
+      case EChallenge.eatVegetarian:
+        return EUserStatus.health;
 
       default:
         throw Exception('Invalid challenge: $challenge');
