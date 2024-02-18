@@ -1,6 +1,7 @@
 import 'package:earth_and_i/utilities/static/character_translations.dart';
 import 'package:earth_and_i/utilities/static/e_action_translations.dart';
 import 'package:earth_and_i/utilities/static/language_translations.dart';
+import 'package:earth_and_i/utilities/static/e_challenge_translations.dart';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
@@ -20,6 +21,8 @@ class AppTranslations extends Translations {
         "sign_out": "로그아웃",
         "confirm": "확인",
         "cancel": "취소",
+
+        ...EChallengeTranslations.kr,
 
         // Home Screen
         "analysis_snackBar_title": "분석 중",
@@ -60,6 +63,8 @@ class AppTranslations extends Translations {
         "sign_out": "Logout",
         "cancel": "Cancel",
         "confirm": "Confirm",
+
+        ...EChallengeTranslations.en,
 
         // Home Screen
         "analysis_snackBar_title": "Analyzing",

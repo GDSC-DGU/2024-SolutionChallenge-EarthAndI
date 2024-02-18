@@ -1,3 +1,4 @@
+import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
@@ -8,15 +9,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ChallengeList extends BaseWidget<LoadMapViewModel> {
+  final ChallengeHistoryState challenge;
   final bool isCompleted;
 
-  const ChallengeList({super.key, required this.isCompleted});
+  const ChallengeList(
+      {super.key, required this.challenge, required this.isCompleted});
 
   @override
   Widget buildView(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.dialog(ChallengeDialog(isCompleted: isCompleted));
+        Get.dialog(
+            ChallengeDialog(challenge: challenge, isCompleted: isCompleted));
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -43,25 +47,24 @@ class ChallengeList extends BaseWidget<LoadMapViewModel> {
                 height: 52,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
-                    image: AssetImage("assets/icons/thumbnail.png"),
+                  image: DecorationImage(
+                    image: AssetImage(challenge.iconPath.tr),
                   ),
                 ),
                 child: null,
               ),
               const SizedBox(width: 12),
-
               // 행위 리스트의 이름과 간단한 설명
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "친환경 제품 사용하기",
+                      challenge.shortTitle.tr,
                       style: FontSystem.KR16B,
                     ),
                     Text(
-                      "친환경 제품 마크가 부착된 상품을 구매해요!",
+                      challenge.longTitle.tr,
                       style: FontSystem.KR12R,
                       overflow: TextOverflow.ellipsis,
                     ),

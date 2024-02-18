@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
@@ -20,9 +19,6 @@ class ChallengeAuthenticationScreen
   bool get setTopOuterSafeArea => true;
 
   @override
-  bool get setBottomOuterSafeArea => false;
-
-  @override
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return const PreferredSize(
       preferredSize: Size.fromHeight(56),
@@ -40,9 +36,10 @@ class ChallengeAuthenticationScreen
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("쌓아둔 이메일 삭제하기", style: FontSystem.KR20SB120),
+          Text(Get.arguments.shortTitle.toString().tr,
+              style: FontSystem.KR20SB120),
           const SizedBox(height: 8),
-          const Text("친환경 제품 마크가 부착된 상품을 구매해요!", style: FontSystem.KR16M),
+          Text(Get.arguments.longTitle.toString().tr, style: FontSystem.KR16M),
           const SizedBox(height: 20),
           Obx(
             () => viewModel.image == null
