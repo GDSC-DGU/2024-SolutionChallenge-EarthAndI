@@ -1,23 +1,15 @@
 class CharacterStatsState {
-  final bool _isGoodEnvironment;
-  final bool _isGoodHealth;
-  final bool _isGoodMental;
-  final bool _isGoodCash;
-
-  bool get isGoodEnvironment => _isGoodEnvironment;
-  bool get isGoodHealth => _isGoodHealth;
-  bool get isGoodMental => _isGoodMental;
-  bool get isGoodCash => _isGoodCash;
+  final bool isGoodEnvironment;
+  final bool isGoodHealth;
+  final bool isGoodMental;
+  final bool isGoodCash;
 
   CharacterStatsState({
-    required bool isGoodEnvironment,
-    required bool isGoodHealth,
-    required bool isGoodMental,
-    required bool isGoodCash,
-  })  : _isGoodEnvironment = isGoodEnvironment,
-        _isGoodHealth = isGoodHealth,
-        _isGoodMental = isGoodMental,
-        _isGoodCash = isGoodCash;
+    required this.isGoodEnvironment,
+    required this.isGoodHealth,
+    required this.isGoodMental,
+    required this.isGoodCash,
+  });
 
   CharacterStatsState copyWith({
     bool? isGoodEnvironment,
@@ -26,10 +18,10 @@ class CharacterStatsState {
     bool? isGoodCash,
   }) {
     return CharacterStatsState(
-      isGoodEnvironment: isGoodEnvironment ?? _isGoodEnvironment,
-      isGoodHealth: isGoodHealth ?? _isGoodHealth,
-      isGoodMental: isGoodMental ?? _isGoodMental,
-      isGoodCash: isGoodCash ?? _isGoodCash,
+      isGoodEnvironment: isGoodEnvironment ?? this.isGoodEnvironment,
+      isGoodHealth: isGoodHealth ?? this.isGoodHealth,
+      isGoodMental: isGoodMental ?? this.isGoodMental,
+      isGoodCash: isGoodCash ?? this.isGoodCash,
     );
   }
 
@@ -37,10 +29,10 @@ class CharacterStatsState {
     // 각 스탯에 따라 이미지 경로 결정
     String prefix = 'character';
 
-    String environment = _isGoodEnvironment ? '1' : '2';
-    String health = _isGoodHealth ? '1' : '2';
-    String mental = _isGoodMental ? '1' : '2';
-    String cash = _isGoodCash ? '1' : '2';
+    String environment = isGoodEnvironment ? '1' : '2';
+    String health = isGoodHealth ? '1' : '2';
+    String mental = isGoodMental ? '1' : '2';
+    String cash = isGoodCash ? '1' : '2';
 
     return '${prefix}_${environment}_${health}_${mental}_$cash';
   }
@@ -48,9 +40,9 @@ class CharacterStatsState {
   @override
   String toString() {
     return '[CharacterStatsState]\n'
-        'isGoodEnvironment: $_isGoodEnvironment\n'
-        'isGoodHealth: $_isGoodHealth\n'
-        'isGoodMental: $_isGoodMental\n'
-        'isGoodCash: $_isGoodCash';
+        'isGoodEnvironment: $isGoodEnvironment'
+        '\nisGoodHealth: $isGoodHealth'
+        '\nisGoodMental: $isGoodMental'
+        '\nisGoodCash: $isGoodCash';
   }
 }

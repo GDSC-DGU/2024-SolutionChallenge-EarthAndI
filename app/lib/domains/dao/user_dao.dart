@@ -15,8 +15,16 @@ class UserDAO implements UserLocalProvider {
   /// Initialize the user data.
   @override
   Future<void> init() async {
+    // User Setting
+    await _storage.writeIfNull(UserDAOExtension.alarmActive, false);
+    await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
+    await _storage.writeIfNull(UserDAOExtension.alarmMinute, 0);
+
+    // User Brief Information
     await _storage.writeIfNull(UserDAOExtension.id, 'GUEST');
     await _storage.writeIfNull(UserDAOExtension.nickname, 'GUEST');
+
+    // User Detail Information
     await _storage.writeIfNull(UserDAOExtension.healthPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.healthNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.mentalPositiveCnt, 0);
@@ -24,6 +32,8 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.cashPositiveCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.cashNegativeCnt, 0);
     await _storage.writeIfNull(UserDAOExtension.totalDeltaCO2, 0.0);
+
+    // Character State
     await _storage.writeIfNull(UserDAOExtension.environmentCondition, true);
     await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
     await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
@@ -40,6 +50,24 @@ class UserDAO implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Getter -------------------------- */
   /* ------------------------------------------------------------ */
+  /// Get the user's alarm active state.
+  @override
+  bool getAlarmActive() {
+    return _storage.read(UserDAOExtension.alarmActive) ?? false;
+  }
+
+  /// Get the user's alarm hour.
+  @override
+  int getAlarmHour() {
+    return _storage.read(UserDAOExtension.alarmHour) ?? 8;
+  }
+
+  /// Get the user's alarm minute.
+  @override
+  int getAlarmMinute() {
+    return _storage.read(UserDAOExtension.alarmMinute) ?? 0;
+  }
+
   /// Get the user's id.
   @override
   String getId() {
@@ -123,6 +151,24 @@ class UserDAO implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
+  /// Set the user's alarm active state.
+  @override
+  Future<void> setAlarmActive(bool isActive) async {
+    await _storage.write(UserDAOExtension.alarmActive, isActive);
+  }
+
+  /// Set the user's alarm hour.
+  @override
+  Future<void> setAlarmHour(int hour) async {
+    await _storage.write(UserDAOExtension.alarmHour, hour);
+  }
+
+  /// Set the user's alarm minute.
+  @override
+  Future<void> setAlarmMinute(int minute) async {
+    await _storage.write(UserDAOExtension.alarmMinute, minute);
+  }
+
   /// Set the user's id.
   @override
   Future<void> setId(String id) async {
@@ -204,9 +250,16 @@ class UserDAO implements UserLocalProvider {
 }
 
 extension UserDAOExtension on UserDAO {
-  // User Information
+  // User Setting
+  static const String alarmActive = 'alarm_active';
+  static const String alarmHour = 'alarm_hour';
+  static const String alarmMinute = 'alarm_minute';
+
+  // User Brief Information
   static const String id = 'id';
   static const String nickname = 'nickname';
+
+  // User Detail Information
   static const String healthPositiveCnt = 'health_positive_cnt';
   static const String healthNegativeCnt = 'health_negative_cnt';
   static const String cashPositiveCnt = 'cash_positive_cnt';

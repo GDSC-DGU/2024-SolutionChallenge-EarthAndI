@@ -10,9 +10,16 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
-  // User Information
+  // User Setting
+  bool getAlarmActive();
+  int getAlarmHour();
+  int getAlarmMinute();
+
+  // User Brief Information
   String getId();
   String getNickname();
+
+  // User Detail Information
   int getHealthPositiveCnt();
   int getHealthNegativeCnt();
   int getCashPositiveCnt();
@@ -32,9 +39,16 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
-  // User Information
+  // User Setting
+  Future<void> setAlarmActive(bool isActive);
+  Future<void> setAlarmHour(int hour);
+  Future<void> setAlarmMinute(int minute);
+
+  // User Brief Information
   Future<void> setId(String id);
   Future<void> setNickname(String nickname);
+
+  // User Detail Information
   Future<void> setHealthPositiveCnt(int cnt);
   Future<void> setHealthNegativeCnt(int cnt);
   Future<void> setCashPositiveCnt(int cnt);

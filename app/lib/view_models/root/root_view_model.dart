@@ -1,31 +1,28 @@
-import 'package:earth_and_i/apps/database/local_database.dart';
-import 'package:earth_and_i/domains/type/e_action.dart';
-import 'package:earth_and_i/domains/type/e_challenge.dart';
-import 'package:earth_and_i/domains/type/e_user_status.dart';
-import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
-import 'package:earth_and_i/repositories/action_history_repository.dart';
-import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/health_util.dart';
-import 'package:earth_and_i/view_models/home/home_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:earth_and_i/domains/type/e_challenge.dart';
+import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
+import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart' as foundation;
 
 class RootViewModel extends GetxController {
   // Animation duration
   static const duration = Duration(milliseconds: 200);
 
-  late final ActionHistoryRepository _actionHistoryRepository;
   late final ChallengeHistoryRepository _challengeHistoryRepository;
   late final UserRepository _userRepository;
 
   // Platform And DateTime
   late final bool isAndroid;
-  late DateTime _currentDate;
 
   // Observable Variables
+  late final RxBool _isSignIn;
+  late Rx<DateTime> _currentAt;
   late final RxInt _selectedIndex;
   late final RxBool _isEnableGreyBarrier;
+
+  bool get isSignIn => _isSignIn.value;
+  DateTime get currentAt => _currentAt.value;
 
   late final Rx<EChallenge> _currentEChallenge;
   late final ChallengeHistoryState _challengeHistoryState;
@@ -39,15 +36,15 @@ class RootViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
     // Dependency Injection
-    _actionHistoryRepository = Get.find<ActionHistoryRepository>();
     _challengeHistoryRepository = Get.find<ChallengeHistoryRepository>();
     _userRepository = Get.find<UserRepository>();
 
     // Platform And DateTime Initialize
-    isAndroid =
-        (foundation.defaultTargetPlatform == foundation.TargetPlatform.android);
-    _currentDate = DateTime.now();
+    isAndroid = GetPlatform.isAndroid;
+    _currentAt = DateTime.now().obs;
+    _isSignIn = (FirebaseAuth.instance.currentUser != null).obs;
 
     // Observable Initialize
     _selectedIndex = 1.obs;
@@ -57,97 +54,18 @@ class RootViewModel extends GetxController {
 
     _challengeHistoryState = await _challengeHistoryRepository
         .getCurrentChallengeState(_currentEChallenge.value);
-
-    // Load And Save Data
-    await initializeOrNoneUsers();
-    await loadAndSaveSteps();
   }
 
   void changeIndex(int index) async {
     _selectedIndex.value = index;
+    _currentAt.value = DateTime.now();
   }
 
   void changeMicState() {
     _isEnableGreyBarrier.value = !_isEnableGreyBarrier.value;
   }
 
-  Future<void> initializeOrNoneUsers() async {
-    await _userRepository.load();
-  }
-
-  Future<void> loadAndSaveSteps() async {
-    // 금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 가져옴
-    DateTime startAt =
-        DateTime(_currentDate.year, _currentDate.month, _currentDate.day);
-    DateTime endAt = DateTime(
-        _currentDate.year, _currentDate.month, _currentDate.day, 23, 59, 59);
-    double currentChangeCapacity =
-        (await HealthUtil.getSteps(startAt, endAt)) * 0.000125;
-
-    // 걸음 수가 0이라면 업데이트를 하지 않음
-    if (currentChangeCapacity == 0) {
-      return;
-    }
-
-    ActionHistoryData? data =
-        await _actionHistoryRepository.readOneByTypeAndDateRange(
-      EAction.steps,
-      startAt,
-      endAt,
-    );
-
-    // 이산화탄소량의 변화량을 계산함
-    double changedCO2 = (data != null ? data.changeCapacity.abs() : 0.0) -
-        currentChangeCapacity;
-
-    // 금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 저장하는데
-    // 저장된 걸음 수가 없다면 새로운 데이터를 생성하고
-    // 저장된 걸음 수가 있다면 새로운 데이터를 생성하지 않고 업데이트함
-    // 이후 사용자의 총 이산화탄소를 변화시킴
-    if (data == null) {
-      data = await _actionHistoryRepository.createOrUpdate(
-        ActionHistoryCompanion.insert(
-          changeCapacity: -currentChangeCapacity,
-          createdAt: _currentDate,
-          updatedAt: _currentDate,
-          question: "오늘의 걸음 수는?",
-          answer: "${currentChangeCapacity ~/ 0.000125} 보",
-          userStatus: EUserStatus.health,
-          type: EAction.steps,
-        ),
-      );
-
-      Get.find<HomeViewModel>().fetchDeltaCO2(
-        await _userRepository.updateTotalDeltaCO2(
-          changedCO2,
-        ),
-      );
-      await _userRepository.updateUserInformationCount(
-        EUserStatus.health,
-        true,
-      );
-      Get.find<HomeViewModel>().fetchCharacterStatsState(
-        await _userRepository.updateCharacterStats(null, null),
-      );
-    } else if (data.changeCapacity.abs() < currentChangeCapacity) {
-      data = await _actionHistoryRepository.createOrUpdate(
-        data
-            .copyWith(
-              changeCapacity: -currentChangeCapacity,
-              updatedAt: _currentDate,
-              answer: "${currentChangeCapacity ~/ 0.000125} 보",
-            )
-            .toCompanion(true),
-      );
-
-      Get.find<HomeViewModel>().fetchDeltaCO2(
-        await _userRepository.updateTotalDeltaCO2(
-          changedCO2,
-        ),
-      );
-      Get.find<HomeViewModel>().fetchCharacterStatsState(
-        await _userRepository.updateCharacterStats(null, null),
-      );
-    }
+  void fetchSignInState() {
+    _isSignIn.value = FirebaseAuth.instance.currentUser != null;
   }
 }

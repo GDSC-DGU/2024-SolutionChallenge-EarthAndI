@@ -1,29 +1,72 @@
-import 'package:flutter/material.dart';
+import 'package:earth_and_i/models/setting/alarm_state.dart';
+import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SettingViewModel extends GetxController {
-  late final RxBool _isAlram;
-  late final RxString _alramTime;
-  bool get isAlram => _isAlram.value;
-  String get alramTime => _alramTime.value;
+  /* ------------------------------------------------------ */
+  /* -------------------- DI Fields ----------------------- */
+  /* ------------------------------------------------------ */
+  late final UserRepository _userRepository;
+
+  /* ------------------------------------------------------ */
+  /* ----------------- Private Fields --------------------- */
+  /* ------------------------------------------------------ */
+  late final RxString _languageName;
+  late final Rx<AlarmState> _alarmState;
+
+  /* ------------------------------------------------------ */
+  /* ----------------- Public Fields ---------------------- */
+  /* ------------------------------------------------------ */
+  String get languageName => _languageName.value;
+  AlarmState get alarmState => _alarmState.value;
 
   @override
   void onInit() {
     super.onInit();
-    _isAlram = true.obs;
-    _alramTime = "09:00".obs;
+    // DI
+    _userRepository = Get.find<UserRepository>();
+
+    // Rx
+    _languageName = Get.deviceLocale.toString().obs;
+    _alarmState = _userRepository.readAlarmState().obs;
   }
 
-  void onIsAlramSwitch() {
-    _isAlram.value = !_isAlram.value;
+  void onIsAlarmSwitch() {
+    _userRepository
+        .updateUserSetting(isActive: !_alarmState.value.isActive)
+        .then((value) => _alarmState.value = value);
   }
 
-  void setAlramTime(String currentAlramTime) {
-    _alramTime.value = currentAlramTime;
+  void changeAlarmTime(int hour, int minute) {
+    _userRepository
+        .updateUserSetting(
+          hour: hour,
+          minute: minute,
+        )
+        .then((value) => _alarmState.value = value);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<bool> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await _userRepository.updateUserBriefInformation(
+        id: 'GUEST',
+        nickname: 'GUEST',
+      );
+    } catch (e) {
+      return false;
+    }
+
+    informChangedSignInState();
+
+    return true;
+  }
+
+  void informChangedSignInState() {
+    Get.find<RootViewModel>().fetchSignInState();
+    Get.find<ProfileViewModel>().fetchUserBriefState();
   }
 }
