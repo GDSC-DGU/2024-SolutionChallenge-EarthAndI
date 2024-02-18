@@ -3,6 +3,7 @@ import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
@@ -11,13 +12,12 @@ import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
 import 'package:earth_and_i/views/home/widgets/speech_recognize_bottom_sheet.dart';
 import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
 import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-part 'package:earth_and_i/views/base/p_functions.dart';
+part 'package:earth_and_i/views/home/part/p_functions.dart';
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});

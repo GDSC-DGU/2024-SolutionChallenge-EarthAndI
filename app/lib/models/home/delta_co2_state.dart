@@ -16,4 +16,10 @@ class DeltaCO2State {
       changeCO2: changeCO2 ?? this.changeCO2,
     );
   }
+
+  factory DeltaCO2State.initial() {
+    return DeltaCO2State(
+      totalCO2: 0,
+    );
+  }
 }

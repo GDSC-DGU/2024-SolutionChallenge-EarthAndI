@@ -3,7 +3,6 @@ import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/apps/main_app.dart';
 import 'package:earth_and_i/apps/firebase/firebase_options.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';

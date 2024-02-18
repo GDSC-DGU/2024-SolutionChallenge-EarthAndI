@@ -12,7 +12,6 @@ import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'widgets/delta_co2_text.dart';
 
@@ -42,6 +41,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
             dailyDeltaCO2View(),
             const SizedBox(height: 16),
             actionHistoriesView(),
+            const SizedBox(height: 28),
           ],
         ),
       ),

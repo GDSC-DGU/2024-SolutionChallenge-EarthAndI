@@ -1,6 +1,7 @@
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/view_models/setting/setting_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/setting/widgets/custom_time_picker.dart';
@@ -48,7 +49,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
       );
 
   Widget authenticationSection() => Obx(
-        () => viewModel.isSignin
+        () => Get.find<RootViewModel>().isSignIn
             ? SectionItem(
                 onTap: onTapSignOut,
                 children: [

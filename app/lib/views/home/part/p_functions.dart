@@ -2,7 +2,7 @@ part of 'package:earth_and_i/views/home/home_screen.dart';
 
 bool isSignIn() {
   // 로그인한 유저라면 true 반환
-  if (FirebaseAuth.instance.currentUser != null) {
+  if (Get.find<RootViewModel>().isSignIn) {
     return true;
   }
 

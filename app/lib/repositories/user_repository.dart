@@ -96,7 +96,7 @@ class UserRepository extends GetxService {
     required String id,
     required String nickname,
   }) async {
-    await _localProvider.setId(id.substring(0, 3));
+    await _localProvider.setId(id);
     await _localProvider.setNickname(nickname);
   }
 

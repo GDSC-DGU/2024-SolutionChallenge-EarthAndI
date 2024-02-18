@@ -1,6 +1,7 @@
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,8 +22,12 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
             () => TableCalendar(
               // Default Properties
               locale: Get.deviceLocale.toString(),
-              firstDay: DateTime.now().subtract(const Duration(days: 365)),
-              lastDay: DateTime.now().add(const Duration(days: 365)),
+              firstDay: Get.find<RootViewModel>()
+                  .currentAt
+                  .subtract(const Duration(days: 365)),
+              lastDay: Get.find<RootViewModel>()
+                  .currentAt
+                  .add(const Duration(days: 365)),
 
               // Date Properties
               currentDay: DateTime.now(),
@@ -38,7 +43,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
                 DateTime localDate = date.toLocal().subtract(Duration(
                       hours: date.toLocal().timeZoneOffset.inHours,
                     ));
-                return localDate.isBefore(DateTime.now());
+                return localDate.isBefore(Get.find<RootViewModel>().currentAt);
               },
 
               calendarStyle: CalendarStyle(
@@ -48,7 +53,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
 
                 // Selected Day Style
                 selectedDecoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: Colors.grey[200],
                   shape: BoxShape.circle,
                 ),
                 selectedTextStyle:

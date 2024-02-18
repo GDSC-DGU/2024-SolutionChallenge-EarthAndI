@@ -54,7 +54,7 @@ class ActionHistoryRepository extends GetxService {
     // 12 ~ 18시면, _actionGroups[2]
     // 18 ~ 24시면, _actionGroups[3]
     // 위 값을 구하고 현재 시간에 해당하는 액션들을 가져온다.
-    int groupIndex = 3;
+    int groupIndex = currentAt.hour ~/ 6;
     List<EAction> actions = _actionGroups[groupIndex];
 
     if (groupIndex == 0) {
@@ -195,7 +195,7 @@ class ActionHistoryRepository extends GetxService {
           changeCapacity: 0,
           type: EAction.steps,
           question: '',
-          answer: '',
+          answer: '0',
         ),
       );
     } else {
