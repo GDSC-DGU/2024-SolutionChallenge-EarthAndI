@@ -46,7 +46,8 @@ class UserRepository extends GetxService {
       hour: _localProvider.getAlarmHour(),
       minute: _localProvider.getAlarmMinute(),
     );
-    
+  }
+
   EChallenge readCurrentChallenge() {
     return _localProvider.getCurrentChallenge();
   }
