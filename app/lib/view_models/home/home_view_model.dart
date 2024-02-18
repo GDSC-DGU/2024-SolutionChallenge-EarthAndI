@@ -180,6 +180,8 @@ class HomeViewModel extends GetxController {
       speechBubble: result['answer'],
     );
 
+    await loadAndSaveSteps(Get.find<RootViewModel>().currentAt);
+
     Get.find<ProfileViewModel>().fetchDailyDeltaCO2State(null);
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
