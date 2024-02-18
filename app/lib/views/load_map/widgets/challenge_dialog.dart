@@ -20,7 +20,7 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
           challengeHistoryState: challenge, isCompleted: isCompleted),
       content: SizedBox(
         width: Get.width * 0.8,
-        height: Get.height * 0.4,
+        height: Get.height * 0.45,
         child: DialogContent(challengeHistoryState: challenge),
       ),
       insetPadding: const EdgeInsets.all(28),
@@ -79,12 +79,12 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
             children: [
               Text(
                 challengeHistoryState.shortTitle.tr,
-                style: FontSystem.KR20B,
+                style: FontSystem.KR24B,
               ),
               const SizedBox(height: 8),
               Text(
                 challengeHistoryState.longTitle.tr,
-                style: FontSystem.KR12M,
+                style: FontSystem.KR14M,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -115,20 +115,17 @@ class DialogContent extends BaseWidget<LoadMapViewModel> {
   @override
   Widget buildView(BuildContext context) {
     return SizedBox(
-      width: Get.width * 0.8,
-      height: Get.height * 0.4,
       child: Column(
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage(challengeHistoryState.iconPath.tr),
-                  fit: BoxFit.cover,
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                challengeHistoryState.iconPath.tr,
+                fit: BoxFit.fill,
+                width: 280,
+                height: 280,
               ),
-              child: null,
             ),
           ),
           const SizedBox(height: 12),
