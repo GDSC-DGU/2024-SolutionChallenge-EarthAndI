@@ -1,4 +1,5 @@
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
+import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
@@ -25,6 +26,10 @@ class UserRepository extends GetxService {
 
   String readNickname() {
     return _localProvider.getNickname();
+  }
+
+  EChallenge readCurrentChallenge() {
+    return _localProvider.getCurrentChallenge();
   }
 
   DailyCarbonState readDailyCarbonState() {

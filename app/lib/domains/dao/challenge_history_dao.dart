@@ -1,21 +1,38 @@
 import 'package:drift/drift.dart';
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/entity/challenge_history.dart';
+import 'package:earth_and_i/providers/challenge_history_local_provider.dart';
 
 part 'challenge_history_dao.g.dart';
 
 @DriftAccessor(tables: [ChallengeHistory])
 class ChallengeHistoryDao extends DatabaseAccessor<LocalDatabase>
-    with _$ChallengeHistoryDaoMixin {
+    with _$ChallengeHistoryDaoMixin
+    implements ChallengeHistoryLocalProvider {
   ChallengeHistoryDao(super.db);
 
   /// Save [ChallengeHistoryData] to the database.
   /// When the same data is saved, the data is updated.
+  @override
   Future<ChallengeHistoryData> save(
-    ChallengeHistoryData entity,
+    ChallengeHistoryCompanion entity,
   ) async {
     int id = await into(challengeHistory).insertOnConflictUpdate(entity);
 
-    return entity.copyWith(id: id);
+    return ChallengeHistoryData(
+      id: id,
+      createdAt: entity.createdAt.value,
+      updatedAt: entity.updatedAt.value,
+      userStatus: entity.userStatus.value,
+      type: entity.type.value,
+      analysisContent: entity.analysisContent.value,
+      changeCapacity: entity.changeCapacity.value,
+    );
+  }
+
+  @override
+  Future<List<ChallengeHistoryData?>> getCompletedChallengeData() {
+    return (select(challengeHistory)..where((tbl) => tbl.createdAt.isNotNull()))
+        .get();
   }
 }

@@ -33,7 +33,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           ),
           child: const Center(
             child: Text(
-              "그거 아시나요? 찬물 세탁도 지구를 지킬 수 있답니다!",
+              "그거 아시나요?\n 찬물 세탁도 지구를 지킬 수 있답니다!",
               style: FontSystem.KR16B,
             ),
           ),
@@ -50,7 +50,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           ),
           child: const Center(
             child: Text(
-              "이메일을 지워보세요! 불필요한 이메일을 지우면 지구를 지킬 수 있어요!",
+              "이메일을 지워보세요!\n 불필요한 이메일을 지우면 지구를 지킬 수 있어요!",
               style: FontSystem.KR16B,
             ),
           ),
@@ -67,7 +67,7 @@ class LoadMapCarousel extends BaseWidget<LoadMapViewModel> {
           ),
           child: const Center(
             child: Text(
-              "종이컵 대신 개인용 텀블러를 사용해보세요! 지구를 지키는 작은 습관!",
+              "종이컵 대신 개인용 텀블러를 사용해보세요!\n 지구를 지키는 작은 습관!",
               style: FontSystem.KR16B,
             ),
           ),

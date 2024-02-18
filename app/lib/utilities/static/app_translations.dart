@@ -1,5 +1,6 @@
 import 'package:earth_and_i/utilities/static/character_translations.dart';
 import 'package:earth_and_i/utilities/static/e_action_translations.dart';
+import 'package:earth_and_i/utilities/static/e_challenge_translations.dart';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
@@ -12,6 +13,7 @@ class AppTranslations extends Translations {
   static Map<String, String> get korean => {
         ...CharacterTranslations.kr,
         ...EActionTranslations.kr,
+        ...EChallengeTranslations.kr,
         // Home Screen
         "analysis_snackBar_title": "분석 중",
         "analysis_snackBar_content": "분석 중에는 탄소 구름을 터치할 수 없습니다.",
@@ -35,6 +37,7 @@ class AppTranslations extends Translations {
   static Map<String, String> get english => {
         ...CharacterTranslations.en,
         ...EActionTranslations.en,
+        ...EChallengeTranslations.en,
         // Home Screen
         "analysis_snackBar_title": "Analyzing",
         "analysis_snackBar_content":

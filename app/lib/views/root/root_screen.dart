@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
@@ -87,7 +88,11 @@ class RootScreen extends GetView<RootViewModel> {
           if (viewModel.selectedIndex != 1) {
             viewModel.changeIndex(1);
           } else {
-            Get.dialog(const ChallengeDialog(isCompleted: false));
+            // 변경 필요
+            // DevOnLog.e('Challenge Dialog');
+            Get.dialog(ChallengeDialog(
+                challenge: viewModel.challengeHistoryState,
+                isCompleted: viewModel.challengeHistoryState.isCompleted));
           }
         },
         backgroundColor: const Color(0xFF90CDBE),
