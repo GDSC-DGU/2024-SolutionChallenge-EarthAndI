@@ -132,4 +132,9 @@ class UserRepository extends GetxService {
       isGoodCash: _localProvider.getCashCondition(),
     );
   }
+
+  Future<EChallenge> updateCurrentChallenge(EChallenge challenge) async {
+    await _localProvider.setCurrentChallenge(challenge);
+    return _localProvider.getCurrentChallenge();
+  }
 }

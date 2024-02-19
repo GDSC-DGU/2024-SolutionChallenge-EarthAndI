@@ -52,4 +52,8 @@ class LoadMapViewModel extends GetxController {
           .readAllChallengeHistoryState(_currentEChallenge.value),
     );
   }
+
+  void fetchCurrentEChallenge(EChallenge challenge) {
+    _currentEChallenge.value = _userRepository.readCurrentChallenge();
+  }
 }
