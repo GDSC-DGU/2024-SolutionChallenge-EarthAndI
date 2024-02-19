@@ -43,10 +43,6 @@ class ResultSuccessScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
           ],
         ),
         const SizedBox(height: 40),
-        ChallengeList(
-          challenge: viewModel.currentChallengeHistoryState[0],
-          isCompleted: viewModel.challengeHistoryState[0].isCompleted,
-        ),
         const Expanded(child: SizedBox()),
         SizedBox(
           width: Get.width - 32,
