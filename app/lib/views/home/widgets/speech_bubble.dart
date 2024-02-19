@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
@@ -30,7 +29,7 @@ class SpeechBubble extends BaseWidget<HomeViewModel> {
                 size: Get.width * 0.07,
               );
             } else {
-              return AutoSizeText(
+              return Text(
                 viewModel.analysisState.speechBubble.tr,
                 style: FontSystem.KR16M,
                 textAlign: TextAlign.center,

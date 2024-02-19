@@ -1,6 +1,8 @@
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
+import 'package:earth_and_i/models/profile/user_brief_state.dart';
+import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
 import 'package:earth_and_i/providers/user_local_provider.dart';
@@ -20,12 +22,30 @@ class UserRepository extends GetxService {
     await _localProvider.init();
   }
 
+  /* ------------------------------------------------------------ */
+  /* --------------------------- Read --------------------------- */
+  /* ------------------------------------------------------------ */
   double readTotalDeltaCO2() {
     return _localProvider.getTotalDeltaCO2();
   }
 
+  UserBriefState readUserBriefState() {
+    return UserBriefState(
+      id: _localProvider.getId(),
+      nickname: _localProvider.getNickname(),
+    );
+  }
+
   String readNickname() {
     return _localProvider.getNickname();
+  }
+
+  AlarmState readAlarmState() {
+    return AlarmState(
+      isActive: _localProvider.getAlarmActive(),
+      hour: _localProvider.getAlarmHour(),
+      minute: _localProvider.getAlarmMinute(),
+    );
   }
 
   EChallenge readCurrentChallenge() {
@@ -50,6 +70,39 @@ class UserRepository extends GetxService {
       isGoodMental: _localProvider.getMentalCondition(),
       isGoodCash: _localProvider.getCashCondition(),
     );
+  }
+
+  /* ------------------------------------------------------------ */
+  /* -------------------------- Update -------------------------- */
+  /* ------------------------------------------------------------ */
+  Future<AlarmState> updateUserSetting({
+    bool? isActive,
+    int? hour,
+    int? minute,
+  }) async {
+    DevOnLog.i(
+        'Update Alarm State: isActive: $isActive, hour: $hour, minute: $minute');
+    if (isActive != null) {
+      await _localProvider.setAlarmActive(isActive);
+    }
+    if (hour != null && minute != null) {
+      await _localProvider.setAlarmHour(hour);
+      await _localProvider.setAlarmMinute(minute);
+    }
+
+    return AlarmState(
+      isActive: _localProvider.getAlarmActive(),
+      hour: _localProvider.getAlarmHour(),
+      minute: _localProvider.getAlarmMinute(),
+    );
+  }
+
+  Future<void> updateUserBriefInformation({
+    required String id,
+    required String nickname,
+  }) async {
+    await _localProvider.setId(id);
+    await _localProvider.setNickname(nickname);
   }
 
   Future<double> updateTotalDeltaCO2(
