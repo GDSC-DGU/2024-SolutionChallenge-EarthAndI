@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:earth_and_i/domains/dao/user_dao.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,17 +31,19 @@ abstract class LocalStorageFactory {
       nickname: user?.displayName ?? 'GUEST',
     );
 
-    int hour = _userDAO!.getAlarmHour();
-    int minute = _userDAO!.getAlarmMinute();
+    bool isActive = userDAO.getAlarmActive();
+    int hour = userDAO.getAlarmHour();
+    int minute = userDAO.getAlarmMinute();
 
     await LocalNotificationUtil.setScheduleNotification(
+      isActive: isActive,
       hour: hour,
       minute: minute,
     );
   }
 
   static void deleteData() async {
-    await _userDAO!.deleteAll();
+    await userDAO.deleteAll();
     exit(0);
   }
 }

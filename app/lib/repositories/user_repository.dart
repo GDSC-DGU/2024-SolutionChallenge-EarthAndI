@@ -89,6 +89,12 @@ class UserRepository extends GetxService {
       await _localProvider.setAlarmMinute(minute);
     }
 
+    await LocalNotificationUtil.setScheduleNotification(
+      isActive: _localProvider.getAlarmActive(),
+      hour: _localProvider.getAlarmHour(),
+      minute: _localProvider.getAlarmMinute(),
+    );
+
     return AlarmState(
       isActive: _localProvider.getAlarmActive(),
       hour: _localProvider.getAlarmHour(),

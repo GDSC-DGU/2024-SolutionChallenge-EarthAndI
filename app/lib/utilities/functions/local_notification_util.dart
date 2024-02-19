@@ -1,6 +1,4 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/timezone.dart';
@@ -58,38 +56,35 @@ abstract class LocalNotificationUtil {
   }
 
   static Future<void> setScheduleNotification({
+    required bool isActive,
     required int hour,
     required int minute,
   }) async {
-    await _plugin.zonedSchedule(
-      0,
-      'E & I',
-      '오늘은 어떤 변화가 있을까요?',
-      _toDateTime(hour, minute),
-      _platformChannelSpecifics,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
-  }
-
-  static Future<void> sampleNotification() async {
-    await _plugin.show(
-      0,
-      'E & I',
-      '오늘은 어떤 변화가 있을까요?',
-      _platformChannelSpecifics,
-    );
+    if (isActive) {
+      await _plugin.cancel(0);
+      await _plugin.zonedSchedule(
+        0,
+        'E & I',
+        '오늘은 어떤 변화가 있을까요?',
+        _toDateTime(hour, minute),
+        _platformChannelSpecifics,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } else {
+      await _plugin.cancel(0);
+    }
   }
 
   static TZDateTime _toDateTime(hour, minute) {
-    // 현재 시간
+    // Current Time
     DateTime localNow = DateTime.now();
     DateTime localWhen =
-        DateTime(localNow.year, localNow.month, localNow.day, 3, 33);
+        DateTime(localNow.year, localNow.month, localNow.day, hour, minute);
 
-    // UTC 시간
+    // UTC Time
     TZDateTime now = TZDateTime.from(localNow, tz.local);
     TZDateTime when = TZDateTime.from(localWhen, tz.local);
 
