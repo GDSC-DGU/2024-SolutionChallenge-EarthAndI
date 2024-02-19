@@ -2,7 +2,7 @@ name: earth_and_i
 description: "This project visualizes the effects that carbon reduction has on me as part of the process of protecting the Earth."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+5
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -38,9 +38,6 @@ dependencies:
   # Loading Animation
   loading_animation_widget: ^1.2.0+4
 
-  # Auto Size Text
-  auto_size_text: ^3.0.0
-
   # Speech To Text
   speech_to_text: ^6.6.0
 
@@ -70,9 +67,7 @@ dependencies:
 
   # Firebase
   firebase_core: ^2.25.4
-  cloud_firestore: ^4.15.4
   firebase_auth: ^4.17.4
-  firebase_database: ^10.4.5
 
   # OAuth2
   google_sign_in: ^6.2.1

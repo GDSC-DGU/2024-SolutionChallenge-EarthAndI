@@ -14,6 +14,7 @@ abstract class LocalStorageFactory {
     _instance = GetStorage();
 
     _userDAO = UserDAO(storage: _instance!);
+    _userDAO!.init();
   }
 
   static void deleteData() async {

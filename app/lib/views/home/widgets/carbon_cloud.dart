@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:flutter/material.dart';
@@ -56,10 +55,9 @@ class CarbonCloudBubble extends StatelessWidget {
                       maxWidth: (Get.width - 32) * 0.5,
                       maxHeight: Get.height * 0.1,
                     ),
-                    child: AutoSizeText(
+                    child: Text(
                       state.shortQuestion.tr,
                       style: FontSystem.KR14M,
-                      maxFontSize: 14.0,
                       textAlign: TextAlign.center,
                     ),
                   ),
