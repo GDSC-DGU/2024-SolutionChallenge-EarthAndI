@@ -1,12 +1,7 @@
-import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/challenge_authentication/challenge_authentication_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
-import 'package:earth_and_i/views/challenge_authentication/challenge_authentication_screen.dart';
-import 'package:earth_and_i/views/home/home_screen.dart';
-import 'package:earth_and_i/views/load_map/load_map_screen.dart';
-import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

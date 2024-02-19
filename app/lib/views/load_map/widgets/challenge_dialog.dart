@@ -4,7 +4,6 @@ import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
@@ -89,17 +88,6 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
               ),
             ],
           ),
-          if (isCompleted)
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset("assets/icons/check_small.svg"),
-                const Text(
-                  "24/02/11",
-                  style: FontSystem.KR12M,
-                ),
-              ],
-            ),
         ],
       ),
     );
