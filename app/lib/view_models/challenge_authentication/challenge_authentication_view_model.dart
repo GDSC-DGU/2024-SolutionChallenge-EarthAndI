@@ -9,6 +9,8 @@ import 'package:earth_and_i/repositories/challenge_authentication_repository.dar
 import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
+import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -112,6 +114,10 @@ class ChallengeAuthenticationViewModel extends GetxController {
           .updateCurrentChallenge(EChallenge.values[eChallenge.index + 1]);
       _pageController.animateToPage(2,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
+      await Get.find<LoadMapViewModel>().fetchCurrentEChallenge(
+          EChallenge.values[_eChallenge.value.index + 1]);
+      await Get.find<RootViewModel>().fetchCurrentEChallenge(
+          EChallenge.values[_eChallenge.value.index + 1]);
     }
     // 인증이 실패한 경우
     else {

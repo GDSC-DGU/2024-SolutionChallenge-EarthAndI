@@ -53,7 +53,11 @@ class LoadMapViewModel extends GetxController {
     );
   }
 
-  void fetchCurrentEChallenge(EChallenge challenge) {
+  Future<void> fetchCurrentEChallenge(EChallenge challenge) async {
     _currentEChallenge.value = _userRepository.readCurrentChallenge();
+    _challengeHistoryState.clear();
+    _challengeHistoryState.addAll(
+      await _challengeHistoryRepository.readAllChallengeHistoryState(challenge),
+    );
   }
 }

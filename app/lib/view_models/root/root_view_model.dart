@@ -160,4 +160,12 @@ class RootViewModel extends GetxController {
       );
     }
   }
+
+  Future<void> fetchCurrentEChallenge(EChallenge challenge) async {
+    _currentEChallenge.value = challenge;
+    _challengeHistoryState.clear();
+    _challengeHistoryState.addAll(
+      await _challengeHistoryRepository.readAllChallengeHistoryState(challenge),
+    );
+  }
 }
