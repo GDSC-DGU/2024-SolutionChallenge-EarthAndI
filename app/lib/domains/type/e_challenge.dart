@@ -21,7 +21,7 @@ enum EChallenge implements Comparable<EChallenge> {
       case 'useColdWater':
         return EChallenge.useColdWater;
       case 'eatVegetarian':
-        return EChallenge.useColdWater;
+        return EChallenge.eatVegetarian;
       default:
         throw Exception('Unknown EChallenge name: $name');
     }
