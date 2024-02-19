@@ -7,6 +7,9 @@ import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
 import 'package:earth_and_i/providers/user_local_provider.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
+import 'package:earth_and_i/utilities/functions/security_util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxService {
@@ -16,10 +19,6 @@ class UserRepository extends GetxService {
   void onInit() {
     super.onInit();
     _localProvider = LocalStorageFactory.userDAO;
-  }
-
-  Future<void> load() async {
-    await _localProvider.init();
   }
 
   /* ------------------------------------------------------------ */
