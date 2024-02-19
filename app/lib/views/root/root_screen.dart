@@ -88,11 +88,10 @@ class RootScreen extends GetView<RootViewModel> {
           if (viewModel.selectedIndex != 1) {
             viewModel.changeIndex(1);
           } else {
-            // 변경 필요
-            // DevOnLog.e('Challenge Dialog');
             Get.dialog(ChallengeDialog(
-                challenge: viewModel.challengeHistoryState,
-                isCompleted: viewModel.challengeHistoryState.isCompleted));
+                challenge: viewModel.currentChallengeHistoryState[0],
+                isCompleted:
+                    viewModel.currentChallengeHistoryState[0].isCompleted));
           }
         },
         backgroundColor: const Color(0xFF90CDBE),

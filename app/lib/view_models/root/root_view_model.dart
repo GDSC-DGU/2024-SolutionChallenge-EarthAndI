@@ -6,6 +6,7 @@ import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:get/get.dart';
@@ -28,13 +29,20 @@ class RootViewModel extends GetxController {
   late final RxBool _isEnableGreyBarrier;
 
   late final Rx<EChallenge> _currentEChallenge;
-  late final ChallengeHistoryState _challengeHistoryState;
+  late final RxList<ChallengeHistoryState> _challengeHistoryState;
 
   int get selectedIndex => _selectedIndex.value;
   bool get isEnableGreyBarrier => _isEnableGreyBarrier.value;
 
   EChallenge get currentEChallenge => _currentEChallenge.value;
-  ChallengeHistoryState get challengeHistoryState => _challengeHistoryState;
+  List<ChallengeHistoryState> get challengeHistoryState =>
+      _challengeHistoryState;
+
+  List<ChallengeHistoryState> get currentChallengeHistoryState {
+    return _challengeHistoryState
+        .where((challenge) => !challenge.isCompleted)
+        .toList();
+  }
 
   @override
   void onInit() async {
@@ -54,10 +62,12 @@ class RootViewModel extends GetxController {
     _isEnableGreyBarrier = false.obs;
 
     _currentEChallenge = _userRepository.readCurrentChallenge().obs;
+    DevOnLog.i(_currentEChallenge.value.toString());
 
-    _challengeHistoryState = await _challengeHistoryRepository
-        .getCurrentChallengeState(_currentEChallenge.value);
+    _challengeHistoryState = RxList<ChallengeHistoryState>([]);
 
+    _challengeHistoryState.addAll(await _challengeHistoryRepository
+        .readAllChallengeHistoryState(_currentEChallenge.value));
     // Load And Save Data
     await initializeOrNoneUsers();
     await loadAndSaveSteps();
