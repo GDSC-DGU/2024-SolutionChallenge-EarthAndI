@@ -34,14 +34,27 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
             const SizedBox(height: 12),
             // 현재 진행중인 챌린지 (한 개만 표시)
             const Text("진행중인 챌린지", style: FontSystem.KR20SB120),
-            const SizedBox(height: 4),
-            Obx(
-              () => ChallengeList(
-                  challenge: viewModel.currentChallengeHistoryState[0],
-                  isCompleted:
-                      viewModel.currentChallengeHistoryState[0].isCompleted),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 120,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: viewModel.currentChallengeHistoryState.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, index) {
+                    return ChallengeList(
+                        challenge:
+                            viewModel.currentChallengeHistoryState[index],
+                        isCompleted: viewModel
+                            .currentChallengeHistoryState[index].isCompleted);
+                  },
+                ),
+              ),
             ),
-            const SizedBox(height: 32),
+
+            const Divider(),
+            const SizedBox(height: 20),
             // 완료한 챌린지 헤더
             Row(
               children: [
@@ -56,15 +69,15 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               ],
             ),
 
-            const SizedBox(height: 4),
+            const SizedBox(height: 16),
             // 완료한 챌린지 리스트 뷰 (여러 개 표시)
-            ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: viewModel.completedChallengeHistoryState.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, index) {
-                return Obx(
-                  () => Column(
+            Obx(
+              () => ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: viewModel.completedChallengeHistoryState.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, index) {
+                  return Column(
                     children: [
                       ChallengeList(
                           challenge:
@@ -74,10 +87,10 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
                               .isCompleted),
                       const SizedBox(height: 12),
                     ],
-                  ),
-                );
-              },
-            )
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
