@@ -14,6 +14,7 @@ class ChallengeHistoryRepository extends GetxService {
     EChallenge.deleteEmail,
     EChallenge.eatVegetarian,
     EChallenge.useColdWater,
+    EChallenge.clearAllChallenge
   ];
 
   @override

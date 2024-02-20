@@ -80,4 +80,19 @@ abstract class EChallengeTranslations {
             'Washing clothes with cold water reduces the amount of energy required to heat hot water. This can reduce carbon use by 10%!',
         'useColdWaterIconPath': 'assets/icons/use_cold_water.png',
       };
+
+  static Map<String, String> get krClearAllChallenge => {
+        'clearAllChallengeShortTitle': '모든 챌린지 클리어!',
+        'clearAllChallengeLongTitle': '모든 챌린지를 클리어했어요!',
+        'clearAllChallengeDescription': '모든 챌린지를 클리어했어요! 다음 챌린지를 기다려주세요!',
+        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.svg',
+      };
+
+  static Map<String, String> get enClearAllChallenge => {
+        'clearAllChallengeShortTitle': 'Clear All Challenge',
+        'clearAllChallengeLongTitle': 'You have cleared all challenges!',
+        'clearAllChallengeDescription':
+            'You have cleared all challenges! Please wait for the next challenge!',
+        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.svg',
+      };
 }
