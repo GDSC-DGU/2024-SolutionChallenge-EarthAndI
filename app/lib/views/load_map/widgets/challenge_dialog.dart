@@ -3,6 +3,7 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
+import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,9 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
           height: 56,
           child: OutlinedButton(
             onPressed: () {
+              if (isSignIn() == false) {
+                return;
+              }
               isCompleted
                   ? Get.back()
                   :
