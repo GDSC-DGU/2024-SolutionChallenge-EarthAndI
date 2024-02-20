@@ -4,6 +4,7 @@ import 'package:earth_and_i/apps/main_app.dart';
 import 'package:earth_and_i/apps/firebase/firebase_options.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
+import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -27,14 +28,16 @@ void main() async {
   await HealthUtil.initialize();
   await LocalNotificationUtil.initialize();
 
+  // Widget
+  await WidgetUtil.onInit();
+
   // Database
   LocalDatabaseFactory.onInit();
   await LocalStorageFactory.onInit();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // App onReady
   await LocalStorageFactory.onReady();
-
-  // LocalStorageFactory.deleteData();
 
   runApp(const MainApp());
 }
