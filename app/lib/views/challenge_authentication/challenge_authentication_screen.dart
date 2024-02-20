@@ -37,7 +37,6 @@ class ChallengeAuthenticationScreen
       child: PageView(
         controller: viewModel.pageController,
         physics: const NeverScrollableScrollPhysics(),
-
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -99,9 +98,7 @@ class ChallengeAuthenticationScreen
                     // 이미지가 없는 경우의 OutlinedButton
                     () => viewModel.image == null
                         ? OutlinedButton(
-                            onPressed: () {
-                              Get.snackbar("사진이 없어요 :(", "사진을 선택해주세요!");
-                            },
+                            onPressed: null,
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
