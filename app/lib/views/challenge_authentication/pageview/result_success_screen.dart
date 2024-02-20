@@ -3,6 +3,7 @@ import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/challenge_authentication/challenge_authentication_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ResultSuccessScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
@@ -21,15 +22,17 @@ class ResultSuccessScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Expanded(child: SizedBox()),
-        const Column(
+        Column(
           children: [
-            Center(
+            SvgPicture.asset("assets/icons/clear_challenge.svg"),
+            const SizedBox(height: 40),
+            const Center(
               child: Text(
                 "챌린지 달성 완료!",
                 style: FontSystem.KR20B,
               ),
             ),
-            Center(
+            const Center(
               child: Text(
                 "새로운 챌린지를 확인해보세요.",
                 style: FontSystem.KR20B,

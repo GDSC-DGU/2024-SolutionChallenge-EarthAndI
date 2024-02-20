@@ -3,6 +3,7 @@ import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/challenge_authentication/challenge_authentication_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ResultFailedScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
@@ -23,14 +24,17 @@ class ResultFailedScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Expanded(
-          child: Center(
-            child: Text(
-              "제출한 사진이 잘못된 것 같아요!",
-              style: FontSystem.KR20B,
-            ),
+        const Expanded(child: SizedBox()),
+        SvgPicture.asset("assets/icons/failed_challenge.svg"),
+        const SizedBox(height: 40),
+        const Center(
+          child: Text(
+            "제출한 사진이 잘못된 것 같아요!",
+            style: FontSystem.KR20B,
           ),
         ),
+        const SizedBox(height: 40),
+        const Expanded(child: SizedBox()),
         SizedBox(
           width: Get.width - 32,
           height: 56,
