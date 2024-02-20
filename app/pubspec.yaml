@@ -79,6 +79,9 @@ dependencies:
   # Animation
   rive: ^0.12.4
 
+  # Native Widget
+  home_widget: ^0.4.1
+
   # Local Notification
   timezone: ^0.9.2
   flutter_local_notifications: ^16.3.2
