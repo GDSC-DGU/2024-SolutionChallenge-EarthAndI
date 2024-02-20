@@ -5,6 +5,7 @@ import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
 import 'package:earth_and_i/views/load_map/widgets/load_map_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
@@ -22,21 +23,28 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   @override
   Widget buildBody(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 로드맵의 헤더 부분 (배너가 들어갈지 아직 미정)
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Center(
+                  child: SvgPicture.asset("assets/icons/earth.svg",
+                      width: 40, height: 40)),
+            ),
+            const SizedBox(height: 16),
             const LoadMapCarousel(),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
             // 현재 진행중인 챌린지 (한 개만 표시)
             const Text("진행중인 챌린지", style: FontSystem.KR20SB120),
             const SizedBox(height: 16),
             SizedBox(
-              height: 120,
+              height: 110,
               child: Obx(
                 () => ListView.builder(
                   itemCount: viewModel.currentChallengeHistoryState.length,
@@ -53,7 +61,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               ),
             ),
 
-            const Divider(),
+            Divider(thickness: 2, color: ColorSystem.grey[100]!),
             const SizedBox(height: 20),
             // 완료한 챌린지 헤더
             Row(
