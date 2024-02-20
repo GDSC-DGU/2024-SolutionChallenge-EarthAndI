@@ -26,7 +26,7 @@ class LoadingScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
         SizedBox(height: 40),
         Center(
           child: Text(
-            "제출한 사진을 분석중이에요.",
+            "제출한 사진을 AI가 분석중이에요.",
             style: FontSystem.KR20B,
           ),
         ),
