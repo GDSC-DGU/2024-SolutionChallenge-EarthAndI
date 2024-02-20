@@ -1,6 +1,7 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/providers/challenge_authentication/challenge_authentication_connect.dart';
 import 'package:earth_and_i/providers/challenge_authentication_provider.dart';
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
 
 class ChallengeAuthenticationProviderImpl extends ChallengeAuthenticationConnect
@@ -13,6 +14,7 @@ class ChallengeAuthenticationProviderImpl extends ChallengeAuthenticationConnect
     final Response response;
 
     try {
+      DevOnLog.d(challenge.index + 1);
       response = await post(
         "",
         {

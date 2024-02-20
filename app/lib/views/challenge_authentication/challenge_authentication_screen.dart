@@ -3,9 +3,9 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/challenge_authentication/challenge_authentication_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
-import 'package:earth_and_i/views/challenge_authentication/widget/loading_screen.dart';
-import 'package:earth_and_i/views/challenge_authentication/widget/result_failed_screen.dart';
-import 'package:earth_and_i/views/challenge_authentication/widget/result_success_screen.dart';
+import 'package:earth_and_i/views/challenge_authentication/pageview/loading_screen.dart';
+import 'package:earth_and_i/views/challenge_authentication/pageview/result_failed_screen.dart';
+import 'package:earth_and_i/views/challenge_authentication/pageview/result_success_screen.dart';
 import 'package:earth_and_i/widgets/appbar/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,6 +36,8 @@ class ChallengeAuthenticationScreen
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
       child: PageView(
         controller: viewModel.pageController,
+        physics: const NeverScrollableScrollPhysics(),
+
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -91,53 +93,54 @@ class ChallengeAuthenticationScreen
               const SizedBox(height: 12),
               Center(
                 child: SizedBox(
-                    width: Get.width * 0.92,
-                    height: 56,
-                    child: Obx(
-                      // 이미지가 없는 경우의 OutlinedButton
-                      () => viewModel.image == null
-                          ? OutlinedButton(
-                              onPressed: () {
-                                Get.snackbar("사진이 없어요 :(", "사진을 선택해주세요!");
-                              },
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                backgroundColor: ColorSystem.grey[100],
-                                textStyle: FontSystem.KR20M,
-                                foregroundColor: ColorSystem.grey[500],
-                                side: BorderSide(
-                                  color: ColorSystem.grey[100]!,
-                                  width: 1,
-                                ),
+                  width: Get.width * 0.92,
+                  height: 56,
+                  child: Obx(
+                    // 이미지가 없는 경우의 OutlinedButton
+                    () => viewModel.image == null
+                        ? OutlinedButton(
+                            onPressed: () {
+                              Get.snackbar("사진이 없어요 :(", "사진을 선택해주세요!");
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Text("인증하기"),
-                            )
-                          // // 이미지가 있는 경우의 OutlinedButton
-                          : OutlinedButton(
-                              // 인증하기 API 호출 (challenge의 index + 1, image(base64))
-                              onPressed: () {
-                                viewModel.pageController.animateToPage(1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease);
-                                viewModel.authChallenge(viewModel.image!);
-                              },
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                backgroundColor: ColorSystem.green[500],
-                                textStyle: FontSystem.KR20M,
-                                foregroundColor: ColorSystem.white,
-                                side: BorderSide(
-                                  color: ColorSystem.green[500]!,
-                                  width: 1,
-                                ),
+                              backgroundColor: ColorSystem.grey[100],
+                              textStyle: FontSystem.KR20M,
+                              foregroundColor: ColorSystem.grey[500],
+                              side: BorderSide(
+                                color: ColorSystem.grey[100]!,
+                                width: 1,
                               ),
-                              child: const Text("인증하기"),
                             ),
-                    )),
+                            child: const Text("인증하기"),
+                          )
+                        // 이미지가 있는 경우의 OutlinedButton
+                        : OutlinedButton(
+                            // 인증하기 API 호출 (challenge의 index + 1, image(base64))
+                            onPressed: () {
+                              viewModel.pageController.animateToPage(1,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease);
+                              viewModel.authChallenge(viewModel.image!);
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              backgroundColor: ColorSystem.green[500],
+                              textStyle: FontSystem.KR20M,
+                              foregroundColor: ColorSystem.white,
+                              side: BorderSide(
+                                color: ColorSystem.green[500]!,
+                                width: 1,
+                              ),
+                            ),
+                            child: const Text("인증하기"),
+                          ),
+                  ),
+                ),
               )
             ],
           ),
