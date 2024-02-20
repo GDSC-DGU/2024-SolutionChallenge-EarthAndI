@@ -4,6 +4,7 @@ abstract class EChallengeTranslations {
         ...krDeleteEmail,
         ...krEatVegetarian,
         ...krUseColdWater,
+        ...krClearAllChallenge,
       };
 
   static Map<String, String> get en => {
@@ -11,6 +12,7 @@ abstract class EChallengeTranslations {
         ...enDeleteEmail,
         ...enEatVegetarian,
         ...enUseColdWater,
+        ...enClearAllChallenge,
       };
 
   static Map<String, String> get krUseEcoFriendlyProducts => {
@@ -84,8 +86,8 @@ abstract class EChallengeTranslations {
   static Map<String, String> get krClearAllChallenge => {
         'clearAllChallengeShortTitle': '모든 챌린지 클리어!',
         'clearAllChallengeLongTitle': '모든 챌린지를 클리어했어요!',
-        'clearAllChallengeDescription': '모든 챌린지를 클리어했어요! 다음 챌린지를 기다려주세요!',
-        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.svg',
+        'clearAllChallengeDescription': '모든 챌린지를 클리어했어요!\n 다음 챌린지를 기다려주세요!',
+        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.png',
       };
 
   static Map<String, String> get enClearAllChallenge => {
@@ -93,6 +95,6 @@ abstract class EChallengeTranslations {
         'clearAllChallengeLongTitle': 'You have cleared all challenges!',
         'clearAllChallengeDescription':
             'You have cleared all challenges! Please wait for the next challenge!',
-        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.svg',
+        'clearAllChallengeIconPath': 'assets/icons/clear_challenge.png',
       };
 }

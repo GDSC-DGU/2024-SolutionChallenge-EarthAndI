@@ -40,7 +40,7 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
                   ? Get.back()
                   :
                   // 만약 challenge가 다 완료된 상태라면 다시 Get.back()
-                  challenge.shortTitle == "clearAllChallenge"
+                  challenge.shortTitle == "clearAllChallengeShortTitle"
                       ? Get.back()
                       : Get.toNamed("/challenge_authentication",
                           arguments: challenge);
@@ -61,7 +61,7 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
                 ? const Text("확인")
                 :
                 // 만약 challenge가 다 완료된 상태라면 "확인" 버튼을 띄움
-                challenge.shortTitle == "clearAllChallenge"
+                challenge.shortTitle == "clearAllChallengeShortTitle"
                     ? const Text("확인")
                     : const Text("챌린지 인증하기"),
           ),
@@ -144,7 +144,7 @@ class DialogContent extends BaseWidget<LoadMapViewModel> {
           SizedBox(
             height: 96,
             child: Text(challengeHistoryState.description.tr,
-                style: FontSystem.KR16M),
+                style: FontSystem.KR16M.copyWith(color: ColorSystem.black)),
           )
         ],
       ),
