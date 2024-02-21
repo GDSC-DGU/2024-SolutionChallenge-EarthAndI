@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:flutter/material.dart';
 
@@ -6,27 +7,37 @@ class DeltaCO2BarChart extends StatelessWidget {
     super.key,
     required this.positiveDeltaCO2,
     required this.negativeDeltaCO2,
-    required this.healthPositiveCnt,
-    required this.healthNegativeCnt,
-    required this.mentalPositiveCnt,
-    required this.mentalNegativeCnt,
-    required this.cashPositiveCnt,
-    required this.cashNegativeCnt,
+    required this.healthPositiveDeltaCO2,
+    required this.healthNegativeDeltaCO2,
+    required this.mentalPositiveDeltaCO2,
+    required this.mentalNegativeDeltaCO2,
+    required this.cashPositiveDeltaCO2,
+    required this.cashNegativeDeltaCO2,
   });
 
+  // Brief Delta CO2
   final double positiveDeltaCO2;
   final double negativeDeltaCO2;
-  final int healthPositiveCnt;
-  final int healthNegativeCnt;
-  final int mentalPositiveCnt;
-  final int mentalNegativeCnt;
-  final int cashPositiveCnt;
-  final int cashNegativeCnt;
+
+  // Detail Delta CO2
+  final double healthPositiveDeltaCO2;
+  final double healthNegativeDeltaCO2;
+  final double mentalPositiveDeltaCO2;
+  final double mentalNegativeDeltaCO2;
+  final double cashPositiveDeltaCO2;
+  final double cashNegativeDeltaCO2;
 
   @override
   Widget build(BuildContext context) {
     int flexPositive = (positiveDeltaCO2.abs() * 10000).round();
     int flexNegative = (negativeDeltaCO2 * 10000).round();
+
+    int flexPositiveHealth = (healthPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeHealth = (healthNegativeDeltaCO2 * 10000).round();
+    int flexPositiveMental = (mentalPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeMental = (mentalNegativeDeltaCO2 * 10000).round();
+    int flexPositiveCash = (cashPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeCash = (cashNegativeDeltaCO2 * 10000).round();
 
     return SizedBox(
       height: 30,
@@ -42,11 +53,11 @@ class DeltaCO2BarChart extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      bar(healthNegativeCnt, ColorSystem.lightPink),
-                      spaceSizeBox(healthNegativeCnt, mentalNegativeCnt, 4),
-                      bar(mentalNegativeCnt, ColorSystem.lightBlue),
-                      spaceSizeBox(mentalNegativeCnt, cashNegativeCnt, 4),
-                      bar(cashNegativeCnt, ColorSystem.lightYellow),
+                      bar(flexNegativeHealth, ColorSystem.lightPink),
+                      spaceSizeBox(flexNegativeHealth, flexNegativeMental, 4),
+                      bar(flexNegativeMental, ColorSystem.lightBlue),
+                      spaceSizeBox(flexNegativeMental, flexNegativeCash, 4),
+                      bar(flexNegativeCash, ColorSystem.lightYellow),
                     ],
                   ),
                 ],
@@ -62,11 +73,11 @@ class DeltaCO2BarChart extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      bar(healthPositiveCnt, ColorSystem.lightPink),
-                      spaceSizeBox(healthPositiveCnt, mentalPositiveCnt, 4),
-                      bar(mentalPositiveCnt, ColorSystem.lightBlue),
-                      spaceSizeBox(mentalPositiveCnt, cashPositiveCnt, 4),
-                      bar(cashPositiveCnt, ColorSystem.lightYellow),
+                      bar(flexPositiveHealth, ColorSystem.lightPink),
+                      spaceSizeBox(flexPositiveHealth, flexPositiveMental, 4),
+                      bar(flexPositiveMental, ColorSystem.lightBlue),
+                      spaceSizeBox(flexPositiveMental, flexPositiveCash, 4),
+                      bar(flexPositiveCash, ColorSystem.lightYellow),
                     ],
                   ),
                 ],
@@ -77,8 +88,9 @@ class DeltaCO2BarChart extends StatelessWidget {
     );
   }
 
-  Widget bar(num cnt, Color color) => cnt != 0
+  Widget bar(int flex, Color color) => flex != 0
       ? Flexible(
+          flex: flex,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

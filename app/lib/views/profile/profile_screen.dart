@@ -175,16 +175,18 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               () => DeltaCO2BarChart(
                 positiveDeltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
                 negativeDeltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                healthPositiveCnt:
-                    viewModel.dailyDeltaCO2State.healthPositiveCnt,
-                healthNegativeCnt:
-                    viewModel.dailyDeltaCO2State.healthNegativeCnt,
-                mentalPositiveCnt:
-                    viewModel.dailyDeltaCO2State.mentalPositiveCnt,
-                mentalNegativeCnt:
-                    viewModel.dailyDeltaCO2State.mentalNegativeCnt,
-                cashPositiveCnt: viewModel.dailyDeltaCO2State.cashPositiveCnt,
-                cashNegativeCnt: viewModel.dailyDeltaCO2State.cashNegativeCnt,
+                healthPositiveDeltaCO2:
+                    viewModel.dailyDeltaCO2State.healthPositiveDeltaCO2,
+                healthNegativeDeltaCO2:
+                    viewModel.dailyDeltaCO2State.healthNegativeDeltaCO2,
+                mentalPositiveDeltaCO2:
+                    viewModel.dailyDeltaCO2State.mentalPositiveDeltaCO2,
+                mentalNegativeDeltaCO2:
+                    viewModel.dailyDeltaCO2State.mentalNegativeDeltaCO2,
+                cashPositiveDeltaCO2:
+                    viewModel.dailyDeltaCO2State.cashPositiveDeltaCO2,
+                cashNegativeDeltaCO2:
+                    viewModel.dailyDeltaCO2State.cashNegativeDeltaCO2,
               ),
             ),
             const SizedBox(height: 4),

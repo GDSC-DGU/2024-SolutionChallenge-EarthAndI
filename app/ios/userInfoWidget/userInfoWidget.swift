@@ -10,6 +10,8 @@ import SwiftUI
 
 struct UserInfoEntry: TimelineEntry {
     let date: Date
+    let positiveDeltaCO2: Double?
+    let negativeDeltaCO2: Double?
     let positiveDeltaCO2Radio: Double?
     let negativeDeltaCO2Radio: Double?
     let characterAsset: String?
@@ -108,11 +110,11 @@ struct userInfoWidgetEntryView : View {
     
     var negationTextView: some View {
         if (entry.negativeDeltaCO2Radio! == 0) {
-            return Text(String(format: "%.4f", entry.negativeDeltaCO2Radio!))
+            return Text(String(format: "%.4f", 0.0))
                 .font(.system(size: 12))
                 .foregroundColor(.gray)
         } else {
-            return Text(String(format: "↑ %.4f", entry.negativeDeltaCO2Radio!))
+            return Text(String(format: "↑ %.4f", entry.negativeDeltaCO2!))
                 .font(.system(size: 12))
                 .foregroundColor(Color(red: 242 / 255, green: 171 / 255, blue: 171 / 255))
         }
@@ -120,11 +122,11 @@ struct userInfoWidgetEntryView : View {
     
     var positiveTextView: some View {
         if (entry.positiveDeltaCO2Radio! == 0) {
-            return Text(String(format: "%.4f", entry.positiveDeltaCO2Radio!))
+            return Text(String(format: "%.4f", 0.0))
                 .font(.system(size: 12))
                 .foregroundColor(.gray)
         } else {
-            return Text(String(format: "↓ %.4f", entry.positiveDeltaCO2Radio!))
+            return Text(String(format: "↓ %.4f", entry.positiveDeltaCO2!))
                 .font(.system(size: 12))
                 .foregroundColor(Color(red: 144 / 255, green: 205 / 255, blue: 190 / 255))
         }
@@ -149,8 +151,10 @@ struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> UserInfoEntry {
         UserInfoEntry(
             date: Date(),
-            positiveDeltaCO2Radio: 10,
-            negativeDeltaCO2Radio: 5,
+            positiveDeltaCO2: 0.0,
+            negativeDeltaCO2: 0.0,
+            positiveDeltaCO2Radio: 0.0,
+            negativeDeltaCO2Radio: 0.0,
             characterAsset: "1_1_1_1",
             displaySize: context.displaySize
         )
@@ -170,7 +174,7 @@ struct Provider: TimelineProvider {
             let positiveDeltaCO2Radio: Double
             let negativeDeltaCO2Radio: Double
             
-            if positiveDeltaCO2 + negativeDeltaCO2 == 0 {
+            if positiveDeltaCO2 == 0 && negativeDeltaCO2 == 0 {
                 positiveDeltaCO2Radio = 0.0
                 negativeDeltaCO2Radio = 0.0
             } else {
@@ -180,6 +184,8 @@ struct Provider: TimelineProvider {
             
             entry = UserInfoEntry(
                 date: Date(),
+                positiveDeltaCO2: positiveDeltaCO2,
+                negativeDeltaCO2: negativeDeltaCO2,
                 positiveDeltaCO2Radio: positiveDeltaCO2Radio,
                 negativeDeltaCO2Radio: negativeDeltaCO2Radio,
                 characterAsset: characterAsset,

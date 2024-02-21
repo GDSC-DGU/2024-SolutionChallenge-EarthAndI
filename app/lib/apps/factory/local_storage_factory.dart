@@ -42,8 +42,8 @@ abstract class LocalStorageFactory {
 
     // Set Widget
     WidgetUtil.setInformation(
-      positiveDeltaCO2: -10.125,
-      negativeDeltaCO2: 5.0,
+      positiveDeltaCO2: userDAO.getTotalPositiveDeltaCO2(),
+      negativeDeltaCO2: userDAO.getTotalNegativeDeltaCO2(),
       isHealthCondition: userDAO.getHealthCondition(),
       isMentalCondition: userDAO.getMentalCondition(),
       isCashCondition: userDAO.getCashCondition(),

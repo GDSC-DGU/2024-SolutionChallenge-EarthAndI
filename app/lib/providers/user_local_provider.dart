@@ -23,13 +23,8 @@ abstract class UserLocalProvider {
   String getNickname();
 
   // User Detail Information
-  int getHealthPositiveCnt();
-  int getHealthNegativeCnt();
-  int getCashPositiveCnt();
-  int getCashNegativeCnt();
-  int getMentalPositiveCnt();
-  int getMentalNegativeCnt();
-  double getTotalDeltaCO2();
+  double getTotalPositiveDeltaCO2();
+  double getTotalNegativeDeltaCO2();
 
   // Character State
   bool getHealthCondition();
@@ -52,13 +47,8 @@ abstract class UserLocalProvider {
   Future<void> setNickname(String nickname);
 
   // User Detail Information
-  Future<void> setHealthPositiveCnt(int cnt);
-  Future<void> setHealthNegativeCnt(int cnt);
-  Future<void> setCashPositiveCnt(int cnt);
-  Future<void> setCashNegativeCnt(int cnt);
-  Future<void> setMentalPositiveCnt(int cnt);
-  Future<void> setMentalNegativeCnt(int cnt);
-  Future<void> setTotalDeltaCO2(double value);
+  Future<void> setTotalPositiveDeltaCO2(double deltaCO2);
+  Future<void> setTotalNegativeDeltaCO2(double deltaCO2);
 
   // Character State
   Future<void> setHealthCondition(bool isGood);

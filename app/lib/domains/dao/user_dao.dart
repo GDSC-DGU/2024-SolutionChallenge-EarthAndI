@@ -33,19 +33,14 @@ class UserDAO implements UserLocalProvider {
     await _storage.writeIfNull(UserDAOExtension.nickname, nickname);
 
     // User Detail Information
-    await _storage.writeIfNull(UserDAOExtension.healthPositiveCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.healthNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.mentalPositiveCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.mentalNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.cashPositiveCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.cashNegativeCnt, 0);
-    await _storage.writeIfNull(UserDAOExtension.totalDeltaCO2, 0.0);
+    await _storage.writeIfNull(UserDAOExtension.totalPositiveDeltaCO2, 0.0);
+    await _storage.writeIfNull(UserDAOExtension.totalNegativeDeltaCO2, 0.0);
 
     // Character State
-    await _storage.writeIfNull(UserDAOExtension.environmentCondition, true);
     await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
     await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
     await _storage.writeIfNull(UserDAOExtension.cashCondition, true);
+
     await _storage.writeIfNull(UserDAOExtension.currentChallenge,
         EChallenge.useEcoFriendlyProducts.toString());
   }
@@ -88,49 +83,18 @@ class UserDAO implements UserLocalProvider {
     return _storage.read(UserDAOExtension.nickname) ?? 'GUEST';
   }
 
-  /// Get the user's health positive count.
+  /// Get the user's total positive delta CO2.
   @override
-  int getHealthPositiveCnt() {
-    return _storage.read(UserDAOExtension.healthPositiveCnt) ?? 0;
+  double getTotalPositiveDeltaCO2() {
+    return _storage.read(UserDAOExtension.totalPositiveDeltaCO2) ?? 0.0;
   }
 
-  /// Get the user's health negative count.
+  /// Get the user's total negative delta CO2.
   @override
-  int getHealthNegativeCnt() {
-    return _storage.read(UserDAOExtension.healthNegativeCnt) ?? 0;
+  double getTotalNegativeDeltaCO2() {
+    return _storage.read(UserDAOExtension.totalNegativeDeltaCO2) ?? 0.0;
   }
 
-  /// Get the user's mental positive count.
-  @override
-  int getMentalPositiveCnt() {
-    return _storage.read(UserDAOExtension.mentalPositiveCnt) ?? 0;
-  }
-
-  /// Get the user's mental negative count.
-  @override
-  int getMentalNegativeCnt() {
-    return _storage.read(UserDAOExtension.mentalNegativeCnt) ?? 0;
-  }
-
-  /// Get the user's cache positive count.
-  @override
-  int getCashPositiveCnt() {
-    return _storage.read(UserDAOExtension.cashPositiveCnt) ?? 0;
-  }
-
-  /// Get the user's cache negative count.
-  @override
-  int getCashNegativeCnt() {
-    return _storage.read(UserDAOExtension.cashNegativeCnt) ?? 0;
-  }
-
-  /// Get the user's total carbon dioxide.
-  @override
-  double getTotalDeltaCO2() {
-    return _storage.read(UserDAOExtension.totalDeltaCO2) ?? 0.0;
-  }
-
-  /// Get the user's health condition.
   @override
   bool getHealthCondition() {
     return _storage.read(UserDAOExtension.healthCondition) ?? true;
@@ -189,46 +153,16 @@ class UserDAO implements UserLocalProvider {
     await _storage.write(UserDAOExtension.nickname, nickname);
   }
 
-  /// Set the user's health positive count.
+  /// Set the user's total positive delta CO2.
   @override
-  Future<void> setHealthPositiveCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.healthPositiveCnt, cnt);
+  Future<void> setTotalPositiveDeltaCO2(double value) async {
+    await _storage.write(UserDAOExtension.totalPositiveDeltaCO2, value);
   }
 
-  /// Set the user's health negative count.
+  /// Set the user's total negative delta CO2.
   @override
-  Future<void> setHealthNegativeCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.healthNegativeCnt, cnt);
-  }
-
-  /// Set the user's mental positive count.
-  @override
-  Future<void> setMentalPositiveCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.mentalPositiveCnt, cnt);
-  }
-
-  /// Set the user's mental negative count.
-  @override
-  Future<void> setMentalNegativeCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.mentalNegativeCnt, cnt);
-  }
-
-  /// Set the user's cache positive count.
-  @override
-  Future<void> setCashPositiveCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.cashPositiveCnt, cnt);
-  }
-
-  /// Set the user's cache negative count.
-  @override
-  Future<void> setCashNegativeCnt(int cnt) async {
-    await _storage.write(UserDAOExtension.cashNegativeCnt, cnt);
-  }
-
-  /// Set the user's total carbon dioxide.
-  @override
-  Future<void> setTotalDeltaCO2(double value) async {
-    await _storage.write(UserDAOExtension.totalDeltaCO2, value);
+  Future<void> setTotalNegativeDeltaCO2(double value) async {
+    await _storage.write(UserDAOExtension.totalNegativeDeltaCO2, value);
   }
 
   /// Set the user's health condition.
@@ -268,16 +202,10 @@ extension UserDAOExtension on UserDAO {
   static const String nickname = 'nickname';
 
   // User Detail Information
-  static const String healthPositiveCnt = 'health_positive_cnt';
-  static const String healthNegativeCnt = 'health_negative_cnt';
-  static const String cashPositiveCnt = 'cash_positive_cnt';
-  static const String cashNegativeCnt = 'cash_negative_cnt';
-  static const String mentalPositiveCnt = 'mental_positive_cnt';
-  static const String mentalNegativeCnt = 'mental_negative_cnt';
-  static const String totalDeltaCO2 = 'total_delta_co2';
+  static const String totalPositiveDeltaCO2 = 'total_positive_delta_co2';
+  static const String totalNegativeDeltaCO2 = 'total_negative_delta_co2';
 
   // Character State
-  static const String environmentCondition = 'environment_condition';
   static const String healthCondition = 'health_condition';
   static const String mentalCondition = 'mental_condition';
   static const String cashCondition = 'cash_condition';
