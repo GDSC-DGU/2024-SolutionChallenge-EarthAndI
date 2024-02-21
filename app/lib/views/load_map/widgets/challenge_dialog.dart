@@ -131,12 +131,12 @@ class DialogContent extends BaseWidget<LoadMapViewModel> {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(36),
               child: Image.asset(
                 challengeHistoryState.iconPath.tr,
                 fit: BoxFit.fill,
-                width: 280,
-                height: 280,
+                width: Get.width * 0.8,
+                height: Get.width * 0.8,
               ),
             ),
           ),
