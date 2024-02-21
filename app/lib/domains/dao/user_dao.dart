@@ -12,17 +12,25 @@ class UserDAO implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* ------------------------ Initialize ------------------------ */
   /* ------------------------------------------------------------ */
+  @override
+  bool get isInitialized {
+    String? id = _storage.read(UserDAOExtension.id);
+    String? nickname = _storage.read(UserDAOExtension.nickname);
+
+    return id != null && nickname != null;
+  }
+
   /// Initialize the user data.
   @override
-  Future<void> init() async {
+  Future<void> init({required String id, required String nickname}) async {
     // User Setting
-    await _storage.writeIfNull(UserDAOExtension.alarmActive, false);
+    await _storage.writeIfNull(UserDAOExtension.alarmActive, true);
     await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
     await _storage.writeIfNull(UserDAOExtension.alarmMinute, 0);
 
     // User Brief Information
-    await _storage.writeIfNull(UserDAOExtension.id, 'GUEST');
-    await _storage.writeIfNull(UserDAOExtension.nickname, 'GUEST');
+    await _storage.writeIfNull(UserDAOExtension.id, id);
+    await _storage.writeIfNull(UserDAOExtension.nickname, nickname);
 
     // User Detail Information
     await _storage.writeIfNull(UserDAOExtension.healthPositiveCnt, 0);

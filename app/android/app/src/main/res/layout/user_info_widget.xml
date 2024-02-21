@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_container"
+    style="@style/Widget.Android.AppWidget.Container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="40dp"
+    android:padding="15dp"
+    android:background="#1A1A1E"
+    android:theme="@style/Theme.Android.AppWidgetContainer">
+
+    <LinearLayout
+        android:id="@+id/bar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <!-- Zero Bar When -->
+        <LinearLayout
+            android:id="@+id/zero_bar"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@drawable/shape_gray_round_rect"
+            android:orientation="vertical"
+            android:padding="5dp" />
+
+        <ProgressBar
+            android:id="@+id/delta_CO2_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:max="100"
+            android:progress="30"
+            android:layout_height="12dp"
+            android:progressDrawable="@drawable/progressbar_pink"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/text_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bar_container"
+        android:orientation="horizontal"
+        android:padding="0dp"
+        android:baselineAligned="false">
+        <TextView
+            android:id="@+id/negative_delta_CO2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="12.0000"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/positive_delta_CO2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="12.0000"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <!-- SVG Image -->
+    <ImageView
+        android:id="@+id/character_asset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+
+        android:src="@drawable/character_1_1_1_1"
+        android:contentDescription="character_asset"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

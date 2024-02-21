@@ -4,7 +4,10 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* ------------------------ Initialize ------------------------ */
   /* ------------------------------------------------------------ */
-  Future<void> init();
+  // 초기 유저인지 확인하는 함수
+  bool get isInitialized;
+
+  Future<void> init({required String id, required String nickname});
   Future<void> deleteAll();
 
   /* ------------------------------------------------------------ */
