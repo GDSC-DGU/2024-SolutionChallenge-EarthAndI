@@ -31,7 +31,7 @@ abstract class EChallengeTranslations {
         'useEcoFriendlyProductsDescription':
             'The eco-friendly mark helps to easily identify low-carbon products by displaying the amount of carbon generated in the production process in label form.',
         'useEcoFriendlyProductsIconPath':
-            'assets/icons/eco_friendly_products.png',
+            'assets/icons/use_eco_friendly_products.png',
       };
 
   static Map<String, String> get krDeleteEmail => {

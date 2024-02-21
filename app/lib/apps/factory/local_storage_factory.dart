@@ -18,17 +18,30 @@ abstract class LocalStorageFactory {
     _instance = GetStorage();
 
     _userDAO = UserDAO(storage: _instance!);
+
+    if (SecurityUtil.currentUser == null && !userDAO.isInitialized) {
+      await _userDAO!.onInit(true);
+    } else {
+      await _userDAO!.onInit(false);
+    }
   }
 
   static Future<void> onReady() async {
     if (userDAO.isInitialized) {
+      WidgetUtil.setInformation(
+        positiveDeltaCO2: userDAO.getTotalPositiveDeltaCO2(),
+        negativeDeltaCO2: userDAO.getTotalNegativeDeltaCO2(),
+        isHealthCondition: userDAO.getHealthCondition(),
+        isMentalCondition: userDAO.getMentalCondition(),
+        isCashCondition: userDAO.getCashCondition(),
+      );
       return;
     }
 
     User? user = SecurityUtil.currentUser;
 
     // If user is not signed in, initialize with GUEST
-    await userDAO.init(
+    await userDAO.onReady(
       id: user?.uid.substring(0, 3) ?? 'GUEST',
       nickname: user?.displayName ?? 'GUEST',
     );
@@ -42,8 +55,8 @@ abstract class LocalStorageFactory {
 
     // Set Widget
     WidgetUtil.setInformation(
-      positiveDeltaCO2: -10.125,
-      negativeDeltaCO2: 5.0,
+      positiveDeltaCO2: userDAO.getTotalPositiveDeltaCO2(),
+      negativeDeltaCO2: userDAO.getTotalNegativeDeltaCO2(),
       isHealthCondition: userDAO.getHealthCondition(),
       isMentalCondition: userDAO.getMentalCondition(),
       isCashCondition: userDAO.getCashCondition(),

@@ -1,48 +1,52 @@
 class DailyDeltaCO2State {
-  // Delta CO2
+  // Brief CO2
   final double positiveDeltaCO2;
   final double negativeDeltaCO2;
 
-  // Count
-  final int healthPositiveCnt;
-  final int healthNegativeCnt;
-  final int mentalPositiveCnt;
-  final int mentalNegativeCnt;
-  final int cashPositiveCnt;
-  final int cashNegativeCnt;
+  // Detail CO2
+  final double healthPositiveDeltaCO2;
+  final double healthNegativeDeltaCO2;
+  final double mentalPositiveDeltaCO2;
+  final double mentalNegativeDeltaCO2;
+  final double cashPositiveDeltaCO2;
+  final double cashNegativeDeltaCO2;
 
   double get totalDeltaCO2 => positiveDeltaCO2 + negativeDeltaCO2;
 
   DailyDeltaCO2State({
     required this.positiveDeltaCO2,
     required this.negativeDeltaCO2,
-    required this.healthPositiveCnt,
-    required this.healthNegativeCnt,
-    required this.mentalPositiveCnt,
-    required this.mentalNegativeCnt,
-    required this.cashPositiveCnt,
-    required this.cashNegativeCnt,
+    required this.healthPositiveDeltaCO2,
+    required this.healthNegativeDeltaCO2,
+    required this.mentalPositiveDeltaCO2,
+    required this.mentalNegativeDeltaCO2,
+    required this.cashPositiveDeltaCO2,
+    required this.cashNegativeDeltaCO2,
   });
 
   DailyDeltaCO2State copyWith({
     double? positiveDeltaCO2,
     double? negativeDeltaCO2,
-    int? healthPositiveCnt,
-    int? healthNegativeCnt,
-    int? mentalPositiveCnt,
-    int? mentalNegativeCnt,
-    int? cashPositiveCnt,
-    int? cashNegativeCnt,
+    double? healthPositiveDeltaCO2,
+    double? healthNegativeDeltaCO2,
+    double? mentalPositiveDeltaCO2,
+    double? mentalNegativeDeltaCO2,
+    double? cashPositiveDeltaCO2,
+    double? cashNegativeDeltaCO2,
   }) {
     return DailyDeltaCO2State(
       positiveDeltaCO2: positiveDeltaCO2 ?? this.positiveDeltaCO2,
       negativeDeltaCO2: negativeDeltaCO2 ?? this.negativeDeltaCO2,
-      healthPositiveCnt: healthPositiveCnt ?? this.healthPositiveCnt,
-      healthNegativeCnt: healthNegativeCnt ?? this.healthNegativeCnt,
-      mentalPositiveCnt: mentalPositiveCnt ?? this.mentalPositiveCnt,
-      mentalNegativeCnt: mentalNegativeCnt ?? this.mentalNegativeCnt,
-      cashPositiveCnt: cashPositiveCnt ?? this.cashPositiveCnt,
-      cashNegativeCnt: cashNegativeCnt ?? this.cashNegativeCnt,
+      healthPositiveDeltaCO2:
+          healthPositiveDeltaCO2 ?? this.healthPositiveDeltaCO2,
+      healthNegativeDeltaCO2:
+          healthNegativeDeltaCO2 ?? this.healthNegativeDeltaCO2,
+      mentalPositiveDeltaCO2:
+          mentalPositiveDeltaCO2 ?? this.mentalPositiveDeltaCO2,
+      mentalNegativeDeltaCO2:
+          mentalNegativeDeltaCO2 ?? this.mentalNegativeDeltaCO2,
+      cashPositiveDeltaCO2: cashPositiveDeltaCO2 ?? this.cashPositiveDeltaCO2,
+      cashNegativeDeltaCO2: cashNegativeDeltaCO2 ?? this.cashNegativeDeltaCO2,
     );
   }
 
@@ -50,17 +54,17 @@ class DailyDeltaCO2State {
     return DailyDeltaCO2State(
       positiveDeltaCO2: 0,
       negativeDeltaCO2: 0,
-      healthPositiveCnt: 0,
-      healthNegativeCnt: 0,
-      mentalPositiveCnt: 0,
-      mentalNegativeCnt: 0,
-      cashPositiveCnt: 0,
-      cashNegativeCnt: 0,
+      healthPositiveDeltaCO2: 0,
+      healthNegativeDeltaCO2: 0,
+      mentalPositiveDeltaCO2: 0,
+      mentalNegativeDeltaCO2: 0,
+      cashPositiveDeltaCO2: 0,
+      cashNegativeDeltaCO2: 0,
     );
   }
 
   @override
   String toString() {
-    return 'DailyDeltaCO2State(positiveDeltaCO2: $positiveDeltaCO2, negativeDeltaCO2: $negativeDeltaCO2, healthPositiveCnt: $healthPositiveCnt, healthNegativeCnt: $healthNegativeCnt, mentalPositiveCnt: $mentalPositiveCnt, mentalNegativeCnt: $mentalNegativeCnt, cashPositiveCnt: $cashPositiveCnt, cashNegativeCnt: $cashNegativeCnt)';
+    return 'DailyDeltaCO2State(positiveDeltaCO2: $positiveDeltaCO2, negativeDeltaCO2: $negativeDeltaCO2, healthPositiveCnt: $healthPositiveDeltaCO2, healthNegativeCnt: $healthNegativeDeltaCO2, mentalPositiveCnt: $mentalPositiveDeltaCO2, mentalNegativeCnt: $mentalNegativeDeltaCO2, cashPositiveCnt: $cashPositiveDeltaCO2, cashNegativeCnt: $cashNegativeDeltaCO2)';
   }
 }

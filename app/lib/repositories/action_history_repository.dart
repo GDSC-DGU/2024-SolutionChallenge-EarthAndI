@@ -113,12 +113,12 @@ class ActionHistoryRepository extends GetxService {
     double negativeDeltaCO2 = 0;
 
     // Count
-    int healthPositiveCnt = 0;
-    int healthNegativeCnt = 0;
-    int mentalPositiveCnt = 0;
-    int mentalNegativeCnt = 0;
-    int cashPositiveCnt = 0;
-    int cashNegativeCnt = 0;
+    double healthPositiveDeltaCO2 = 0;
+    double healthNegativeDeltaCO2 = 0;
+    double mentalPositiveDeltaCO2 = 0;
+    double mentalNegativeDeltaCO2 = 0;
+    double cashPositiveDeltaCO2 = 0;
+    double cashNegativeDeltaCO2 = 0;
 
     for (var history in histories) {
       if (history.changeCapacity > 0) {
@@ -129,24 +129,24 @@ class ActionHistoryRepository extends GetxService {
 
       switch (history.userStatus) {
         case EUserStatus.health:
-          if (history.changeCapacity > 0) {
-            healthNegativeCnt++;
+          if (history.changeCapacity < 0) {
+            healthPositiveDeltaCO2 += history.changeCapacity;
           } else {
-            healthPositiveCnt++;
+            healthNegativeDeltaCO2 += history.changeCapacity;
           }
           break;
         case EUserStatus.mental:
-          if (history.changeCapacity > 0) {
-            mentalNegativeCnt++;
+          if (history.changeCapacity < 0) {
+            mentalPositiveDeltaCO2 += history.changeCapacity;
           } else {
-            mentalPositiveCnt++;
+            mentalNegativeDeltaCO2 += history.changeCapacity;
           }
           break;
         case EUserStatus.cash:
-          if (history.changeCapacity > 0) {
-            cashNegativeCnt++;
+          if (history.changeCapacity < 0) {
+            cashPositiveDeltaCO2 += history.changeCapacity;
           } else {
-            cashPositiveCnt++;
+            cashNegativeDeltaCO2 += history.changeCapacity;
           }
           break;
         default:
@@ -157,15 +157,13 @@ class ActionHistoryRepository extends GetxService {
     DailyDeltaCO2State currentState = DailyDeltaCO2State(
       positiveDeltaCO2: positiveDeltaCO2,
       negativeDeltaCO2: negativeDeltaCO2,
-      healthPositiveCnt: healthPositiveCnt,
-      healthNegativeCnt: healthNegativeCnt,
-      mentalPositiveCnt: mentalPositiveCnt,
-      mentalNegativeCnt: mentalNegativeCnt,
-      cashPositiveCnt: cashPositiveCnt,
-      cashNegativeCnt: cashNegativeCnt,
+      healthPositiveDeltaCO2: healthPositiveDeltaCO2,
+      healthNegativeDeltaCO2: healthNegativeDeltaCO2,
+      mentalPositiveDeltaCO2: mentalPositiveDeltaCO2,
+      mentalNegativeDeltaCO2: mentalNegativeDeltaCO2,
+      cashPositiveDeltaCO2: cashPositiveDeltaCO2,
+      cashNegativeDeltaCO2: cashNegativeDeltaCO2,
     );
-
-    DevOnLog.i(currentState);
 
     return currentState;
   }
@@ -212,9 +210,9 @@ class ActionHistoryRepository extends GetxService {
   /* ----------------------------------------------------- */
   /* ---------------------- DataBase --------------------- */
   /* ----------------------------------------------------- */
-  Future<ActionHistoryData> createOrUpdate(ActionHistoryCompanion data) async {
+  Future<void> createOrUpdate(ActionHistoryCompanion data) async {
     try {
-      return await _localProvider.save(data);
+      await _localProvider.save(data);
     } on Exception catch (e) {
       DevOnLog.e(e);
       rethrow;

@@ -15,8 +15,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
-  // DotEnv
+  // Environment
   await dotenv.load(fileName: "assets/config/.env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // DateTime Formatting
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,6 @@ void main() async {
   // Database
   LocalDatabaseFactory.onInit();
   await LocalStorageFactory.onInit();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // App onReady
   await LocalStorageFactory.onReady();

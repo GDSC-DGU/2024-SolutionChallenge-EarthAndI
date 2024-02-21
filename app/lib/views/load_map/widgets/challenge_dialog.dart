@@ -91,9 +91,11 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                challengeHistoryState.shortTitle.tr,
-                style: FontSystem.KR24B,
+              Center(
+                child: Text(
+                  challengeHistoryState.shortTitle.tr,
+                  style: FontSystem.KR24B.copyWith(fontSize: 22),
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -131,12 +133,12 @@ class DialogContent extends BaseWidget<LoadMapViewModel> {
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(36),
               child: Image.asset(
                 challengeHistoryState.iconPath.tr,
                 fit: BoxFit.fill,
-                width: 280,
-                height: 280,
+                width: Get.width * 0.8,
+                height: Get.width * 0.8,
               ),
             ),
           ),

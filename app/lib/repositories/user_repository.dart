@@ -24,8 +24,13 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   /* --------------------------- Read --------------------------- */
   /* ------------------------------------------------------------ */
-  double readTotalDeltaCO2() {
-    return _localProvider.getTotalDeltaCO2();
+
+  double readTotalPositiveDeltaCO2() {
+    return _localProvider.getTotalPositiveDeltaCO2();
+  }
+
+  double readTotalNegativeDeltaCO2() {
+    return _localProvider.getTotalNegativeDeltaCO2();
   }
 
   UserBriefState readUserBriefState() {
@@ -51,23 +56,13 @@ class UserRepository extends GetxService {
     return _localProvider.getCurrentChallenge();
   }
 
-  DailyCarbonState readDailyCarbonState() {
-    return DailyCarbonState(
-      healthPositiveCnt: _localProvider.getHealthPositiveCnt(),
-      healthNegativeCnt: _localProvider.getHealthNegativeCnt(),
-      mentalPositiveCnt: _localProvider.getMentalPositiveCnt(),
-      mentalNegativeCnt: _localProvider.getMentalNegativeCnt(),
-      cashPositiveCnt: _localProvider.getCashPositiveCnt(),
-      cashNegativeCnt: _localProvider.getCashNegativeCnt(),
-    );
-  }
-
   CharacterStatsState readCharacterStatsState() {
     return CharacterStatsState(
-      isGoodEnvironment: _localProvider.getTotalDeltaCO2() <= 0,
-      isGoodHealth: _localProvider.getHealthCondition(),
-      isGoodMental: _localProvider.getMentalCondition(),
-      isGoodCash: _localProvider.getCashCondition(),
+      isEnvironmentCondition: _localProvider.getTotalPositiveDeltaCO2().abs() >=
+          _localProvider.getTotalNegativeDeltaCO2(),
+      isHealthCondition: _localProvider.getHealthCondition(),
+      isMentalCondition: _localProvider.getMentalCondition(),
+      isCashCondition: _localProvider.getCashCondition(),
     );
   }
 
@@ -79,8 +74,6 @@ class UserRepository extends GetxService {
     int? hour,
     int? minute,
   }) async {
-    DevOnLog.i(
-        'Update Alarm State: isActive: $isActive, hour: $hour, minute: $minute');
     if (isActive != null) {
       await _localProvider.setAlarmActive(isActive);
     }
@@ -110,60 +103,22 @@ class UserRepository extends GetxService {
     await _localProvider.setNickname(nickname);
   }
 
-  Future<double> updateTotalDeltaCO2(
+  Future<double> updateTotalPositiveDeltaCO2(
     double changedDeltaCO2,
   ) async {
-    double currentDeltaCO2 = _localProvider.getTotalDeltaCO2();
-    await _localProvider.setTotalDeltaCO2(currentDeltaCO2 + changedDeltaCO2);
+    await _localProvider.setTotalPositiveDeltaCO2(
+        _localProvider.getTotalPositiveDeltaCO2() + changedDeltaCO2);
 
-    DevOnLog.i(
-        'After Update, Total Delta CO2: ${_localProvider.getTotalDeltaCO2()}');
-
-    return _localProvider.getTotalDeltaCO2();
+    return _localProvider.getTotalPositiveDeltaCO2();
   }
 
-  Future<void> updateUserInformationCount(
-    EUserStatus userStatus,
-    bool isPositive,
+  Future<double> updateTotalNegativeDeltaCO2(
+    double changedDeltaCO2,
   ) async {
-    Function getCount;
-    switch (userStatus) {
-      case EUserStatus.health:
-        if (isPositive) {
-          await _localProvider
-              .setHealthPositiveCnt(_localProvider.getHealthPositiveCnt() + 1);
-          getCount = _localProvider.getHealthPositiveCnt;
-        } else {
-          await _localProvider
-              .setHealthNegativeCnt(_localProvider.getHealthNegativeCnt() + 1);
-          getCount = _localProvider.getHealthNegativeCnt;
-        }
-      case EUserStatus.mental:
-        if (isPositive) {
-          await _localProvider
-              .setMentalPositiveCnt(_localProvider.getMentalPositiveCnt() + 1);
-          getCount = _localProvider.getMentalPositiveCnt;
-        } else {
-          await _localProvider
-              .setMentalNegativeCnt(_localProvider.getMentalNegativeCnt() + 1);
-          getCount = _localProvider.getMentalNegativeCnt;
-        }
-      case EUserStatus.cash:
-        if (isPositive) {
-          await _localProvider
-              .setCashPositiveCnt(_localProvider.getCashPositiveCnt() + 1);
-          getCount = _localProvider.getCashPositiveCnt;
-        } else {
-          await _localProvider
-              .setCashNegativeCnt(_localProvider.getCashNegativeCnt() + 1);
-          getCount = _localProvider.getCashNegativeCnt;
-        }
-      default:
-        throw Exception('Invalid user status');
-    }
+    await _localProvider.setTotalNegativeDeltaCO2(
+        _localProvider.getTotalNegativeDeltaCO2() + changedDeltaCO2);
 
-    DevOnLog.i(
-        'Update $userStatus ${isPositive ? 'Positive' : 'Negative'} Count: ${getCount()}');
+    return _localProvider.getTotalNegativeDeltaCO2();
   }
 
   Future<CharacterStatsState> updateCharacterStats(
@@ -184,10 +139,11 @@ class UserRepository extends GetxService {
     }
 
     return CharacterStatsState(
-      isGoodEnvironment: _localProvider.getTotalDeltaCO2() < 0,
-      isGoodHealth: _localProvider.getHealthCondition(),
-      isGoodMental: _localProvider.getMentalCondition(),
-      isGoodCash: _localProvider.getCashCondition(),
+      isEnvironmentCondition: _localProvider.getTotalPositiveDeltaCO2().abs() >=
+          _localProvider.getTotalNegativeDeltaCO2(),
+      isHealthCondition: _localProvider.getHealthCondition(),
+      isMentalCondition: _localProvider.getMentalCondition(),
+      isCashCondition: _localProvider.getCashCondition(),
     );
   }
 

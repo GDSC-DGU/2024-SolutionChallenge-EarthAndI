@@ -2,10 +2,10 @@
 
 abstract class Routes {
   static const String ROOT = '/';
+  static const String ON_BOARDING = "/on_boarding";
   static const String SIGN_IN = "/sign_in";
   static const String SETTING = "/setting";
   static const String LANGUAGE = "/language";
-  static const String USERAUTH = "/userauth";
   static const String FRIEND = "/friend";
   static const String CHALLENGE_AUTHENTICATION = "/challenge_authentication";
 }

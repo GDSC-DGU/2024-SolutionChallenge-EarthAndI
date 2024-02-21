@@ -1,12 +1,13 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
-import 'package:earth_and_i/views/load_map/widgets/load_map_carousel.dart';
+import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:rive/rive.dart';
 
 class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   const LoadMapScreen({super.key});
@@ -29,29 +30,79 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 로드맵의 헤더 부분 (배너가 들어갈지 아직 미정)
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Center(
-                  child: SvgPicture.asset("assets/icons/earth.svg",
-                      width: 40, height: 40)),
-            ),
-            const SizedBox(height: 16),
-            const LoadMapCarousel(),
+            // Animation View
+            persistentAnimationView(),
 
-            const SizedBox(height: 24),
-            // 현재 진행중인 챌린지 (한 개만 표시)
+            // Gap
+            const SizedBox(height: 12),
+
+            // Carousel View
+            textsHintView(),
+
+            // Gap
+            const SizedBox(height: 20),
+
+            // Current Challenge View
             currentChallengeView(),
 
-            Divider(thickness: 2, color: ColorSystem.grey[100]!),
+            // Line View
+            InfinityLine(
+              height: 2,
+              color: ColorSystem.grey[200],
+            ),
+
+            // Gap
             const SizedBox(height: 20),
-            // 완료한 챌린지 헤더
+
+            // Completed Challenge View
             completedChallengeView(),
           ],
         ),
       ),
     );
   }
+
+  Widget persistentAnimationView() => Center(
+        child: SizedBox(
+          width: 120,
+          height: 120,
+          child: RiveAnimation.asset(
+            "assets/riv/persistent_animation_earth.riv",
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+            controllers: [
+              viewModel.animationController,
+            ],
+          ),
+        ),
+      );
+
+  Widget textsHintView() => SizedBox(
+        width: Get.width,
+        height: 20,
+        child: Center(
+          child: DefaultTextStyle(
+            style: FontSystem.KR16M,
+            child: AnimatedTextKit(
+              repeatForever: true,
+              animatedTexts: [
+                FadeAnimatedText(
+                  '찬물 세탁도 지구를 지킬 수 있답니다!',
+                  duration: const Duration(seconds: 3),
+                ),
+                FadeAnimatedText(
+                  '불필요한 이메일을 지우면 지구를 지킬 수 있어요!',
+                  duration: const Duration(seconds: 3),
+                ),
+                FadeAnimatedText(
+                  '종이컵 대신 개인용 텀블러를 사용해보세요!',
+                  duration: const Duration(seconds: 3),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget currentChallengeView() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +162,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               },
             ),
           ),
+          const SizedBox(height: 30),
         ],
       );
 }

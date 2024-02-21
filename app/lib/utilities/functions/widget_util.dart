@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter/foundation.dart' as foundation;
@@ -37,7 +38,7 @@ abstract class WidgetUtil {
           (positiveDeltaCO2.abs() * 10000).round());
     } else {
       HomeWidget.saveWidgetData<double>(
-          WidgetUtilExtension.positiveDeltaCO2, positiveDeltaCO2);
+          WidgetUtilExtension.positiveDeltaCO2, positiveDeltaCO2.abs());
     }
 
     // Saving Negative Delta CO2

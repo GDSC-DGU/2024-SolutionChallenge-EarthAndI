@@ -138,15 +138,20 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                     String suffix = '.svg';
 
                     String environment =
-                        viewModel.characterStatsState.isGoodEnvironment
+                        viewModel.characterStatsState.isEnvironmentCondition
                             ? '1'
                             : '2';
                     String health =
-                        viewModel.characterStatsState.isGoodHealth ? '1' : '2';
+                        viewModel.characterStatsState.isHealthCondition
+                            ? '1'
+                            : '2';
                     String mental =
-                        viewModel.characterStatsState.isGoodMental ? '1' : '2';
-                    String cash =
-                        viewModel.characterStatsState.isGoodCash ? '1' : '2';
+                        viewModel.characterStatsState.isMentalCondition
+                            ? '1'
+                            : '2';
+                    String cash = viewModel.characterStatsState.isCashCondition
+                        ? '1'
+                        : '2';
 
                     return SvgPicture.asset(
                       viewModel.analysisState.isLoading

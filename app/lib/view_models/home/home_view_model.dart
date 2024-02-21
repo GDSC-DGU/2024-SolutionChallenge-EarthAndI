@@ -11,6 +11,7 @@ import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
+import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:get/get.dart';
@@ -47,17 +48,18 @@ class HomeViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // Dependency Injection
+    // DI Fields
     _userRepository = Get.find<UserRepository>();
     _actionHistoryRepository = Get.find<ActionHistoryRepository>();
     _analysisRepository = Get.find<AnalysisRepository>();
 
-    // Initialize
+    // Private Fields
     _speechModule = SpeechToText();
 
     _deltaCO2State = DeltaCO2State.initial()
         .copyWith(
-          totalCO2: _userRepository.readTotalDeltaCO2(),
+          totalPositiveCO2: _userRepository.readTotalPositiveDeltaCO2(),
+          totalNegativeCO2: _userRepository.readTotalNegativeDeltaCO2(),
         )
         .obs;
     _characterStatsState = _userRepository.readCharacterStatsState().obs;
@@ -69,6 +71,7 @@ class HomeViewModel extends GetxController {
     _carbonCloudStates = RxList<CarbonCloudState>([]);
     _speechState = SpeechState.initial().obs;
 
+    // Load Data
     _carbonCloudStates.addAll(
       await _actionHistoryRepository.readCarbonCloudStates(DateTime.now()),
     );
@@ -143,8 +146,11 @@ class HomeViewModel extends GetxController {
       speechText,
     );
 
+    String answer = result['answer'];
+    double changeCapacity = result['changeCapacity'];
+
     // DB 저장
-    ActionHistoryData data = await _actionHistoryRepository.createOrUpdate(
+    await _actionHistoryRepository.createOrUpdate(
       ActionHistoryCompanion.insert(
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -157,31 +163,44 @@ class HomeViewModel extends GetxController {
     );
 
     // Update Data, Character Stats And UI
-    bool isPositive = result['changeCapacity'] < 0;
+    if (changeCapacity != 0.0) {
+      bool isPositive = changeCapacity < 0;
 
-    _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      totalCO2: await _userRepository.updateTotalDeltaCO2(data.changeCapacity),
-      changeCO2: data.changeCapacity,
-    );
+      if (changeCapacity < 0) {
+        _deltaCO2State.value = _deltaCO2State.value.copyWith(
+          totalPositiveCO2:
+              await _userRepository.updateTotalPositiveDeltaCO2(changeCapacity),
+          changeCO2: changeCapacity,
+        );
+      } else {
+        _deltaCO2State.value = _deltaCO2State.value.copyWith(
+          totalNegativeCO2:
+              await _userRepository.updateTotalNegativeDeltaCO2(changeCapacity),
+          changeCO2: changeCapacity,
+        );
+      }
 
-    await _userRepository.updateUserInformationCount(
-      _carbonCloudStates[index].userStatus,
-      isPositive,
-    );
-    _characterStatsState.value = await _userRepository.updateCharacterStats(
-      _carbonCloudStates[index].userStatus,
-      isPositive,
-    );
+      _characterStatsState.value = await _userRepository.updateCharacterStats(
+        _carbonCloudStates[index].userStatus,
+        isPositive,
+      );
+
+      WidgetUtil.setInformation(
+        positiveDeltaCO2: _deltaCO2State.value.totalPositiveCO2,
+        negativeDeltaCO2: _deltaCO2State.value.totalNegativeCO2,
+        isHealthCondition: _characterStatsState.value.isHealthCondition,
+        isMentalCondition: _characterStatsState.value.isMentalCondition,
+        isCashCondition: _characterStatsState.value.isCashCondition,
+      );
+    }
 
     // Update Data
     _carbonCloudStates.removeAt(index);
 
     _analysisState.value = _analysisState.value.copyWith(
       isLoading: false,
-      speechBubble: result['answer'],
+      speechBubble: answer,
     );
-
-    await loadAndSaveSteps(Get.find<RootViewModel>().currentAt);
 
     Get.find<ProfileViewModel>().fetchDailyDeltaCO2State(null);
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
@@ -221,7 +240,7 @@ class HomeViewModel extends GetxController {
     // 저장된 걸음 수가 있다면 새로운 데이터를 생성하지 않고 업데이트함
     // 이후 사용자의 총 이산화탄소를 변화시킴
     if (data == null) {
-      data = await _actionHistoryRepository.createOrUpdate(
+      await _actionHistoryRepository.createOrUpdate(
         ActionHistoryCompanion.insert(
           changeCapacity: -currentChangeCapacity,
           createdAt: currentAt,
@@ -232,13 +251,8 @@ class HomeViewModel extends GetxController {
           type: EAction.steps,
         ),
       );
-
-      await _userRepository.updateUserInformationCount(
-        EUserStatus.health,
-        true,
-      );
     } else if (data.changeCapacity.abs() < currentChangeCapacity) {
-      data = await _actionHistoryRepository.createOrUpdate(
+      await _actionHistoryRepository.createOrUpdate(
         data
             .copyWith(
               changeCapacity: -currentChangeCapacity,
@@ -249,16 +263,21 @@ class HomeViewModel extends GetxController {
       );
     }
 
-    DevOnLog.i('changedCO2: $changedCO2');
-
     fetchDeltaCO2(
-      await _userRepository.updateTotalDeltaCO2(
-        changedCO2,
-      ),
+      await _userRepository.updateTotalPositiveDeltaCO2(changedCO2),
+      changedCO2,
     );
 
     fetchCharacterStatsState(
       await _userRepository.updateCharacterStats(null, null),
+    );
+
+    WidgetUtil.setInformation(
+      positiveDeltaCO2: _deltaCO2State.value.totalPositiveCO2,
+      negativeDeltaCO2: _deltaCO2State.value.totalNegativeCO2,
+      isHealthCondition: _characterStatsState.value.isHealthCondition,
+      isMentalCondition: _characterStatsState.value.isMentalCondition,
+      isCashCondition: _characterStatsState.value.isCashCondition,
     );
 
     // Screen Dependency
@@ -266,19 +285,18 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  //   late final Rx<DeltaCO2State> _deltaCO2State;
-  //   late final Rx<CharacterStatsState> _characterStatsState;
-  //   late final Rx<AnalysisState> _analysisState;
-  //   late final Rx<SpeechState> _speechState;
-  //   late final RxList<CarbonCloudState> _carbonCloudStates;
-
-  void fetchDeltaCO2(double value) {
-    double currentCO2 = value - _deltaCO2State.value.totalCO2;
-
-    _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      totalCO2: value,
-      changeCO2: currentCO2,
-    );
+  void fetchDeltaCO2(double totalCO2, double changedCO2) {
+    if (changedCO2 < 0) {
+      _deltaCO2State.value = _deltaCO2State.value.copyWith(
+        totalPositiveCO2: totalCO2,
+        changeCO2: changedCO2,
+      );
+    } else {
+      _deltaCO2State.value = _deltaCO2State.value.copyWith(
+        totalNegativeCO2: totalCO2,
+        changeCO2: changedCO2,
+      );
+    }
   }
 
   void fetchCarbonCloudStates(DateTime currentAt) async {
