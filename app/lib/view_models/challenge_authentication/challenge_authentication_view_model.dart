@@ -14,6 +14,7 @@ import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rive/rive.dart';
 
 class ChallengeAuthenticationViewModel extends GetxController {
   /* ------------------------------------------------------ */
@@ -27,17 +28,25 @@ class ChallengeAuthenticationViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
+  late final PageController _pageController;
+  late final RiveAnimationController _animationController;
+
   late final Rxn<XFile?> _image;
   late final Rx<EChallenge> _eChallenge;
-  late final PageController _pageController;
+  late final RxInt _currentPageIndex;
+  late final RxBool _isAnalysisResult;
   late final RxList<ChallengeHistoryState> _challengeHistoryState;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
+  PageController get pageController => _pageController;
+  RiveAnimationController get animationController => _animationController;
+
   XFile? get image => _image.value;
   EChallenge get eChallenge => _eChallenge.value;
-  PageController get pageController => _pageController;
+  int get currentPageIndex => _currentPageIndex.value;
+  bool get isAnalysisResult => _isAnalysisResult.value;
   List<ChallengeHistoryState> get challengeHistoryState =>
       _challengeHistoryState;
   List<ChallengeHistoryState> get currentChallengeHistoryState {
@@ -55,14 +64,20 @@ class ChallengeAuthenticationViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // Dependency Injection
+    // DI Fields
     _userRepository = Get.find<UserRepository>();
     _challengeHistoryRepository = Get.find<ChallengeHistoryRepository>();
     _challengeAuthenticationRepository =
         Get.find<ChallengeAuthenticationRepository>();
-    _image = Rxn<XFile?>();
+
+    // Private Fields
     _pageController = PageController(initialPage: 0);
+    _animationController = SimpleAnimation("LoadingAnimation", autoplay: true);
+
+    _image = Rxn<XFile?>();
     _eChallenge = _userRepository.readCurrentChallenge().obs;
+    _currentPageIndex = 0.obs;
+    _isAnalysisResult = false.obs;
     _challengeHistoryState = RxList<ChallengeHistoryState>([]);
 
     _challengeHistoryState.addAll(
@@ -93,6 +108,11 @@ class ChallengeAuthenticationViewModel extends GetxController {
   }
 
   Future<void> authChallenge(XFile image) async {
+    // Move to the loading page
+    _pageController.animateToPage(1,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    _currentPageIndex.value = 1;
+
     String base64Image = convertImageToBase64(image);
     Map<String, dynamic> result = await _challengeAuthenticationRepository
         .challengeAuthAction(_eChallenge.value, base64Image);
@@ -112,18 +132,21 @@ class ChallengeAuthenticationViewModel extends GetxController {
 
       await _userRepository
           .updateCurrentChallenge(EChallenge.values[eChallenge.index + 1]);
-      _pageController.animateToPage(2,
-          duration: const Duration(milliseconds: 300), curve: Curves.ease);
-      await Get.find<LoadMapViewModel>().fetchCurrentEChallenge(
+      _isAnalysisResult.value = true;
+      Get.find<LoadMapViewModel>().fetchCurrentEChallenge(
           EChallenge.values[_eChallenge.value.index + 1]);
-      await Get.find<RootViewModel>().fetchCurrentEChallenge(
+      Get.find<RootViewModel>().fetchCurrentEChallenge(
           EChallenge.values[_eChallenge.value.index + 1]);
     }
     // 인증이 실패한 경우
     else {
-      _pageController.animateToPage(3,
-          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+      _isAnalysisResult.value = false;
     }
+
+    // Move to the result page
+    _pageController.animateToPage(2,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    _currentPageIndex.value = 2;
   }
 
   @override

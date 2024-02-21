@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class ResultSuccessScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
-  const ResultSuccessScreen({super.key});
+class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
+  const ResultFragment({super.key});
 
   @override
   bool get wrapWithOuterSafeArea => true;
@@ -16,32 +16,36 @@ class ResultSuccessScreen extends BaseScreen<ChallengeAuthenticationViewModel> {
   bool get setTopOuterSafeArea => true;
 
   @override
+  bool get setBottomOuterSafeArea => true;
+
+  @override
   Widget buildBody(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Expanded(child: SizedBox()),
-        Column(
-          children: [
-            SvgPicture.asset("assets/icons/clear_challenge.svg"),
-            const SizedBox(height: 40),
-            const Center(
-              child: Text(
-                "챌린지 달성 완료!",
-                style: FontSystem.KR20B,
-              ),
-            ),
-            const Center(
-              child: Text(
-                "새로운 챌린지를 확인해보세요.",
-                style: FontSystem.KR20B,
-              ),
-            )
-          ],
+        Obx(
+          () => SvgPicture.asset(
+            viewModel.isAnalysisResult
+                ? "assets/icons/clear_challenge.svg"
+                : "assets/icons/failed_challenge.svg",
+          ),
         ),
         const SizedBox(height: 40),
-        const Expanded(child: SizedBox()),
+        Center(
+          child: Obx(
+            () => Text(
+              viewModel.isAnalysisResult
+                  ? "챌린지 달성 완료!\n새로운 챌린지를 확인해보세요."
+                  : "제출한 사진이 잘못된 것 같아요!",
+              style: FontSystem.KR20B,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        const SizedBox(height: 40),
+        const Spacer(),
         SizedBox(
           width: Get.width - 32,
           height: 56,

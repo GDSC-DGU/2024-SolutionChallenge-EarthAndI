@@ -78,6 +78,7 @@ dependencies:
 
   # Animation
   rive: ^0.12.4
+  animated_text_kit: ^4.2.2
 
   # Native Widget
   home_widget: ^0.4.1
