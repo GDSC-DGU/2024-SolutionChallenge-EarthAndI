@@ -1,4 +1,3 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
@@ -56,10 +55,10 @@ class RootScreen extends GetView<RootViewModel> {
         body: Obx(
           () => IndexedStack(
             index: viewModel.selectedIndex,
-            children: [
-              const LoadMapScreen(),
+            children: const [
+              LoadMapScreen(),
               HomeScreen(),
-              const ProfileScreen(),
+              ProfileScreen(),
             ],
           ),
         ),
