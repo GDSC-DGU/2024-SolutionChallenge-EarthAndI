@@ -45,7 +45,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: Stack(
           children: [
             SizedBox(
-              height: Get.height * 0.88,
+              height: Get.height * 0.85,
               child: PageView(
                 controller: _pageController,
                 children: [
@@ -105,6 +105,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             )

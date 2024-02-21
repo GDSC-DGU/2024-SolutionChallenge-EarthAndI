@@ -91,9 +91,11 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                challengeHistoryState.shortTitle.tr,
-                style: FontSystem.KR24B,
+              Center(
+                child: Text(
+                  challengeHistoryState.shortTitle.tr,
+                  style: FontSystem.KR24B.copyWith(fontSize: 22),
+                ),
               ),
               const SizedBox(height: 8),
               Text(
