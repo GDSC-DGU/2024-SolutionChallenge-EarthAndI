@@ -1,4 +1,3 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +37,54 @@ class DeltaCO2BarChart extends StatelessWidget {
     int flexNegativeMental = (mentalNegativeDeltaCO2 * 10000).round();
     int flexPositiveCash = (cashPositiveDeltaCO2.abs() * 10000).round();
     int flexNegativeCash = (cashNegativeDeltaCO2 * 10000).round();
+
+    if (flexPositive == 0 && flexNegative == 0) {
+      return SizedBox(
+        height: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            spaceSizeBox(1, 1, 8),
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return SizedBox(
       height: 30,
