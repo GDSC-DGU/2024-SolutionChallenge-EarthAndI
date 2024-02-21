@@ -2,7 +2,9 @@ import 'package:earth_and_i/bindings/friend_binding.dart';
 import 'package:earth_and_i/bindings/root_binding.dart';
 import 'package:earth_and_i/bindings/setting_binding.dart';
 import 'package:earth_and_i/bindings/sign_in_binding.dart';
+import 'package:earth_and_i/middlewares/on_boarding_middleware.dart';
 import 'package:earth_and_i/views/friend/friend_screen.dart';
+import 'package:earth_and_i/views/on_boarding/on_boarding_screen.dart';
 import 'package:earth_and_i/views/root/root_screen.dart';
 import 'package:earth_and_i/views/setting/setting_screen.dart';
 import 'package:earth_and_i/views/sign_in/sign_in_screen.dart';
@@ -18,7 +20,11 @@ List<GetPage> appPages = [
     name: Routes.ROOT,
     page: () => const RootScreen(),
     binding: RootBinding(),
+    middlewares: [
+      OnBoardingMiddleware(),
+    ],
   ),
+  GetPage(name: Routes.ON_BOARDING, page: () => const OnBoardingScreen()),
   GetPage(
     name: Routes.SIGN_IN,
     page: () => const SignInScreen(),

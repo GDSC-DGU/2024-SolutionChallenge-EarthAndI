@@ -79,6 +79,7 @@ dependencies:
   # Animation
   rive: ^0.12.4
   animated_text_kit: ^4.2.2
+  smooth_page_indicator: ^1.1.0
 
   # Native Widget
   home_widget: ^0.4.1
@@ -108,6 +109,7 @@ flutter:
     - assets/images/
     - assets/images/character/
     - assets/images/analysis/
+    - assets/images/on_boarding/
     - assets/images/thumbnail/
     - assets/icons/
     - assets/riv/

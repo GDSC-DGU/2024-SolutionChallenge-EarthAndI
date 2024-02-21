@@ -18,6 +18,12 @@ abstract class LocalStorageFactory {
     _instance = GetStorage();
 
     _userDAO = UserDAO(storage: _instance!);
+
+    if (SecurityUtil.currentUser == null && !userDAO.isInitialized) {
+      await _userDAO!.onInit(true);
+    } else {
+      await _userDAO!.onInit(false);
+    }
   }
 
   static Future<void> onReady() async {
@@ -28,7 +34,7 @@ abstract class LocalStorageFactory {
     User? user = SecurityUtil.currentUser;
 
     // If user is not signed in, initialize with GUEST
-    await userDAO.init(
+    await userDAO.onReady(
       id: user?.uid.substring(0, 3) ?? 'GUEST',
       nickname: user?.displayName ?? 'GUEST',
     );

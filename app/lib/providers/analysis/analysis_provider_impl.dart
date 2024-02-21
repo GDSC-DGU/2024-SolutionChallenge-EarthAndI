@@ -13,8 +13,6 @@ class AnalysisProviderImpl extends BaseConnect implements AnalysisProvider {
   ) async {
     final Response response;
 
-    DevOnLog.i(answer);
-
     try {
       response = await post(
         "",

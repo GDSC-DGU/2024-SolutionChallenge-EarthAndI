@@ -2,15 +2,6 @@ import 'package:earth_and_i/domains/type/e_challenge.dart';
 
 abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
-  /* ------------------------ Initialize ------------------------ */
-  /* ------------------------------------------------------------ */
-  // 초기 유저인지 확인하는 함수
-  bool get isInitialized;
-
-  Future<void> init({required String id, required String nickname});
-  Future<void> deleteAll();
-
-  /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
   // User Setting

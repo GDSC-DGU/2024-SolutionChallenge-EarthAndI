@@ -74,8 +74,6 @@ class UserRepository extends GetxService {
     int? hour,
     int? minute,
   }) async {
-    DevOnLog.i(
-        'Update Alarm State: isActive: $isActive, hour: $hour, minute: $minute');
     if (isActive != null) {
       await _localProvider.setAlarmActive(isActive);
     }

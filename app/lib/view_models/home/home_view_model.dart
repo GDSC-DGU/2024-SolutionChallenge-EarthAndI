@@ -263,8 +263,6 @@ class HomeViewModel extends GetxController {
       );
     }
 
-    DevOnLog.i('changedCO2: $changedCO2');
-
     fetchDeltaCO2(
       await _userRepository.updateTotalPositiveDeltaCO2(changedCO2),
       changedCO2,

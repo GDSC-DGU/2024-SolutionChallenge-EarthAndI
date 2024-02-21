@@ -12,17 +12,18 @@ class UserDAO implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* ------------------------ Initialize ------------------------ */
   /* ------------------------------------------------------------ */
-  @override
-  bool get isInitialized {
-    String? id = _storage.read(UserDAOExtension.id);
-    String? nickname = _storage.read(UserDAOExtension.nickname);
+  bool get isInitialized =>
+      _storage.read(UserDAOExtension.id) != null &&
+      _storage.read(UserDAOExtension.nickname) != null;
 
-    return id != null && nickname != null;
+  bool get isFirstTime => _storage.read(UserDAOExtension.isFirstTime)!;
+
+  Future<void> onInit(bool isFirstTime) async {
+    await _storage.write(UserDAOExtension.isFirstTime, isFirstTime);
   }
 
   /// Initialize the user data.
-  @override
-  Future<void> init({required String id, required String nickname}) async {
+  Future<void> onReady({required String id, required String nickname}) async {
     // User Setting
     await _storage.writeIfNull(UserDAOExtension.alarmActive, true);
     await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
@@ -192,6 +193,9 @@ class UserDAO implements UserLocalProvider {
 }
 
 extension UserDAOExtension on UserDAO {
+  // 초기 사용자
+  static const String isFirstTime = 'is_first_time';
+
   // User Setting
   static const String alarmActive = 'alarm_active';
   static const String alarmHour = 'alarm_hour';

@@ -165,8 +165,6 @@ class ActionHistoryRepository extends GetxService {
       cashNegativeDeltaCO2: cashNegativeDeltaCO2,
     );
 
-    DevOnLog.i(currentState);
-
     return currentState;
   }
 
