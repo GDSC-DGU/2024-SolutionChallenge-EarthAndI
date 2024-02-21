@@ -71,21 +71,13 @@ class ChallengeList extends BaseWidget<LoadMapViewModel> {
                   ],
                 ),
               ),
-
-              // 진행중인지 달성한 챌린지인지에 따라 나타낼 체크 표시와 완료한 날짜 표시
+              // 진행중인지 달성한 챌린지인지에 따라 나타낼 체크 표시
+              const SizedBox(width: 12),
               if (isCompleted)
                 SizedBox(
-                  width: 52,
-                  height: 52,
                   child: Column(
                     children: [
                       SvgPicture.asset("assets/icons/check_small.svg"),
-                      Text(
-                        "24/02/11",
-                        style: FontSystem.KR12R.copyWith(
-                          color: ColorSystem.grey[500],
-                        ),
-                      ),
                     ],
                   ),
                 ),

@@ -2,7 +2,8 @@ enum EChallenge implements Comparable<EChallenge> {
   useEcoFriendlyProducts,
   deleteEmail,
   eatVegetarian,
-  useColdWater;
+  useColdWater,
+  clearAllChallenge;
 
   const EChallenge();
 
@@ -21,7 +22,9 @@ enum EChallenge implements Comparable<EChallenge> {
       case 'useColdWater':
         return EChallenge.useColdWater;
       case 'eatVegetarian':
-        return EChallenge.useColdWater;
+        return EChallenge.eatVegetarian;
+      case 'clearAllChallenge':
+        return EChallenge.clearAllChallenge;
       default:
         throw Exception('Unknown EChallenge name: $name');
     }

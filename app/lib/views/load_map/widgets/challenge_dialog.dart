@@ -3,8 +3,9 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
+import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
@@ -23,7 +24,7 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
         height: Get.height * 0.45,
         child: DialogContent(challengeHistoryState: challenge),
       ),
-      insetPadding: const EdgeInsets.all(28),
+      insetPadding: const EdgeInsets.all(20),
       backgroundColor: ColorSystem.white,
       surfaceTintColor: ColorSystem.white,
       actions: [
@@ -32,10 +33,17 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
           height: 56,
           child: OutlinedButton(
             onPressed: () {
+              if (isSignIn() == false) {
+                return;
+              }
               isCompleted
                   ? Get.back()
-                  : Get.toNamed("/challenge_authentication",
-                      arguments: challenge);
+                  :
+                  // 만약 challenge가 다 완료된 상태라면 다시 Get.back()
+                  challenge.shortTitle == "clearAllChallengeShortTitle"
+                      ? Get.back()
+                      : Get.toNamed("/challenge_authentication",
+                          arguments: challenge);
             },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -49,7 +57,13 @@ class ChallengeDialog extends BaseWidget<LoadMapViewModel> {
                 width: 1,
               ),
             ),
-            child: isCompleted ? const Text("확인") : const Text("챌린지 인증하기"),
+            child: isCompleted
+                ? const Text("확인")
+                :
+                // 만약 challenge가 다 완료된 상태라면 "확인" 버튼을 띄움
+                challenge.shortTitle == "clearAllChallengeShortTitle"
+                    ? const Text("확인")
+                    : const Text("챌린지 인증하기"),
           ),
         ),
       ],
@@ -84,22 +98,20 @@ class DialogTitle extends BaseWidget<LoadMapViewModel> {
               const SizedBox(height: 8),
               Text(
                 challengeHistoryState.longTitle.tr,
-                style: FontSystem.KR14M,
+                style: FontSystem.KR12R,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
+          const SizedBox(width: 4),
           if (isCompleted)
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SvgPicture.asset("assets/icons/check_small.svg"),
-                const Text(
-                  "24/02/11",
-                  style: FontSystem.KR12M,
-                ),
+                SizedBox(
+                    child: SvgPicture.asset("assets/icons/check_small.svg")),
               ],
-            ),
+            )
         ],
       ),
     );
@@ -132,7 +144,7 @@ class DialogContent extends BaseWidget<LoadMapViewModel> {
           SizedBox(
             height: 96,
             child: Text(challengeHistoryState.description.tr,
-                style: FontSystem.KR16M),
+                style: FontSystem.KR16M.copyWith(color: ColorSystem.black)),
           )
         ],
       ),
