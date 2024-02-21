@@ -28,6 +28,13 @@ abstract class LocalStorageFactory {
 
   static Future<void> onReady() async {
     if (userDAO.isInitialized) {
+      WidgetUtil.setInformation(
+        positiveDeltaCO2: userDAO.getTotalPositiveDeltaCO2(),
+        negativeDeltaCO2: userDAO.getTotalNegativeDeltaCO2(),
+        isHealthCondition: userDAO.getHealthCondition(),
+        isMentalCondition: userDAO.getMentalCondition(),
+        isCashCondition: userDAO.getCashCondition(),
+      );
       return;
     }
 
