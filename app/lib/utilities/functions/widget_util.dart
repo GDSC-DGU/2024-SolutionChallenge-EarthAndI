@@ -1,9 +1,11 @@
 import 'package:home_widget/home_widget.dart';
 
+import 'package:flutter/foundation.dart' as foundation;
+
 abstract class WidgetUtil {
   static const String appGroupIdentifier = 'group.earthAndI.userInfoWidget';
   static const String iOSWidgetName = 'userInfoWidget';
-  static const String androidWidgetName = 'userInfoWidget';
+  static const String androidWidgetName = 'UserInfoWidget';
 
   static Future<void> onInit() async {
     await HomeWidget.setAppGroupId(appGroupIdentifier);
@@ -29,12 +31,23 @@ abstract class WidgetUtil {
     );
 
     // Saving Positive Delta CO2
-    HomeWidget.saveWidgetData<double>(
-        WidgetUtilExtension.positiveDeltaCO2, positiveDeltaCO2.abs());
+    // 안드로이드 아이폰 경우의 수 나누기, 안드로이드는 int 값으로, 아이폰은 double 값으로 저장
+    if (foundation.defaultTargetPlatform == foundation.TargetPlatform.android) {
+      HomeWidget.saveWidgetData<int>(WidgetUtilExtension.positiveDeltaCO2,
+          (positiveDeltaCO2.abs() * 10000).round());
+    } else {
+      HomeWidget.saveWidgetData<double>(
+          WidgetUtilExtension.positiveDeltaCO2, positiveDeltaCO2);
+    }
 
     // Saving Negative Delta CO2
-    HomeWidget.saveWidgetData<double>(
-        WidgetUtilExtension.negativeDeltaCO2, negativeDeltaCO2);
+    if (foundation.defaultTargetPlatform == foundation.TargetPlatform.android) {
+      HomeWidget.saveWidgetData<int>(WidgetUtilExtension.negativeDeltaCO2,
+          (negativeDeltaCO2 * 10000).round());
+    } else {
+      HomeWidget.saveWidgetData<double>(
+          WidgetUtilExtension.negativeDeltaCO2, negativeDeltaCO2);
+    }
 
     // Update Widget
     HomeWidget.updateWidget(
