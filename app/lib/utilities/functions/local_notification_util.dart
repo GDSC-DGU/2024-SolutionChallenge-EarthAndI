@@ -27,7 +27,7 @@ abstract class LocalNotificationUtil {
 
   static Future<void> initialize() async {
     AndroidInitializationSettings initializationSettingsAndroid =
-        const AndroidInitializationSettings('ic_launcher');
+        const AndroidInitializationSettings('mipmap/ic_launcher');
 
     DarwinInitializationSettings initializationSettingsIOS =
         const DarwinInitializationSettings(
