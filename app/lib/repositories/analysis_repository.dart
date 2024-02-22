@@ -42,7 +42,6 @@ class AnalysisRepository extends GetxService {
     EChallenge challenge,
     String image,
   ) async {
-    throw UnimplementedError();
     Map<String, dynamic> result;
 
     try {

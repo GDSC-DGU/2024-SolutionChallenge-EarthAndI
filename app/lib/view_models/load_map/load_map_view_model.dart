@@ -62,12 +62,6 @@ class LoadMapViewModel extends GetxController {
   }
 
   @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-  }
-
-  @override
   void dispose() {
     super.dispose();
 

@@ -139,11 +139,22 @@ class HomeViewModel extends GetxController {
     String question = _carbonCloudStates[index].shortQuestion;
     String speechText = _speechState.value.speechText;
 
-    Map<String, dynamic> result = await _analysisRepository.analysisAction(
-      userStatus,
-      _carbonCloudStates[index].longQuestion.tr,
-      speechText,
-    );
+    Map<String, dynamic> result;
+
+    try {
+      result = await _analysisRepository.analysisAction(
+        userStatus,
+        _carbonCloudStates[index].longQuestion.tr,
+        speechText,
+      );
+    } catch (e) {
+      _analysisState.value = _analysisState.value.copyWith(
+        isLoading: false,
+        speechBubble: "서버와의 통신이 원활하지 않아!\n조금 뒤 다시 시도해줘!",
+      );
+
+      return;
+    }
 
     String answer = result['answer'];
     double changeCapacity = result['changeCapacity'];
