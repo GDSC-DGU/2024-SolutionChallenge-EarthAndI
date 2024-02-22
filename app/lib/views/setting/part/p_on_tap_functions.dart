@@ -1,7 +1,9 @@
+// ignore_for_file: recursive_getters
+
 part of 'package:earth_and_i/views/setting/setting_screen.dart';
 
 extension _OnTapFunctions on SettingScreen {
-  SettingViewModel get viewModel => Get.find<SettingViewModel>();
+  SettingViewModel get viewModel => controller;
 
   void onTapSignOut() {
     Get.dialog(

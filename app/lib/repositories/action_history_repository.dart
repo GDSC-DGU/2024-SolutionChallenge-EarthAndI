@@ -6,7 +6,7 @@ import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/profile/action_history_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/providers/action/action_history_local_provider.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
 class ActionHistoryRepository extends GetxService {
@@ -50,7 +50,7 @@ class ActionHistoryRepository extends GetxService {
   Future<List<CarbonCloudState>> readCarbonCloudStates(
     DateTime currentAt,
   ) async {
-    int groupIndex = 1;
+    int groupIndex = currentAt.hour ~/ 6;
     List<EAction> actions = _actionGroups[groupIndex];
 
     if (groupIndex == 0) {
@@ -207,7 +207,7 @@ class ActionHistoryRepository extends GetxService {
     try {
       await _localProvider.save(data);
     } on Exception catch (e) {
-      DevOnLog.e(e);
+      LogUtil.e(e);
       rethrow;
     }
   }
@@ -220,7 +220,7 @@ class ActionHistoryRepository extends GetxService {
     try {
       return await _localProvider.findByTypeAndDateRange(type, startAt, endAt);
     } on Exception catch (e) {
-      DevOnLog.e(e);
+      LogUtil.e(e);
       rethrow;
     }
   }

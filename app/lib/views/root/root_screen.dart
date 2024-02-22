@@ -1,17 +1,16 @@
-import 'package:earth_and_i/utilities/system/font_system.dart';
-import 'package:earth_and_i/view_models/home/home_view_model.dart';
+import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:earth_and_i/views/load_map/load_map_screen.dart';
-import 'package:earth_and_i/views/load_map/widgets/challenge_dialog.dart';
 import 'package:earth_and_i/views/profile/profile_screen.dart';
 import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar.dart';
-import 'package:earth_and_i/views/sign_in/widget/overlay_grey_barrier.dart';
+import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+part 'package:earth_and_i/views/root/part/p_gesture_functions.dart';
 
 class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
@@ -43,9 +42,10 @@ class RootScreen extends BaseScreen<RootViewModel> {
             viewModel.changeIndex(1);
           } else {
             Get.dialog(ChallengeDialog(
-                challenge: viewModel.currentChallengeHistoryState[0],
-                isCompleted:
-                    viewModel.currentChallengeHistoryState[0].isCompleted));
+              challenge: null,
+              date: null,
+              isCompleted: true,
+            ));
           }
         },
         backgroundColor: const Color(0xFF90CDBE),

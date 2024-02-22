@@ -1,4 +1,4 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
@@ -12,21 +12,21 @@ abstract class BaseConnect extends GetConnect {
       ..defaultContentType = "application/json"
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {
-        DevOnLog.i("🛫 [${request.method}] ${request.url} | START");
+        LogUtil.i("🛫 [${request.method}] ${request.url} | START");
 
         return request;
       })
       ..addResponseModifier((request, Response response) {
         if (response.status.hasError) {
-          DevOnLog.i(
+          LogUtil.i(
             "🚨 [${request.method}] ${request.url} | FAILED (${response.statusCode})",
           );
         } else {
-          DevOnLog.i(
+          LogUtil.i(
             "🛬 [${request.method}] ${request.url} | SUCCESS (${response.statusCode})",
           );
 
-          DevOnLog.i(
+          LogUtil.i(
             "🛬 [${request.method}] ${request.url} | BODY ${response.body}",
           );
         }

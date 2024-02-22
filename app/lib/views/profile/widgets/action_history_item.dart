@@ -64,7 +64,7 @@ class ActionHistoryItem extends StatelessWidget {
 
   Widget thumbnail() {
     String thumbnailPath = state.type == EAction.steps
-        ? 'assets/images/thumbnail/walking_thumbnail.png'
+        ? 'assets/icons/walking.png'
         : 'assets/images/thumbnail/${state.characterStatus}.svg';
 
     if (state.type == EAction.steps) {

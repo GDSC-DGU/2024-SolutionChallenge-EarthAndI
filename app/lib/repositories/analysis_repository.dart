@@ -17,7 +17,6 @@ class AnalysisRepository extends GetxService {
     String question,
     String answer,
   ) async {
-    throw UnimplementedError();
     Map<String, dynamic> result;
 
     try {

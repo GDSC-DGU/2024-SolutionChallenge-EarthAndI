@@ -27,7 +27,9 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
         const Expanded(child: SizedBox()),
         Obx(() {
           if (viewModel.isAnalysisResult == null) {
-            return const SizedBox();
+            return SvgPicture.asset(
+              "assets/icons/server_communication_error.svg",
+            );
           }
 
           return SvgPicture.asset(

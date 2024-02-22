@@ -9,6 +9,7 @@ import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud_listview.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
 import 'package:earth_and_i/views/home/widgets/speech_recognize_bottom_sheet.dart';
+import 'package:earth_and_i/widgets/dialog/sign_in_dialog.dart';
 import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
 import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-part 'package:earth_and_i/views/home/part/p_functions.dart';
+part 'package:earth_and_i/views/home/part/p_gesture_functions.dart';
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +57,7 @@ class SignInViewModel extends GetxController {
 
       userCredential = await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
-      DevOnLog.e('Error: $e');
+      LogUtil.e('Error: $e');
       return false;
     }
 

@@ -2,7 +2,7 @@ import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/providers/analysis/analysis_provider.dart';
 import 'package:earth_and_i/providers/base/base_connect.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
 class AnalysisProviderImpl extends BaseConnect implements AnalysisProvider {
@@ -40,7 +40,7 @@ class AnalysisProviderImpl extends BaseConnect implements AnalysisProvider {
     final Response response;
 
     try {
-      DevOnLog.d(challenge.index + 1);
+      LogUtil.d(challenge.index + 1);
       response = await post(
         "/api-2",
         {

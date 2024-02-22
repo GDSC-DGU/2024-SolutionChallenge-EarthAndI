@@ -47,12 +47,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: PageView(
                 controller: _pageController,
                 children: [
-                  Image.asset('assets/images/on_boarding/on_boarding_1.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_2.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_3.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_4.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_5.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_6.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_1.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_2.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_3.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_4.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_5.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_6.png'),
                 ],
               ),
             ),
