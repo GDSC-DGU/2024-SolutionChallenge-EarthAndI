@@ -80,11 +80,8 @@ class ActionHistoryRepository extends GetxService {
       if (histories.indexWhere((element) => element.type == action) == -1) {
         // groupIndex에 따라서 dawn, morning, afternoon, evening을 설정한다.
         states.add(CarbonCloudState(
-          shortQuestion: "${action.getContent(groupIndex)}_short",
-          longQuestion: "${action.getContent(groupIndex)}_long",
-          exampleAnswer: "${action.getContent(groupIndex)}_example_answer",
-          userStatus: ETypeConverter.actionToUserStatus(action),
           action: action,
+          groupIndex: groupIndex,
           isLeftPos: index.isEven,
         ));
 

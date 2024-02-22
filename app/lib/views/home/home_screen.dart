@@ -109,7 +109,9 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           clipper: FloorLayerClipper(),
           child: Container(
             width: Get.width,
-            height: Get.height * 0.3,
+            height: Get.find<RootViewModel>().isAndroid
+                ? Get.height * 0.25
+                : Get.height * 0.3,
             color: const Color(0xFFF3F0EB),
           ),
         ),
@@ -118,7 +120,9 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
   Widget characterLayer() => Positioned(
         left: 0,
         right: 0,
-        bottom: Get.height * 0.25,
+        bottom: Get.find<RootViewModel>().isAndroid
+            ? Get.height * 0.20
+            : Get.height * 0.25,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Column(
@@ -183,6 +187,25 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                       : 4,
                   items: viewModel.carbonCloudStates,
                   onTapItem: (state) {
+                    // group 인덱스가 현재 시간과 다르다면
+                    // speechState 초기화
+                    if (state.groupIndex != getTimeSection(DateTime.now())) {
+                      viewModel.fetchCarbonCloudStates(DateTime.now());
+                      Get.snackbar(
+                        '새로운 구름을 확인해주세요',
+                        '시간이 오래되어 탄소 구름들이 사라졌어요!!',
+                        snackPosition: SnackPosition.TOP,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
+                        ),
+                        backgroundColor: ColorSystem.grey.withOpacity(0.3),
+                        colorText: ColorSystem.black,
+                        duration: const Duration(seconds: 2),
+                      );
+                      return;
+                    }
+
                     if (isSignIn() == false) {
                       return;
                     }
@@ -204,7 +227,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                       return;
                     }
                     int index = viewModel.carbonCloudStates.indexOf(state);
-                    viewModel.initializeSpeechState();
+                    viewModel.onReadySpeechState();
 
                     // Show Bottom Sheet
                     Get.bottomSheet(
@@ -251,4 +274,8 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           ),
         ),
       );
+
+  int getTimeSection(DateTime currentAt) {
+    return currentAt.hour ~/ 6;
+  }
 }

@@ -2,61 +2,38 @@ import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 
 class CarbonCloudState {
-  final String _shortQuestion;
-  final String _longQuestion;
-  final String _exampleAnswer;
-  final EUserStatus _userStatus;
-  final EAction _action;
-  final bool _isLeftPos;
+  final EAction action;
+  final int groupIndex;
+  final bool isLeftPos;
 
-  String get shortQuestion => _shortQuestion;
-  String get longQuestion => _longQuestion;
-  String get exampleAnswer => _exampleAnswer;
-  EUserStatus get userStatus => _userStatus;
-  EAction get action => _action;
-  bool get isLeftPos => _isLeftPos;
+  String get shortQuestion => "${action.getContent(groupIndex)}_short";
+  String get longQuestion => "${action.getContent(groupIndex)}_long";
+  String get exampleAnswer => "${action.getContent(groupIndex)}_example_answer";
 
   CarbonCloudState({
-    required String shortQuestion,
-    required String longQuestion,
-    required String exampleAnswer,
-    required EUserStatus userStatus,
-    required EAction action,
-    required bool isLeftPos,
-  })  : _shortQuestion = shortQuestion,
-        _longQuestion = longQuestion,
-        _exampleAnswer = exampleAnswer,
-        _userStatus = userStatus,
-        _action = action,
-        _isLeftPos = isLeftPos;
+    required this.action,
+    required this.groupIndex,
+    required this.isLeftPos,
+  });
 
   CarbonCloudState copyWith({
-    String? shortQuestion,
-    String? longQuestion,
-    String? exampleAnswer,
-    EUserStatus? userStatus,
     EAction? action,
+    int? groupIndex,
     bool? isLeftPos,
   }) {
     return CarbonCloudState(
-      shortQuestion: shortQuestion ?? _shortQuestion,
-      longQuestion: longQuestion ?? _longQuestion,
-      exampleAnswer: exampleAnswer ?? _exampleAnswer,
-      userStatus: userStatus ?? _userStatus,
-      action: action ?? _action,
-      isLeftPos: isLeftPos ?? _isLeftPos,
+      action: action ?? this.action,
+      groupIndex: groupIndex ?? this.groupIndex,
+      isLeftPos: isLeftPos ?? this.isLeftPos,
     );
   }
 
   @override
   String toString() {
     return '[CarbonCloudState]\n'
-        'shortQuestion: $_shortQuestion\n'
-        'longQuestion: $_longQuestion\n'
-        'exampleAnswer: $_exampleAnswer\n'
-        'userStatus: $_userStatus\n'
-        'action: $_action\n'
-        'isLeftPos: $_isLeftPos';
+        'action: $action\n'
+        'groupIndex: $groupIndex\n'
+        'isLeftPos: $isLeftPos\n';
   }
 
   @override
@@ -64,10 +41,13 @@ class CarbonCloudState {
     if (identical(this, other)) return true;
 
     return other is CarbonCloudState &&
-        other._action == _action &&
-        other._isLeftPos == _isLeftPos;
+        other.action == action &&
+        other.groupIndex == groupIndex &&
+        other.isLeftPos == isLeftPos;
   }
 
   @override
-  int get hashCode => Object.hash(_action, _isLeftPos);
+  int get hashCode {
+    return action.hashCode ^ groupIndex.hashCode ^ isLeftPos.hashCode;
+  }
 }

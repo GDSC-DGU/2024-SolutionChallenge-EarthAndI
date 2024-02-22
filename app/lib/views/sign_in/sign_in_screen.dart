@@ -79,32 +79,7 @@ class SignInScreen extends BaseScreen<SignInViewModel> {
         ),
         const SizedBox(height: 20),
         MaterialButton(
-          onPressed: () {
-            viewModel.signInWithGoogle().then((value) {
-              if (value) {
-                Get.back();
-                Get.snackbar(
-                  'sign_in_success'.tr,
-                  'sign_in_success_long'.tr,
-                  snackPosition: SnackPosition.TOP,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  duration: const Duration(seconds: 2),
-                  backgroundColor: ColorSystem.grey.withOpacity(0.3),
-                );
-              } else {
-                Get.snackbar(
-                  'sign_in_failed'.tr,
-                  'sign_in_failed_long'.tr,
-                  snackPosition: SnackPosition.TOP,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  duration: const Duration(seconds: 2),
-                  backgroundColor: ColorSystem.grey.withOpacity(0.3),
-                );
-              }
-            });
-          },
+          onPressed: onPressedSignInButton,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
           ),
@@ -126,5 +101,30 @@ class SignInScreen extends BaseScreen<SignInViewModel> {
         const SizedBox(height: 20),
       ],
     );
+  }
+
+  void onPressedSignInButton() {
+    viewModel.signInWithGoogle().then((value) {
+      if (value) {
+        Get.back();
+        Get.snackbar(
+          'sign_in_success'.tr,
+          'sign_in_success_long'.tr,
+          snackPosition: SnackPosition.TOP,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          duration: const Duration(seconds: 2),
+          backgroundColor: ColorSystem.grey.withOpacity(0.3),
+        );
+      } else {
+        Get.snackbar(
+          'sign_in_failed'.tr,
+          'sign_in_failed_long'.tr,
+          snackPosition: SnackPosition.TOP,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          duration: const Duration(seconds: 2),
+          backgroundColor: ColorSystem.grey.withOpacity(0.3),
+        );
+      }
+    });
   }
 }

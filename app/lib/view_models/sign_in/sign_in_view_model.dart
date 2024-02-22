@@ -1,9 +1,7 @@
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
-import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
-import 'package:earth_and_i/view_models/setting/setting_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,7 +17,6 @@ class SignInViewModel extends GetxController {
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final RxBool _isSigningIn;
-  late final String? _beforeScreen;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -35,16 +32,19 @@ class SignInViewModel extends GetxController {
 
     // Private Initialize
     _isSigningIn = false.obs;
-    _beforeScreen = Get.parameters['beforeScreen'];
   }
 
   Future<bool> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) {
+      return false;
+    }
+
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
     // Create a new credential
     final UserCredential userCredential;
