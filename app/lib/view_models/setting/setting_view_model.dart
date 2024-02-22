@@ -30,7 +30,7 @@ class SettingViewModel extends GetxController {
     _userRepository = Get.find<UserRepository>();
 
     // Rx
-    _languageName = Get.deviceLocale.toString().obs;
+    _languageName = Get.deviceLocale?.languageCode.obs ?? 'ko'.obs;
     _alarmState = _userRepository.readAlarmState().obs;
   }
 

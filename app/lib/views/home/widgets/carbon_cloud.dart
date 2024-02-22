@@ -57,7 +57,9 @@ class CarbonCloudBubble extends StatelessWidget {
                     ),
                     child: Text(
                       state.shortQuestion.tr,
-                      style: FontSystem.KR14M,
+                      style: Get.deviceLocale?.languageCode == "ko"
+                          ? FontSystem.KR14M
+                          : FontSystem.KR12M,
                       textAlign: TextAlign.center,
                     ),
                   ),

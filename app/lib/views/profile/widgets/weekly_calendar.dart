@@ -113,7 +113,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
                       .updateFocusedDate(viewModel.calendarState.selectedDate);
                 },
                 child: Text(
-                  DateFormat.yMMMMEEEEd('ko_KR')
+                  DateFormat.yMMMMEEEEd(Get.deviceLocale.toString())
                       .format(viewModel.calendarState.selectedDate),
                   style: FontSystem.KR14R.copyWith(color: ColorSystem.grey),
                 ),

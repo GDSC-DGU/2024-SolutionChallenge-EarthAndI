@@ -17,7 +17,7 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
   bool get setTopOuterSafeArea => true;
 
   @override
-  bool get setBottomOuterSafeArea => false;
+  bool get setBottomOuterSafeArea => true;
 
   @override
   Widget buildBody(BuildContext context) {
@@ -53,21 +53,19 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
           child: SizedBox(
             width: Get.width * 0.92,
             height: 56,
-            child: OutlinedButton(
+            child: TextButton(
               onPressed: viewModel.getImage,
-              style: OutlinedButton.styleFrom(
+              style: TextButton.styleFrom(
+                textStyle: FontSystem.KR20M.copyWith(color: ColorSystem.white),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                backgroundColor: ColorSystem.green[500],
-                textStyle: FontSystem.KR20M,
-                foregroundColor: Colors.white,
-                side: BorderSide(
-                  color: ColorSystem.green[500]!,
-                  width: 1,
-                ),
+                backgroundColor: ColorSystem.green,
+                foregroundColor: ColorSystem.white,
               ),
-              child: const Text("사진 선택하기"),
+              child: Text(
+                "image_picker_btn".tr,
+              ),
             ),
           ),
         ),
@@ -76,43 +74,36 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
           child: SizedBox(
             width: Get.width * 0.92,
             height: 56,
-            child: Obx(
-              // 이미지가 없는 경우의 OutlinedButton
-              () => viewModel.image == null
-                  ? OutlinedButton(
-                      onPressed: null,
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        backgroundColor: ColorSystem.grey[100],
-                        textStyle: FontSystem.KR20M,
-                        foregroundColor: ColorSystem.grey[500],
-                        side: BorderSide(
-                          color: ColorSystem.grey[100]!,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text("인증하기"),
-                    )
-                  // 이미지가 있는 경우의 OutlinedButton
-                  : OutlinedButton(
-                      onPressed: viewModel.authenticationChallenge,
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        backgroundColor: ColorSystem.green[500],
-                        textStyle: FontSystem.KR20M,
-                        foregroundColor: ColorSystem.white,
-                        side: BorderSide(
-                          color: ColorSystem.green[500]!,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text("인증하기"),
-                    ),
-            ),
+            child: Obx(() {
+              TextStyle textStyle = viewModel.image == null
+                  ? FontSystem.KR20M.copyWith(color: ColorSystem.grey)
+                  : FontSystem.KR20M.copyWith(color: ColorSystem.white);
+              Color backgroundColor = viewModel.image == null
+                  ? ColorSystem.white
+                  : ColorSystem.green;
+              BorderSide? side = viewModel.image == null
+                  ? BorderSide(color: ColorSystem.grey)
+                  : null;
+              String text = viewModel.image == null ? "인증하기" : "인증하기";
+
+              return TextButton(
+                onPressed: viewModel.image == null
+                    ? null
+                    : viewModel.authenticationChallenge,
+                style: TextButton.styleFrom(
+                  textStyle: textStyle,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  backgroundColor: backgroundColor,
+                  foregroundColor: ColorSystem.white,
+                  side: side,
+                ),
+                child: Text(
+                  "authentication_btn".tr,
+                ),
+              );
+            }),
           ),
         )
       ],

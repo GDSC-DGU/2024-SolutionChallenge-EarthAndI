@@ -82,7 +82,7 @@ class ChallengeAuthenticationViewModel extends GetxController {
   void authenticationChallenge() async {
     // Move to the loading page
     _moveToPage(1);
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1));
 
     // Analysis the image By Server Communication
     // When Exception occurs, Move to the result page(_isAnalysisResult.value is not changed)

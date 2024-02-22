@@ -100,7 +100,7 @@ class ActionHistoryItem extends StatelessWidget {
   Widget topView() {
     String leftStr = state.type.toString().tr;
     String rightStr = state.type == EAction.steps
-        ? "${state.answer} 걸음"
+        ? "${state.answer} ${EAction.steps.toString().tr}"
         : DateFormat('aa hh:mm', Get.deviceLocale.toString())
             .format(state.createdAt);
 
@@ -125,7 +125,7 @@ class ActionHistoryItem extends StatelessWidget {
 
     if (state.type == EAction.steps) {
       question = "";
-      answer = "건강에도 좋은 걷기";
+      answer = "steps_example_answer".tr;
     } else {
       question = "Q ${state.question.tr}";
       answer = "A ${state.answer}";

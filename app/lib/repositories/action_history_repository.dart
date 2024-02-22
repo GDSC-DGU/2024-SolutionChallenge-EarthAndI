@@ -1,6 +1,5 @@
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/apps/factory/local_database_factory.dart';
-import 'package:earth_and_i/domains/converter/e_type_converter.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
@@ -51,7 +50,7 @@ class ActionHistoryRepository extends GetxService {
   Future<List<CarbonCloudState>> readCarbonCloudStates(
     DateTime currentAt,
   ) async {
-    int groupIndex = currentAt.hour ~/ 6;
+    int groupIndex = 1;
     List<EAction> actions = _actionGroups[groupIndex];
 
     if (groupIndex == 0) {

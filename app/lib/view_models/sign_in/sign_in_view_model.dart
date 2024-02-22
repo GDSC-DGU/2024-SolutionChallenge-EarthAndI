@@ -16,12 +16,12 @@ class SignInViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
-  late final RxBool _isSigningIn;
+  late final RxBool _isEnableGreyBarrier;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
-  bool get isSigningIn => _isSigningIn.value;
+  bool get isEnableGreyBarrier => _isEnableGreyBarrier.value;
 
   @override
   void onInit() {
@@ -31,7 +31,7 @@ class SignInViewModel extends GetxController {
     _userRepository = Get.find<UserRepository>();
 
     // Private Initialize
-    _isSigningIn = false.obs;
+    _isEnableGreyBarrier = false.obs;
   }
 
   Future<bool> signInWithGoogle() async {
@@ -49,7 +49,7 @@ class SignInViewModel extends GetxController {
     // Create a new credential
     final UserCredential userCredential;
     try {
-      _isSigningIn.value = true;
+      _isEnableGreyBarrier.value = true;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
@@ -62,13 +62,13 @@ class SignInViewModel extends GetxController {
     }
 
     await _userRepository.updateUserBriefInformation(
-      id: userCredential.user?.uid.substring(0, 3) ?? '',
+      id: userCredential.user?.uid.substring(0, 5) ?? '',
       nickname: userCredential.user?.displayName ?? '',
     );
 
     Get.find<ProfileViewModel>().fetchUserBriefState();
     Get.find<RootViewModel>().fetchSignInState();
-    _isSigningIn.value = false;
+    _isEnableGreyBarrier.value = false;
 
     return true;
   }

@@ -36,6 +36,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krSteps => {
         // 행위 이름
         'steps': '걷기',
+        'steps_example_answer': '건강에도 좋은 걷기',
+
         // dawn
         'steps_dawn_short': 'none',
         'steps_dawn_long': 'none',
@@ -60,6 +62,8 @@ abstract class EActionTranslations {
   static Map<String, String> get enSteps => {
         // 행위 이름
         'steps': 'Walking',
+        'steps_example_answer': 'Walking is good for your health',
+
         // dawn
         'steps_dawn_short': 'none',
         'steps_dawn_long': 'none',
@@ -87,6 +91,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krStairs => {
         // 행위 이름
         'stairs': '계단 이용하기',
+        'stairs_example_answer': '계단 이용했지 또는 안 이용했지',
+
         // dawn
         'stair_dawn_short': 'none',
         'stair_dawn_long': 'none',
@@ -111,6 +117,8 @@ abstract class EActionTranslations {
   static Map<String, String> get enStairs => {
         // 행위 이름
         'stairs': 'Use Stairs',
+        'stairs_example_answer': 'Used stairs or not',
+
         // dawn
         'stair_dawn_short': 'none',
         'stair_dawn_long': 'none',
@@ -122,9 +130,10 @@ abstract class EActionTranslations {
         'stair_morning_example_answer': 'none',
 
         // afternoon
-        'stair_afternoon_short': 'none',
-        'stair_afternoon_long': 'none',
-        'stair_afternoon_example_answer': 'none',
+        'stair_afternoon_short': 'How about moving by stairs?',
+        'stair_afternoon_long':
+            'Let\'s try to use the stairs rather\nthan the escalator or elevator!',
+        'stair_afternoon_example_answer': 'Used stairs or not',
 
         // evening
         'stair_evening_short': 'none',
@@ -138,6 +147,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krMeal => {
         // 행위 이름
         'meal': '채식하기',
+        'meal_example_answer': '자유롭게 답변해주세요',
+
         // dawn
         'meal_dawn_short': 'none',
         'meal_dawn_long': 'none',
@@ -162,31 +173,36 @@ abstract class EActionTranslations {
   static Map<String, String> get enMeal => {
         // 행위 이름
         'meal': 'Vegetarian Diet',
+        'meal_example_answer': 'Please answer freely',
+
         // dawn
         'meal_dawn_short': 'none',
         'meal_dawn_long': 'none',
         'meal_dawn_example_answer': 'none',
 
         // morning
-        'meal_morning_short': 'none',
-        'meal_morning_long': 'none',
-        'meal_morning_example_answer': 'none',
+        'meal_morning_short': 'What about breakfast?',
+        'meal_morning_long': 'What did you eat\nfor breakfast today?',
+        'meal_morning_example_answer': 'Please answer freely',
 
         // afternoon
-        'meal_afternoon_short': 'none',
-        'meal_afternoon_long': 'none',
-        'meal_afternoon_example_answer': 'none',
+        'meal_afternoon_short': 'What about lunch?',
+        'meal_afternoon_long': 'Did you eat something\ndelicious for lunch?',
+        'meal_afternoon_example_answer': 'Please answer freely',
 
         // evening
-        'meal_evening_short': 'none',
-        'meal_evening_long': 'none',
-        'meal_evening_example_answer': 'none',
+        'meal_evening_short': 'What about dinner?',
+        'meal_evening_long': 'What did you eat\nfor dinner?',
+        'meal_evening_example_answer': 'Please answer freely',
       };
 
   /* ----------------------------------------------------- */
   /* ------------------- EAction.data -------------------- */
   /* ----------------------------------------------------- */
   static Map<String, String> get krData => {
+        "data": "데이터 사용량 줄이기",
+        "data_example_answer": "자유롭게 답변해주세요",
+
         // dawn
         'data_dawn_short': 'none',
         'data_dawn_long': 'none',
@@ -209,6 +225,9 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enData => {
+        "data": "Reduce Data Usage",
+        "data_example_answer": "Please answer freely",
+
         // dawn
         'data_dawn_short': 'none',
         'data_dawn_long': 'none',
@@ -236,6 +255,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krSns => {
         // 행위 이름
         'sns': 'SNS 줄이기',
+        'sns_example_answer': '사용했지 또는 사용하지 않았지',
+
         // dawn
         'sns_dawn_short': 'none',
         'sns_dawn_long': 'none',
@@ -260,15 +281,17 @@ abstract class EActionTranslations {
   static Map<String, String> get enSns => {
         // 행위 이름
         'sns': 'SNS',
+        'sns_example_answer': 'Used or not',
+
         // dawn
         'sns_dawn_short': 'none',
         'sns_dawn_long': 'none',
         'sns_dawn_example_answer': 'none',
 
         // morning
-        'sns_morning_short': 'none',
-        'sns_morning_long': 'none',
-        'sns_morning_example_answer': 'none',
+        'sns_morning_short': 'Aren’t you using too much data from the morning?',
+        'sns_morning_long': 'Aren’t you using too much data from the morning?',
+        'sns_morning_example_answer': 'Used or not',
 
         // afternoon
         'sns_afternoon_short': 'none',
@@ -276,9 +299,10 @@ abstract class EActionTranslations {
         'sns_afternoon_example_answer': 'none',
 
         // evening
-        'sns_evening_short': 'none',
-        'sns_evening_long': 'none',
-        'sns_evening_example_answer': 'none',
+        'sns_evening_short': 'No dopamine!',
+        'sns_evening_long':
+            'Are you going to bed without watching YouTube or Instagram?',
+        'sns_evening_example_answer': 'I won’t watch! or I will watch',
       };
 
   /* ----------------------------------------------------- */
@@ -287,6 +311,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krRecycle => {
         // 행위 이름
         'recycle': '재활용하기',
+        'recycle_example_answer': '지켰지 또는 지키지 않았지',
+
         // dawn
         'recycle_dawn_short': 'none',
         'recycle_dawn_long': 'none',
@@ -322,9 +348,9 @@ abstract class EActionTranslations {
         'recycle_morning_example_answer': 'none',
 
         // afternoon
-        'recycle_afternoon_short': 'none',
-        'recycle_afternoon_long': 'none',
-        'recycle_afternoon_example_answer': 'none',
+        'recycle_afternoon_short': 'Are you recycling well?',
+        'recycle_afternoon_long': 'Are you recycling well?',
+        'recycle_afternoon_example_answer': 'Did you keep it or not',
 
         // evening
         'recycle_evening_short': 'none',
@@ -338,6 +364,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krStandbyPower => {
         // 행위 이름
         'standbyPower': '대기 전력 줄이기',
+        'standbyPower_example_answer': '뽑았지 또는 안뽑았지',
+
         // dawn
         'standbyPower_dawn_short': 'none',
         'standbyPower_dawn_long': 'none',
@@ -378,9 +406,9 @@ abstract class EActionTranslations {
         'standbyPower_afternoon_example_answer': 'none',
 
         // evening
-        'standbyPower_evening_short': 'none',
-        'standbyPower_evening_long': 'none',
-        'standbyPower_evening_example_answer': 'none',
+        'standbyPower_evening_short': 'Standby Power?',
+        'standbyPower_evening_long': 'Did you unplug\nthe unused outlet today?',
+        'standbyPower_evening_example_answer': 'Did you unplug it or not',
       };
 
   /* ----------------------------------------------------- */
@@ -389,6 +417,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krWaterUsage => {
         // 행위 이름
         'waterUsage': '물 사용량 줄이기',
+        'waterUsage_example_answer': '자유롭게 답변해주세요',
+
         // dawn
         'waterUsage_dawn_short': 'none',
         'waterUsage_dawn_long': 'none',
@@ -413,6 +443,8 @@ abstract class EActionTranslations {
   static Map<String, String> get enWaterUsage => {
         // 행위 이름
         'waterUsage': 'Water Usage',
+        'waterUsage_example_answer': 'Please answer freely',
+
         // dawn
         'waterUsage_dawn_short': 'none',
         'waterUsage_dawn_long': 'none',
@@ -429,9 +461,9 @@ abstract class EActionTranslations {
         'waterUsage_afternoon_example_answer': 'none',
 
         // evening
-        'waterUsage_evening_short': 'none',
-        'waterUsage_evening_long': 'none',
-        'waterUsage_evening_example_answer': 'none',
+        'waterUsage_evening_short': 'How long did you shower today?',
+        'waterUsage_evening_long': 'Did you flex on water?',
+        'waterUsage_evening_example_answer': 'I showered for 15 minutes!!',
       };
 
   /* ----------------------------------------------------- */
@@ -440,6 +472,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krOptimalTemperature => {
         // 행위 이름
         'optimalTemperature': '적정 온도 맞추기',
+        'optimalTemperature_example_answer': '맞췄지 또는 안 맞췄지',
+
         // dawn
         'optimalTemperature_dawn_short': 'none',
         'optimalTemperature_dawn_long': 'none',
@@ -464,6 +498,8 @@ abstract class EActionTranslations {
   static Map<String, String> get enOptimalTemperature => {
         // 행위 이름
         'optimalTemperature': 'Optimal Temperature',
+        'optimalTemperature_example_answer': 'Did you adjust it or not?',
+
         // dawn
         'optimalTemperature_dawn_short': 'none',
         'optimalTemperature_dawn_long': 'none',
@@ -480,9 +516,11 @@ abstract class EActionTranslations {
         'optimalTemperature_afternoon_example_answer': 'none',
 
         // evening
-        'optimalTemperature_evening_short': 'none',
-        'optimalTemperature_evening_long': 'none',
-        'optimalTemperature_evening_example_answer': 'none',
+        'optimalTemperature_evening_short': 'Optimal temperature?',
+        'optimalTemperature_evening_long':
+            'Are you adjusting\nthe cooling to 26 degrees\nand the heating to 20 degrees?',
+        'optimalTemperature_evening_example_answer':
+            'Did you adjust it or not?',
       };
 
   /* ----------------------------------------------------- */
@@ -491,6 +529,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krTumbler => {
         // 행위 이름
         'tumbler': '텀블러 사용하기',
+        'tumbler_example_answer': '텀블러 썻지 또는 일회용품 썻지',
+
         // dawn
         'tumbler_dawn_short': 'none',
         'tumbler_dawn_long': 'none',
@@ -515,6 +555,8 @@ abstract class EActionTranslations {
   static Map<String, String> get enTumbler => {
         // 행위 이름
         'tumbler': 'Use Tumbler',
+        'tumbler_example_answer': 'Used tumbler or disposable cup',
+
         // dawn
         'tumbler_dawn_short': 'none',
         'tumbler_dawn_long': 'none',
@@ -526,9 +568,10 @@ abstract class EActionTranslations {
         'tumbler_morning_example_answer': 'none',
 
         // afternoon
-        'tumbler_afternoon_short': 'none',
-        'tumbler_afternoon_long': 'none',
-        'tumbler_afternoon_example_answer': 'none',
+        'tumbler_afternoon_short': 'After meal coffee?',
+        'tumbler_afternoon_long':
+            'Did you drink coffee today\nwith a tumbler\ninstead of a disposable cup?',
+        'tumbler_afternoon_example_answer': 'Used tumbler or disposable cup',
 
         // evening
         'tumbler_evening_short': 'none',
@@ -542,6 +585,8 @@ abstract class EActionTranslations {
   static Map<String, String> get krPublicTransportation => {
         // 행위 이름
         'publicTransportation': '대중교통 이용하기',
+        'publicTransportation_example_answer': '버스타고 30분',
+
         // dawn
         'publicTransportation_dawn_short': 'none',
         'publicTransportation_dawn_long': 'none',
@@ -564,15 +609,21 @@ abstract class EActionTranslations {
       };
 
   static Map<String, String> get enPublicTransportation => {
+        // 행위 이름
+        'publicTransportation': 'Use Public Transportation',
+        'publicTransportation_example_answer': 'Took the bus for 30 minutes',
+
         // dawn
         'publicTransportation_dawn_short': 'none',
         'publicTransportation_dawn_long': 'none',
         'publicTransportation_dawn_example_answer': 'none',
 
         // morning
-        'publicTransportation_morning_short': 'none',
-        'publicTransportation_morning_long': 'none',
-        'publicTransportation_morning_example_answer': 'none',
+        'publicTransportation_morning_short': 'How about commuting?',
+        'publicTransportation_morning_long':
+            'How did you commute\nin the morning?\nPublic transportation?!',
+        'publicTransportation_morning_example_answer':
+            'Took the bus for 30 minutes',
 
         // afternoon
         'publicTransportation_afternoon_short': 'none',

@@ -1,16 +1,33 @@
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/sign_in/sign_in_view_model.dart';
-import 'package:earth_and_i/views/base/base_screen.dart';
+import 'package:earth_and_i/views/sign_in/widget/overlay_grey_barrier.dart';
 import 'package:earth_and_i/widgets/appbar/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class SignInScreen extends BaseScreen<SignInViewModel> {
+class SignInScreen extends GetView<SignInViewModel> {
   const SignInScreen({super.key});
 
+  SignInViewModel get viewModel => controller;
+
   @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: buildAppBar(context),
+          body: SafeArea(
+            child: buildBody(context),
+          ),
+          backgroundColor: ColorSystem.white,
+        ),
+        const OverlayGreyBarrier(),
+      ],
+    );
+  }
+
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
@@ -20,16 +37,6 @@ class SignInScreen extends BaseScreen<SignInViewModel> {
     );
   }
 
-  @override
-  bool get wrapWithOuterSafeArea => true;
-
-  @override
-  bool get setTopOuterSafeArea => true;
-
-  @override
-  bool get setBottomOuterSafeArea => true;
-
-  @override
   Widget buildBody(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

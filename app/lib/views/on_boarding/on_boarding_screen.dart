@@ -16,7 +16,6 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   late final PageController _pageController;
   late final RxInt _currentPage;
-  late final RxString _btnText;
 
   @override
   void initState() {
@@ -28,7 +27,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
 
     _currentPage = 0.obs;
-    _btnText = 'continue'.obs;
   }
 
   @override
@@ -97,7 +95,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                       child: Obx(
                         () => Text(
-                          _currentPage.value == 5 ? 'start' : _btnText.value,
+                          _currentPage.value == 5 ? 'start'.tr : 'next'.tr,
                           style: FontSystem.KR20B.copyWith(
                             color: ColorSystem.white,
                           ),

@@ -79,25 +79,19 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
 
   Widget textsHintView() => SizedBox(
         width: Get.width,
-        height: 20,
+        height: 40,
         child: Center(
           child: DefaultTextStyle(
             style: FontSystem.KR16M,
             child: AnimatedTextKit(
               repeatForever: true,
               animatedTexts: [
-                FadeAnimatedText(
-                  '찬물 세탁도 지구를 지킬 수 있답니다!',
-                  duration: const Duration(seconds: 3),
-                ),
-                FadeAnimatedText(
-                  '불필요한 이메일을 지우면 지구를 지킬 수 있어요!',
-                  duration: const Duration(seconds: 3),
-                ),
-                FadeAnimatedText(
-                  '종이컵 대신 개인용 텀블러를 사용해보세요!',
-                  duration: const Duration(seconds: 3),
-                ),
+                for (int i = 0; i < 3; i++)
+                  FadeAnimatedText(
+                    'hint_text_$i'.tr,
+                    textAlign: TextAlign.center,
+                    duration: const Duration(seconds: 3),
+                  ),
               ],
             ),
           ),
@@ -107,7 +101,10 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   Widget currentChallengeView() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("진행중인 챌린지", style: FontSystem.KR20SB120),
+          Text(
+            "current_challenge".tr,
+            style: FontSystem.KR20SB120,
+          ),
           const SizedBox(height: 16),
           SizedBox(
             height: 110,
@@ -132,12 +129,16 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
         children: [
           Row(
             children: [
-              const Text("완료한 챌린지", style: FontSystem.KR20SB120),
+              Text(
+                "completed_challenge".tr,
+                style: FontSystem.KR20SB120,
+              ),
               const SizedBox(width: 8),
               Obx(
-                () => Text("${viewModel.completedChallengeHistoryState.length}",
-                    style: FontSystem.KR20SB120
-                        .copyWith(color: ColorSystem.grey[500]!)),
+                () => Text(
+                  "${viewModel.completedChallengeHistoryState.length}",
+                  style: FontSystem.KR20SB120.copyWith(color: ColorSystem.grey),
+                ),
               ),
             ],
           ),

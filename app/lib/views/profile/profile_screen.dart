@@ -133,7 +133,10 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title Section
-            const Text("탄소량 총합", style: FontSystem.KR16SB),
+            Text(
+              'total_Delta_CO2'.tr,
+              style: FontSystem.KR16SB,
+            ),
             const SizedBox(height: 4),
             Obx(
               () => DeltaCO2Text(
@@ -151,19 +154,30 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Obx(
-                  () => DeltaCO2Text(
-                    deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                    style: FontSystem.KR12B,
+                  () => SizedBox(
+                    width: 76,
+                    child: DeltaCO2Text(
+                      deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
+                      style: FontSystem.KR12B,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ),
-                Text(
-                  "배출한 탄소량 | 절약한 탄소량",
-                  style: FontSystem.KR10M.copyWith(color: ColorSystem.grey),
+                Expanded(
+                  child: Text(
+                    "${'emission_CO2'.tr} | ${'economize_CO2'.tr}",
+                    style: FontSystem.KR10M.copyWith(color: ColorSystem.grey),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Obx(
-                  () => DeltaCO2Text(
-                    deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
-                    style: FontSystem.KR12B,
+                  () => SizedBox(
+                    width: 76,
+                    child: DeltaCO2Text(
+                      deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
+                      style: FontSystem.KR12B,
+                      textAlign: TextAlign.end,
+                    ),
                   ),
                 ),
               ],
@@ -173,20 +187,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
             const SizedBox(height: 4),
             Obx(
               () => DeltaCO2BarChart(
-                positiveDeltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
-                negativeDeltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                healthPositiveDeltaCO2:
-                    viewModel.dailyDeltaCO2State.healthPositiveDeltaCO2,
-                healthNegativeDeltaCO2:
-                    viewModel.dailyDeltaCO2State.healthNegativeDeltaCO2,
-                mentalPositiveDeltaCO2:
-                    viewModel.dailyDeltaCO2State.mentalPositiveDeltaCO2,
-                mentalNegativeDeltaCO2:
-                    viewModel.dailyDeltaCO2State.mentalNegativeDeltaCO2,
-                cashPositiveDeltaCO2:
-                    viewModel.dailyDeltaCO2State.cashPositiveDeltaCO2,
-                cashNegativeDeltaCO2:
-                    viewModel.dailyDeltaCO2State.cashNegativeDeltaCO2,
+                state: viewModel.dailyDeltaCO2State,
               ),
             ),
             const SizedBox(height: 4),
@@ -202,7 +203,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  "건강",
+                  'health'.tr,
                   style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
                 const SizedBox(width: 8),
@@ -215,7 +216,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  "멘탈",
+                  'mental'.tr,
                   style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
                 const SizedBox(width: 8),
@@ -228,7 +229,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  "금전",
+                  'cash'.tr,
                   style: FontSystem.KR10R.copyWith(color: ColorSystem.grey),
                 ),
               ],

@@ -40,8 +40,8 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
         Center(
           child: Obx(() {
             if (viewModel.isAnalysisResult == null) {
-              return const Text(
-                "서버 통신에 실패했어요.\n잠시 후 다시 시도해주세요.",
+              return Text(
+                "server_communication_failed".tr,
                 style: FontSystem.KR20B,
                 textAlign: TextAlign.center,
               );
@@ -49,8 +49,8 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
 
             return Text(
               viewModel.isAnalysisResult!
-                  ? "챌린지 달성 완료!\n새로운 챌린지를 확인해보세요."
-                  : "제출한 사진이 잘못된 것 같아요!",
+                  ? "success_challenge".tr
+                  : "failed_challenge".tr,
               style: FontSystem.KR20B,
               textAlign: TextAlign.center,
             );
@@ -77,7 +77,7 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
                 width: 1,
               ),
             ),
-            child: const Text("확인"),
+            child: Text("confirm".tr),
           ),
         )
       ],

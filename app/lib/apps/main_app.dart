@@ -1,7 +1,7 @@
 import 'package:earth_and_i/bindings/init_binding.dart';
 import 'package:earth_and_i/utilities/static/app_pages.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
-import 'package:earth_and_i/utilities/static/app_translations.dart';
+import 'package:earth_and_i/utilities/translation/app_translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

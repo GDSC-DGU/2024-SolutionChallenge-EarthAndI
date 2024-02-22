@@ -156,7 +156,7 @@ class HomeViewModel extends GetxController {
     } catch (e) {
       _analysisState.value = _analysisState.value.copyWith(
         isLoading: false,
-        speechBubble: "서버와의 통신이 원활하지 않아!\n조금 뒤 다시 시도해줘!",
+        speechBubble: "server_communication_failed_character".tr,
       );
 
       return;

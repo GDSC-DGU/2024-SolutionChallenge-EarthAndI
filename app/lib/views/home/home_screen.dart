@@ -1,4 +1,3 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
@@ -111,7 +110,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
             width: Get.width,
             height: Get.find<RootViewModel>().isAndroid
                 ? Get.height * 0.25
-                : Get.height * 0.3,
+                : Get.height * 0.27,
             color: const Color(0xFFF3F0EB),
           ),
         ),
@@ -122,49 +121,43 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
         right: 0,
         bottom: Get.find<RootViewModel>().isAndroid
             ? Get.height * 0.20
-            : Get.height * 0.25,
+            : Get.height * 0.22,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Column(
             children: [
               const SpeechBubble(),
               const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
-                  DevOnLog.i('characterLayer onTap');
+              Obx(
+                () {
+                  // 각 스탯에 따라 이미지 경로 결정
+                  String prefix = viewModel.analysisState.isLoading
+                      ? 'assets/images/analysis/'
+                      : 'assets/images/character/';
+                  String suffix = '.svg';
+
+                  String environment =
+                      viewModel.characterStatsState.isEnvironmentCondition
+                          ? '1'
+                          : '2';
+                  String health =
+                      viewModel.characterStatsState.isHealthCondition
+                          ? '1'
+                          : '2';
+                  String mental =
+                      viewModel.characterStatsState.isMentalCondition
+                          ? '1'
+                          : '2';
+                  String cash =
+                      viewModel.characterStatsState.isCashCondition ? '1' : '2';
+
+                  return SvgPicture.asset(
+                    viewModel.analysisState.isLoading
+                        ? '$prefix${health}_${mental}_$cash$suffix'
+                        : '$prefix${environment}_${health}_${mental}_$cash$suffix',
+                    height: Get.height * 0.2,
+                  );
                 },
-                child: Obx(
-                  () {
-                    // 각 스탯에 따라 이미지 경로 결정
-                    String prefix = viewModel.analysisState.isLoading
-                        ? 'assets/images/analysis/'
-                        : 'assets/images/character/';
-                    String suffix = '.svg';
-
-                    String environment =
-                        viewModel.characterStatsState.isEnvironmentCondition
-                            ? '1'
-                            : '2';
-                    String health =
-                        viewModel.characterStatsState.isHealthCondition
-                            ? '1'
-                            : '2';
-                    String mental =
-                        viewModel.characterStatsState.isMentalCondition
-                            ? '1'
-                            : '2';
-                    String cash = viewModel.characterStatsState.isCashCondition
-                        ? '1'
-                        : '2';
-
-                    return SvgPicture.asset(
-                      viewModel.analysisState.isLoading
-                          ? '$prefix${health}_${mental}_$cash$suffix'
-                          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
-                      height: Get.height * 0.2,
-                    );
-                  },
-                ),
               ),
             ],
           ),
@@ -187,13 +180,11 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                       : 4,
                   items: viewModel.carbonCloudStates,
                   onTapItem: (state) {
-                    // group 인덱스가 현재 시간과 다르다면
-                    // speechState 초기화
                     if (state.groupIndex != getTimeSection(DateTime.now())) {
                       viewModel.fetchCarbonCloudStates(DateTime.now());
                       Get.snackbar(
-                        '새로운 구름을 확인해주세요',
-                        '시간이 오래되어 탄소 구름들이 사라졌어요!!',
+                        'time_exception_title'.tr,
+                        'time_exception_content'.tr,
                         snackPosition: SnackPosition.TOP,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0,

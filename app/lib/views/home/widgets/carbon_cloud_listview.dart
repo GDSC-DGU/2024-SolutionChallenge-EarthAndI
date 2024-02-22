@@ -45,7 +45,6 @@ class _CarbonCloudListViewState extends State<CarbonCloudListView> {
     _onTapItem = widget.onTapItem;
     _itemBuilder = widget.itemBuilder;
 
-    // widget.items를 깊은 복사 후 _items에 할당
     _items = List<CarbonCloudState>.from(widget.items);
     _itemCount = widget.itemCount;
   }
