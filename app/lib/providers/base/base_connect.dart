@@ -8,7 +8,7 @@ abstract class BaseConnect extends GetConnect {
     super.onInit();
     super.onInit();
     httpClient
-      ..baseUrl = dotenv.env['ANALYSIS_SERVER_HOST']
+      ..baseUrl = dotenv.env['API_SERVER_HOST']
       ..defaultContentType = "application/json"
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {

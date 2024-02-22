@@ -25,24 +25,36 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Expanded(child: SizedBox()),
-        Obx(
-          () => SvgPicture.asset(
-            viewModel.isAnalysisResult
+        Obx(() {
+          if (viewModel.isAnalysisResult == null) {
+            return const SizedBox();
+          }
+
+          return SvgPicture.asset(
+            viewModel.isAnalysisResult!
                 ? "assets/icons/clear_challenge.svg"
                 : "assets/icons/failed_challenge.svg",
-          ),
-        ),
+          );
+        }),
         const SizedBox(height: 40),
         Center(
-          child: Obx(
-            () => Text(
-              viewModel.isAnalysisResult
+          child: Obx(() {
+            if (viewModel.isAnalysisResult == null) {
+              return const Text(
+                "서버 통신에 실패했어요.\n잠시 후 다시 시도해주세요.",
+                style: FontSystem.KR20B,
+                textAlign: TextAlign.center,
+              );
+            }
+
+            return Text(
+              viewModel.isAnalysisResult!
                   ? "챌린지 달성 완료!\n새로운 챌린지를 확인해보세요."
                   : "제출한 사진이 잘못된 것 같아요!",
               style: FontSystem.KR20B,
               textAlign: TextAlign.center,
-            ),
-          ),
+            );
+          }),
         ),
         const SizedBox(height: 40),
         const Spacer(),
@@ -51,7 +63,6 @@ class ResultFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
           height: 56,
           child: OutlinedButton(
             onPressed: () {
-              viewModel.resetImageAndPage();
               Get.back(closeOverlays: true);
             },
             style: OutlinedButton.styleFrom(

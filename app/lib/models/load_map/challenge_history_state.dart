@@ -1,27 +1,17 @@
 class ChallengeHistoryState {
-  final String _longTitle;
-  final String _shortTitle;
-  final String _description;
-  final String _iconPath;
-  final bool _isCompleted;
-
-  String get longTitle => _longTitle;
-  String get shortTitle => _shortTitle;
-  String get description => _description;
-  String get iconPath => _iconPath;
-  bool get isCompleted => _isCompleted;
+  final String longTitle;
+  final String shortTitle;
+  final String description;
+  final String iconPath;
+  final bool isCompleted;
 
   ChallengeHistoryState({
-    required String shortTitle,
-    required String longTitle,
-    required String description,
-    required String iconPath,
-    required bool isCompleted,
-  })  : _shortTitle = shortTitle,
-        _longTitle = longTitle,
-        _description = description,
-        _iconPath = iconPath,
-        _isCompleted = isCompleted;
+    required this.shortTitle,
+    required this.longTitle,
+    required this.description,
+    required this.iconPath,
+    required this.isCompleted,
+  });
 
   factory ChallengeHistoryState.initial() {
     return ChallengeHistoryState(
@@ -41,11 +31,11 @@ class ChallengeHistoryState {
     bool? isCompleted,
   }) {
     return ChallengeHistoryState(
-      shortTitle: shortTitle ?? _shortTitle,
-      longTitle: longTitle ?? _longTitle,
-      description: description ?? _description,
-      iconPath: iconPath ?? _iconPath,
-      isCompleted: isCompleted ?? _isCompleted,
+      shortTitle: shortTitle ?? this.shortTitle,
+      longTitle: longTitle ?? this.longTitle,
+      description: description ?? this.description,
+      iconPath: iconPath ?? this.iconPath,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }

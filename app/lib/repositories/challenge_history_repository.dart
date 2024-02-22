@@ -32,9 +32,9 @@ class ChallengeHistoryRepository extends GetxService {
     List<ChallengeHistoryData?> completedChallengeHistories =
         await _localProvider.getCompletedChallengeData();
 
-    for (var hisotry in completedChallengeHistories) {
+    for (var history in completedChallengeHistories) {
       for (var challenge in _challenges) {
-        if (challenge == hisotry?.type) {
+        if (challenge == history?.type) {
           states.add(ChallengeHistoryState(
               shortTitle: "${challenge}ShortTitle",
               longTitle: "${challenge}LongTitle",

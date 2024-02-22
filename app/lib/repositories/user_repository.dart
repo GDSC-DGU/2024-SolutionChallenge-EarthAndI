@@ -4,12 +4,8 @@ import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
 import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
-import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
 import 'package:earth_and_i/providers/user_local_provider.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
-import 'package:earth_and_i/utilities/functions/security_util.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxService {

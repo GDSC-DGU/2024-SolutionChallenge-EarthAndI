@@ -5,9 +5,7 @@ import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/profile/action_history_state.dart';
-import 'package:earth_and_i/models/profile/daily_carbon_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
-import 'package:earth_and_i/models/profile/total_carbon_state.dart';
 import 'package:earth_and_i/providers/action_history_local_provider.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
@@ -15,6 +13,10 @@ import 'package:get/get.dart';
 class ActionHistoryRepository extends GetxService {
   late final ActionHistoryLocalProvider _localProvider;
 
+  // 00 ~ 06 -> _actionGroups[0]
+  // 06 ~ 12 -> _actionGroups[1]
+  // 12 ~ 18 -> _actionGroups[2]
+  // 18 ~ 24 -> _actionGroups[3]
   static final List<List<EAction>> _actionGroups = [
     [],
     [
@@ -49,11 +51,6 @@ class ActionHistoryRepository extends GetxService {
   Future<List<CarbonCloudState>> readCarbonCloudStates(
     DateTime currentAt,
   ) async {
-    // 00 ~ 06시면, _actionGroups[0]
-    // 06 ~ 12시면, _actionGroups[1]
-    // 12 ~ 18시면, _actionGroups[2]
-    // 18 ~ 24시면, _actionGroups[3]
-    // 위 값을 구하고 현재 시간에 해당하는 액션들을 가져온다.
     int groupIndex = currentAt.hour ~/ 6;
     List<EAction> actions = _actionGroups[groupIndex];
 
@@ -108,11 +105,11 @@ class ActionHistoryRepository extends GetxService {
       endAt,
     );
 
-    // Delta CO2
+    // Brief Delta CO2
     double positiveDeltaCO2 = 0;
     double negativeDeltaCO2 = 0;
 
-    // Count
+    // Detail Delta CO2
     double healthPositiveDeltaCO2 = 0;
     double healthNegativeDeltaCO2 = 0;
     double mentalPositiveDeltaCO2 = 0;
@@ -230,93 +227,5 @@ class ActionHistoryRepository extends GetxService {
       DevOnLog.e(e);
       rethrow;
     }
-  }
-
-  Future<List<ActionHistoryData>> readAllByDateRange(
-    DateTime startAt,
-    DateTime endAt,
-  ) async {
-    try {
-      return await _localProvider.findAllByDateRange(startAt, endAt);
-    } on Exception catch (e) {
-      DevOnLog.e(e);
-      rethrow;
-    }
-  }
-
-  Future<DailyCarbonState> readDailyCarbonState(
-    DateTime startAt,
-    DateTime endAt,
-  ) async {
-    List<ActionHistoryData> histories =
-        await _localProvider.findAllByDateRange(startAt, endAt);
-
-    DailyCarbonState currentState = DailyCarbonState.initial();
-
-    for (var history in histories) {
-      switch (history.userStatus) {
-        case EUserStatus.health:
-          if (history.changeCapacity > 0) {
-            currentState = currentState.copyWith(
-              healthNegativeCnt: currentState.healthNegativeCnt + 1,
-            );
-          } else {
-            currentState = currentState.copyWith(
-              healthPositiveCnt: currentState.healthPositiveCnt + 1,
-            );
-          }
-          break;
-        case EUserStatus.mental:
-          if (history.changeCapacity > 0) {
-            currentState = currentState.copyWith(
-              mentalNegativeCnt: currentState.mentalNegativeCnt + 1,
-            );
-          } else {
-            currentState = currentState.copyWith(
-              mentalPositiveCnt: currentState.mentalPositiveCnt + 1,
-            );
-          }
-          break;
-        case EUserStatus.cash:
-          if (history.changeCapacity > 0) {
-            currentState = currentState.copyWith(
-              cashNegativeCnt: currentState.cashNegativeCnt + 1,
-            );
-          } else {
-            currentState = currentState.copyWith(
-              cashPositiveCnt: currentState.cashPositiveCnt + 1,
-            );
-          }
-          break;
-        default:
-          break;
-      }
-    }
-    return currentState;
-  }
-
-  Future<TotalCarbonState> readTotalCarbonState(
-    DateTime startAt,
-    DateTime endAt,
-  ) async {
-    List<ActionHistoryData> histories =
-        await _localProvider.findAllByDateRange(startAt, endAt);
-
-    TotalCarbonState currentState = TotalCarbonState.initial();
-    for (var history in histories) {
-      if (history.changeCapacity > 0) {
-        currentState = currentState.copyWith(
-            negativeTotalDeltaCO2:
-                currentState.negativeTotalDeltaCO2 + history.changeCapacity);
-      } else {
-        currentState = currentState.copyWith(
-            positiveTotalDeltaCO2:
-                currentState.positiveTotalDeltaCO2 + history.changeCapacity);
-      }
-    }
-    currentState = currentState.copyWith(
-        totalDeltaCO2: currentState.positiveTotalDeltaCO2 +
-            currentState.negativeTotalDeltaCO2);
-    return currentState;
   }
 }

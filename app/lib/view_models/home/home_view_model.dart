@@ -9,7 +9,6 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
@@ -245,7 +244,7 @@ class HomeViewModel extends GetxController {
           changeCapacity: -currentChangeCapacity,
           createdAt: currentAt,
           updatedAt: currentAt,
-          question: "오늘의 걸음 수는?",
+          question: "",
           answer: "${currentChangeCapacity ~/ 0.000125}",
           userStatus: EUserStatus.health,
           type: EAction.steps,

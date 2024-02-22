@@ -54,7 +54,7 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
             width: Get.width * 0.92,
             height: 56,
             child: OutlinedButton(
-              onPressed: () => viewModel.getImage(),
+              onPressed: viewModel.getImage,
               style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -97,10 +97,7 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
                     )
                   // 이미지가 있는 경우의 OutlinedButton
                   : OutlinedButton(
-                      // 인증하기 API 호출 (challenge의 index + 1, image(base64))
-                      onPressed: () {
-                        viewModel.authChallenge(viewModel.image!);
-                      },
+                      onPressed: viewModel.authenticationChallenge,
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
