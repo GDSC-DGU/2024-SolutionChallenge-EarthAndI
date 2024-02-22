@@ -49,6 +49,7 @@ class ActionHistoryItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     leftBottomView(),
+                    const SizedBox(width: 4),
                     rightBottomView(),
                   ],
                 ),
@@ -127,30 +128,39 @@ class ActionHistoryItem extends StatelessWidget {
       answer = "건강에도 좋은 걷기";
     } else {
       question = "Q ${state.question.tr}";
-      answer = state.answer.length > 20
-          ? "A ${state.answer.substring(0, 20)}..."
-          : "A ${state.answer}";
+      answer = "A ${state.answer}";
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          question,
-          style: FontSystem.KR12R,
-        ),
-        Text(
-          answer,
-          style: FontSystem.KR12R,
-        )
-      ],
+    return SizedBox(
+      width: Get.width - 228,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            question,
+            style: FontSystem.KR12R,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            answer,
+            style: FontSystem.KR12R,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
     );
   }
 
   Widget rightBottomView() {
-    return DeltaCO2Text(
-      deltaCO2: state.changeCapacity,
-      style: FontSystem.KR12B,
+    return SizedBox(
+      width: 76,
+      child: DeltaCO2Text(
+        deltaCO2: state.changeCapacity,
+        style: FontSystem.KR12B,
+        textAlign: TextAlign.right,
+      ),
     );
   }
 }
