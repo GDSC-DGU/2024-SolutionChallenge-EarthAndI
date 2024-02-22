@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/entity/challenge_history.dart';
-import 'package:earth_and_i/providers/challenge_history_local_provider.dart';
+import 'package:earth_and_i/providers/challenge/challenge_history_local_provider.dart';
 
 part 'challenge_history_dao.g.dart';
 

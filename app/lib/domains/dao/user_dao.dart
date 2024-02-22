@@ -1,5 +1,5 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
-import 'package:earth_and_i/providers/user_local_provider.dart';
+import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:get_storage/get_storage.dart';
 
 class UserDAO implements UserLocalProvider {

@@ -4,7 +4,7 @@ import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
 import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
-import 'package:earth_and_i/providers/user_local_provider.dart';
+import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
 import 'package:get/get.dart';
 

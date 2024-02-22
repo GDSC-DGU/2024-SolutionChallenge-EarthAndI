@@ -1,6 +1,6 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
-import 'package:earth_and_i/providers/analysis_provider.dart';
+import 'package:earth_and_i/providers/analysis/analysis_provider.dart';
 import 'package:get/get.dart';
 
 class AnalysisRepository extends GetxService {

@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/entity/action_history.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
-import 'package:earth_and_i/providers/action_history_local_provider.dart';
+import 'package:earth_and_i/providers/action/action_history_local_provider.dart';
 
 part 'action_history_dao.g.dart';
 

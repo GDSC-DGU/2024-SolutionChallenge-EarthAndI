@@ -6,7 +6,7 @@ import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/profile/action_history_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
-import 'package:earth_and_i/providers/action_history_local_provider.dart';
+import 'package:earth_and_i/providers/action/action_history_local_provider.dart';
 import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:get/get.dart';
 
