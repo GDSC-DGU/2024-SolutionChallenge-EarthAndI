@@ -2,6 +2,7 @@ import 'package:earth_and_i/apps/factory/local_database_factory.dart';
 import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/apps/main_app.dart';
 import 'package:earth_and_i/apps/firebase/firebase_options.dart';
+import 'package:earth_and_i/bindings/init_binding.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
@@ -38,6 +39,8 @@ void main() async {
 
   // App onReady
   await LocalStorageFactory.onReady();
+
+  InitBinding().dependencies();
 
   runApp(const MainApp());
 }

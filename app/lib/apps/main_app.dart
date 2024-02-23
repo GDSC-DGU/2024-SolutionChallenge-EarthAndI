@@ -35,7 +35,7 @@ class MainApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFf6f6f8),
       ),
       initialRoute: Routes.ROOT,
-      initialBinding: InitBinding(),
+      // initialBinding: InitBinding(),
       getPages: appPages,
     );
   }
