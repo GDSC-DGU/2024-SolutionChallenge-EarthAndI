@@ -102,6 +102,10 @@ class ProfileViewModel extends GetxController {
     }
 
     _actionHistoryStates.value =
-        await _actionHistoryRepository.readActionHistoryStates(currentAt);
+        await _actionHistoryRepository.readActionHistoryStates(
+      currentAt,
+      0,
+      20,
+    );
   }
 }
