@@ -50,7 +50,6 @@ abstract class CommonTranslations {
         "local_notification_content": "What changes will happen today?",
 
         // Exception
-
         "server_communication_failed_character":
             "Server communication failed.\nPlease try again later.",
         "server_communication_failed":

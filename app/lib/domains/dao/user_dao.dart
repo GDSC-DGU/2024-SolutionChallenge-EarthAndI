@@ -111,8 +111,13 @@ class UserDAO implements UserLocalProvider {
   /// Get the user's current challenge.
   @override
   EChallenge? getCurrentChallenge() {
-    return EChallenge.fromName(
-        _storage.read(UserDAOExtension.currentChallenge));
+    String? challenge = _storage.read(UserDAOExtension.currentChallenge);
+
+    if (challenge == null) {
+      return null;
+    }
+
+    return EChallenge.fromName(challenge);
   }
 
   /* ------------------------------------------------------------ */

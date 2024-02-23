@@ -48,11 +48,11 @@ class ChallengeDialog extends StatelessWidget {
     String longTitle;
 
     if (state == null) {
-      shortTitle = "clearAllChallengeShortTitle".tr;
-      longTitle = "clearAllChallengeLongTitle".tr;
+      shortTitle = "clear_all_challenge_short_title".tr;
+      longTitle = "clear_all_challenge_long_title".tr;
     } else {
-      shortTitle = state!.challenge.shortTitle.tr;
-      longTitle = state!.challenge.longTitle.tr;
+      shortTitle = state!.type.shortTitle.tr;
+      longTitle = state!.type.longTitle.tr;
     }
 
     return SizedBox(
@@ -117,11 +117,11 @@ class ChallengeDialog extends StatelessWidget {
 
     if (state == null) {
       assetPath = "assets/icons/clear_challenge.png";
-      description = "clearAllChallengeDescription".tr;
+      description = "clear_all_challenge_description".tr;
       buttonText = "confirm".tr;
     } else {
-      assetPath = 'assets/icons/${state!.challenge.assetPath}';
-      description = state!.challenge.description.tr;
+      assetPath = 'assets/icons/${state!.type.assetPath}';
+      description = state!.type.description.tr;
       buttonText = state!.isCompleted
           ? "confirm".tr
           : 'challenge_authentication_title'.tr;
@@ -165,7 +165,7 @@ class ChallengeDialog extends StatelessWidget {
     if (SecurityUtil.isSignin) {
       Get.toNamed(
         Routes.CHALLENGE_AUTHENTICATION,
-        arguments: state!.challenge,
+        arguments: state!.type,
       );
     } else {
       Get.dialog(const SignInDialog());

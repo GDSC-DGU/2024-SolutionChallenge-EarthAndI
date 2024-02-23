@@ -81,7 +81,7 @@ class HomeViewModel extends GetxController {
       isEnableMic: await _speechModule.initialize(),
     );
 
-    loadAndSaveSteps(Get.find<RootViewModel>().currentAt);
+    loadAndSaveSteps();
   }
 
   void onReadySpeechState() {
@@ -137,9 +137,8 @@ class HomeViewModel extends GetxController {
     );
 
     // 분석
-    EUserStatus userStatus = ETypeConverter.actionToUserStatus(
-      _carbonCloudStates[index].action,
-    );
+    EUserStatus userStatus =
+        ETypeConverter.actionToUserStatus(_carbonCloudStates[index].action);
     EAction action = _carbonCloudStates[index].action;
     String question = _carbonCloudStates[index].shortQuestion;
     String speechText = _speechState.value.speechText;
@@ -194,6 +193,17 @@ class HomeViewModel extends GetxController {
           changeCO2: changeCapacity,
         );
       }
+      //    if (changedCO2 < 0) {
+      //       _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      //         totalPositiveCO2: totalCO2,
+      //         changeCO2: changedCO2,
+      //       );
+      //     } else {
+      //       _deltaCO2State.value = _deltaCO2State.value.copyWith(
+      //         totalNegativeCO2: totalCO2,
+      //         changeCO2: changedCO2,
+      //       );
+      //     }
 
       _characterStatsState.value = await _userRepository.updateCharacterStats(
         userStatus,
@@ -221,7 +231,9 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  Future<void> loadAndSaveSteps(DateTime currentAt) async {
+  Future<void> loadAndSaveSteps() async {
+    DateTime currentAt = Get.find<RootViewModel>().currentAt;
+
     // 금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 가져옴
     DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day);
     DateTime endAt =
@@ -250,10 +262,12 @@ class HomeViewModel extends GetxController {
       return;
     }
 
-    // 금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 저장하는데
-    // 저장된 걸음 수가 없다면 새로운 데이터를 생성하고
-    // 저장된 걸음 수가 있다면 새로운 데이터를 생성하지 않고 업데이트함
-    // 이후 사용자의 총 이산화탄소를 변화시킴
+    /*
+    금일 날짜의 00:00:00 ~ 23:59:59 사이의 걸음 수를 저장하는데
+    저장된 걸음 수가 없다면 새로운 데이터를 생성하고
+    저장된 걸음 수가 있다면 새로운 데이터를 생성하지 않고 업데이트함
+    이후 사용자의 총 이산화탄소를 변화시킴
+     */
     if (data == null) {
       await _actionHistoryRepository.createOrUpdate(
         ActionHistoryCompanion.insert(
@@ -300,16 +314,16 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  void fetchDeltaCO2(double totalCO2, double changedCO2) {
-    if (changedCO2 < 0) {
+  void fetchDeltaCO2(double totalDeltaCO2, double changedDeltaCO2) {
+    if (changedDeltaCO2 < 0) {
       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-        totalPositiveCO2: totalCO2,
-        changeCO2: changedCO2,
+        totalPositiveCO2: totalDeltaCO2,
+        changeCO2: changedDeltaCO2,
       );
     } else {
       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-        totalNegativeCO2: totalCO2,
-        changeCO2: changedCO2,
+        totalNegativeCO2: totalDeltaCO2,
+        changeCO2: changedDeltaCO2,
       );
     }
   }

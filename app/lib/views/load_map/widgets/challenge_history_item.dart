@@ -52,7 +52,7 @@ class ChallengeHistoryItem extends StatelessWidget {
   Widget thumbnailView() {
     String assetPath = state == null
         ? 'assets/icons/clear_challenge.png'
-        : 'assets/icons/${state!.challenge.assetPath}';
+        : 'assets/icons/${state!.type.assetPath}';
 
     return Container(
       width: 52,
@@ -73,11 +73,11 @@ class ChallengeHistoryItem extends StatelessWidget {
     double width = Get.width - 64 - 52 - 4 - 12;
 
     if (state == null) {
-      shortTitle = "clearAllChallengeShortTitle".tr;
-      longTitle = "clearAllChallengeLongTitle".tr;
+      shortTitle = "clear_all_challenge_short_title".tr;
+      longTitle = "clear_all_challenge_long_title".tr;
     } else {
-      shortTitle = state!.challenge.shortTitle.tr;
-      longTitle = state!.challenge.longTitle.tr;
+      shortTitle = state!.type.shortTitle.tr;
+      longTitle = state!.type.longTitle.tr;
 
       width = state!.isCompleted ? width - 36 : width;
     }

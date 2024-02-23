@@ -20,7 +20,6 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   /* --------------------------- Read --------------------------- */
   /* ------------------------------------------------------------ */
-
   double readTotalPositiveDeltaCO2() {
     return _localProvider.getTotalPositiveDeltaCO2();
   }
@@ -34,10 +33,6 @@ class UserRepository extends GetxService {
       id: _localProvider.getId(),
       nickname: _localProvider.getNickname(),
     );
-  }
-
-  String readNickname() {
-    return _localProvider.getNickname();
   }
 
   AlarmState readAlarmState() {

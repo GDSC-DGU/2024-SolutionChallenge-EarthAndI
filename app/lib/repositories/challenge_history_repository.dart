@@ -21,11 +21,9 @@ class ChallengeHistoryRepository extends GetxService {
     List<ChallengeHistoryData?> challengeHistories =
         await _localProvider.findAllByOffset(0, 10);
 
-    LogUtil.i(challengeHistories);
-
     return challengeHistories
         .map((e) => ChallengeHistoryState(
-              challenge: e!.type,
+              type: e!.type,
               isCompleted: true,
               completedAt: e.createdAt,
             ))
