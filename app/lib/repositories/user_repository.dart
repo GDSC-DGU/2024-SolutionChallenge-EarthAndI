@@ -90,8 +90,16 @@ class UserRepository extends GetxService {
     required String id,
     required String nickname,
   }) async {
+    String nicknameWithoutSpace = nickname.replaceAll(' ', '');
     await _localProvider.setId(id);
-    await _localProvider.setNickname(nickname);
+    // 공백을 없애고 최대 15자로 제한
+    await _localProvider.setNickname(
+      nicknameWithoutSpace
+        ..substring(
+          0,
+          nicknameWithoutSpace.length > 15 ? 15 : nicknameWithoutSpace.length,
+        ),
+    );
   }
 
   Future<double> updateTotalPositiveDeltaCO2(

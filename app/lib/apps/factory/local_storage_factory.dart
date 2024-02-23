@@ -42,7 +42,7 @@ abstract class LocalStorageFactory {
 
     // If user is not signed in, initialize with GUEST
     await userDAO.onReady(
-      id: user?.uid.substring(0, 3) ?? 'GUEST',
+      id: user?.uid.substring(0, 5) ?? 'GUEST',
       nickname: user?.displayName ?? 'GUEST',
     );
 
