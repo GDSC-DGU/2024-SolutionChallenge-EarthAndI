@@ -31,13 +31,13 @@ enum EChallenge implements Comparable<EChallenge> {
   String get shortTitle {
     switch (this) {
       case EChallenge.deleteEmail:
-        return '${name}ShortTitle';
+        return '${name}_short_title';
       case EChallenge.useEcoFriendlyProducts:
-        return '${name}ShortTitle';
+        return '${name}_short_title';
       case EChallenge.useColdWater:
-        return '${name}ShortTitle';
+        return '${name}_short_title';
       case EChallenge.eatVegetarian:
-        return '${name}ShortTitle';
+        return '${name}_short_title';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
@@ -46,13 +46,13 @@ enum EChallenge implements Comparable<EChallenge> {
   String get longTitle {
     switch (this) {
       case EChallenge.deleteEmail:
-        return '${name}LongTitle';
+        return '${name}_long_title';
       case EChallenge.useEcoFriendlyProducts:
-        return '${name}LongTitle';
+        return '${name}_long_title';
       case EChallenge.useColdWater:
-        return '${name}LongTitle';
+        return '${name}_long_title';
       case EChallenge.eatVegetarian:
-        return '${name}LongTitle';
+        return '${name}_long_title';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
@@ -61,13 +61,13 @@ enum EChallenge implements Comparable<EChallenge> {
   String get description {
     switch (this) {
       case EChallenge.deleteEmail:
-        return '${name}Description';
+        return '${name}_description';
       case EChallenge.useEcoFriendlyProducts:
-        return '${name}Description';
+        return '${name}_description';
       case EChallenge.useColdWater:
-        return '${name}Description';
+        return '${name}_description';
       case EChallenge.eatVegetarian:
-        return '${name}Description';
+        return '${name}_description';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
@@ -84,7 +84,7 @@ enum EChallenge implements Comparable<EChallenge> {
       case 'eatVegetarian':
         return EChallenge.eatVegetarian;
       default:
-        return null;
+        throw Exception('Unknown EChallenge: $name');
     }
   }
 }

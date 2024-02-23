@@ -10,14 +10,15 @@ class InitBinding extends Bindings {
   @override
   void dependencies() {
     // Remote Providers
-    Get.lazyPut<AnalysisProvider>(() => AnalysisProviderImpl());
+    Get.putAsync<AnalysisProvider>(() async => AnalysisProviderImpl());
 
     // Local Repositories
-    Get.lazyPut(() => ActionHistoryRepository());
-    Get.lazyPut(() => ChallengeHistoryRepository());
-    Get.lazyPut(() => UserRepository());
+    Get.putAsync<ActionHistoryRepository>(
+        () async => ActionHistoryRepository());
+    Get.putAsync(() async => ChallengeHistoryRepository());
+    Get.putAsync(() async => UserRepository());
 
     // Remote Repositories
-    Get.lazyPut(() => AnalysisRepository());
+    Get.putAsync(() async => AnalysisRepository());
   }
 }

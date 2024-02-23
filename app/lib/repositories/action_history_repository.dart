@@ -96,9 +96,12 @@ class ActionHistoryRepository extends GetxService {
     DateTime endAt =
         DateTime(currentAt.year, currentAt.month, currentAt.day, 23, 59, 59);
 
-    List<ActionHistoryData> histories = await _localProvider.findAllByDateRange(
+    List<ActionHistoryData> histories =
+        await _localProvider.findAllByDateRangeAndOffset(
       startAt,
       endAt,
+      -1,
+      -1,
     );
 
     // Brief Delta CO2
@@ -163,14 +166,19 @@ class ActionHistoryRepository extends GetxService {
 
   Future<List<ActionHistoryState>> readActionHistoryStates(
     DateTime currentAt,
+    int page,
+    int size,
   ) async {
     DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day);
     DateTime endAt =
         DateTime(currentAt.year, currentAt.month, currentAt.day, 23, 59, 59);
 
-    List<ActionHistoryData> histories = await _localProvider.findAllByDateRange(
+    List<ActionHistoryData> histories =
+        await _localProvider.findAllByDateRangeAndOffset(
       startAt,
       endAt,
+      page,
+      size,
     );
 
     List<ActionHistoryState> states =

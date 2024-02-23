@@ -5,11 +5,21 @@ abstract class ActionHistoryLocalProvider {
   Future<ActionHistoryData> save(ActionHistoryCompanion data);
 
   Future<ActionHistoryData?> findByTypeAndDateRange(
-      EAction type, DateTime startAt, DateTime endAt);
+    EAction type,
+    DateTime startAt,
+    DateTime endAt,
+  );
 
   Future<List<ActionHistoryData>> findAllByTypesAndDateRange(
-      List<EAction> types, DateTime startAt, DateTime endAt);
+    List<EAction> types,
+    DateTime startAt,
+    DateTime endAt,
+  );
 
-  Future<List<ActionHistoryData>> findAllByDateRange(
-      DateTime startAt, DateTime endAt);
+  Future<List<ActionHistoryData>> findAllByDateRangeAndOffset(
+    DateTime startAt,
+    DateTime endAt,
+    int offset,
+    int limit,
+  );
 }

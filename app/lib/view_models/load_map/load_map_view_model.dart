@@ -61,7 +61,7 @@ class LoadMapViewModel extends GetxController {
 
     if (challenge != null) {
       _currentChallengeState.value = ChallengeHistoryState(
-        challenge: challenge,
+        type: challenge,
         completedAt: null,
         isCompleted: false,
       );
