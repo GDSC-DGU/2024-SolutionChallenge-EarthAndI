@@ -238,20 +238,23 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
         ),
       );
 
-  Widget _actionHistoriesView() => Obx(
-        () => ListView.builder(
-          itemCount: viewModel.actionHistoryStates.length,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ActionHistoryItem(
-                state: viewModel.actionHistoryStates[index],
-              ),
-            );
-          },
+  Widget _actionHistoriesView() => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Obx(
+          () => ListView.builder(
+            itemCount: viewModel.actionHistoryStates.length,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: ActionHistoryItem(
+                  state: viewModel.actionHistoryStates[index],
+                ),
+              );
+            },
+          ),
         ),
       );
 }
