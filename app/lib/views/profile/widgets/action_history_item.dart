@@ -35,7 +35,7 @@ class ActionHistoryItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          thumbnail(),
+          thumbnailView(),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -49,6 +49,7 @@ class ActionHistoryItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     leftBottomView(),
+                    const SizedBox(width: 4),
                     rightBottomView(),
                   ],
                 ),
@@ -61,9 +62,9 @@ class ActionHistoryItem extends StatelessWidget {
     );
   }
 
-  Widget thumbnail() {
+  Widget thumbnailView() {
     String thumbnailPath = state.type == EAction.steps
-        ? 'assets/images/thumbnail/walking_thumbnail.png'
+        ? 'assets/icons/walking.png'
         : 'assets/images/thumbnail/${state.characterStatus}.svg';
 
     if (state.type == EAction.steps) {
@@ -99,7 +100,7 @@ class ActionHistoryItem extends StatelessWidget {
   Widget topView() {
     String leftStr = state.type.toString().tr;
     String rightStr = state.type == EAction.steps
-        ? "${state.answer} 걸음"
+        ? "${state.answer} ${EAction.steps.toString().tr}"
         : DateFormat('aa hh:mm', Get.deviceLocale.toString())
             .format(state.createdAt);
 
@@ -108,7 +109,7 @@ class ActionHistoryItem extends StatelessWidget {
       children: [
         Text(
           leftStr,
-          style: FontSystem.KR16SB,
+          style: FontSystem.KR14SB,
         ),
         Text(
           rightStr,
@@ -124,33 +125,42 @@ class ActionHistoryItem extends StatelessWidget {
 
     if (state.type == EAction.steps) {
       question = "";
-      answer = "건강에도 좋은 걷기";
+      answer = "steps_example_answer".tr;
     } else {
       question = "Q ${state.question.tr}";
-      answer = state.answer.length > 20
-          ? "A ${state.answer.substring(0, 20)}..."
-          : "A ${state.answer}";
+      answer = "A ${state.answer}";
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          question,
-          style: FontSystem.KR12R,
-        ),
-        Text(
-          answer,
-          style: FontSystem.KR12R,
-        )
-      ],
+    return SizedBox(
+      width: Get.width - 228,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            question,
+            style: FontSystem.KR12R,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            answer,
+            style: FontSystem.KR12R,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
     );
   }
 
   Widget rightBottomView() {
-    return DeltaCO2Text(
-      deltaCO2: state.changeCapacity,
-      style: FontSystem.KR12B,
+    return SizedBox(
+      width: 76,
+      child: DeltaCO2Text(
+        deltaCO2: state.changeCapacity,
+        style: FontSystem.KR12B,
+        textAlign: TextAlign.right,
+      ),
     );
   }
 }

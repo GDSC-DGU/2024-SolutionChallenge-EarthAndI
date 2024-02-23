@@ -1,23 +1,19 @@
 class AnalysisState {
-  final bool _isLoading;
-  final String _speechBubble;
-
-  bool get isLoading => _isLoading;
-  String get speechBubble => _speechBubble;
+  final bool isLoading;
+  final String speechBubble;
 
   AnalysisState({
-    required bool isLoading,
-    required String speechBubble,
-  })  : _speechBubble = speechBubble,
-        _isLoading = isLoading;
+    required this.isLoading,
+    required this.speechBubble,
+  });
 
   AnalysisState copyWith({
     bool? isLoading,
     String? speechBubble,
   }) {
     return AnalysisState(
-      isLoading: isLoading ?? _isLoading,
-      speechBubble: speechBubble ?? _speechBubble,
+      isLoading: isLoading ?? this.isLoading,
+      speechBubble: speechBubble ?? this.speechBubble,
     );
   }
 
@@ -31,7 +27,7 @@ class AnalysisState {
   @override
   String toString() {
     return '[AnalysisState]\n'
-        'isLoading: $_isLoading'
-        '\nspeechBubble: $_speechBubble';
+        'isLoading: $isLoading\n'
+        'speechBubble: $speechBubble\n';
   }
 }

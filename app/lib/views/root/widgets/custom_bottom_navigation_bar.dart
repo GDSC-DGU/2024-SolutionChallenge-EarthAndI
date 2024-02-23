@@ -30,7 +30,7 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
           ),
           child: BottomAppBar(
             elevation: 0,
-            height: viewModel.isAndroid ? 80 : 65,
+            height: GetPlatform.isAndroid ? 80 : 65,
             color: Colors.white,
             padding: const EdgeInsets.all(0),
             shape: const CircularNotchedRectangle(),

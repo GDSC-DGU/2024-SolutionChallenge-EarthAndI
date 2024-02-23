@@ -1,8 +1,6 @@
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
-import 'package:earth_and_i/utilities/static/app_routes.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
-import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/view_models/setting/setting_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -15,60 +13,69 @@ class SignInViewModel extends GetxController {
   late final FirebaseAuth _firebaseAuth;
   late final UserRepository _userRepository;
 
+  late final String? _beforeRoute;
+
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
-  late final RxBool _isSigningIn;
-  late final String? _beforeScreen;
+  late final RxBool _isEnableGreyBarrier;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
-  bool get isSigningIn => _isSigningIn.value;
+  bool get isEnableGreyBarrier => _isEnableGreyBarrier.value;
 
   @override
   void onInit() {
     super.onInit();
-    // Dependency Injection
+    // DI Fields
     _firebaseAuth = FirebaseAuth.instance;
     _userRepository = Get.find<UserRepository>();
 
-    // Private Initialize
-    _isSigningIn = false.obs;
-    _beforeScreen = Get.parameters['beforeScreen'];
+    _beforeRoute = Get.arguments?['beforeRoute'];
+
+    // Private Fields
+    _isEnableGreyBarrier = false.obs;
   }
 
   Future<bool> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) {
+      return false;
+    }
+
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
     // Create a new credential
     final UserCredential userCredential;
     try {
-      _isSigningIn.value = true;
+      _isEnableGreyBarrier.value = true;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       userCredential = await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
-      DevOnLog.e('Error: $e');
+      LogUtil.e('Error: $e');
       return false;
     }
 
     await _userRepository.updateUserBriefInformation(
-      id: userCredential.user?.uid.substring(0, 3) ?? '',
+      id: userCredential.user?.uid.substring(0, 5) ?? '',
       nickname: userCredential.user?.displayName ?? '',
     );
 
+    if (_beforeRoute != null && _beforeRoute == '/setting') {
+      Get.find<SettingViewModel>().fetchSignInState();
+    }
+
     Get.find<ProfileViewModel>().fetchUserBriefState();
-    Get.find<RootViewModel>().fetchSignInState();
-    _isSigningIn.value = false;
+    _isEnableGreyBarrier.value = false;
 
     return true;
   }

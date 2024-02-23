@@ -1,5 +1,6 @@
+import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
-import 'package:earth_and_i/providers/analysis_provider.dart';
+import 'package:earth_and_i/providers/analysis/analysis_provider.dart';
 import 'package:get/get.dart';
 
 class AnalysisRepository extends GetxService {
@@ -19,7 +20,7 @@ class AnalysisRepository extends GetxService {
     Map<String, dynamic> result;
 
     try {
-      result = await _analysisProvider.postAnalysisAction(
+      result = await _analysisProvider.postAnalysisText(
         userStatus,
         question,
         answer,
@@ -34,6 +35,27 @@ class AnalysisRepository extends GetxService {
     return {
       "answer": result["answer"],
       "changeCapacity": isGood ? -changeCapacity : changeCapacity,
+    };
+  }
+
+  Future<Map<String, dynamic>> analysisChallenge(
+    EChallenge challenge,
+    String image,
+  ) async {
+    Map<String, dynamic> result;
+
+    try {
+      result = await _analysisProvider.postAnalysisImage(
+        challenge,
+        image,
+      );
+    } catch (e) {
+      rethrow;
+    }
+
+    return {
+      "type": result["type"],
+      "res": result["res"] == "True",
     };
   }
 }

@@ -1,4 +1,3 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter/foundation.dart' as foundation;

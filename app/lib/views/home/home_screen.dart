@@ -1,23 +1,20 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
-import 'package:earth_and_i/utilities/static/app_routes.dart';
+import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
-import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/shapes/floor_layer_clipper.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud.dart';
 import 'package:earth_and_i/views/home/widgets/carbon_cloud_listview.dart';
 import 'package:earth_and_i/views/home/widgets/speech_bubble.dart';
 import 'package:earth_and_i/views/home/widgets/speech_recognize_bottom_sheet.dart';
+import 'package:earth_and_i/widgets/dialog/sign_in_dialog.dart';
 import 'package:earth_and_i/widgets/text/animated_num_blink_text.dart';
 import 'package:earth_and_i/widgets/text/animated_num_counter_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-part 'package:earth_and_i/views/home/part/p_functions.dart';
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});
@@ -41,16 +38,16 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Obx(() => totalDeltaCO2()),
+            Obx(() => _totalDeltaCO2()),
             const SizedBox(width: 10),
-            Obx(() => changeDeltaCO2()),
+            Obx(() => _changeDeltaCO2()),
           ],
         ),
       ),
     );
   }
 
-  Widget totalDeltaCO2() {
+  Widget _totalDeltaCO2() {
     Color color = ColorSystem.grey;
 
     if (viewModel.deltaCO2State.totalCO2 > 0) {
@@ -66,7 +63,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
     );
   }
 
-  Widget changeDeltaCO2() {
+  Widget _changeDeltaCO2() {
     if (viewModel.deltaCO2State.changeCO2 == 0) {
       return const SizedBox();
     }
@@ -95,79 +92,74 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
       height: Get.height,
       child: Stack(
         children: [
-          floorLayer(),
-          carbonCloudLayer(),
-          characterLayer(),
+          _floorLayer(),
+          _carbonCloudLayer(),
+          _characterLayer(),
         ],
       ),
     );
   }
 
-  Widget floorLayer() => Positioned(
+  Widget _floorLayer() => Positioned(
         bottom: 0,
         child: ClipPath(
           clipper: FloorLayerClipper(),
           child: Container(
             width: Get.width,
-            height: Get.height * 0.3,
+            height:
+                GetPlatform.isAndroid ? Get.height * 0.25 : Get.height * 0.27,
             color: const Color(0xFFF3F0EB),
           ),
         ),
       );
 
-  Widget characterLayer() => Positioned(
+  Widget _characterLayer() => Positioned(
         left: 0,
         right: 0,
-        bottom: Get.height * 0.25,
+        bottom: GetPlatform.isAndroid ? Get.height * 0.20 : Get.height * 0.22,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.1),
           child: Column(
             children: [
               const SpeechBubble(),
               const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
-                  DevOnLog.i('characterLayer onTap');
+              Obx(
+                () {
+                  // 각 스탯에 따라 이미지 경로 결정
+                  String prefix = viewModel.analysisState.isLoading
+                      ? 'assets/images/analysis/'
+                      : 'assets/images/character/';
+                  String suffix = '.svg';
+
+                  String environment =
+                      viewModel.characterStatsState.isEnvironmentCondition
+                          ? '1'
+                          : '2';
+                  String health =
+                      viewModel.characterStatsState.isHealthCondition
+                          ? '1'
+                          : '2';
+                  String mental =
+                      viewModel.characterStatsState.isMentalCondition
+                          ? '1'
+                          : '2';
+                  String cash =
+                      viewModel.characterStatsState.isCashCondition ? '1' : '2';
+
+                  return SvgPicture.asset(
+                    viewModel.analysisState.isLoading
+                        ? '$prefix${health}_${mental}_$cash$suffix'
+                        : '$prefix${environment}_${health}_${mental}_$cash$suffix',
+                    height: Get.height * 0.2,
+                  );
                 },
-                child: Obx(
-                  () {
-                    // 각 스탯에 따라 이미지 경로 결정
-                    String prefix = viewModel.analysisState.isLoading
-                        ? 'assets/images/analysis/'
-                        : 'assets/images/character/';
-                    String suffix = '.svg';
-
-                    String environment =
-                        viewModel.characterStatsState.isEnvironmentCondition
-                            ? '1'
-                            : '2';
-                    String health =
-                        viewModel.characterStatsState.isHealthCondition
-                            ? '1'
-                            : '2';
-                    String mental =
-                        viewModel.characterStatsState.isMentalCondition
-                            ? '1'
-                            : '2';
-                    String cash = viewModel.characterStatsState.isCashCondition
-                        ? '1'
-                        : '2';
-
-                    return SvgPicture.asset(
-                      viewModel.analysisState.isLoading
-                          ? '$prefix${health}_${mental}_$cash$suffix'
-                          : '$prefix${environment}_${health}_${mental}_$cash$suffix',
-                      height: Get.height * 0.2,
-                    );
-                  },
-                ),
               ),
             ],
           ),
         ),
       );
 
-  Widget carbonCloudLayer() => Positioned(
+  Widget _carbonCloudLayer() => Positioned(
         left: 0,
         right: 0,
         child: Padding(
@@ -183,28 +175,34 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                       : 4,
                   items: viewModel.carbonCloudStates,
                   onTapItem: (state) {
-                    if (isSignIn() == false) {
+                    if (state.groupIndex != _getTimeSection(DateTime.now())) {
+                      viewModel.fetchCarbonCloudStates(DateTime.now());
+                      _showSnackBar(
+                        'time_exception_title'.tr,
+                        'time_exception_content'.tr,
+                      );
+
+                      return;
+                    }
+
+                    if (!SecurityUtil.isSignin) {
+                      Get.dialog(
+                        const SignInDialog(),
+                      );
+
                       return;
                     }
 
                     if (viewModel.analysisState.isLoading) {
-                      Get.snackbar(
+                      _showSnackBar(
                         'analysis_snackBar_title'.tr,
                         'analysis_snackBar_content'.tr,
-                        snackPosition: SnackPosition.TOP,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 8.0,
-                        ),
-                        backgroundColor: ColorSystem.grey.withOpacity(0.3),
-                        colorText: ColorSystem.black,
-                        duration: const Duration(seconds: 2),
                       );
 
                       return;
                     }
                     int index = viewModel.carbonCloudStates.indexOf(state);
-                    viewModel.initializeSpeechState();
+                    viewModel.onReadySpeechState();
 
                     // Show Bottom Sheet
                     Get.bottomSheet(
@@ -251,4 +249,19 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           ),
         ),
       );
+
+  int _getTimeSection(DateTime currentAt) {
+    return currentAt.hour ~/ 6;
+  }
+
+  void _showSnackBar(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      snackPosition: SnackPosition.TOP,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      duration: const Duration(seconds: 2),
+      backgroundColor: ColorSystem.grey.withOpacity(0.3),
+    );
+  }
 }

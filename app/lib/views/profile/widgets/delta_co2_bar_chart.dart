@@ -1,42 +1,76 @@
+import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:flutter/material.dart';
 
 class DeltaCO2BarChart extends StatelessWidget {
   const DeltaCO2BarChart({
     super.key,
-    required this.positiveDeltaCO2,
-    required this.negativeDeltaCO2,
-    required this.healthPositiveDeltaCO2,
-    required this.healthNegativeDeltaCO2,
-    required this.mentalPositiveDeltaCO2,
-    required this.mentalNegativeDeltaCO2,
-    required this.cashPositiveDeltaCO2,
-    required this.cashNegativeDeltaCO2,
+    required this.state,
   });
 
-  // Brief Delta CO2
-  final double positiveDeltaCO2;
-  final double negativeDeltaCO2;
-
-  // Detail Delta CO2
-  final double healthPositiveDeltaCO2;
-  final double healthNegativeDeltaCO2;
-  final double mentalPositiveDeltaCO2;
-  final double mentalNegativeDeltaCO2;
-  final double cashPositiveDeltaCO2;
-  final double cashNegativeDeltaCO2;
+  final DailyDeltaCO2State state;
 
   @override
   Widget build(BuildContext context) {
-    int flexPositive = (positiveDeltaCO2.abs() * 10000).round();
-    int flexNegative = (negativeDeltaCO2 * 10000).round();
+    int flexPositive = (state.positiveDeltaCO2.abs() * 10000).round();
+    int flexNegative = (state.negativeDeltaCO2 * 10000).round();
 
-    int flexPositiveHealth = (healthPositiveDeltaCO2.abs() * 10000).round();
-    int flexNegativeHealth = (healthNegativeDeltaCO2 * 10000).round();
-    int flexPositiveMental = (mentalPositiveDeltaCO2.abs() * 10000).round();
-    int flexNegativeMental = (mentalNegativeDeltaCO2 * 10000).round();
-    int flexPositiveCash = (cashPositiveDeltaCO2.abs() * 10000).round();
-    int flexNegativeCash = (cashNegativeDeltaCO2 * 10000).round();
+    int flexPositiveHealth =
+        (state.healthPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeHealth = (state.healthNegativeDeltaCO2 * 10000).round();
+    int flexPositiveMental =
+        (state.mentalPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeMental = (state.mentalNegativeDeltaCO2 * 10000).round();
+    int flexPositiveCash = (state.cashPositiveDeltaCO2.abs() * 10000).round();
+    int flexNegativeCash = (state.cashNegativeDeltaCO2 * 10000).round();
+
+    if (flexPositive == 0 && flexNegative == 0) {
+      return SizedBox(
+        height: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            spaceSizeBox(1, 1, 8),
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     if (flexPositive == 0 && flexNegative == 0) {
       return SizedBox(
@@ -91,7 +125,7 @@ class DeltaCO2BarChart extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (negativeDeltaCO2 != 0)
+          if (flexNegative != 0)
             Flexible(
               flex: flexNegative,
               child: Column(

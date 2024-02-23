@@ -54,7 +54,8 @@ class LoadingFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
                   repeatForever: true,
                   animatedTexts: [
                     FadeAnimatedText(
-                      '제출한 사진을 AI가 분석중이에요.',
+                      'loading_analysis_image'.tr,
+                      textAlign: TextAlign.center,
                       duration: const Duration(seconds: 2),
                     ),
                   ],

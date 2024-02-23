@@ -4,11 +4,9 @@ import 'dart:io';
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/domains/converter/e_type_converter.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
-import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
-import 'package:earth_and_i/repositories/challenge_authentication_repository.dart';
+import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:flutter/widgets.dart';
@@ -22,8 +20,9 @@ class ChallengeAuthenticationViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
   late final ChallengeHistoryRepository _challengeHistoryRepository;
-  late final ChallengeAuthenticationRepository
-      _challengeAuthenticationRepository;
+  late final AnalysisRepository _analysisRepository;
+
+  late final EChallenge challenge;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -31,11 +30,9 @@ class ChallengeAuthenticationViewModel extends GetxController {
   late final PageController _pageController;
   late final RiveAnimationController _animationController;
 
-  late final Rxn<XFile?> _image;
-  late final Rx<EChallenge> _eChallenge;
   late final RxInt _currentPageIndex;
-  late final RxBool _isAnalysisResult;
-  late final RxList<ChallengeHistoryState> _challengeHistoryState;
+  late final Rxn<XFile?> _image;
+  late final RxnBool _isAnalysisResult;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
@@ -44,22 +41,8 @@ class ChallengeAuthenticationViewModel extends GetxController {
   RiveAnimationController get animationController => _animationController;
 
   XFile? get image => _image.value;
-  EChallenge get eChallenge => _eChallenge.value;
   int get currentPageIndex => _currentPageIndex.value;
-  bool get isAnalysisResult => _isAnalysisResult.value;
-  List<ChallengeHistoryState> get challengeHistoryState =>
-      _challengeHistoryState;
-  List<ChallengeHistoryState> get currentChallengeHistoryState {
-    return _challengeHistoryState
-        .where((challenge) => !challenge.isCompleted)
-        .toList();
-  }
-
-  List<ChallengeHistoryState> get completedChallengeHistoryState {
-    return _challengeHistoryState
-        .where((challenge) => challenge.isCompleted)
-        .toList();
-  }
+  bool? get isAnalysisResult => _isAnalysisResult.value;
 
   @override
   void onInit() async {
@@ -67,86 +50,17 @@ class ChallengeAuthenticationViewModel extends GetxController {
     // DI Fields
     _userRepository = Get.find<UserRepository>();
     _challengeHistoryRepository = Get.find<ChallengeHistoryRepository>();
-    _challengeAuthenticationRepository =
-        Get.find<ChallengeAuthenticationRepository>();
+    _analysisRepository = Get.find<AnalysisRepository>();
+
+    challenge = (Get.arguments as EChallenge);
 
     // Private Fields
     _pageController = PageController(initialPage: 0);
     _animationController = SimpleAnimation("LoadingAnimation", autoplay: true);
 
     _image = Rxn<XFile?>();
-    _eChallenge = _userRepository.readCurrentChallenge().obs;
     _currentPageIndex = 0.obs;
-    _isAnalysisResult = false.obs;
-    _challengeHistoryState = RxList<ChallengeHistoryState>([]);
-
-    _challengeHistoryState.addAll(
-      await _challengeHistoryRepository
-          .readAllChallengeHistoryState(_eChallenge.value),
-    );
-  }
-
-  void getImage() async {
-    final XFile? image =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      _image.value = image;
-    }
-  }
-
-  void resetImageAndPage() {
-    _image.value = null;
-    _pageController.animateToPage(0,
-        duration: const Duration(milliseconds: 300), curve: Curves.ease);
-  }
-
-  String convertImageToBase64(XFile image) {
-    // Convert image to base64
-    final bytes = File(image.path).readAsBytesSync();
-
-    return base64Encode(bytes);
-  }
-
-  Future<void> authChallenge(XFile image) async {
-    // Move to the loading page
-    _pageController.animateToPage(1,
-        duration: const Duration(milliseconds: 300), curve: Curves.ease);
-    _currentPageIndex.value = 1;
-
-    String base64Image = convertImageToBase64(image);
-    Map<String, dynamic> result = await _challengeAuthenticationRepository
-        .challengeAuthAction(_eChallenge.value, base64Image);
-    DevOnLog.d(result);
-
-    // 만약 result["res"] 가 True면 DB 저장하고 인증 성공 페이지
-    if (result["res"] == "True") {
-      await _challengeHistoryRepository
-          .updateCompletedChallenge(ChallengeHistoryCompanion.insert(
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        userStatus: ETypeConverter.challengeToUserStatus(eChallenge),
-        type: _eChallenge.value,
-        analysisContent: "",
-        changeCapacity: 0,
-      ));
-
-      await _userRepository
-          .updateCurrentChallenge(EChallenge.values[eChallenge.index + 1]);
-      _isAnalysisResult.value = true;
-      Get.find<LoadMapViewModel>().fetchCurrentEChallenge(
-          EChallenge.values[_eChallenge.value.index + 1]);
-      Get.find<RootViewModel>().fetchCurrentEChallenge(
-          EChallenge.values[_eChallenge.value.index + 1]);
-    }
-    // 인증이 실패한 경우
-    else {
-      _isAnalysisResult.value = false;
-    }
-
-    // Move to the result page
-    _pageController.animateToPage(2,
-        duration: const Duration(milliseconds: 300), curve: Curves.ease);
-    _currentPageIndex.value = 2;
+    _isAnalysisResult = RxnBool();
   }
 
   @override
@@ -154,5 +68,73 @@ class ChallengeAuthenticationViewModel extends GetxController {
     super.dispose();
     _image.close();
     _pageController.dispose();
+  }
+
+  void getImage() async {
+    final XFile? image =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      _image.value = image;
+    }
+  }
+
+  /// Authentication Challenge
+  void authenticationChallenge() async {
+    // Move to the loading page
+    _moveToPage(1);
+    await Future.delayed(const Duration(milliseconds: 1));
+
+    // Analysis the image By Server Communication
+    // When Exception occurs, Move to the result page(_isAnalysisResult.value is not changed)
+    final Map<String, dynamic> result;
+
+    try {
+      String base64Image = base64Encode(
+        File(_image.value!.path).readAsBytesSync(),
+      );
+      result =
+          await _analysisRepository.analysisChallenge(challenge, base64Image);
+    } catch (e) {
+      _moveToPage(2);
+      return;
+    }
+
+    bool isValid = result["res"];
+
+    // Update the challenge history, User's Current Challenge
+    if (isValid) {
+      // Update the challenge history
+      await _challengeHistoryRepository.createOrUpdate(
+        ChallengeHistoryCompanion.insert(
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          userStatus: ETypeConverter.challengeToUserStatus(challenge),
+          type: challenge,
+          analysisContent: "",
+          changeCapacity: 0,
+        ),
+      );
+
+      await _userRepository.updateCurrentChallenge(
+          challenge.index == EChallenge.values.length - 1
+              ? null
+              : EChallenge.values[challenge.index + 1]);
+
+      // Fetch Data
+      Get.find<LoadMapViewModel>().fetchCurrentChallenge();
+      Get.find<LoadMapViewModel>().fetchChallengeHistories();
+    }
+
+    // Set the result And Move to the result page
+    _isAnalysisResult.value = isValid;
+    _moveToPage(2);
+  }
+
+  /// Move to the page
+  void _moveToPage(int index) {
+    _pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    _currentPageIndex.value = index;
   }
 }

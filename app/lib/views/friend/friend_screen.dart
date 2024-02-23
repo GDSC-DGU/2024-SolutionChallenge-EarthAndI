@@ -1,4 +1,4 @@
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/friend/friend_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';

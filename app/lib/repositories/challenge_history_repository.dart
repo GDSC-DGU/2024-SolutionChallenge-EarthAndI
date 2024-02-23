@@ -2,20 +2,12 @@ import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/apps/factory/local_database_factory.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
-import 'package:earth_and_i/providers/challenge_history_local_provider.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
+import 'package:earth_and_i/providers/challenge/challenge_history_local_provider.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
 class ChallengeHistoryRepository extends GetxService {
   late final ChallengeHistoryLocalProvider _localProvider;
-
-  static final List<EChallenge> _challenges = [
-    EChallenge.useEcoFriendlyProducts,
-    EChallenge.deleteEmail,
-    EChallenge.eatVegetarian,
-    EChallenge.useColdWater,
-    EChallenge.clearAllChallenge
-  ];
 
   @override
   void onInit() {
@@ -25,61 +17,27 @@ class ChallengeHistoryRepository extends GetxService {
 
   /* ----------------------------------------------------- */
   /* ----------------------------------------------------- */
-  Future<List<ChallengeHistoryState>> readAllChallengeHistoryState(
-      EChallenge currentEChallenge) async {
-    List<ChallengeHistoryState> states = [];
+  Future<List<ChallengeHistoryState>> readAllChallengeHistoryState() async {
+    List<ChallengeHistoryData?> challengeHistories =
+        await _localProvider.findAllByOffset(0, 10);
 
-    List<ChallengeHistoryData?> completedChallengeHistories =
-        await _localProvider.getCompletedChallengeData();
+    LogUtil.i(challengeHistories);
 
-    for (var hisotry in completedChallengeHistories) {
-      for (var challenge in _challenges) {
-        if (challenge == hisotry?.type) {
-          states.add(ChallengeHistoryState(
-              shortTitle: "${challenge}ShortTitle",
-              longTitle: "${challenge}LongTitle",
-              description: "${challenge}Description",
-              iconPath: "${challenge}IconPath",
-              isCompleted: true));
-        }
-      }
-    }
-
-    for (var challenge in _challenges) {
-      if (challenge == currentEChallenge) {
-        states.add(ChallengeHistoryState(
-            shortTitle: "${currentEChallenge}ShortTitle",
-            longTitle: "${currentEChallenge}LongTitle",
-            description: "${currentEChallenge}Description",
-            iconPath: "${currentEChallenge}IconPath",
-            isCompleted: false));
-      }
-    }
-    return states;
+    return challengeHistories
+        .map((e) => ChallengeHistoryState(
+              challenge: e!.type,
+              isCompleted: true,
+              completedAt: e.createdAt,
+            ))
+        .toList();
   }
 
-  Future<ChallengeHistoryState> getCurrentChallengeState(
-      EChallenge challenge) async {
-    ChallengeHistoryState state = ChallengeHistoryState.initial();
-    for (var challenge in _challenges) {
-      if (challenge == challenge) {
-        state = ChallengeHistoryState(
-            shortTitle: "${challenge}ShortTitle",
-            longTitle: "${challenge}LongTitle",
-            description: "${challenge}Description",
-            iconPath: "${challenge}IconPath",
-            isCompleted: false);
-      }
-    }
-    return state;
-  }
-
-  Future<ChallengeHistoryData> updateCompletedChallenge(
+  Future<ChallengeHistoryData> createOrUpdate(
       ChallengeHistoryCompanion data) async {
     try {
       return await _localProvider.save(data);
     } on Exception catch (e) {
-      DevOnLog.e(e);
+      LogUtil.e(e);
       rethrow;
     }
   }

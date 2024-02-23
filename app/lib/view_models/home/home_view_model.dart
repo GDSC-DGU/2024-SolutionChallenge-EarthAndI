@@ -1,4 +1,5 @@
 import 'package:earth_and_i/apps/database/local_database.dart';
+import 'package:earth_and_i/domains/converter/e_type_converter.dart';
 import 'package:earth_and_i/domains/type/e_action.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/home/analysis_state.dart';
@@ -9,7 +10,6 @@ import 'package:earth_and_i/models/home/speech_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/analysis_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/dev_on_log.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
@@ -73,7 +73,9 @@ class HomeViewModel extends GetxController {
 
     // Load Data
     _carbonCloudStates.addAll(
-      await _actionHistoryRepository.readCarbonCloudStates(DateTime.now()),
+      await _actionHistoryRepository.readCarbonCloudStates(
+        Get.find<RootViewModel>().currentAt,
+      ),
     );
     _speechState.value = _speechState.value.copyWith(
       isEnableMic: await _speechModule.initialize(),
@@ -82,7 +84,7 @@ class HomeViewModel extends GetxController {
     loadAndSaveSteps(Get.find<RootViewModel>().currentAt);
   }
 
-  void initializeSpeechState() {
+  void onReadySpeechState() {
     _speechState.value = _speechState.value.copyWith(
       isListening: false,
       isComplete: false,
@@ -135,16 +137,29 @@ class HomeViewModel extends GetxController {
     );
 
     // 분석
-    EUserStatus userStatus = _carbonCloudStates[index].userStatus;
+    EUserStatus userStatus = ETypeConverter.actionToUserStatus(
+      _carbonCloudStates[index].action,
+    );
     EAction action = _carbonCloudStates[index].action;
     String question = _carbonCloudStates[index].shortQuestion;
     String speechText = _speechState.value.speechText;
 
-    Map<String, dynamic> result = await _analysisRepository.analysisAction(
-      userStatus,
-      _carbonCloudStates[index].longQuestion.tr,
-      speechText,
-    );
+    Map<String, dynamic> result;
+
+    try {
+      result = await _analysisRepository.analysisAction(
+        userStatus,
+        _carbonCloudStates[index].longQuestion.tr,
+        speechText,
+      );
+    } catch (e) {
+      _analysisState.value = _analysisState.value.copyWith(
+        isLoading: false,
+        speechBubble: "server_communication_failed_character".tr,
+      );
+
+      return;
+    }
 
     String answer = result['answer'];
     double changeCapacity = result['changeCapacity'];
@@ -181,7 +196,7 @@ class HomeViewModel extends GetxController {
       }
 
       _characterStatsState.value = await _userRepository.updateCharacterStats(
-        _carbonCloudStates[index].userStatus,
+        userStatus,
         isPositive,
       );
 
@@ -245,7 +260,7 @@ class HomeViewModel extends GetxController {
           changeCapacity: -currentChangeCapacity,
           createdAt: currentAt,
           updatedAt: currentAt,
-          question: "오늘의 걸음 수는?",
+          question: "",
           answer: "${currentChangeCapacity ~/ 0.000125}",
           userStatus: EUserStatus.health,
           type: EAction.steps,
@@ -300,6 +315,8 @@ class HomeViewModel extends GetxController {
   }
 
   void fetchCarbonCloudStates(DateTime currentAt) async {
+    _carbonCloudStates.clear();
+    await Future.delayed(const Duration(seconds: 1));
     _carbonCloudStates.addAll(
       await _actionHistoryRepository.readCarbonCloudStates(currentAt),
     );

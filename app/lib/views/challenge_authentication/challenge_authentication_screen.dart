@@ -24,10 +24,10 @@ class ChallengeAuthenticationScreen
       preferredSize: const Size.fromHeight(56),
       child: Obx(
         () => AppBar(
-          title: const Padding(
-            padding: EdgeInsets.only(right: 16),
+          title: Padding(
+            padding: const EdgeInsets.only(right: 16),
             child: Text(
-              "챌린지 인증하기",
+              'challenge_authentication_title'.tr,
               style: FontSystem.KR20SB120,
             ),
           ),
@@ -37,13 +37,13 @@ class ChallengeAuthenticationScreen
           automaticallyImplyLeading: false,
           titleSpacing: viewModel.currentPageIndex == 0 ? 0 : 16,
           leadingWidth: 50,
-          leading: leadingWidget(),
+          leading: _leadingWidget(),
         ),
       ),
     );
   }
 
-  Widget? leadingWidget() {
+  Widget? _leadingWidget() {
     if (viewModel.currentPageIndex == 0) {
       return IconButton(
         style: TextButton.styleFrom(

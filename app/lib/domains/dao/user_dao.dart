@@ -1,5 +1,5 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
-import 'package:earth_and_i/providers/user_local_provider.dart';
+import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:get_storage/get_storage.dart';
 
 class UserDAO implements UserLocalProvider {
@@ -44,11 +44,6 @@ class UserDAO implements UserLocalProvider {
 
     await _storage.writeIfNull(UserDAOExtension.currentChallenge,
         EChallenge.useEcoFriendlyProducts.toString());
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _storage.erase();
   }
 
   /* ------------------------------------------------------------ */
@@ -115,10 +110,9 @@ class UserDAO implements UserLocalProvider {
 
   /// Get the user's current challenge.
   @override
-  EChallenge getCurrentChallenge() {
+  EChallenge? getCurrentChallenge() {
     return EChallenge.fromName(
-        _storage.read(UserDAOExtension.currentChallenge) ??
-            EChallenge.useEcoFriendlyProducts.toString());
+        _storage.read(UserDAOExtension.currentChallenge));
   }
 
   /* ------------------------------------------------------------ */
@@ -186,9 +180,13 @@ class UserDAO implements UserLocalProvider {
 
   /// Set the user's current challenge.
   @override
-  Future<void> setCurrentChallenge(EChallenge challenge) async {
-    await _storage.write(
-        UserDAOExtension.currentChallenge, challenge.toString());
+  Future<void> setCurrentChallenge(EChallenge? challenge) async {
+    if (challenge == null) {
+      _storage.remove(UserDAOExtension.currentChallenge);
+    } else {
+      await _storage.write(
+          UserDAOExtension.currentChallenge, challenge.toString());
+    }
   }
 }
 

@@ -7,10 +7,12 @@ class DeltaCO2Text extends StatelessWidget {
     super.key,
     required this.deltaCO2,
     required this.style,
+    this.textAlign,
   });
 
   final double deltaCO2;
   final TextStyle style;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class DeltaCO2Text extends StatelessWidget {
     return Text(
       "$prefix${NumberFormat('###,###,###,##0.0000').format(deltaCO2.abs())}$suffix",
       style: style.copyWith(color: color),
+      textAlign: textAlign,
     );
   }
 }

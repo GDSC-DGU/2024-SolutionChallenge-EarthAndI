@@ -3,7 +3,8 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
-import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
+import 'package:earth_and_i/views/load_map/widgets/challenge_history_item.dart';
+import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,39 +31,25 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Animation View
-            persistentAnimationView(),
-
-            // Gap
+            _persistentAnimationView(),
             const SizedBox(height: 12),
-
-            // Carousel View
-            textsHintView(),
-
-            // Gap
+            _textsHintView(),
             const SizedBox(height: 20),
-
-            // Current Challenge View
-            currentChallengeView(),
-
-            // Line View
+            _currentChallengeView(),
+            const SizedBox(height: 20),
             InfinityLine(
               height: 2,
               color: ColorSystem.grey[200],
             ),
-
-            // Gap
             const SizedBox(height: 20),
-
-            // Completed Challenge View
-            completedChallengeView(),
+            _completedChallengeView(),
           ],
         ),
       ),
     );
   }
 
-  Widget persistentAnimationView() => Center(
+  Widget _persistentAnimationView() => Center(
         child: SizedBox(
           width: 120,
           height: 120,
@@ -77,67 +64,63 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
         ),
       );
 
-  Widget textsHintView() => SizedBox(
+  Widget _textsHintView() => SizedBox(
         width: Get.width,
-        height: 20,
+        height: 40,
         child: Center(
           child: DefaultTextStyle(
             style: FontSystem.KR16M,
             child: AnimatedTextKit(
               repeatForever: true,
               animatedTexts: [
-                FadeAnimatedText(
-                  '찬물 세탁도 지구를 지킬 수 있답니다!',
-                  duration: const Duration(seconds: 3),
-                ),
-                FadeAnimatedText(
-                  '불필요한 이메일을 지우면 지구를 지킬 수 있어요!',
-                  duration: const Duration(seconds: 3),
-                ),
-                FadeAnimatedText(
-                  '종이컵 대신 개인용 텀블러를 사용해보세요!',
-                  duration: const Duration(seconds: 3),
-                ),
+                for (int i = 0; i < 3; i++)
+                  FadeAnimatedText(
+                    'hint_text_$i'.tr,
+                    textAlign: TextAlign.center,
+                    duration: const Duration(seconds: 3),
+                  ),
               ],
             ),
           ),
         ),
       );
 
-  Widget currentChallengeView() => Column(
+  Widget _currentChallengeView() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("진행중인 챌린지", style: FontSystem.KR20SB120),
+          Text(
+            "current_challenge".tr,
+            style: FontSystem.KR20SB120,
+          ),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 110,
-            child: Obx(
-              () => ListView.builder(
-                itemCount: viewModel.currentChallengeHistoryState.length,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  return ChallengeList(
-                      challenge: viewModel.currentChallengeHistoryState[index],
-                      isCompleted: viewModel
-                          .currentChallengeHistoryState[index].isCompleted);
-                },
-              ),
+          Obx(
+            () => ChallengeHistoryItem(
+              state: viewModel.currentChallengeState,
+              borderColor: ColorSystem.green,
+              onTap: () {
+                Get.dialog(
+                  ChallengeDialog(state: viewModel.currentChallengeState),
+                );
+              },
             ),
           ),
         ],
       );
 
-  Widget completedChallengeView() => Column(
+  Widget _completedChallengeView() => Column(
         children: [
           Row(
             children: [
-              const Text("완료한 챌린지", style: FontSystem.KR20SB120),
+              Text(
+                "completed_challenge".tr,
+                style: FontSystem.KR20SB120,
+              ),
               const SizedBox(width: 8),
               Obx(
-                () => Text("${viewModel.completedChallengeHistoryState.length}",
-                    style: FontSystem.KR20SB120
-                        .copyWith(color: ColorSystem.grey[500]!)),
+                () => Text(
+                  "${viewModel.challengeHistoryStates.length}",
+                  style: FontSystem.KR20SB120.copyWith(color: ColorSystem.grey),
+                ),
               ),
             ],
           ),
@@ -145,17 +128,23 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           Obx(
             () => ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: viewModel.completedChallengeHistoryState.length,
+              itemCount: viewModel.challengeHistoryStates.length,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, index) {
                 return Column(
                   children: [
-                    ChallengeList(
-                        challenge:
-                            viewModel.completedChallengeHistoryState[index],
-                        isCompleted: viewModel
-                            .completedChallengeHistoryState[index].isCompleted),
+                    ChallengeHistoryItem(
+                      state: viewModel.challengeHistoryStates[index],
+                      borderColor: ColorSystem.grey,
+                      onTap: () {
+                        Get.dialog(
+                          ChallengeDialog(
+                            state: viewModel.challengeHistoryStates[index],
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 12),
                   ],
                 );

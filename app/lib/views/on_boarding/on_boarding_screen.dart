@@ -16,7 +16,6 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   late final PageController _pageController;
   late final RxInt _currentPage;
-  late final RxString _btnText;
 
   @override
   void initState() {
@@ -28,7 +27,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
 
     _currentPage = 0.obs;
-    _btnText = 'continue'.obs;
   }
 
   @override
@@ -49,12 +47,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: PageView(
                 controller: _pageController,
                 children: [
-                  Image.asset('assets/images/on_boarding/on_boarding_1.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_2.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_3.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_4.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_5.png'),
-                  Image.asset('assets/images/on_boarding/on_boarding_6.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_1.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_2.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_3.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_4.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_5.png'),
+                  Image.asset(
+                      'assets/images/on_boarding/${Get.deviceLocale?.languageCode == "ko" ? "ko" : "en"}_6.png'),
                 ],
               ),
             ),
@@ -97,7 +101,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                       child: Obx(
                         () => Text(
-                          _currentPage.value == 5 ? 'start' : _btnText.value,
+                          _currentPage.value == 5 ? 'start'.tr : 'next'.tr,
                           style: FontSystem.KR20B.copyWith(
                             color: ColorSystem.white,
                           ),

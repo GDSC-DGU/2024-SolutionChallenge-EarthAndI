@@ -1,8 +1,9 @@
 import 'package:earth_and_i/bindings/init_binding.dart';
 import 'package:earth_and_i/utilities/static/app_pages.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
-import 'package:earth_and_i/utilities/static/app_translations.dart';
+import 'package:earth_and_i/utilities/translation/app_translations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     FlutterNativeSplash.remove();
 
     return GetMaterialApp(
@@ -19,6 +21,10 @@ class MainApp extends StatelessWidget {
 
       translations: AppTranslations(),
       locale: Get.deviceLocale,
+      supportedLocales: const [
+        Locale('ko', 'KR'),
+        Locale('en', 'UK'),
+      ],
       fallbackLocale: const Locale('en', 'UK'),
 
       // Theme

@@ -23,7 +23,7 @@ abstract class UserLocalProvider {
   bool getCashCondition();
 
   // Challenge State
-  EChallenge getCurrentChallenge();
+  EChallenge? getCurrentChallenge();
 
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
@@ -47,5 +47,5 @@ abstract class UserLocalProvider {
   Future<void> setCashCondition(bool isGood);
 
   // Challenge State
-  Future<void> setCurrentChallenge(EChallenge challenge);
+  Future<void> setCurrentChallenge(EChallenge? challenge);
 }
