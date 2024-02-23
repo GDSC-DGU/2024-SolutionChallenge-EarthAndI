@@ -3,7 +3,7 @@ enum EChallenge implements Comparable<EChallenge> {
   deleteEmail,
   eatVegetarian,
   useColdWater,
-  clearAllChallenge;
+  ;
 
   const EChallenge();
 
@@ -16,21 +16,64 @@ enum EChallenge implements Comparable<EChallenge> {
   String get assetPath {
     switch (this) {
       case EChallenge.deleteEmail:
-        return 'assets/icons/delete_email.png';
+        return 'delete_email.png';
       case EChallenge.useEcoFriendlyProducts:
-        return 'assets/icons/use_eco_friendly_products.png';
+        return 'use_eco_friendly_products.png';
       case EChallenge.useColdWater:
-        return 'assets/icons/use_cold_water.png';
+        return 'use_cold_water.png';
       case EChallenge.eatVegetarian:
-        return 'assets/icons/eat_vegetarian.png';
-      case EChallenge.clearAllChallenge:
-        return 'assets/icons/clear_all_challenge.png';
+        return 'eat_vegetarian.png';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
   }
 
-  static EChallenge fromName(String name) {
+  String get shortTitle {
+    switch (this) {
+      case EChallenge.deleteEmail:
+        return '${name}ShortTitle';
+      case EChallenge.useEcoFriendlyProducts:
+        return '${name}ShortTitle';
+      case EChallenge.useColdWater:
+        return '${name}ShortTitle';
+      case EChallenge.eatVegetarian:
+        return '${name}ShortTitle';
+      default:
+        throw Exception('Unknown EChallenge: $this');
+    }
+  }
+
+  String get longTitle {
+    switch (this) {
+      case EChallenge.deleteEmail:
+        return '${name}LongTitle';
+      case EChallenge.useEcoFriendlyProducts:
+        return '${name}LongTitle';
+      case EChallenge.useColdWater:
+        return '${name}LongTitle';
+      case EChallenge.eatVegetarian:
+        return '${name}LongTitle';
+      default:
+        throw Exception('Unknown EChallenge: $this');
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case EChallenge.deleteEmail:
+        return '${name}Description';
+      case EChallenge.useEcoFriendlyProducts:
+        return '${name}Description';
+      case EChallenge.useColdWater:
+        return '${name}Description';
+      case EChallenge.eatVegetarian:
+        return '${name}Description';
+      default:
+        throw Exception('Unknown EChallenge: $this');
+    }
+  }
+
+  static EChallenge? fromName(String? name) {
     switch (name) {
       case 'deleteEmail':
         return EChallenge.deleteEmail;
@@ -40,10 +83,8 @@ enum EChallenge implements Comparable<EChallenge> {
         return EChallenge.useColdWater;
       case 'eatVegetarian':
         return EChallenge.eatVegetarian;
-      case 'clearAllChallenge':
-        return EChallenge.clearAllChallenge;
       default:
-        throw Exception('Unknown EChallenge name: $name');
+        return null;
     }
   }
 }

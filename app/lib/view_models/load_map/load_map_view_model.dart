@@ -17,29 +17,18 @@ class LoadMapViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final RiveAnimationController _animationController;
 
+  late final Rxn<ChallengeHistoryState> _currentChallengeState;
   late final RxList<ChallengeHistoryState> _challengeHistoryStates;
-  late final Rx<EChallenge> _currentEChallenge;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
   RiveAnimationController get animationController => _animationController;
 
-  EChallenge get currentEChallenge => _currentEChallenge.value;
+  ChallengeHistoryState? get currentChallengeState =>
+      _currentChallengeState.value;
   List<ChallengeHistoryState> get challengeHistoryStates =>
       _challengeHistoryStates;
-
-  List<ChallengeHistoryState> get currentChallengeHistoryState {
-    return _challengeHistoryStates
-        .where((challenge) => !challenge.isCompleted)
-        .toList();
-  }
-
-  List<ChallengeHistoryState> get completedChallengeHistoryState {
-    return _challengeHistoryStates
-        .where((challenge) => challenge.isCompleted)
-        .toList();
-  }
 
   @override
   void onInit() async {
@@ -52,13 +41,12 @@ class LoadMapViewModel extends GetxController {
     // Private Fields
     _animationController = SimpleAnimation("LoadingAnimation", autoplay: true);
 
-    _currentEChallenge = _userRepository.readCurrentChallenge().obs;
+    _currentChallengeState = Rxn<ChallengeHistoryState>();
     _challengeHistoryStates = RxList<ChallengeHistoryState>([]);
 
-    _challengeHistoryStates.addAll(
-      await _challengeHistoryRepository
-          .readAllChallengeHistoryState(_currentEChallenge.value),
-    );
+    // Load Data
+    fetchCurrentChallenge();
+    fetchChallengeHistories();
   }
 
   @override
@@ -68,11 +56,24 @@ class LoadMapViewModel extends GetxController {
     _animationController.dispose();
   }
 
-  Future<void> fetchCurrentEChallenge(EChallenge challenge) async {
-    _currentEChallenge.value = _userRepository.readCurrentChallenge();
+  Future<void> fetchCurrentChallenge() async {
+    EChallenge? challenge = _userRepository.readCurrentChallenge();
+
+    if (challenge != null) {
+      _currentChallengeState.value = ChallengeHistoryState(
+        challenge: challenge,
+        completedAt: null,
+        isCompleted: false,
+      );
+    } else {
+      _currentChallengeState.value = null;
+    }
+  }
+
+  Future<void> fetchChallengeHistories() async {
     _challengeHistoryStates.clear();
     _challengeHistoryStates.addAll(
-      await _challengeHistoryRepository.readAllChallengeHistoryState(challenge),
+      await _challengeHistoryRepository.readAllChallengeHistoryState(),
     );
   }
 }

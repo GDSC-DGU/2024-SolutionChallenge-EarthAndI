@@ -1,5 +1,6 @@
 import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,22 +15,25 @@ class SettingViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
+  late final RxBool _isSignIn;
   late final RxString _languageName;
   late final Rx<AlarmState> _alarmState;
 
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
+  bool get isSignIn => _isSignIn.value;
   String get languageName => _languageName.value;
   AlarmState get alarmState => _alarmState.value;
 
   @override
   void onInit() {
     super.onInit();
-    // DI
+    // DI Fields
     _userRepository = Get.find<UserRepository>();
 
-    // Rx
+    // Private Fields
+    _isSignIn = (SecurityUtil.isSignin).obs;
     _languageName = Get.deviceLocale?.languageCode.obs ?? 'ko'.obs;
     _alarmState = _userRepository.readAlarmState().obs;
   }
@@ -56,6 +60,7 @@ class SettingViewModel extends GetxController {
         id: 'GUEST',
         nickname: 'GUEST',
       );
+      _isSignIn.value = false;
     } catch (e) {
       return false;
     }
@@ -65,8 +70,11 @@ class SettingViewModel extends GetxController {
     return true;
   }
 
+  void fetchSignInState() {
+    _isSignIn.value = SecurityUtil.isSignin;
+  }
+
   void informChangedSignInState() {
-    Get.find<RootViewModel>().fetchSignInState();
     Get.find<ProfileViewModel>().fetchUserBriefState();
   }
 }

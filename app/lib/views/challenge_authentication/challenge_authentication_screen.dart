@@ -37,13 +37,13 @@ class ChallengeAuthenticationScreen
           automaticallyImplyLeading: false,
           titleSpacing: viewModel.currentPageIndex == 0 ? 0 : 16,
           leadingWidth: 50,
-          leading: leadingWidget(),
+          leading: _leadingWidget(),
         ),
       ),
     );
   }
 
-  Widget? leadingWidget() {
+  Widget? _leadingWidget() {
     if (viewModel.currentPageIndex == 0) {
       return IconButton(
         style: TextButton.styleFrom(

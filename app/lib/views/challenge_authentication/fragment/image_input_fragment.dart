@@ -25,10 +25,11 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Get.arguments.shortTitle.toString().tr,
+        Text(viewModel.challenge.shortTitle.toString().tr,
             style: FontSystem.KR20SB120),
         const SizedBox(height: 8),
-        Text(Get.arguments.longTitle.toString().tr, style: FontSystem.KR16M),
+        Text(viewModel.challenge.longTitle.toString().tr,
+            style: FontSystem.KR16M),
         const SizedBox(height: 20),
         Obx(
           () => viewModel.image == null
@@ -84,7 +85,6 @@ class ImageInputFragment extends BaseScreen<ChallengeAuthenticationViewModel> {
               BorderSide? side = viewModel.image == null
                   ? BorderSide(color: ColorSystem.grey)
                   : null;
-              String text = viewModel.image == null ? "인증하기" : "인증하기";
 
               return TextButton(
                 onPressed: viewModel.image == null

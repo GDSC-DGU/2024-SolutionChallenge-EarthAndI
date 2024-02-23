@@ -1,4 +1,4 @@
-import 'package:earth_and_i/domains/type/e_challenge.dart';
+import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/home_screen.dart';
@@ -34,18 +34,14 @@ class RootScreen extends BaseScreen<RootViewModel> {
         elevation: 2,
         shape: const CircleBorder(),
         onPressed: () {
-          if (viewModel.isEnableGreyBarrier) {
-            return;
-          }
-
           if (viewModel.selectedIndex != 1) {
             viewModel.changeIndex(1);
           } else {
-            Get.dialog(ChallengeDialog(
-              challenge: null,
-              date: null,
-              isCompleted: true,
-            ));
+            Get.dialog(
+              ChallengeDialog(
+                state: Get.find<LoadMapViewModel>().currentChallengeState,
+              ),
+            );
           }
         },
         backgroundColor: const Color(0xFF90CDBE),

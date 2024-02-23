@@ -46,11 +46,6 @@ class UserDAO implements UserLocalProvider {
         EChallenge.useEcoFriendlyProducts.toString());
   }
 
-  @override
-  Future<void> deleteAll() async {
-    await _storage.erase();
-  }
-
   /* ------------------------------------------------------------ */
   /* -------------------------- Getter -------------------------- */
   /* ------------------------------------------------------------ */
@@ -115,10 +110,9 @@ class UserDAO implements UserLocalProvider {
 
   /// Get the user's current challenge.
   @override
-  EChallenge getCurrentChallenge() {
+  EChallenge? getCurrentChallenge() {
     return EChallenge.fromName(
-        _storage.read(UserDAOExtension.currentChallenge) ??
-            EChallenge.useEcoFriendlyProducts.toString());
+        _storage.read(UserDAOExtension.currentChallenge));
   }
 
   /* ------------------------------------------------------------ */
@@ -186,9 +180,13 @@ class UserDAO implements UserLocalProvider {
 
   /// Set the user's current challenge.
   @override
-  Future<void> setCurrentChallenge(EChallenge challenge) async {
-    await _storage.write(
-        UserDAOExtension.currentChallenge, challenge.toString());
+  Future<void> setCurrentChallenge(EChallenge? challenge) async {
+    if (challenge == null) {
+      _storage.remove(UserDAOExtension.currentChallenge);
+    } else {
+      await _storage.write(
+          UserDAOExtension.currentChallenge, challenge.toString());
+    }
   }
 }
 

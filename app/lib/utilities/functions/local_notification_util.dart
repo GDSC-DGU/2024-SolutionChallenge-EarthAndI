@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/timezone.dart';
@@ -65,7 +66,7 @@ abstract class LocalNotificationUtil {
       await _plugin.zonedSchedule(
         0,
         'E & I',
-        '오늘은 어떤 변화가 있을까요?',
+        'local_notification_content'.tr,
         _toDateTime(hour, minute),
         _platformChannelSpecifics,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

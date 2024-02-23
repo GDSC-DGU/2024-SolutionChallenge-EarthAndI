@@ -11,6 +11,10 @@ abstract class CommonTranslations {
         "mental": "멘탈",
         "cash": "돈",
 
+        // Notification
+        "local_notification_content": "오늘은 어떤 변화가 있을까요?",
+
+        // Exception
         "server_communication_failed_character":
             "서버와의 통신이 원활하지 않아!\n조금 뒤 다시 시도해줘!",
         "server_communication_failed": "서버 통신에 실패했어요.\n잠시 후 다시 시도해주세요.",
@@ -41,6 +45,11 @@ abstract class CommonTranslations {
         "health": "Health",
         "mental": "Mental",
         "cash": "Cash",
+
+        // Notification
+        "local_notification_content": "What changes will happen today?",
+
+        // Exception
 
         "server_communication_failed_character":
             "Server communication failed.\nPlease try again later.",

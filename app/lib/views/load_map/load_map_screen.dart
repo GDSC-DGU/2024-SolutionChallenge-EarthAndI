@@ -3,7 +3,8 @@ import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
-import 'package:earth_and_i/views/load_map/widgets/challenge_list.dart';
+import 'package:earth_and_i/views/load_map/widgets/challenge_history_item.dart';
+import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,39 +31,25 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Animation View
-            persistentAnimationView(),
-
-            // Gap
+            _persistentAnimationView(),
             const SizedBox(height: 12),
-
-            // Carousel View
-            textsHintView(),
-
-            // Gap
+            _textsHintView(),
             const SizedBox(height: 20),
-
-            // Current Challenge View
-            currentChallengeView(),
-
-            // Line View
+            _currentChallengeView(),
+            const SizedBox(height: 20),
             InfinityLine(
               height: 2,
               color: ColorSystem.grey[200],
             ),
-
-            // Gap
             const SizedBox(height: 20),
-
-            // Completed Challenge View
-            completedChallengeView(),
+            _completedChallengeView(),
           ],
         ),
       ),
     );
   }
 
-  Widget persistentAnimationView() => Center(
+  Widget _persistentAnimationView() => Center(
         child: SizedBox(
           width: 120,
           height: 120,
@@ -77,7 +64,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
         ),
       );
 
-  Widget textsHintView() => SizedBox(
+  Widget _textsHintView() => SizedBox(
         width: Get.width,
         height: 40,
         child: Center(
@@ -98,7 +85,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
         ),
       );
 
-  Widget currentChallengeView() => Column(
+  Widget _currentChallengeView() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -106,26 +93,21 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
             style: FontSystem.KR20SB120,
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 110,
-            child: Obx(
-              () => ListView.builder(
-                itemCount: viewModel.currentChallengeHistoryState.length,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  return ChallengeList(
-                      challenge: viewModel.currentChallengeHistoryState[index],
-                      isCompleted: viewModel
-                          .currentChallengeHistoryState[index].isCompleted);
-                },
-              ),
+          Obx(
+            () => ChallengeHistoryItem(
+              state: viewModel.currentChallengeState,
+              borderColor: ColorSystem.green,
+              onTap: () {
+                Get.dialog(
+                  ChallengeDialog(state: viewModel.currentChallengeState),
+                );
+              },
             ),
           ),
         ],
       );
 
-  Widget completedChallengeView() => Column(
+  Widget _completedChallengeView() => Column(
         children: [
           Row(
             children: [
@@ -136,7 +118,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               const SizedBox(width: 8),
               Obx(
                 () => Text(
-                  "${viewModel.completedChallengeHistoryState.length}",
+                  "${viewModel.challengeHistoryStates.length}",
                   style: FontSystem.KR20SB120.copyWith(color: ColorSystem.grey),
                 ),
               ),
@@ -146,17 +128,23 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           Obx(
             () => ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: viewModel.completedChallengeHistoryState.length,
+              itemCount: viewModel.challengeHistoryStates.length,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, index) {
                 return Column(
                   children: [
-                    ChallengeList(
-                        challenge:
-                            viewModel.completedChallengeHistoryState[index],
-                        isCompleted: viewModel
-                            .completedChallengeHistoryState[index].isCompleted),
+                    ChallengeHistoryItem(
+                      state: viewModel.challengeHistoryStates[index],
+                      borderColor: ColorSystem.grey,
+                      onTap: () {
+                        Get.dialog(
+                          ChallengeDialog(
+                            state: viewModel.challengeHistoryStates[index],
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(height: 12),
                   ],
                 );

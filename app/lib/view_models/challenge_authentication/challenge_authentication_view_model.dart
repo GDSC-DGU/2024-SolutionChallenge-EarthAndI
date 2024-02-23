@@ -22,6 +22,8 @@ class ChallengeAuthenticationViewModel extends GetxController {
   late final ChallengeHistoryRepository _challengeHistoryRepository;
   late final AnalysisRepository _analysisRepository;
 
+  late final EChallenge challenge;
+
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
@@ -30,7 +32,6 @@ class ChallengeAuthenticationViewModel extends GetxController {
 
   late final RxInt _currentPageIndex;
   late final Rxn<XFile?> _image;
-  late final Rx<EChallenge> _eChallenge;
   late final RxnBool _isAnalysisResult;
 
   /* ------------------------------------------------------ */
@@ -40,7 +41,6 @@ class ChallengeAuthenticationViewModel extends GetxController {
   RiveAnimationController get animationController => _animationController;
 
   XFile? get image => _image.value;
-  EChallenge get eChallenge => _eChallenge.value;
   int get currentPageIndex => _currentPageIndex.value;
   bool? get isAnalysisResult => _isAnalysisResult.value;
 
@@ -52,12 +52,13 @@ class ChallengeAuthenticationViewModel extends GetxController {
     _challengeHistoryRepository = Get.find<ChallengeHistoryRepository>();
     _analysisRepository = Get.find<AnalysisRepository>();
 
+    challenge = (Get.arguments as EChallenge);
+
     // Private Fields
     _pageController = PageController(initialPage: 0);
     _animationController = SimpleAnimation("LoadingAnimation", autoplay: true);
 
     _image = Rxn<XFile?>();
-    _eChallenge = _userRepository.readCurrentChallenge().obs;
     _currentPageIndex = 0.obs;
     _isAnalysisResult = RxnBool();
   }
@@ -92,40 +93,41 @@ class ChallengeAuthenticationViewModel extends GetxController {
       String base64Image = base64Encode(
         File(_image.value!.path).readAsBytesSync(),
       );
-      result = await _analysisRepository.analysisChallenge(
-          _eChallenge.value, base64Image);
+      result =
+          await _analysisRepository.analysisChallenge(challenge, base64Image);
     } catch (e) {
       _moveToPage(2);
       return;
     }
 
+    bool isValid = result["res"];
+
     // Update the challenge history, User's Current Challenge
-    if (result["res"]) {
+    if (isValid) {
       // Update the challenge history
-      await _challengeHistoryRepository.updateCompletedChallenge(
+      await _challengeHistoryRepository.createOrUpdate(
         ChallengeHistoryCompanion.insert(
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
-          userStatus: ETypeConverter.challengeToUserStatus(eChallenge),
-          type: _eChallenge.value,
+          userStatus: ETypeConverter.challengeToUserStatus(challenge),
+          type: challenge,
           analysisContent: "",
           changeCapacity: 0,
         ),
       );
 
-      // Update the user's current challenge
-      await _userRepository
-          .updateCurrentChallenge(EChallenge.values[eChallenge.index + 1]);
+      await _userRepository.updateCurrentChallenge(
+          challenge.index == EChallenge.values.length - 1
+              ? null
+              : EChallenge.values[challenge.index + 1]);
 
       // Fetch Data
-      Get.find<LoadMapViewModel>().fetchCurrentEChallenge(
-          EChallenge.values[_eChallenge.value.index + 1]);
-      Get.find<RootViewModel>().fetchCurrentEChallenge(
-          EChallenge.values[_eChallenge.value.index + 1]);
+      Get.find<LoadMapViewModel>().fetchCurrentChallenge();
+      Get.find<LoadMapViewModel>().fetchChallengeHistories();
     }
 
     // Set the result And Move to the result page
-    _isAnalysisResult.value = result["res"];
+    _isAnalysisResult.value = isValid;
     _moveToPage(2);
   }
 

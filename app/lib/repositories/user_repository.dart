@@ -48,7 +48,7 @@ class UserRepository extends GetxService {
     );
   }
 
-  EChallenge readCurrentChallenge() {
+  EChallenge? readCurrentChallenge() {
     return _localProvider.getCurrentChallenge();
   }
 
@@ -143,7 +143,7 @@ class UserRepository extends GetxService {
     );
   }
 
-  Future<EChallenge> updateCurrentChallenge(EChallenge challenge) async {
+  Future<EChallenge?> updateCurrentChallenge(EChallenge? challenge) async {
     await _localProvider.setCurrentChallenge(challenge);
     return _localProvider.getCurrentChallenge();
   }

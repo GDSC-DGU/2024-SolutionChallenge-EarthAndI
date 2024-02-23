@@ -35,7 +35,7 @@ class ActionHistoryItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          thumbnail(),
+          thumbnailView(),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -62,7 +62,7 @@ class ActionHistoryItem extends StatelessWidget {
     );
   }
 
-  Widget thumbnail() {
+  Widget thumbnailView() {
     String thumbnailPath = state.type == EAction.steps
         ? 'assets/icons/walking.png'
         : 'assets/images/thumbnail/${state.characterStatus}.svg';
@@ -109,7 +109,7 @@ class ActionHistoryItem extends StatelessWidget {
       children: [
         Text(
           leftStr,
-          style: FontSystem.KR16SB,
+          style: FontSystem.KR14SB,
         ),
         Text(
           rightStr,

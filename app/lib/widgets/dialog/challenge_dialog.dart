@@ -1,4 +1,4 @@
-import 'package:earth_and_i/domains/type/e_challenge.dart';
+import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
@@ -13,14 +13,10 @@ import 'package:intl/intl.dart';
 class ChallengeDialog extends StatelessWidget {
   const ChallengeDialog({
     super.key,
-    this.challenge,
-    this.date,
-    required this.isCompleted,
+    this.state,
   });
 
-  final EChallenge? challenge;
-  final DateTime? date;
-  final bool isCompleted;
+  final ChallengeHistoryState? state;
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +47,12 @@ class ChallengeDialog extends StatelessWidget {
     String shortTitle;
     String longTitle;
 
-    if (challenge == null) {
+    if (state == null) {
       shortTitle = "clearAllChallengeShortTitle".tr;
       longTitle = "clearAllChallengeLongTitle".tr;
     } else {
-      shortTitle = "${challenge}ShortTitle".tr;
-      longTitle = "${challenge}LongTitle".tr;
+      shortTitle = state!.challenge.shortTitle.tr;
+      longTitle = state!.challenge.longTitle.tr;
     }
 
     return SizedBox(
@@ -65,7 +61,7 @@ class ChallengeDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: isCompleted ? width - 48 : width,
+            width: state != null && state!.isCompleted ? width - 48 : width - 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,9 +79,9 @@ class ChallengeDialog extends StatelessWidget {
               ],
             ),
           ),
-          if (isCompleted && challenge != null)
+          if (state != null && state!.isCompleted)
             SizedBox(
-              width: 48,
+              width: 46,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +96,7 @@ class ChallengeDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    DateFormat("yy/MM/dd").format(date!),
+                    DateFormat("yy/MM/dd").format(state!.completedAt!),
                     style: FontSystem.KR10R.copyWith(
                       color: ColorSystem.grey,
                     ),
@@ -119,15 +115,16 @@ class ChallengeDialog extends StatelessWidget {
     String description;
     String buttonText;
 
-    if (challenge == null) {
+    if (state == null) {
       assetPath = "assets/icons/clear_challenge.png";
       description = "clearAllChallengeDescription".tr;
       buttonText = "confirm".tr;
     } else {
-      assetPath = challenge!.assetPath;
-      description = "${challenge}Description".tr;
-      buttonText =
-          isCompleted ? "confirm".tr : 'challenge_authentication_title'.tr;
+      assetPath = 'assets/icons/${state!.challenge.assetPath}';
+      description = state!.challenge.description.tr;
+      buttonText = state!.isCompleted
+          ? "confirm".tr
+          : 'challenge_authentication_title'.tr;
     }
     return [
       ClipRRect(
@@ -160,7 +157,7 @@ class ChallengeDialog extends StatelessWidget {
   }
 
   void _onPressedButton() {
-    if (challenge == null || isCompleted) {
+    if (state == null || state!.isCompleted) {
       Get.back();
       return;
     }
@@ -168,7 +165,7 @@ class ChallengeDialog extends StatelessWidget {
     if (SecurityUtil.isSignin) {
       Get.toNamed(
         Routes.CHALLENGE_AUTHENTICATION,
-        arguments: challenge,
+        arguments: state!.challenge,
       );
     } else {
       Get.dialog(const SignInDialog());

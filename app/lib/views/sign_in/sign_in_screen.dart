@@ -43,6 +43,38 @@ class SignInScreen extends GetView<SignInViewModel> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
+        ..._titleView(),
+        const SizedBox(height: 20),
+        Expanded(
+          child: _buildTermsView(),
+        ),
+        const SizedBox(height: 20),
+        MaterialButton(
+          onPressed: _onPressedSignInButton,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          elevation: 0,
+          padding: const EdgeInsets.all(16),
+          color: ColorSystem.green,
+          child: SizedBox(
+            width: Get.width - 64,
+            child: Text(
+              "sign_in_btn".tr,
+              style: FontSystem.KR24M.copyWith(
+                fontSize: 22,
+                color: ColorSystem.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  List<Widget> _titleView() => [
         Container(
           decoration: BoxDecoration(
             color: ColorSystem.white,
@@ -67,50 +99,24 @@ class SignInScreen extends GetView<SignInViewModel> {
           "Earth & I",
           style: FontSystem.KR20M,
         ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: Container(
-            width: Get.width - 32,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: ColorSystem.grey[200],
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Text(
-              "sign_in_conditions".tr,
-              style: FontSystem.KR16M,
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        MaterialButton(
-          onPressed: onPressedSignInButton,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          elevation: 0,
-          padding: const EdgeInsets.all(16),
-          color: ColorSystem.green,
-          child: SizedBox(
-            width: Get.width - 64,
-            child: Text(
-              "sign_in_btn".tr,
-              style: FontSystem.KR24M.copyWith(
-                fontSize: 22,
-                color: ColorSystem.white,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
+      ];
 
-  void onPressedSignInButton() {
+  Widget _buildTermsView() => Container(
+        width: Get.width - 32,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: ColorSystem.grey[200],
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Text(
+          "sign_in_conditions".tr,
+          style: FontSystem.KR16M,
+          textAlign: TextAlign.left,
+        ),
+      );
+
+  void _onPressedSignInButton() {
     viewModel.signInWithGoogle().then((value) {
       if (value) {
         Get.back();

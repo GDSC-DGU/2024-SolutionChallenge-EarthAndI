@@ -1,23 +1,15 @@
 class SpeechState {
-  final bool _isEnableMic;
-  final bool _isListening;
-  final bool _isComplete;
-  final String _speechText;
-
-  bool get isEnableMic => _isEnableMic;
-  bool get isListening => _isListening;
-  bool get isComplete => _isComplete;
-  String get speechText => _speechText;
+  final bool isEnableMic;
+  final bool isListening;
+  final bool isComplete;
+  final String speechText;
 
   SpeechState({
-    required bool isEnableMic,
-    required bool isListening,
-    required bool isComplete,
-    required String speechText,
-  })  : _isEnableMic = isEnableMic,
-        _isListening = isListening,
-        _isComplete = isComplete,
-        _speechText = speechText;
+    required this.isEnableMic,
+    required this.isListening,
+    required this.isComplete,
+    required this.speechText,
+  });
 
   factory SpeechState.initial() {
     return SpeechState(
@@ -34,21 +26,20 @@ class SpeechState {
     bool? isComplete,
     String? speechText,
   }) {
-    toString();
     return SpeechState(
-      isEnableMic: isEnableMic ?? _isEnableMic,
-      isListening: isListening ?? _isListening,
-      isComplete: isComplete ?? _isComplete,
-      speechText: speechText ?? _speechText,
+      isEnableMic: isEnableMic ?? this.isEnableMic,
+      isListening: isListening ?? this.isListening,
+      isComplete: isComplete ?? this.isComplete,
+      speechText: speechText ?? this.speechText,
     );
   }
 
   @override
   String toString() {
     return '[SpeechState]\n'
-        'isEnableMic: $_isEnableMic\n'
-        'isListening: $_isListening\n'
-        'isComplete: $_isComplete\n'
-        'speechText: $_speechText';
+        'isEnableMic: $isEnableMic\n'
+        'isListening: $isListening\n'
+        'isComplete: $isComplete\n'
+        'speechText: $speechText\n';
   }
 }

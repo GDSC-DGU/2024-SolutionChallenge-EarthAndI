@@ -31,8 +31,13 @@ class ChallengeHistoryDao extends DatabaseAccessor<LocalDatabase>
   }
 
   @override
-  Future<List<ChallengeHistoryData?>> getCompletedChallengeData() {
-    return (select(challengeHistory)..where((tbl) => tbl.createdAt.isNotNull()))
+  Future<List<ChallengeHistoryData?>> findAllByOffset(int offset, int limit) {
+    return (select(challengeHistory)
+          ..orderBy([
+            (t) =>
+                OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
+          ])
+          ..limit(limit, offset: offset))
         .get();
   }
 }

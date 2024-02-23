@@ -33,14 +33,14 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
   @override
   Widget buildBody(BuildContext context) {
     return ExtendedNestedScrollView(
-      headerSliverBuilder: sliverBuilder,
+      headerSliverBuilder: _sliverBuilder,
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 16),
-            dailyDeltaCO2View(),
+            _dailyDeltaCO2View(),
             const SizedBox(height: 16),
-            actionHistoriesView(),
+            _actionHistoriesView(),
             const SizedBox(height: 28),
           ],
         ),
@@ -48,7 +48,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
     );
   }
 
-  List<Widget> sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
+  List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
     return [
       // AppBar
       SliverToBoxAdapter(
@@ -113,7 +113,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
         ),
       );
 
-  Widget dailyDeltaCO2View() => Container(
+  Widget _dailyDeltaCO2View() => Container(
         width: Get.width,
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -238,7 +238,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
         ),
       );
 
-  Widget actionHistoriesView() => Obx(
+  Widget _actionHistoriesView() => Obx(
         () => ListView.builder(
           itemCount: viewModel.actionHistoryStates.length,
           scrollDirection: Axis.vertical,

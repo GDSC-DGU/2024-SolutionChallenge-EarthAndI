@@ -1,40 +1,24 @@
+import 'package:earth_and_i/domains/type/e_challenge.dart';
+
 class ChallengeHistoryState {
-  final String longTitle;
-  final String shortTitle;
-  final String description;
-  final String iconPath;
+  final EChallenge challenge;
   final bool isCompleted;
+  final DateTime? completedAt;
 
   ChallengeHistoryState({
-    required this.shortTitle,
-    required this.longTitle,
-    required this.description,
-    required this.iconPath,
+    required this.challenge,
+    required this.completedAt,
     required this.isCompleted,
   });
 
-  factory ChallengeHistoryState.initial() {
-    return ChallengeHistoryState(
-      shortTitle: '챌린지 제목',
-      longTitle: '챌린지 긴 제목',
-      description: '챌린지 설명',
-      iconPath: 'assets/icons/thumbnail.png',
-      isCompleted: false,
-    );
-  }
-
   ChallengeHistoryState copyWith({
-    String? shortTitle,
-    String? longTitle,
-    String? description,
-    String? iconPath,
+    EChallenge? challenge,
+    DateTime? completedAt,
     bool? isCompleted,
   }) {
     return ChallengeHistoryState(
-      shortTitle: shortTitle ?? this.shortTitle,
-      longTitle: longTitle ?? this.longTitle,
-      description: description ?? this.description,
-      iconPath: iconPath ?? this.iconPath,
+      challenge: challenge ?? this.challenge,
+      completedAt: completedAt ?? this.completedAt,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }

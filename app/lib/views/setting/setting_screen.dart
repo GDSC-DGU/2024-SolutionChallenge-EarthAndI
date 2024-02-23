@@ -1,18 +1,16 @@
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
-import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/view_models/setting/setting_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
-import 'package:earth_and_i/views/setting/widgets/custom_time_picker.dart';
+import 'package:earth_and_i/views/setting/widgets/custom_time_picker_dialog.dart';
 import 'package:earth_and_i/views/setting/widgets/section_item.dart';
+import 'package:earth_and_i/views/setting/widgets/sign_out_dialog.dart';
 import 'package:earth_and_i/widgets/appbar/default_back_appbar.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-part 'package:earth_and_i/views/setting/part/p_on_tap_functions.dart';
 
 class SettingScreen extends BaseScreen<SettingViewModel> {
   const SettingScreen({super.key});
@@ -32,26 +30,50 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        authenticationSection(),
-        paddingInfinityLine(),
-        languageSection(),
-        paddingInfinityLine(),
-        alRamActiveSection(),
-        paddingInfinityLine(),
-        alRamTimeSection(),
+        _authenticationSection(),
+        _paddingInfinityLine(),
+        _languageSection(),
+        _paddingInfinityLine(),
+        _alRamActiveSection(),
+        _paddingInfinityLine(),
+        _alRamTimeSection(),
       ],
     );
   }
 
-  Widget paddingInfinityLine() => Padding(
+  Widget _paddingInfinityLine() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: InfinityLine(height: 1, color: ColorSystem.grey[200]),
       );
 
-  Widget authenticationSection() => Obx(
-        () => Get.find<RootViewModel>().isSignIn
+  Widget _authenticationSection() => Obx(
+        () => viewModel.isSignIn
             ? SectionItem(
-                onTap: onTapSignOut,
+                onTap: () {
+                  Get.dialog(
+                    SignOutDialog(
+                      onConfirm: () {
+                        viewModel.signOut().then((value) {
+                          if (value) {
+                            Get.back();
+                            _showSnackBar(
+                              'sign_out_success'.tr,
+                              'sign_out_success_long'.tr,
+                            );
+                          } else {
+                            _showSnackBar(
+                              'sign_out_failed'.tr,
+                              'sign_out_failed_long'.tr,
+                            );
+                          }
+                        });
+                      },
+                      onCancel: () {
+                        Get.back();
+                      },
+                    ),
+                  );
+                },
                 children: [
                   Text(
                     "sign_out".tr,
@@ -63,7 +85,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
                 onTap: () {
                   Get.toNamed(
                     Routes.SIGN_IN,
-                    arguments: {"beforeScreen": Routes.SETTING},
+                    arguments: {"beforeRoute": Routes.SETTING},
                   );
                 },
                 children: [
@@ -75,7 +97,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
               ),
       );
 
-  Widget languageSection() => SectionItem(
+  Widget _languageSection() => SectionItem(
         children: [
           Text(
             "language".tr,
@@ -91,7 +113,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         ],
       );
 
-  Widget alRamActiveSection() => SectionItem(
+  Widget _alRamActiveSection() => SectionItem(
         children: [
           Text(
             "alarm_active".tr,
@@ -119,9 +141,21 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         ],
       );
 
-  Widget alRamTimeSection() => Obx(
+  Widget _alRamTimeSection() => Obx(
         () => SectionItem(
-          onTap: viewModel.alarmState.isActive ? onTapAlarmTime : null,
+          onTap: () {
+            Get.dialog(CustomTimePickerDialog(
+              hour: viewModel.alarmState.hour,
+              minute: viewModel.alarmState.minute,
+              onCancel: () {
+                Get.back();
+              },
+              onConfirm: (hour, minute) {
+                viewModel.changeAlarmTime(hour, minute);
+                Get.back();
+              },
+            ));
+          },
           children: [
             Text(
               "alarm_time".tr,
@@ -150,4 +184,15 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
           ],
         ),
       );
+
+  void _showSnackBar(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      snackPosition: SnackPosition.TOP,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      duration: const Duration(seconds: 2),
+      backgroundColor: ColorSystem.grey.withOpacity(0.3),
+    );
+  }
 }
