@@ -72,6 +72,54 @@ class DeltaCO2BarChart extends StatelessWidget {
       );
     }
 
+    if (flexPositive == 0 && flexNegative == 0) {
+      return SizedBox(
+        height: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            spaceSizeBox(1, 1, 8),
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  bar(1, ColorSystem.grey),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                      spaceSizeBox(1, 1, 4),
+                      bar(1, ColorSystem.grey[200]!),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return SizedBox(
       height: 30,
       child: Row(
