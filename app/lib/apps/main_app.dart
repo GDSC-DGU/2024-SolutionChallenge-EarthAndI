@@ -21,10 +21,6 @@ class MainApp extends StatelessWidget {
 
       translations: AppTranslations(),
       locale: Get.deviceLocale,
-      supportedLocales: const [
-        Locale('ko', 'KR'),
-        Locale('en', 'UK'),
-      ],
       fallbackLocale: const Locale('en', 'UK'),
 
       // Theme
