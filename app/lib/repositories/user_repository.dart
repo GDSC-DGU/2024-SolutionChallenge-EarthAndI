@@ -14,7 +14,7 @@ class UserRepository extends GetxService {
   @override
   void onInit() {
     super.onInit();
-    _localProvider = LocalStorageFactory.userDAO;
+    _localProvider = LocalStorageFactory.userLocalProvider;
   }
 
   /* ------------------------------------------------------------ */

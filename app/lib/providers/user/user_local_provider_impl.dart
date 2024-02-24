@@ -2,8 +2,8 @@ import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:get_storage/get_storage.dart';
 
-class UserDAO implements UserLocalProvider {
-  UserDAO({
+class UserLocalProviderImpl implements UserLocalProvider {
+  UserLocalProviderImpl({
     required GetStorage storage,
   }) : _storage = storage;
 
@@ -12,38 +12,84 @@ class UserDAO implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* ------------------------ Initialize ------------------------ */
   /* ------------------------------------------------------------ */
-  bool get isInitialized =>
-      _storage.read(UserDAOExtension.id) != null &&
-      _storage.read(UserDAOExtension.nickname) != null;
-
-  bool get isFirstTime => _storage.read(UserDAOExtension.isFirstTime)!;
-
-  Future<void> onInit(bool isFirstTime) async {
-    await _storage.write(UserDAOExtension.isFirstTime, isFirstTime);
+  @override
+  Future<void> onInit() async {
+    await _storage.writeIfNull(UserDAOExtension.isFirstRun, true);
+    await _storage.writeIfNull(UserDAOExtension.isSynced, false);
   }
 
   /// Initialize the user data.
-  Future<void> onReady({required String id, required String nickname}) async {
+  @override
+  Future<void> onReady({
+    required String? id,
+    required String? nickname,
+    required double? totalPositiveDeltaCO2,
+    required double? totalNegativeDeltaCO2,
+    required bool? healthCondition,
+    required bool? mentalCondition,
+    required bool? cashCondition,
+  }) async {
     // User Setting
     await _storage.writeIfNull(UserDAOExtension.alarmActive, true);
     await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
     await _storage.writeIfNull(UserDAOExtension.alarmMinute, 0);
 
     // User Brief Information
-    await _storage.writeIfNull(UserDAOExtension.id, id);
-    await _storage.writeIfNull(UserDAOExtension.nickname, nickname);
+    await _storage.writeIfNull(
+      UserDAOExtension.id,
+      id ?? 'GUEST',
+    );
+    await _storage.writeIfNull(
+      UserDAOExtension.nickname,
+      nickname ?? 'GUEST',
+    );
 
     // User Detail Information
-    await _storage.writeIfNull(UserDAOExtension.totalPositiveDeltaCO2, 0.0);
-    await _storage.writeIfNull(UserDAOExtension.totalNegativeDeltaCO2, 0.0);
+    await _storage.writeIfNull(
+      UserDAOExtension.totalPositiveDeltaCO2,
+      totalPositiveDeltaCO2 ?? 0.0,
+    );
+    await _storage.writeIfNull(
+      UserDAOExtension.totalNegativeDeltaCO2,
+      totalNegativeDeltaCO2 ?? 0.0,
+    );
 
     // Character State
-    await _storage.writeIfNull(UserDAOExtension.healthCondition, true);
-    await _storage.writeIfNull(UserDAOExtension.mentalCondition, true);
-    await _storage.writeIfNull(UserDAOExtension.cashCondition, true);
+    await _storage.writeIfNull(
+      UserDAOExtension.healthCondition,
+      healthCondition ?? true,
+    );
+    await _storage.writeIfNull(
+      UserDAOExtension.mentalCondition,
+      mentalCondition ?? true,
+    );
+    await _storage.writeIfNull(
+      UserDAOExtension.cashCondition,
+      cashCondition ?? true,
+    );
 
     await _storage.writeIfNull(UserDAOExtension.currentChallenge,
         EChallenge.useEcoFriendlyProducts.toString());
+  }
+
+  @override
+  bool getFirstRun() {
+    return _storage.read(UserDAOExtension.isFirstRun)!;
+  }
+
+  @override
+  bool getSynced() {
+    return _storage.read(UserDAOExtension.isSynced)!;
+  }
+
+  @override
+  Future<void> setFirstRun(bool isFirstRun) async {
+    await _storage.write(UserDAOExtension.isFirstRun, isFirstRun);
+  }
+
+  @override
+  Future<void> setSynced(bool isSynced) async {
+    await _storage.write(UserDAOExtension.isSynced, isSynced);
   }
 
   /* ------------------------------------------------------------ */
@@ -195,9 +241,10 @@ class UserDAO implements UserLocalProvider {
   }
 }
 
-extension UserDAOExtension on UserDAO {
-  // 초기 사용자
-  static const String isFirstTime = 'is_first_time';
+extension UserDAOExtension on UserLocalProviderImpl {
+  // Initialize Setting
+  static const String isFirstRun = 'is_first_run';
+  static const String isSynced = 'is_synced';
 
   // User Setting
   static const String alarmActive = 'alarm_active';

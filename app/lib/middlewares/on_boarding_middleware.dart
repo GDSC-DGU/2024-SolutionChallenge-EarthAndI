@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 class OnBoardingMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    if (LocalStorageFactory.userDAO.isFirstTime) {
+    if (LocalStorageFactory.userLocalProvider.getFirstRun()) {
+      LocalStorageFactory.userLocalProvider.setFirstRun(false);
       return const RouteSettings(name: Routes.ON_BOARDING);
     }
 

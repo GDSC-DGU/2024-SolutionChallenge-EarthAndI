@@ -7,21 +7,23 @@ abstract class UserRemoteProvider {
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
   // User Brief Information
-  String getNickname();
+  Future<String> getId();
+  Future<String> getNickname();
 
   // User Detail Information
-  double getTotalPositiveDeltaCO2();
-  double getTotalNegativeDeltaCO2();
+  Future<double> getTotalPositiveDeltaCO2();
+  Future<double> getTotalNegativeDeltaCO2();
 
   // Character State
-  bool getHealthCondition();
-  bool getMentalCondition();
-  bool getCashCondition();
+  Future<bool> getHealthCondition();
+  Future<bool> getMentalCondition();
+  Future<bool> getCashCondition();
 
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
   // User Brief Information
+  Future<void> setId(String id);
   Future<void> setNickname(String nickname);
 
   // User Detail Information

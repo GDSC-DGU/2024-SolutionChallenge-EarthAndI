@@ -2,6 +2,26 @@ import 'package:earth_and_i/domains/type/e_challenge.dart';
 
 abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
+  /* ------------------------ Initialize ------------------------ */
+  /* ------------------------------------------------------------ */
+  Future<void> onInit();
+  Future<void> onReady({
+    required String? id,
+    required String? nickname,
+    required double? totalPositiveDeltaCO2,
+    required double? totalNegativeDeltaCO2,
+    required bool? healthCondition,
+    required bool? mentalCondition,
+    required bool? cashCondition,
+  });
+
+  bool getFirstRun();
+  bool getSynced();
+
+  Future<void> setFirstRun(bool isFirstRun);
+  Future<void> setSynced(bool isSynced);
+
+  /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
   // User Setting
