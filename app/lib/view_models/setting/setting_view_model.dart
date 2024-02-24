@@ -57,14 +57,12 @@ class SettingViewModel extends GetxController {
   Future<bool> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      await _userRepository.updateUserBriefInformation(
-        id: 'GUEST',
-        nickname: 'GUEST',
-      );
-      _isSignIn.value = false;
     } catch (e) {
       return false;
     }
+
+    await _userRepository.updateUserInformation(isSignIn: false);
+    _isSignIn.value = false;
 
     informChangedSignInState();
 

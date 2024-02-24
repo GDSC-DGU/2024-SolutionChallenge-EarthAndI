@@ -281,7 +281,16 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  void fetchDeltaCO2(double changedDeltaCO2) async {
+  void fetchDeltaCO2(double? changedDeltaCO2) async {
+    if (changedDeltaCO2 == null) {
+      _deltaCO2State.value = _deltaCO2State.value.copyWith(
+        totalPositiveCO2: _userRepository.readTotalPositiveDeltaCO2(),
+        totalNegativeCO2: _userRepository.readTotalNegativeDeltaCO2(),
+      );
+
+      return;
+    }
+
     if (changedDeltaCO2 < 0) {
       await _userRepository.updateTotalPositiveDeltaCO2(changedDeltaCO2);
 

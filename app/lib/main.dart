@@ -10,6 +10,7 @@ import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -57,45 +58,22 @@ Future<void> onSystemInit() async {
 
 Future<void> onSystemReady() async {
   UserLocalProvider localProvider = LocalStorageFactory.userLocalProvider;
-  UserRemoteProvider remoteProvider = RemoteStorageFactory.userRemoteProvider;
 
   /*
-  If it's the first run, it checks if there's login information on the device.
-  Additionally, it sets up the alarms.
-  Depending on the login information, the actions are as follows:
+  Here's how the app behaves when first launched:
 
-  If there is, it retrieves user information from Firestore and initializes.
-  If not, it initializes as GUEST. (No synchronization occurs)
+  If there is login information remaining, it logs out.
+  It initializes local data.
+  It sets up local notifications.
    */
   bool isFirstRun = localProvider.getFirstRun();
 
   if (isFirstRun) {
-    if (SecurityUtil.isSignin) {
-      await localProvider.onReady(
-        id: await remoteProvider.getId(),
-        nickname: await remoteProvider.getNickname(),
-        totalNegativeDeltaCO2: await remoteProvider.getTotalNegativeDeltaCO2(),
-        totalPositiveDeltaCO2: await remoteProvider.getTotalPositiveDeltaCO2(),
-        healthCondition: await remoteProvider.getHealthCondition(),
-        mentalCondition: await remoteProvider.getMentalCondition(),
-        cashCondition: await remoteProvider.getCashCondition(),
-        isNotificationActive: await remoteProvider.getNotificationActive(),
-      );
-
-      await localProvider.setFirstRun(false);
-      await localProvider.setSynced(true);
-    } else {
-      await localProvider.onReady(
-        id: null,
-        nickname: null,
-        totalNegativeDeltaCO2: null,
-        totalPositiveDeltaCO2: null,
-        healthCondition: false,
-        mentalCondition: null,
-        cashCondition: null,
-        isNotificationActive: null,
-      );
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.signOut();
     }
+
+    await localProvider.onReady();
 
     await LocalNotificationUtil.setScheduleNotification(
       isActive: localProvider.getNotificationActive(),
@@ -105,7 +83,7 @@ Future<void> onSystemReady() async {
   }
 
   /*
-  Initialize the Home Widget with current information.
+  It updates the data of the home widget regardless of whether it's the app's first launch or not.
    */
   WidgetUtil.setInformation(
     positiveDeltaCO2: localProvider.getTotalPositiveDeltaCO2(),

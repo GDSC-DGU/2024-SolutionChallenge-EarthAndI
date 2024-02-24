@@ -34,9 +34,9 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         _paddingInfinityLine(),
         _languageSection(),
         _paddingInfinityLine(),
-        _alRamActiveSection(),
+        _notificationActiveSection(),
         _paddingInfinityLine(),
-        _alRamTimeSection(),
+        _notificationTimeSection(),
       ],
     );
   }
@@ -113,10 +113,10 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         ],
       );
 
-  Widget _alRamActiveSection() => SectionItem(
+  Widget _notificationActiveSection() => SectionItem(
         children: [
           Text(
-            "alarm_active".tr,
+            "notification_active".tr,
             style: FontSystem.KR16B,
           ),
           const Spacer(),
@@ -141,7 +141,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
         ],
       );
 
-  Widget _alRamTimeSection() => Obx(
+  Widget _notificationTimeSection() => Obx(
         () => SectionItem(
           onTap: () {
             Get.dialog(CustomTimePickerDialog(
@@ -158,7 +158,7 @@ class SettingScreen extends BaseScreen<SettingViewModel> {
           },
           children: [
             Text(
-              "alarm_time".tr,
+              "notification_time".tr,
               style: viewModel.alarmState.isActive
                   ? FontSystem.KR16B
                   : FontSystem.KR16R.copyWith(color: ColorSystem.grey[400]),

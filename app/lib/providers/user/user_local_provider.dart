@@ -5,16 +5,7 @@ abstract class UserLocalProvider {
   /* ------------------------ Initialize ------------------------ */
   /* ------------------------------------------------------------ */
   Future<void> onInit();
-  Future<void> onReady({
-    required String? id,
-    required String? nickname,
-    required double? totalPositiveDeltaCO2,
-    required double? totalNegativeDeltaCO2,
-    required bool? healthCondition,
-    required bool? mentalCondition,
-    required bool? cashCondition,
-    required bool? isNotificationActive,
-  });
+  Future<void> onReady();
 
   bool getFirstRun();
   bool getSynced();

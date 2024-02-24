@@ -93,21 +93,51 @@ class UserRepository extends GetxService {
     );
   }
 
-  Future<void> updateUserBriefInformation({
-    required String id,
-    required String nickname,
+  Future<void> updateUserInformation({
+    required bool isSignIn,
   }) async {
-    String nicknameWithoutSpace = nickname.replaceAll(' ', '');
-    await _localProvider.setId(id);
+    if (isSignIn) {
+      final double savedPositiveDeltaCO2 = _calculateSavedTotalDeltaCO2(
+        _localProvider.getTotalPositiveDeltaCO2(),
+        await _remoteProvider.getTotalPositiveDeltaCO2(),
+      );
 
-    // 공백을 없애고 최대 15자로 제한
-    await _localProvider.setNickname(
-      nicknameWithoutSpace
-        ..substring(
-          0,
-          nicknameWithoutSpace.length > 15 ? 15 : nicknameWithoutSpace.length,
-        ),
-    );
+      final double savedNegativeDeltaCO2 = _calculateSavedTotalDeltaCO2(
+        _localProvider.getTotalNegativeDeltaCO2(),
+        await _remoteProvider.getTotalNegativeDeltaCO2(),
+      );
+
+      // Remote Update
+      await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
+      await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+      // Remote -> Local Update
+      // System Information
+      await _localProvider
+          .setNotificationActive(await _remoteProvider.getNotificationActive());
+
+      // User Brief Information
+      await _localProvider.setId(await _remoteProvider.getId());
+      await _localProvider.setNickname(await _remoteProvider.getNickname());
+
+      // User Detail Information
+      await _localProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
+      await _localProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+      // Character Stats
+      await _localProvider
+          .setHealthCondition(await _remoteProvider.getHealthCondition());
+      await _localProvider
+          .setMentalCondition(await _remoteProvider.getMentalCondition());
+      await _localProvider
+          .setCashCondition(await _remoteProvider.getCashCondition());
+
+      // Update Synced
+      await _localProvider.setSynced(true);
+    } else {
+      await _localProvider.setId("GUEST");
+      await _localProvider.setNickname("GUEST");
+    }
   }
 
   Future<void> updateTotalPositiveDeltaCO2(
@@ -147,14 +177,14 @@ class UserRepository extends GetxService {
     bool? isGood,
   ) async {
     // Local
-    if (userStatus != null) {
+    if (userStatus != null && isGood != null) {
       switch (userStatus) {
         case EUserStatus.health:
-          await _localProvider.setHealthCondition(isGood!);
+          await _localProvider.setHealthCondition(isGood);
         case EUserStatus.mental:
-          await _localProvider.setMentalCondition(isGood!);
+          await _localProvider.setMentalCondition(isGood);
         case EUserStatus.cash:
-          await _localProvider.setCashCondition(isGood!);
+          await _localProvider.setCashCondition(isGood);
         default:
           throw Exception('Invalid user status');
       }
@@ -162,7 +192,7 @@ class UserRepository extends GetxService {
 
     // Remote
     if (SecurityUtil.isSignin) {
-      if (userStatus != null) {
+      if (userStatus != null && isGood != null) {
         switch (userStatus) {
           case EUserStatus.health:
             await _remoteProvider.setHealthCondition(isGood!);
@@ -179,5 +209,23 @@ class UserRepository extends GetxService {
 
   Future<void> updateCurrentChallenge(EChallenge? challenge) async {
     await _localProvider.setCurrentChallenge(challenge);
+  }
+
+  double _calculateSavedTotalDeltaCO2(
+    double localDeltaCO2,
+    double remoteDeltaCO2,
+  ) {
+    double absLocalDeltaCO2 = localDeltaCO2.abs();
+    double absRemoteDeltaCO2 = remoteDeltaCO2.abs();
+
+    if (_localProvider.getSynced()) {
+      return absLocalDeltaCO2 >= absRemoteDeltaCO2
+          ? localDeltaCO2
+          : remoteDeltaCO2;
+    } else {
+      return absLocalDeltaCO2 >= absRemoteDeltaCO2
+          ? remoteDeltaCO2
+          : localDeltaCO2;
+    }
   }
 }

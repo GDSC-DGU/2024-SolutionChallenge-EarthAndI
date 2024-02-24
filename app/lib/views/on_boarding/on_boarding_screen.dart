@@ -87,7 +87,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           Get.offAllNamed(Routes.ROOT);
                         } else {
                           _pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.ease,
                           );
                         }

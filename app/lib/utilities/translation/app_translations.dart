@@ -55,8 +55,8 @@ class AppTranslations extends Translations {
 
         // Setting Screen
         "setting": "설정",
-        "alarm_active": "알람 활성화",
-        "alarm_time": "알람 시간",
+        "notification_active": "알림 활성화",
+        "notification_time": "알림 시간",
       };
 
   static Map<String, String> get english => {
@@ -107,7 +107,7 @@ class AppTranslations extends Translations {
 
         // Setting Screen
         "setting": "Setting",
-        "alarm_active": "Alarm Active",
-        "alarm_time": "Alarm Time",
+        "notification_active": "Notification Active",
+        "notification_time": "Notification Time",
       };
 }

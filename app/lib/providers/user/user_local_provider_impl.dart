@@ -20,57 +20,24 @@ class UserLocalProviderImpl implements UserLocalProvider {
 
   /// Initialize the user data.
   @override
-  Future<void> onReady({
-    required String? id,
-    required String? nickname,
-    required double? totalPositiveDeltaCO2,
-    required double? totalNegativeDeltaCO2,
-    required bool? healthCondition,
-    required bool? mentalCondition,
-    required bool? cashCondition,
-    required bool? isNotificationActive,
-  }) async {
+  Future<void> onReady() async {
     // User Setting
-    await _storage.writeIfNull(
-      ULPExtension.isNotificationActive,
-      isNotificationActive ?? true,
-    );
+    await _storage.writeIfNull(ULPExtension.isNotificationActive, true);
     await _storage.writeIfNull(ULPExtension.notificationHour, 8);
     await _storage.writeIfNull(ULPExtension.notificationMinute, 0);
 
     // User Brief Information
-    await _storage.writeIfNull(
-      ULPExtension.id,
-      id ?? 'GUEST',
-    );
-    await _storage.writeIfNull(
-      ULPExtension.nickname,
-      nickname ?? 'GUEST',
-    );
+    await _storage.writeIfNull(ULPExtension.id, 'GUEST');
+    await _storage.writeIfNull(ULPExtension.nickname, 'GUEST');
 
     // User Detail Information
-    await _storage.writeIfNull(
-      ULPExtension.totalPositiveDeltaCO2,
-      totalPositiveDeltaCO2 ?? 0.0,
-    );
-    await _storage.writeIfNull(
-      ULPExtension.totalNegativeDeltaCO2,
-      totalNegativeDeltaCO2 ?? 0.0,
-    );
+    await _storage.writeIfNull(ULPExtension.totalPositiveDeltaCO2, 0.0);
+    await _storage.writeIfNull(ULPExtension.totalNegativeDeltaCO2, 0.0);
 
     // Character State
-    await _storage.writeIfNull(
-      ULPExtension.healthCondition,
-      healthCondition ?? true,
-    );
-    await _storage.writeIfNull(
-      ULPExtension.mentalCondition,
-      mentalCondition ?? true,
-    );
-    await _storage.writeIfNull(
-      ULPExtension.cashCondition,
-      cashCondition ?? true,
-    );
+    await _storage.writeIfNull(ULPExtension.healthCondition, true);
+    await _storage.writeIfNull(ULPExtension.mentalCondition, true);
+    await _storage.writeIfNull(ULPExtension.cashCondition, true);
 
     await _storage.writeIfNull(ULPExtension.currentChallenge,
         EChallenge.useEcoFriendlyProducts.toString());
