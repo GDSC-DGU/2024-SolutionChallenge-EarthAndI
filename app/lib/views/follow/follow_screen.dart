@@ -1,4 +1,4 @@
-import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/follow/follow_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
@@ -22,7 +22,7 @@ class FollowScreen extends BaseScreen<FollowViewModel> {
           CustomIconButton(
               assetPath: "assets/icons/plus.svg",
               onPressed: () {
-                LogUtil.i("친구 추가 버튼 클릭");
+                Get.toNamed(Routes.USER_SEARCH);
               }),
         ],
       ),
@@ -77,7 +77,7 @@ class FollowScreen extends BaseScreen<FollowViewModel> {
                 return FollowItem(
                   state: viewModel.followingStates[index],
                   onPressed: () {
-                    viewModel.onPressedButton(
+                    viewModel.onPressedFollowButton(
                       isFollowingTab: true,
                       index: index,
                     );
@@ -93,7 +93,7 @@ class FollowScreen extends BaseScreen<FollowViewModel> {
                 return FollowItem(
                   state: viewModel.followerStates[index],
                   onPressed: () {
-                    viewModel.onPressedButton(
+                    viewModel.onPressedFollowButton(
                       isFollowingTab: false,
                       index: index,
                     );

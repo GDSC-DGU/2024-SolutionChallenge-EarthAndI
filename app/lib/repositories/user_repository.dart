@@ -2,12 +2,15 @@ import 'package:earth_and_i/apps/factory/local_storage_factory.dart';
 import 'package:earth_and_i/apps/factory/remote_storage_factory.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
+import 'package:earth_and_i/models/follow/follow_state.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
 import 'package:earth_and_i/models/setting/alarm_state.dart';
 import 'package:earth_and_i/models/home/character_state.dart';
+import 'package:earth_and_i/providers/follow/follow_provider.dart';
 import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +18,15 @@ class UserRepository extends GetxService {
   late final UserLocalProvider _localProvider;
   late final UserRemoteProvider _remoteProvider;
 
+  late final FollowProvider _followProvider;
+
   @override
   void onInit() {
     super.onInit();
     _localProvider = LocalStorageFactory.userLocalProvider;
     _remoteProvider = RemoteStorageFactory.userRemoteProvider;
+
+    _followProvider = RemoteStorageFactory.followProvider;
   }
 
   /* ------------------------------------------------------------ */
@@ -114,9 +121,26 @@ class UserRepository extends GetxService {
       await _remoteProvider.getTotalNegativeDeltaCO2(),
     );
 
-    // Remote Update
-    await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
-    await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+    // Remote Update(Trigger Gap Handling)
+    int maxRetries = 5;
+    int retryCount = 0;
+
+    while (retryCount < maxRetries) {
+      try {
+        await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
+        await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+        break;
+      } catch (e) {
+        retryCount++;
+
+        if (retryCount == maxRetries) {
+          rethrow;
+        }
+
+        await Future.delayed(const Duration(seconds: 1));
+      }
+    }
 
     // Remote -> Local Update
     // System Information
@@ -225,5 +249,29 @@ class UserRepository extends GetxService {
     } else {
       return localDeltaCO2 + remoteDeltaCO2;
     }
+  }
+
+  Future<List<FollowState>> readUsers(String searchWord) async {
+    List<dynamic> users = await _remoteProvider.getUsers(searchWord);
+    List<bool> isFollowings = users.map((e) => false).toList();
+
+    List<String> followings = (await _followProvider.getFollowings()).map((e) {
+      return e['id'] as String;
+    }).toList();
+
+    for (int i = 0; i < users.length; i++) {
+      if (followings.contains(users[i]['id'])) {
+        isFollowings[i] = true;
+      }
+    }
+
+    List<dynamic> afterUsers = users.asMap().entries.map((e) {
+      e.value['is_following'] = isFollowings[e.key];
+      return e.value;
+    }).toList();
+
+    return afterUsers.map((user) {
+      return FollowState.fromJson(user);
+    }).toList();
   }
 }

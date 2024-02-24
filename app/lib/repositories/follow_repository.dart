@@ -29,22 +29,22 @@ class FollowRepository extends GetxService {
     List<dynamic> followings = await _provider.getFollowings();
 
     return followings
-        .map((following) => FollowState.fromMap(following))
+        .map((following) => FollowState.fromJson(following))
         .toList();
   }
 
   Future<List<FollowState>> readFollowers() async {
     List<dynamic> followers = await _provider.getFollowers();
 
-    return followers.map((follower) => FollowState.fromMap(follower)).toList();
+    return followers.map((follower) => FollowState.fromJson(follower)).toList();
   }
 
   void deleteFollowing(String id) {
     // _provider.deleteFollowing(id);
   }
 
-  Future<void> updateFollowing(String id, bool bool) {
-    if (bool) {
+  Future<void> updateFollowing(String id, bool isCreated) {
+    if (isCreated) {
       return _provider.postFollowing(id);
     } else {
       return _provider.deleteFollowing(id);

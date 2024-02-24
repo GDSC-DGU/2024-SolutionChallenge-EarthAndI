@@ -53,18 +53,27 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<double> getTotalPositiveDeltaCO2() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return await _storage.collection('users').doc(uid).get().then((value) =>
-        double.parse(
-            value.data()![URPExtension.totalPositiveDeltaCO2].toString()));
+    try {
+      return await _storage.collection('users').doc(uid).get().then((value) =>
+          double.parse(
+              value.data()![URPExtension.totalPositiveDeltaCO2].toString()));
+    } catch (e) {
+      return 0.0;
+    }
   }
 
   @override
-  Future<double> getTotalNegativeDeltaCO2() {
+  Future<double> getTotalNegativeDeltaCO2() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).get().then((value) =>
-        double.parse(
-            value.data()![URPExtension.totalNegativeDeltaCO2].toString()));
+    try {
+      Map<String, dynamic> data =
+          (await _storage.collection('users').doc(uid).get()).data()!;
+
+      return double.parse(data[URPExtension.totalNegativeDeltaCO2].toString());
+    } catch (e) {
+      return 0.0;
+    }
   }
 
   /// Get the user's health condition.
@@ -72,18 +81,21 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<bool> getHealthCondition() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return await _storage
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((value) => value.data()![URPExtension.healthCondition]);
+    try {
+      Map<String, dynamic> data =
+          (await _storage.collection('users').doc(uid).get()).data()!;
+
+      return data[URPExtension.healthCondition];
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
-  Future<bool> getMentalCondition() {
+  Future<bool> getMentalCondition() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage
+    return await _storage
         .collection('users')
         .doc(uid)
         .get()
@@ -193,6 +205,22 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
     return _storage.collection('users').doc(uid).update({
       URPExtension.cashCondition: isGood,
     });
+  }
+
+  /* ------------------------------------------------------------ */
+  /* --------------------------- Read --------------------------- */
+  /* ------------------------------------------------------------ */
+  @override
+  Future<List<dynamic>> getUsers(String searchWord) async {
+    List<dynamic> result = await _storage
+        .collection('users')
+        .where('nickname', isGreaterThanOrEqualTo: searchWord)
+        .where('nickname', isLessThan: '${searchWord}z')
+        .get()
+        .then((value) => value.docs.map((e) => e.data()).toList());
+
+    String uid = SecurityUtil.auth.currentUser!.uid;
+    return result.where((element) => element['id'] != uid).toList();
   }
 }
 

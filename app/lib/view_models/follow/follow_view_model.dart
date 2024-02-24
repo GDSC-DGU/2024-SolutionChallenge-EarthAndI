@@ -1,5 +1,6 @@
 import 'package:earth_and_i/models/follow/follow_state.dart';
 import 'package:earth_and_i/repositories/follow_repository.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,6 @@ class FollowViewModel extends GetxController
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
     Get.find<ProfileViewModel>().fetchUserBriefState();
   }
@@ -59,7 +59,7 @@ class FollowViewModel extends GetxController
     _tabController.dispose();
   }
 
-  void onPressedButton({
+  void onPressedFollowButton({
     required bool isFollowingTab,
     required int index,
   }) async {
@@ -87,5 +87,15 @@ class FollowViewModel extends GetxController
     _followerStates[index] = _followerStates[index].copyWith(
       isFollowing: !_followerStates[index].isFollowing,
     );
+  }
+
+  void fetchFollowings(FollowState followState, bool isFollowing) async {
+    LogUtil.i(
+        "fetchFollowings, state: $followState, isFollowing: $isFollowing");
+    if (isFollowing) {
+      _followingStates.add(followState);
+    } else {
+      _followingStates.remove(followState);
+    }
   }
 }

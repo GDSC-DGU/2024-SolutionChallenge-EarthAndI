@@ -41,4 +41,9 @@ abstract class UserRemoteProvider {
   Future<void> setHealthCondition(bool isGood);
   Future<void> setMentalCondition(bool isGood);
   Future<void> setCashCondition(bool isGood);
+
+  /* ------------------------------------------------------------ */
+  /* --------------------------- Read --------------------------- */
+  /* ------------------------------------------------------------ */
+  Future<List<dynamic>> getUsers(String searchWord);
 }

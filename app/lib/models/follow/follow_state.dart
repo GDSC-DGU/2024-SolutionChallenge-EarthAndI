@@ -29,7 +29,7 @@ class FollowState {
     );
   }
 
-  factory FollowState.fromMap(Map<String, dynamic> map) {
+  factory FollowState.fromJson(Map<String, dynamic> map) {
     String id = map['id'];
     String nickname = map['nickname'];
 
@@ -56,4 +56,14 @@ class FollowState {
   String toString() {
     return 'FollowState(id: $id, nickname: $nickname, isFollowing: $isFollowing, totalDeltaCO2: $totalDeltaCO2, thumbnailPath: $thumbnailPath)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is FollowState && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

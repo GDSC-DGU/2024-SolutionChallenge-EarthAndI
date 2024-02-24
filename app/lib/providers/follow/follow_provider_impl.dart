@@ -11,28 +11,20 @@ class FollowProviderImpl implements FollowProvider {
   final FirebaseFirestore _storage;
 
   @override
-  Future<void> postFollowing(String id) {
+  Future<void> postFollowing(String id) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
-    return _storage.collection('follows').doc(uid).update({
+    await _storage.collection('follows').doc(uid).update({
       'followings': FieldValue.arrayUnion([id])
-    }).then((value) {
-      LogUtil.i("팔로잉 추가 성공");
-    }).catchError((error) {
-      LogUtil.e("팔로잉 추가 실패: $error");
     });
   }
 
   @override
-  Future<void> deleteFollowing(String id) {
+  Future<void> deleteFollowing(String id) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
-    return _storage.collection('follows').doc(uid).update({
+    await _storage.collection('follows').doc(uid).update({
       'followings': FieldValue.arrayRemove([id])
-    }).then((value) {
-      LogUtil.i("팔로잉 삭제 성공");
-    }).catchError((error) {
-      LogUtil.e("팔로잉 삭제 실패: $error");
     });
   }
 
@@ -43,6 +35,10 @@ class FollowProviderImpl implements FollowProvider {
     List<dynamic> followings =
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followings'];
+
+    if (followings.isEmpty) {
+      return [];
+    }
 
     // Map<String, dynamic>으로 바꾸고 isFollowing 추가
     List<dynamic> users = (await _storage
@@ -67,6 +63,10 @@ class FollowProviderImpl implements FollowProvider {
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followers'];
 
+    if (followers.isEmpty) {
+      return [];
+    }
+
     List<bool> isFollowings = List.filled(followers.length, false);
 
     List<dynamic> followings =
@@ -78,8 +78,6 @@ class FollowProviderImpl implements FollowProvider {
         isFollowings[i] = true;
       }
     }
-
-    // followers 중에서 followings에 없는 것만 추출
 
     List<dynamic> users = (await _storage
             .collection("users")
