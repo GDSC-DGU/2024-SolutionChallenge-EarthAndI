@@ -28,11 +28,15 @@ class UserLocalProviderImpl implements UserLocalProvider {
     required bool? healthCondition,
     required bool? mentalCondition,
     required bool? cashCondition,
+    required bool? isNotificationActive,
   }) async {
     // User Setting
-    await _storage.writeIfNull(ULPExtension.alarmActive, true);
-    await _storage.writeIfNull(ULPExtension.alarmHour, 8);
-    await _storage.writeIfNull(ULPExtension.alarmMinute, 0);
+    await _storage.writeIfNull(
+      ULPExtension.isNotificationActive,
+      isNotificationActive ?? true,
+    );
+    await _storage.writeIfNull(ULPExtension.notificationHour, 8);
+    await _storage.writeIfNull(ULPExtension.notificationMinute, 0);
 
     // User Brief Information
     await _storage.writeIfNull(
@@ -97,20 +101,20 @@ class UserLocalProviderImpl implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /// Get the user's alarm active state.
   @override
-  bool getAlarmActive() {
-    return _storage.read(ULPExtension.alarmActive) ?? false;
+  bool getNotificationActive() {
+    return _storage.read(ULPExtension.isNotificationActive) ?? false;
   }
 
   /// Get the user's alarm hour.
   @override
-  int getAlarmHour() {
-    return _storage.read(ULPExtension.alarmHour) ?? 8;
+  int getNotificationHour() {
+    return _storage.read(ULPExtension.notificationHour) ?? 8;
   }
 
   /// Get the user's alarm minute.
   @override
-  int getAlarmMinute() {
-    return _storage.read(ULPExtension.alarmMinute) ?? 0;
+  int getNotificationMinute() {
+    return _storage.read(ULPExtension.notificationMinute) ?? 0;
   }
 
   /// Get the user's id.
@@ -171,20 +175,20 @@ class UserLocalProviderImpl implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   /// Set the user's alarm active state.
   @override
-  Future<void> setAlarmActive(bool isActive) async {
-    await _storage.write(ULPExtension.alarmActive, isActive);
+  Future<void> setNotificationActive(bool isActive) async {
+    await _storage.write(ULPExtension.isNotificationActive, isActive);
   }
 
   /// Set the user's alarm hour.
   @override
-  Future<void> setAlarmHour(int hour) async {
-    await _storage.write(ULPExtension.alarmHour, hour);
+  Future<void> setNotificationHour(int hour) async {
+    await _storage.write(ULPExtension.notificationHour, hour);
   }
 
   /// Set the user's alarm minute.
   @override
-  Future<void> setAlarmMinute(int minute) async {
-    await _storage.write(ULPExtension.alarmMinute, minute);
+  Future<void> setNotificationMinute(int minute) async {
+    await _storage.write(ULPExtension.notificationMinute, minute);
   }
 
   /// Set the user's id.
@@ -245,10 +249,10 @@ extension ULPExtension on UserLocalProviderImpl {
   static const String isFirstRun = 'is_first_run';
   static const String isSynced = 'is_synced';
 
-  // User Setting
-  static const String alarmActive = 'alarm_active';
-  static const String alarmHour = 'alarm_hour';
-  static const String alarmMinute = 'alarm_minute';
+  // System Information
+  static const String isNotificationActive = 'is_notification_active';
+  static const String notificationHour = 'notification_hour';
+  static const String notificationMinute = 'notification_minute';
 
   // User Brief Information
   static const String id = 'id';

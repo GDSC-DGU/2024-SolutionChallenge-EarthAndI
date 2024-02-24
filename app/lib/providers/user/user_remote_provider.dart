@@ -6,6 +6,9 @@ abstract class UserRemoteProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
+  // System Information
+  Future<bool> getNotificationActive();
+
   // User Brief Information
   Future<String> getId();
   Future<String> getNickname();
@@ -22,6 +25,10 @@ abstract class UserRemoteProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
+  // System Information
+  Future<void> setNotificationActive(bool isActive);
+  Future<void> setDeviceToken(String token);
+
   // User Brief Information
   Future<void> setId(String id);
   Future<void> setNickname(String nickname);

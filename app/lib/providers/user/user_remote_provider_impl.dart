@@ -12,6 +12,18 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Getter -------------------------- */
   /* ------------------------------------------------------------ */
+  /// Get the user's notification active.
+  @override
+  Future<bool> getNotificationActive() async {
+    String uid = SecurityUtil.auth.currentUser!.uid;
+
+    return await _storage
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) => value.data()![URPExtension.isNotificationActive]);
+  }
+
   /// Get the user's id.
   @override
   Future<String> getId() async {
@@ -93,6 +105,26 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
+  /// Set the user's notification active.
+  @override
+  Future<void> setNotificationActive(bool isActive) {
+    String uid = SecurityUtil.auth.currentUser!.uid;
+
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.isNotificationActive: isActive,
+    });
+  }
+
+  /// Set the user's device token.
+  @override
+  Future<void> setDeviceToken(String token) {
+    String uid = SecurityUtil.auth.currentUser!.uid;
+
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.deviceToken: token,
+    });
+  }
+
   /// Set the user's id.
   @override
   Future<void> setId(String id) {
@@ -165,6 +197,10 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
 }
 
 extension URPExtension on UserRemoteProvider {
+  // System Information
+  static const String isNotificationActive = 'is_notification_active';
+  static const String deviceToken = 'device_token';
+
   // User Brief Information
   static const String id = 'id';
   static const String nickname = 'nickname';

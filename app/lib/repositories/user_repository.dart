@@ -40,11 +40,11 @@ class UserRepository extends GetxService {
     );
   }
 
-  AlarmState readAlarmState() {
-    return AlarmState(
-      isActive: _localProvider.getAlarmActive(),
-      hour: _localProvider.getAlarmHour(),
-      minute: _localProvider.getAlarmMinute(),
+  NotificationState readNotificationState() {
+    return NotificationState(
+      isActive: _localProvider.getNotificationActive(),
+      hour: _localProvider.getNotificationHour(),
+      minute: _localProvider.getNotificationMinute(),
     );
   }
 
@@ -65,29 +65,31 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   /* -------------------------- Update -------------------------- */
   /* ------------------------------------------------------------ */
-  Future<AlarmState> updateUserAlarmSetting({
+  Future<void> updateUserNotificationSetting({
     bool? isActive,
     int? hour,
     int? minute,
   }) async {
+    // Local
     if (isActive != null) {
-      await _localProvider.setAlarmActive(isActive);
+      await _localProvider.setNotificationActive(isActive);
     }
     if (hour != null && minute != null) {
-      await _localProvider.setAlarmHour(hour);
-      await _localProvider.setAlarmMinute(minute);
+      await _localProvider.setNotificationHour(hour);
+      await _localProvider.setNotificationMinute(minute);
+    }
+
+    // Remote
+    if (SecurityUtil.isSignin && isActive != null) {
+      await _remoteProvider.setNotificationActive(
+        _localProvider.getNotificationActive(),
+      );
     }
 
     await LocalNotificationUtil.setScheduleNotification(
-      isActive: _localProvider.getAlarmActive(),
-      hour: _localProvider.getAlarmHour(),
-      minute: _localProvider.getAlarmMinute(),
-    );
-
-    return AlarmState(
-      isActive: _localProvider.getAlarmActive(),
-      hour: _localProvider.getAlarmHour(),
-      minute: _localProvider.getAlarmMinute(),
+      isActive: _localProvider.getNotificationActive(),
+      hour: _localProvider.getNotificationHour(),
+      minute: _localProvider.getNotificationMinute(),
     );
   }
 
@@ -97,6 +99,7 @@ class UserRepository extends GetxService {
   }) async {
     String nicknameWithoutSpace = nickname.replaceAll(' ', '');
     await _localProvider.setId(id);
+
     // 공백을 없애고 최대 15자로 제한
     await _localProvider.setNickname(
       nicknameWithoutSpace

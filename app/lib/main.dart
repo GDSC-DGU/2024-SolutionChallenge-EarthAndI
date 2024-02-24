@@ -8,7 +8,6 @@ import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,25 +56,30 @@ Future<void> onSystemInit() async {
 }
 
 Future<void> onSystemReady() async {
-  /*
-  최초 실행이라면 디바이스에 로그인 정보가 있는지 확인한다. 만약 로그인 정보에 따라서 행위는 다음과 같다.
-  있다면 FireStore에서 사용자 정보를 가져와서 초기화한다.(동기화가 됨)
-  없다면 GUEST로 초기화한다.(동기화 안 됨)
-   */
   UserLocalProvider localProvider = LocalStorageFactory.userLocalProvider;
   UserRemoteProvider remoteProvider = RemoteStorageFactory.userRemoteProvider;
+
+  /*
+  If it's the first run, it checks if there's login information on the device.
+  Additionally, it sets up the alarms.
+  Depending on the login information, the actions are as follows:
+
+  If there is, it retrieves user information from Firestore and initializes.
+  If not, it initializes as GUEST. (No synchronization occurs)
+   */
   bool isFirstRun = localProvider.getFirstRun();
 
   if (isFirstRun) {
     if (SecurityUtil.isSignin) {
       await localProvider.onReady(
-        id: SecurityUtil.currentUser!.uid.substring(0, 5),
-        nickname: await RemoteStorageFactory.userRemoteProvider.getNickname(),
+        id: await remoteProvider.getId(),
+        nickname: await remoteProvider.getNickname(),
         totalNegativeDeltaCO2: await remoteProvider.getTotalNegativeDeltaCO2(),
         totalPositiveDeltaCO2: await remoteProvider.getTotalPositiveDeltaCO2(),
         healthCondition: await remoteProvider.getHealthCondition(),
         mentalCondition: await remoteProvider.getMentalCondition(),
         cashCondition: await remoteProvider.getCashCondition(),
+        isNotificationActive: await remoteProvider.getNotificationActive(),
       );
 
       await localProvider.setFirstRun(false);
@@ -89,19 +93,19 @@ Future<void> onSystemReady() async {
         healthCondition: false,
         mentalCondition: null,
         cashCondition: null,
+        isNotificationActive: null,
       );
     }
 
-    // Set Alarm
     await LocalNotificationUtil.setScheduleNotification(
-      isActive: localProvider.getAlarmActive(),
-      hour: localProvider.getAlarmHour(),
-      minute: localProvider.getAlarmMinute(),
+      isActive: localProvider.getNotificationActive(),
+      hour: localProvider.getNotificationHour(),
+      minute: localProvider.getNotificationMinute(),
     );
   }
 
   /*
-  Home Widget을 현재 정보로 초기화 한다.
+  Initialize the Home Widget with current information.
    */
   WidgetUtil.setInformation(
     positiveDeltaCO2: localProvider.getTotalPositiveDeltaCO2(),

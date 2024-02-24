@@ -13,6 +13,7 @@ abstract class UserLocalProvider {
     required bool? healthCondition,
     required bool? mentalCondition,
     required bool? cashCondition,
+    required bool? isNotificationActive,
   });
 
   bool getFirstRun();
@@ -24,10 +25,10 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
-  // User Setting
-  bool getAlarmActive();
-  int getAlarmHour();
-  int getAlarmMinute();
+  // System Information
+  bool getNotificationActive();
+  int getNotificationHour();
+  int getNotificationMinute();
 
   // User Brief Information
   String getId();
@@ -48,10 +49,10 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
-  // User Setting
-  Future<void> setAlarmActive(bool isActive);
-  Future<void> setAlarmHour(int hour);
-  Future<void> setAlarmMinute(int minute);
+  // System Information
+  Future<void> setNotificationActive(bool isActive);
+  Future<void> setNotificationHour(int hour);
+  Future<void> setNotificationMinute(int minute);
 
   // User Brief Information
   Future<void> setId(String id);
