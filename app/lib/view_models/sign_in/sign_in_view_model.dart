@@ -47,13 +47,13 @@ class SignInViewModel extends GetxController {
       return false;
     }
 
+    _isEnableGreyBarrier.value = true;
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
     // Create a new credential
     try {
-      _isEnableGreyBarrier.value = true;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,

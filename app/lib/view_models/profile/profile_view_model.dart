@@ -5,6 +5,7 @@ import 'package:earth_and_i/models/profile/calendar_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
 import 'package:earth_and_i/repositories/follow_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:get/get.dart';
@@ -100,6 +101,8 @@ class ProfileViewModel extends GetxController {
       );
     } else {
       _userBriefState.value = _userBriefState.value.copyWith(
+        id: "GUEST",
+        nickname: "GUEST",
         followingCount: 0,
         followerCount: 0,
       );
