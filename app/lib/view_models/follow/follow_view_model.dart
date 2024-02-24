@@ -1,5 +1,6 @@
 import 'package:earth_and_i/models/follow/follow_state.dart';
 import 'package:earth_and_i/repositories/follow_repository.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,15 +47,40 @@ class FollowViewModel extends GetxController
   }
 
   @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    Get.find<ProfileViewModel>().fetchUserBriefState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _tabController.dispose();
   }
 
-  void onPressedFollowingButton(int index) {
-    _followingStates[index] = _followingStates[index].copyWith(
-      isFollowing: !_followingStates[index].isFollowing,
-    );
+  void onPressedButton({
+    required bool isFollowingTab,
+    required int index,
+  }) async {
+    // 팔로잉 탭과 팔로워 탭을 구분하여 처리
+    if (isFollowingTab) {
+      await _followRepository.updateFollowing(
+        _followingStates[index].id,
+        !_followingStates[index].isFollowing,
+      );
+      _followingStates[index] = _followingStates[index].copyWith(
+        isFollowing: !_followingStates[index].isFollowing,
+      );
+    } else {
+      await _followRepository.updateFollowing(
+        _followerStates[index].id,
+        !_followerStates[index].isFollowing,
+      );
+      _followerStates[index] = _followerStates[index].copyWith(
+        isFollowing: !_followerStates[index].isFollowing,
+      );
+    }
   }
 
   void onPressedFollowerButton(int index) {

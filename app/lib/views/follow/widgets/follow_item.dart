@@ -49,7 +49,7 @@ class FollowItem extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "#${state.id}",
+                        "#${state.id.substring(0, 5)}",
                         style:
                             FontSystem.KR12R.copyWith(color: ColorSystem.grey),
                       )

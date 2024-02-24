@@ -77,7 +77,10 @@ class FollowScreen extends BaseScreen<FollowViewModel> {
                 return FollowItem(
                   state: viewModel.followingStates[index],
                   onPressed: () {
-                    viewModel.onPressedFollowingButton(index);
+                    viewModel.onPressedButton(
+                      isFollowingTab: true,
+                      index: index,
+                    );
                   },
                 );
               },
@@ -90,7 +93,10 @@ class FollowScreen extends BaseScreen<FollowViewModel> {
                 return FollowItem(
                   state: viewModel.followerStates[index],
                   onPressed: () {
-                    viewModel.onPressedFollowerButton(index);
+                    viewModel.onPressedButton(
+                      isFollowingTab: false,
+                      index: index,
+                    );
                   },
                 );
               },

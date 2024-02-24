@@ -30,7 +30,7 @@ class FollowState {
   }
 
   factory FollowState.fromMap(Map<String, dynamic> map) {
-    String id = map['id'].substring(0, 5);
+    String id = map['id'];
     String nickname = map['nickname'];
 
     double totalPositiveDeltaCO2 =

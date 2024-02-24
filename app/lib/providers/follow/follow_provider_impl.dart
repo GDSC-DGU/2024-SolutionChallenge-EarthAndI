@@ -11,6 +11,32 @@ class FollowProviderImpl implements FollowProvider {
   final FirebaseFirestore _storage;
 
   @override
+  Future<void> postFollowing(String id) {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    return _storage.collection('follows').doc(uid).update({
+      'followings': FieldValue.arrayUnion([id])
+    }).then((value) {
+      LogUtil.i("팔로잉 추가 성공");
+    }).catchError((error) {
+      LogUtil.e("팔로잉 추가 실패: $error");
+    });
+  }
+
+  @override
+  Future<void> deleteFollowing(String id) {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    return _storage.collection('follows').doc(uid).update({
+      'followings': FieldValue.arrayRemove([id])
+    }).then((value) {
+      LogUtil.i("팔로잉 삭제 성공");
+    }).catchError((error) {
+      LogUtil.e("팔로잉 삭제 실패: $error");
+    });
+  }
+
+  @override
   Future<List<dynamic>> getFollowings() async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
@@ -67,11 +93,5 @@ class FollowProviderImpl implements FollowProvider {
       e.value['is_following'] = isFollowings[e.key];
       return e.value;
     }).toList();
-  }
-
-  @override
-  Future<void> deleteFollowing(String id) {
-    // TODO: implement deleteFollowing
-    throw UnimplementedError();
   }
 }

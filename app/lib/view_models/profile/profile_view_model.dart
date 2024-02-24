@@ -89,10 +89,12 @@ class ProfileViewModel extends GetxController {
   }
 
   void fetchUserBriefState() async {
-    _userBriefState.value = _userRepository.readUserBriefState();
+    UserBriefState temp = _userRepository.readUserBriefState();
 
     if (SecurityUtil.isSignin) {
       _userBriefState.value = _userBriefState.value.copyWith(
+        id: temp.id,
+        nickname: temp.nickname,
         followingCount: await _followRepository.readFollowingsCount(),
         followerCount: await _followRepository.readFollowersCount(),
       );

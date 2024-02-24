@@ -42,4 +42,12 @@ class FollowRepository extends GetxService {
   void deleteFollowing(String id) {
     // _provider.deleteFollowing(id);
   }
+
+  Future<void> updateFollowing(String id, bool bool) {
+    if (bool) {
+      return _provider.postFollowing(id);
+    } else {
+      return _provider.deleteFollowing(id);
+    }
+  }
 }
