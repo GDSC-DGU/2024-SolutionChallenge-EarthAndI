@@ -14,7 +14,7 @@ class WeeklyCalendar extends BaseWidget<ProfileViewModel> {
   @override
   Widget buildView(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       color: ColorSystem.white,
       child: Column(
         children: [

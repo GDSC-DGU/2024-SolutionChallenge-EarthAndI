@@ -37,6 +37,8 @@ class UserRepository extends GetxService {
     return UserBriefState(
       id: _localProvider.getId(),
       nickname: _localProvider.getNickname(),
+      followingCount: 0,
+      followerCount: 0,
     );
   }
 
@@ -122,7 +124,7 @@ class UserRepository extends GetxService {
         .setNotificationActive(await _remoteProvider.getNotificationActive());
 
     // User Brief Information
-    await _localProvider.setId(await _remoteProvider.getId());
+    await _localProvider.setId((await _remoteProvider.getId()).substring(0, 5));
     await _localProvider.setNickname(await _remoteProvider.getNickname());
 
     // User Detail Information

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FriendSearchViewModel extends GetxController {
+class UserSearchViewModel extends GetxController {
   late final TextEditingController searchController;
   late final RxString _searchWord = "".obs;
   late final _isKeyboardOpen = false.obs;

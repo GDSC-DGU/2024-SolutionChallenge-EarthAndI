@@ -1,5 +1,6 @@
 import 'package:earth_and_i/utilities/static/app_pages.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/translation/app_translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Pretendard',
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: ColorSystem.green,
         scaffoldBackgroundColor: const Color(0xFFf6f6f8),
       ),
       initialRoute: Routes.ROOT,

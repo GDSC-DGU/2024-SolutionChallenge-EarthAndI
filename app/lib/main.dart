@@ -8,7 +8,6 @@ import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
 import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
-import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

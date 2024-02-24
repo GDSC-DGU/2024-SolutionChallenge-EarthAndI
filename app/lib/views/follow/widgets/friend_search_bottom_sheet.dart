@@ -1,5 +1,5 @@
 import 'package:earth_and_i/utilities/system/font_system.dart';
-import 'package:earth_and_i/view_models/friend/friend_search_view_model.dart';
+import 'package:earth_and_i/view_models/follow/follow_search_view_model.dart';
 import 'package:earth_and_i/views/base/base_widget.dart';
 import 'package:earth_and_i/widgets/appbar/custom_icon_button.dart';
 import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class FriendSearchBottomSheet extends BaseWidget<FriendSearchViewModel> {
+class FriendSearchBottomSheet extends BaseWidget<UserSearchViewModel> {
   const FriendSearchBottomSheet({super.key});
 
   @override
