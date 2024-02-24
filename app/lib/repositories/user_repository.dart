@@ -96,48 +96,49 @@ class UserRepository extends GetxService {
   Future<void> updateUserInformation({
     required bool isSignIn,
   }) async {
-    if (isSignIn) {
-      final double savedPositiveDeltaCO2 = _calculateSavedTotalDeltaCO2(
-        _localProvider.getTotalPositiveDeltaCO2(),
-        await _remoteProvider.getTotalPositiveDeltaCO2(),
-      );
-
-      final double savedNegativeDeltaCO2 = _calculateSavedTotalDeltaCO2(
-        _localProvider.getTotalNegativeDeltaCO2(),
-        await _remoteProvider.getTotalNegativeDeltaCO2(),
-      );
-
-      // Remote Update
-      await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
-      await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
-
-      // Remote -> Local Update
-      // System Information
-      await _localProvider
-          .setNotificationActive(await _remoteProvider.getNotificationActive());
-
-      // User Brief Information
-      await _localProvider.setId(await _remoteProvider.getId());
-      await _localProvider.setNickname(await _remoteProvider.getNickname());
-
-      // User Detail Information
-      await _localProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
-      await _localProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
-
-      // Character Stats
-      await _localProvider
-          .setHealthCondition(await _remoteProvider.getHealthCondition());
-      await _localProvider
-          .setMentalCondition(await _remoteProvider.getMentalCondition());
-      await _localProvider
-          .setCashCondition(await _remoteProvider.getCashCondition());
-
-      // Update Synced
-      await _localProvider.setSynced(true);
-    } else {
+    if (!isSignIn) {
       await _localProvider.setId("GUEST");
       await _localProvider.setNickname("GUEST");
+      return;
     }
+
+    final double savedPositiveDeltaCO2 = _calculateSavedTotalDeltaCO2(
+      _localProvider.getTotalPositiveDeltaCO2(),
+      await _remoteProvider.getTotalPositiveDeltaCO2(),
+    );
+
+    final double savedNegativeDeltaCO2 = _calculateSavedTotalDeltaCO2(
+      _localProvider.getTotalNegativeDeltaCO2(),
+      await _remoteProvider.getTotalNegativeDeltaCO2(),
+    );
+
+    // Remote Update
+    await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
+    await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+    // Remote -> Local Update
+    // System Information
+    await _localProvider
+        .setNotificationActive(await _remoteProvider.getNotificationActive());
+
+    // User Brief Information
+    await _localProvider.setId(await _remoteProvider.getId());
+    await _localProvider.setNickname(await _remoteProvider.getNickname());
+
+    // User Detail Information
+    await _localProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
+    await _localProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+    // Character Stats
+    await _localProvider
+        .setHealthCondition(await _remoteProvider.getHealthCondition());
+    await _localProvider
+        .setMentalCondition(await _remoteProvider.getMentalCondition());
+    await _localProvider
+        .setCashCondition(await _remoteProvider.getCashCondition());
+
+    // Update Synced
+    await _localProvider.setSynced(true);
   }
 
   Future<void> updateTotalPositiveDeltaCO2(
@@ -195,11 +196,11 @@ class UserRepository extends GetxService {
       if (userStatus != null && isGood != null) {
         switch (userStatus) {
           case EUserStatus.health:
-            await _remoteProvider.setHealthCondition(isGood!);
+            await _remoteProvider.setHealthCondition(isGood);
           case EUserStatus.mental:
-            await _remoteProvider.setMentalCondition(isGood!);
+            await _remoteProvider.setMentalCondition(isGood);
           case EUserStatus.cash:
-            await _remoteProvider.setCashCondition(isGood!);
+            await _remoteProvider.setCashCondition(isGood);
           default:
             throw Exception('Invalid user status');
         }
@@ -215,17 +216,12 @@ class UserRepository extends GetxService {
     double localDeltaCO2,
     double remoteDeltaCO2,
   ) {
-    double absLocalDeltaCO2 = localDeltaCO2.abs();
-    double absRemoteDeltaCO2 = remoteDeltaCO2.abs();
-
     if (_localProvider.getSynced()) {
-      return absLocalDeltaCO2 >= absRemoteDeltaCO2
+      return localDeltaCO2.abs() >= remoteDeltaCO2.abs()
           ? localDeltaCO2
           : remoteDeltaCO2;
     } else {
-      return absLocalDeltaCO2 >= absRemoteDeltaCO2
-          ? remoteDeltaCO2
-          : localDeltaCO2;
+      return localDeltaCO2 + remoteDeltaCO2;
     }
   }
 }
