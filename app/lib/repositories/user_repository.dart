@@ -143,6 +143,7 @@ class UserRepository extends GetxService {
     EUserStatus? userStatus,
     bool? isGood,
   ) async {
+    // Local
     if (userStatus != null) {
       switch (userStatus) {
         case EUserStatus.health:
@@ -156,6 +157,7 @@ class UserRepository extends GetxService {
       }
     }
 
+    // Remote
     if (SecurityUtil.isSignin) {
       if (userStatus != null) {
         switch (userStatus) {
@@ -172,8 +174,7 @@ class UserRepository extends GetxService {
     }
   }
 
-  Future<EChallenge?> updateCurrentChallenge(EChallenge? challenge) async {
+  Future<void> updateCurrentChallenge(EChallenge? challenge) async {
     await _localProvider.setCurrentChallenge(challenge);
-    return _localProvider.getCurrentChallenge();
   }
 }
