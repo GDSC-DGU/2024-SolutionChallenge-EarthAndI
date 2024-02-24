@@ -21,7 +21,7 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
         .collection('users')
         .doc(uid)
         .get()
-        .then((value) => value.data()![UserRemoteProviderExtension.id]);
+        .then((value) => value.data()![URPExtension.id]);
   }
 
   /// Get the user's nickname.
@@ -33,7 +33,7 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
         .collection('users')
         .doc(uid)
         .get()
-        .then((value) => value.data()![UserRemoteProviderExtension.nickname]);
+        .then((value) => value.data()![URPExtension.nickname]);
   }
 
   /// Get the user's total positive delta CO2.
@@ -42,7 +42,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
     return await _storage.collection('users').doc(uid).get().then((value) =>
-        value.data()![UserRemoteProviderExtension.totalPositiveDeltaCO2]);
+        double.parse(
+            value.data()![URPExtension.totalPositiveDeltaCO2].toString()));
   }
 
   @override
@@ -50,7 +51,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
     return _storage.collection('users').doc(uid).get().then((value) =>
-        value.data()![UserRemoteProviderExtension.totalNegativeDeltaCO2]);
+        double.parse(
+            value.data()![URPExtension.totalNegativeDeltaCO2].toString()));
   }
 
   /// Get the user's health condition.
@@ -58,16 +60,22 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<bool> getHealthCondition() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return await _storage.collection('users').doc(uid).get().then(
-        (value) => value.data()![UserRemoteProviderExtension.healthCondition]);
+    return await _storage
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) => value.data()![URPExtension.healthCondition]);
   }
 
   @override
   Future<bool> getMentalCondition() {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).get().then(
-        (value) => value.data()![UserRemoteProviderExtension.mentalCondition]);
+    return _storage
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) => value.data()![URPExtension.mentalCondition]);
   }
 
   /// Get the user's cash condition.
@@ -75,8 +83,11 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<bool> getCashCondition() async {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return await _storage.collection('users').doc(uid).get().then(
-        (value) => value.data()![UserRemoteProviderExtension.cashCondition]);
+    return await _storage
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((value) => value.data()![URPExtension.cashCondition]);
   }
 
   /* ------------------------------------------------------------ */
@@ -87,8 +98,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setId(String id) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.id: id,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.id: id,
     });
   }
 
@@ -97,8 +108,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setNickname(String nickname) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.nickname: nickname,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.nickname: nickname,
     });
   }
 
@@ -107,8 +118,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setTotalPositiveDeltaCO2(double deltaCO2) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.totalPositiveDeltaCO2: deltaCO2,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.totalPositiveDeltaCO2: deltaCO2,
     });
   }
 
@@ -117,8 +128,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setTotalNegativeDeltaCO2(double deltaCO2) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.totalNegativeDeltaCO2: deltaCO2,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.totalNegativeDeltaCO2: deltaCO2,
     });
   }
 
@@ -127,8 +138,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setHealthCondition(bool isGood) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.healthCondition: isGood,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.healthCondition: isGood,
     });
   }
 
@@ -137,8 +148,8 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setMentalCondition(bool isGood) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.mentalCondition: isGood,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.mentalCondition: isGood,
     });
   }
 
@@ -147,13 +158,13 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
   Future<void> setCashCondition(bool isGood) {
     String uid = SecurityUtil.auth.currentUser!.uid;
 
-    return _storage.collection('users').doc(uid).set({
-      UserRemoteProviderExtension.cashCondition: isGood,
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.cashCondition: isGood,
     });
   }
 }
 
-extension UserRemoteProviderExtension on UserRemoteProvider {
+extension URPExtension on UserRemoteProvider {
   // User Brief Information
   static const String id = 'id';
   static const String nickname = 'nickname';

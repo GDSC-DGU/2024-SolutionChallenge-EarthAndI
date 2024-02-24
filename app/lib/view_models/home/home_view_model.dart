@@ -180,35 +180,8 @@ class HomeViewModel extends GetxController {
     if (changeCapacity != 0.0) {
       bool isPositive = changeCapacity < 0;
 
-      if (changeCapacity < 0) {
-        _deltaCO2State.value = _deltaCO2State.value.copyWith(
-          totalPositiveCO2:
-              await _userRepository.updateTotalPositiveDeltaCO2(changeCapacity),
-          changeCO2: changeCapacity,
-        );
-      } else {
-        _deltaCO2State.value = _deltaCO2State.value.copyWith(
-          totalNegativeCO2:
-              await _userRepository.updateTotalNegativeDeltaCO2(changeCapacity),
-          changeCO2: changeCapacity,
-        );
-      }
-      //    if (changedCO2 < 0) {
-      //       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      //         totalPositiveCO2: totalCO2,
-      //         changeCO2: changedCO2,
-      //       );
-      //     } else {
-      //       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-      //         totalNegativeCO2: totalCO2,
-      //         changeCO2: changedCO2,
-      //       );
-      //     }
-
-      _characterStatsState.value = await _userRepository.updateCharacterStats(
-        userStatus,
-        isPositive,
-      );
+      fetchDeltaCO2(changeCapacity);
+      fetchCharacterStatsState(userStatus, isPositive);
 
       WidgetUtil.setInformation(
         positiveDeltaCO2: _deltaCO2State.value.totalPositiveCO2,
@@ -292,14 +265,8 @@ class HomeViewModel extends GetxController {
       );
     }
 
-    fetchDeltaCO2(
-      await _userRepository.updateTotalPositiveDeltaCO2(changedCO2),
-      changedCO2,
-    );
-
-    fetchCharacterStatsState(
-      await _userRepository.updateCharacterStats(null, null),
-    );
+    fetchDeltaCO2(changedCO2);
+    fetchCharacterStatsState(null, null);
 
     WidgetUtil.setInformation(
       positiveDeltaCO2: _deltaCO2State.value.totalPositiveCO2,
@@ -314,18 +281,27 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  void fetchDeltaCO2(double totalDeltaCO2, double changedDeltaCO2) {
+  void fetchDeltaCO2(double changedDeltaCO2) async {
     if (changedDeltaCO2 < 0) {
+      await _userRepository.updateTotalPositiveDeltaCO2(changedDeltaCO2);
+
       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-        totalPositiveCO2: totalDeltaCO2,
+        totalPositiveCO2: _userRepository.readTotalPositiveDeltaCO2(),
         changeCO2: changedDeltaCO2,
       );
     } else {
+      await _userRepository.updateTotalNegativeDeltaCO2(changedDeltaCO2);
+
       _deltaCO2State.value = _deltaCO2State.value.copyWith(
-        totalNegativeCO2: totalDeltaCO2,
+        totalNegativeCO2: _userRepository.readTotalNegativeDeltaCO2(),
         changeCO2: changedDeltaCO2,
       );
     }
+  }
+
+  void fetchCharacterStatsState(EUserStatus? userStatus, bool? isGood) async {
+    await _userRepository.updateCharacterStats(userStatus, isGood);
+    _characterStatsState.value = _userRepository.readCharacterStatsState();
   }
 
   void fetchCarbonCloudStates(DateTime currentAt) async {
@@ -334,9 +310,5 @@ class HomeViewModel extends GetxController {
     _carbonCloudStates.addAll(
       await _actionHistoryRepository.readCarbonCloudStates(currentAt),
     );
-  }
-
-  void fetchCharacterStatsState(CharacterStatsState state) {
-    _characterStatsState.value = state;
   }
 }

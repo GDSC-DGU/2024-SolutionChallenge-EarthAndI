@@ -14,8 +14,8 @@ class UserLocalProviderImpl implements UserLocalProvider {
   /* ------------------------------------------------------------ */
   @override
   Future<void> onInit() async {
-    await _storage.writeIfNull(UserDAOExtension.isFirstRun, true);
-    await _storage.writeIfNull(UserDAOExtension.isSynced, false);
+    await _storage.writeIfNull(ULPExtension.isFirstRun, true);
+    await _storage.writeIfNull(ULPExtension.isSynced, false);
   }
 
   /// Initialize the user data.
@@ -30,66 +30,66 @@ class UserLocalProviderImpl implements UserLocalProvider {
     required bool? cashCondition,
   }) async {
     // User Setting
-    await _storage.writeIfNull(UserDAOExtension.alarmActive, true);
-    await _storage.writeIfNull(UserDAOExtension.alarmHour, 8);
-    await _storage.writeIfNull(UserDAOExtension.alarmMinute, 0);
+    await _storage.writeIfNull(ULPExtension.alarmActive, true);
+    await _storage.writeIfNull(ULPExtension.alarmHour, 8);
+    await _storage.writeIfNull(ULPExtension.alarmMinute, 0);
 
     // User Brief Information
     await _storage.writeIfNull(
-      UserDAOExtension.id,
+      ULPExtension.id,
       id ?? 'GUEST',
     );
     await _storage.writeIfNull(
-      UserDAOExtension.nickname,
+      ULPExtension.nickname,
       nickname ?? 'GUEST',
     );
 
     // User Detail Information
     await _storage.writeIfNull(
-      UserDAOExtension.totalPositiveDeltaCO2,
+      ULPExtension.totalPositiveDeltaCO2,
       totalPositiveDeltaCO2 ?? 0.0,
     );
     await _storage.writeIfNull(
-      UserDAOExtension.totalNegativeDeltaCO2,
+      ULPExtension.totalNegativeDeltaCO2,
       totalNegativeDeltaCO2 ?? 0.0,
     );
 
     // Character State
     await _storage.writeIfNull(
-      UserDAOExtension.healthCondition,
+      ULPExtension.healthCondition,
       healthCondition ?? true,
     );
     await _storage.writeIfNull(
-      UserDAOExtension.mentalCondition,
+      ULPExtension.mentalCondition,
       mentalCondition ?? true,
     );
     await _storage.writeIfNull(
-      UserDAOExtension.cashCondition,
+      ULPExtension.cashCondition,
       cashCondition ?? true,
     );
 
-    await _storage.writeIfNull(UserDAOExtension.currentChallenge,
+    await _storage.writeIfNull(ULPExtension.currentChallenge,
         EChallenge.useEcoFriendlyProducts.toString());
   }
 
   @override
   bool getFirstRun() {
-    return _storage.read(UserDAOExtension.isFirstRun)!;
+    return _storage.read(ULPExtension.isFirstRun)!;
   }
 
   @override
   bool getSynced() {
-    return _storage.read(UserDAOExtension.isSynced)!;
+    return _storage.read(ULPExtension.isSynced)!;
   }
 
   @override
   Future<void> setFirstRun(bool isFirstRun) async {
-    await _storage.write(UserDAOExtension.isFirstRun, isFirstRun);
+    await _storage.write(ULPExtension.isFirstRun, isFirstRun);
   }
 
   @override
   Future<void> setSynced(bool isSynced) async {
-    await _storage.write(UserDAOExtension.isSynced, isSynced);
+    await _storage.write(ULPExtension.isSynced, isSynced);
   }
 
   /* ------------------------------------------------------------ */
@@ -98,66 +98,66 @@ class UserLocalProviderImpl implements UserLocalProvider {
   /// Get the user's alarm active state.
   @override
   bool getAlarmActive() {
-    return _storage.read(UserDAOExtension.alarmActive) ?? false;
+    return _storage.read(ULPExtension.alarmActive) ?? false;
   }
 
   /// Get the user's alarm hour.
   @override
   int getAlarmHour() {
-    return _storage.read(UserDAOExtension.alarmHour) ?? 8;
+    return _storage.read(ULPExtension.alarmHour) ?? 8;
   }
 
   /// Get the user's alarm minute.
   @override
   int getAlarmMinute() {
-    return _storage.read(UserDAOExtension.alarmMinute) ?? 0;
+    return _storage.read(ULPExtension.alarmMinute) ?? 0;
   }
 
   /// Get the user's id.
   @override
   String getId() {
-    return _storage.read(UserDAOExtension.id) ?? 'GUEST';
+    return _storage.read(ULPExtension.id) ?? 'GUEST';
   }
 
   /// Get the user's nickname.
   @override
   String getNickname() {
-    return _storage.read(UserDAOExtension.nickname) ?? 'GUEST';
+    return _storage.read(ULPExtension.nickname) ?? 'GUEST';
   }
 
   /// Get the user's total positive delta CO2.
   @override
   double getTotalPositiveDeltaCO2() {
-    return _storage.read(UserDAOExtension.totalPositiveDeltaCO2) ?? 0.0;
+    return _storage.read(ULPExtension.totalPositiveDeltaCO2) ?? 0.0;
   }
 
   /// Get the user's total negative delta CO2.
   @override
   double getTotalNegativeDeltaCO2() {
-    return _storage.read(UserDAOExtension.totalNegativeDeltaCO2) ?? 0.0;
+    return _storage.read(ULPExtension.totalNegativeDeltaCO2) ?? 0.0;
   }
 
   @override
   bool getHealthCondition() {
-    return _storage.read(UserDAOExtension.healthCondition) ?? true;
+    return _storage.read(ULPExtension.healthCondition) ?? true;
   }
 
   /// Get the user's mental condition.
   @override
   bool getMentalCondition() {
-    return _storage.read(UserDAOExtension.mentalCondition) ?? true;
+    return _storage.read(ULPExtension.mentalCondition) ?? true;
   }
 
   /// Get the user's cash condition.
   @override
   bool getCashCondition() {
-    return _storage.read(UserDAOExtension.cashCondition) ?? true;
+    return _storage.read(ULPExtension.cashCondition) ?? true;
   }
 
   /// Get the user's current challenge.
   @override
   EChallenge? getCurrentChallenge() {
-    String? challenge = _storage.read(UserDAOExtension.currentChallenge);
+    String? challenge = _storage.read(ULPExtension.currentChallenge);
 
     if (challenge == null) {
       return null;
@@ -172,76 +172,75 @@ class UserLocalProviderImpl implements UserLocalProvider {
   /// Set the user's alarm active state.
   @override
   Future<void> setAlarmActive(bool isActive) async {
-    await _storage.write(UserDAOExtension.alarmActive, isActive);
+    await _storage.write(ULPExtension.alarmActive, isActive);
   }
 
   /// Set the user's alarm hour.
   @override
   Future<void> setAlarmHour(int hour) async {
-    await _storage.write(UserDAOExtension.alarmHour, hour);
+    await _storage.write(ULPExtension.alarmHour, hour);
   }
 
   /// Set the user's alarm minute.
   @override
   Future<void> setAlarmMinute(int minute) async {
-    await _storage.write(UserDAOExtension.alarmMinute, minute);
+    await _storage.write(ULPExtension.alarmMinute, minute);
   }
 
   /// Set the user's id.
   @override
   Future<void> setId(String id) async {
-    await _storage.write(UserDAOExtension.id, id);
+    await _storage.write(ULPExtension.id, id);
   }
 
   /// Set the user's nickname.
   @override
   Future<void> setNickname(String nickname) async {
-    await _storage.write(UserDAOExtension.nickname, nickname);
+    await _storage.write(ULPExtension.nickname, nickname);
   }
 
   /// Set the user's total positive delta CO2.
   @override
   Future<void> setTotalPositiveDeltaCO2(double value) async {
-    await _storage.write(UserDAOExtension.totalPositiveDeltaCO2, value);
+    await _storage.write(ULPExtension.totalPositiveDeltaCO2, value);
   }
 
   /// Set the user's total negative delta CO2.
   @override
   Future<void> setTotalNegativeDeltaCO2(double value) async {
-    await _storage.write(UserDAOExtension.totalNegativeDeltaCO2, value);
+    await _storage.write(ULPExtension.totalNegativeDeltaCO2, value);
   }
 
   /// Set the user's health condition.
   @override
   Future<void> setHealthCondition(bool isGood) async {
-    await _storage.write(UserDAOExtension.healthCondition, isGood);
+    await _storage.write(ULPExtension.healthCondition, isGood);
   }
 
   /// Set the user's mental condition.
   @override
   Future<void> setMentalCondition(bool isGood) async {
-    await _storage.write(UserDAOExtension.mentalCondition, isGood);
+    await _storage.write(ULPExtension.mentalCondition, isGood);
   }
 
   /// Set the user's cash condition.
   @override
   Future<void> setCashCondition(bool isGood) async {
-    await _storage.write(UserDAOExtension.cashCondition, isGood);
+    await _storage.write(ULPExtension.cashCondition, isGood);
   }
 
   /// Set the user's current challenge.
   @override
   Future<void> setCurrentChallenge(EChallenge? challenge) async {
     if (challenge == null) {
-      _storage.remove(UserDAOExtension.currentChallenge);
+      _storage.remove(ULPExtension.currentChallenge);
     } else {
-      await _storage.write(
-          UserDAOExtension.currentChallenge, challenge.toString());
+      await _storage.write(ULPExtension.currentChallenge, challenge.toString());
     }
   }
 }
 
-extension UserDAOExtension on UserLocalProviderImpl {
+extension ULPExtension on UserLocalProviderImpl {
   // Initialize Setting
   static const String isFirstRun = 'is_first_run';
   static const String isSynced = 'is_synced';

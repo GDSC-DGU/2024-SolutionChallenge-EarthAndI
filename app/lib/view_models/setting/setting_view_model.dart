@@ -40,13 +40,13 @@ class SettingViewModel extends GetxController {
 
   void onIsAlarmSwitch() {
     _userRepository
-        .updateUserSetting(isActive: !_alarmState.value.isActive)
+        .updateUserAlarmSetting(isActive: !_alarmState.value.isActive)
         .then((value) => _alarmState.value = value);
   }
 
   void changeAlarmTime(int hour, int minute) {
     _userRepository
-        .updateUserSetting(
+        .updateUserAlarmSetting(
           hour: hour,
           minute: minute,
         )
