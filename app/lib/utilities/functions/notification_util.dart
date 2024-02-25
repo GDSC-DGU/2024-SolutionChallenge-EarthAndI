@@ -104,10 +104,6 @@ abstract class NotificationUtil {
       sound: true,
     );
 
-    // 토큰 요청
-    String? _fcmToken = await FirebaseMessaging.instance.getToken();
-    print("FCM Token: $_fcmToken");
-
     // 셋팅flag 설정
     isFlutterLocalNotificationsInitialized = true;
   }
