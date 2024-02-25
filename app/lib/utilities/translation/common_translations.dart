@@ -3,7 +3,7 @@ abstract class CommonTranslations {
         // Common
         "sign_in": "로그인",
         "sign_out": "로그아웃",
-        "withdrawal": "탈퇴",
+        "withdrawal": "회원탈퇴",
         "confirm": "확인",
         "cancel": "취소",
         "next": "다음",
@@ -38,7 +38,7 @@ abstract class CommonTranslations {
         "sign_out_failed_long": "잠시 후 다시 시도해주세요.",
 
         // Withdrawal Dialog
-        "withdrawal_required": "탈퇴 시 동기화된 모든 정보가 사라집니다.\n정말 탈퇴하시겠어요?",
+        "withdrawal_required": "탈퇴 시 동기화된 모든 정보가\n사라집니다.\n정말 탈퇴하시겠어요?",
         "withdrawal_success": "탈퇴 성공",
         "withdrawal_success_long": "탈퇴가 완료되었습니다.",
         "withdrawal_failed": "탈퇴 실패",
