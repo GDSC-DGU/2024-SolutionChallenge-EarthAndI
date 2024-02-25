@@ -37,15 +37,19 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
   Widget buildBody(BuildContext context) {
     return ExtendedNestedScrollView(
       headerSliverBuilder: _sliverBuilder,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            _dailyDeltaCO2View(),
-            const SizedBox(height: 16),
-            _actionHistoriesView(),
-            const SizedBox(height: 28),
-          ],
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              _dailyDeltaCO2View(),
+              const SizedBox(height: 16),
+              _actionHistoriesView(),
+              const SizedBox(height: 28),
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +130,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               () => FollowCountButton(
                 width: 68,
                 count: viewModel.userBriefState.followingCount,
-                title: 'Following'.tr,
+                title: 'following'.tr,
                 onTap: () {
                   if (SecurityUtil.isSignin) {
                     Get.toNamed(
@@ -151,7 +155,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               () => FollowCountButton(
                 width: 64,
                 count: viewModel.userBriefState.followerCount,
-                title: 'Follower'.tr,
+                title: 'follower'.tr,
                 onTap: () {
                   if (SecurityUtil.isSignin) {
                     Get.toNamed(
@@ -211,13 +215,10 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Obx(
-                  () => SizedBox(
-                    width: 76,
-                    child: DeltaCO2Text(
-                      deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                      style: FontSystem.KR12B,
-                      textAlign: TextAlign.start,
-                    ),
+                  () => DeltaCO2Text(
+                    deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
+                    style: FontSystem.KR12B,
+                    textAlign: TextAlign.start,
                   ),
                 ),
                 Expanded(
@@ -228,13 +229,10 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                   ),
                 ),
                 Obx(
-                  () => SizedBox(
-                    width: 76,
-                    child: DeltaCO2Text(
-                      deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
-                      style: FontSystem.KR12B,
-                      textAlign: TextAlign.end,
-                    ),
+                  () => DeltaCO2Text(
+                    deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
+                    style: FontSystem.KR12B,
+                    textAlign: TextAlign.end,
                   ),
                 ),
               ],

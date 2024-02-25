@@ -49,6 +49,11 @@ class AppTranslations extends Translations {
         "success_challenge": "챌린지 달성 완료!\n새로운 챌린지를 확인해보세요.",
         "failed_challenge": "제출한 사진이 잘못된 것 같아요!",
 
+        // user search screen
+        "user_search": "유저 검색",
+        "search_hint": "유저 이름을 입력해주세요",
+        "search_btn": "검색",
+
         // Sign In Screen
         "sign_in_conditions": "Earth & I는 사용자의 활동을 기록하고, 환경에 대한 정보를 제공합니다.",
         "sign_in_btn": "동의 및 구글로그인",

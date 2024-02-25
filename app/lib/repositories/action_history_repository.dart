@@ -6,11 +6,13 @@ import 'package:earth_and_i/models/home/carbon_cloud_state.dart';
 import 'package:earth_and_i/models/profile/action_history_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/providers/action/action_history_local_provider.dart';
+import 'package:earth_and_i/providers/notification/notification_provider.dart';
 import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
 class ActionHistoryRepository extends GetxService {
   late final ActionHistoryLocalProvider _localProvider;
+  late final NotificationProvider _notificationProvider;
 
   // 00 ~ 06 -> _actionGroups[0]
   // 06 ~ 12 -> _actionGroups[1]
@@ -42,6 +44,7 @@ class ActionHistoryRepository extends GetxService {
   void onInit() {
     super.onInit();
     _localProvider = LocalDatabaseFactory.instance.actionHistoryDao;
+    _notificationProvider = Get.find<NotificationProvider>();
   }
 
   /* ----------------------------------------------------- */
@@ -217,6 +220,32 @@ class ActionHistoryRepository extends GetxService {
     } on Exception catch (e) {
       LogUtil.e(e);
       rethrow;
+    }
+
+    DateTime currentAt = data.updatedAt.value;
+    int groupIndex = currentAt.hour ~/ 6;
+    List<EAction> actions = _actionGroups[groupIndex];
+
+    if (groupIndex == 0) {
+      return;
+    }
+
+    // 현재 시간에 해당하는 시간 범위를 구한다.
+    DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
+        0 + 6 * groupIndex, 0, 0);
+    DateTime endAt = DateTime(currentAt.year, currentAt.month, currentAt.day,
+        5 + 6 * groupIndex, 59, 59);
+
+    // 위에서 구한 값을 기반으로 액션 히스토리를 가져온다.
+    List<ActionHistoryData> histories =
+        await _localProvider.findAllByTypesAndDateRange(
+      actions,
+      startAt,
+      endAt,
+    );
+
+    if (histories.length == actions.length) {
+      await _notificationProvider.postActionHistoryLogs(histories);
     }
   }
 

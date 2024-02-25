@@ -137,7 +137,7 @@ class ActionHistoryItem extends StatelessWidget {
     }
 
     return SizedBox(
-      width: Get.width - 228,
+      width: Get.width - 236,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -160,7 +160,7 @@ class ActionHistoryItem extends StatelessWidget {
 
   Widget rightBottomView() {
     return SizedBox(
-      width: 76,
+      width: 84,
       child: DeltaCO2Text(
         deltaCO2: state.changeCapacity,
         style: FontSystem.KR12B,

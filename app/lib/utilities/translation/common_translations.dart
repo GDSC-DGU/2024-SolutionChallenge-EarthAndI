@@ -10,6 +10,9 @@ abstract class CommonTranslations {
         "health": "건강",
         "mental": "멘탈",
         "cash": "돈",
+        "follow": "팔로우",
+        "following": "팔로잉",
+        "follower": "팔로워",
 
         // Notification
         "local_notification_content": "오늘은 어떤 변화가 있을까요?",
@@ -45,6 +48,9 @@ abstract class CommonTranslations {
         "health": "Health",
         "mental": "Mental",
         "cash": "Cash",
+        "follow": "Follow",
+        "following": "Following",
+        "follower": "Follower",
 
         // Notification
         "local_notification_content": "What changes will happen today?",

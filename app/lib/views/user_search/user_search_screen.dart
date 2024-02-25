@@ -81,7 +81,7 @@ class UserSearchScreen extends BaseScreen<UserSearchViewModel> {
                         elevation: MaterialStateProperty.all(0),
                         hintStyle: MaterialStateProperty.all(FontSystem.KR16R180
                             .copyWith(color: const Color(0xFFACADB2))),
-                        hintText: "please_enter_nickname".tr,
+                        hintText: "search_hint".tr,
                         onChanged: (value) {
                           viewModel.changeWord(value);
                         },
@@ -96,7 +96,7 @@ class UserSearchScreen extends BaseScreen<UserSearchViewModel> {
                   Obx(
                     () => viewModel.searchWord.isNotEmpty
                         ? RoundedRectangleTextButton(
-                            text: 'search'.tr,
+                            text: 'search_btn'.tr,
                             textStyle: FontSystem.KR14B
                                 .copyWith(color: ColorSystem.white),
                             width: 84,
@@ -108,7 +108,7 @@ class UserSearchScreen extends BaseScreen<UserSearchViewModel> {
                             },
                           )
                         : RoundedRectangleTextButton(
-                            text: 'search'.tr,
+                            text: 'search_btn'.tr,
                             textStyle: FontSystem.KR14B.copyWith(
                               color: ColorSystem.grey[300],
                             ),

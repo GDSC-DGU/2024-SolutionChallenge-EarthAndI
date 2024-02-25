@@ -74,7 +74,6 @@ Future<void> onSystemReady() async {
   if (isFirstRun) {
     if (FirebaseAuth.instance.currentUser != null) {
       await remoteProvider.setDeviceToken("");
-
       await FirebaseAuth.instance.signOut();
     }
 
