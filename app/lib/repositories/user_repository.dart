@@ -11,6 +11,7 @@ import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
 import 'package:earth_and_i/utilities/functions/notification_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
+import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
@@ -172,6 +173,14 @@ class UserRepository extends GetxService {
 
     // Update Synced
     await _localProvider.setSynced(true);
+
+    WidgetUtil.setInformation(
+      positiveDeltaCO2: _localProvider.getTotalPositiveDeltaCO2(),
+      negativeDeltaCO2: _localProvider.getTotalNegativeDeltaCO2(),
+      isHealthCondition: _localProvider.getHealthCondition(),
+      isMentalCondition: _localProvider.getMentalCondition(),
+      isCashCondition: _localProvider.getCashCondition(),
+    );
   }
 
   Future<void> updateTotalPositiveDeltaCO2(

@@ -265,8 +265,8 @@ class HomeViewModel extends GetxController {
       );
     }
 
-    fetchDeltaCO2(changedCO2);
-    fetchCharacterStatsState(null, null);
+    await fetchDeltaCO2(changedCO2);
+    await fetchCharacterStatsState(null, null);
 
     WidgetUtil.setInformation(
       positiveDeltaCO2: _deltaCO2State.value.totalPositiveCO2,
@@ -281,7 +281,7 @@ class HomeViewModel extends GetxController {
     Get.find<ProfileViewModel>().fetchActionHistoryStates(null);
   }
 
-  void fetchDeltaCO2(double? changedDeltaCO2) async {
+  Future<void> fetchDeltaCO2(double? changedDeltaCO2) async {
     if (changedDeltaCO2 == null) {
       _deltaCO2State.value = _deltaCO2State.value.copyWith(
         totalPositiveCO2: _userRepository.readTotalPositiveDeltaCO2(),
@@ -308,12 +308,13 @@ class HomeViewModel extends GetxController {
     }
   }
 
-  void fetchCharacterStatsState(EUserStatus? userStatus, bool? isGood) async {
+  Future<void> fetchCharacterStatsState(
+      EUserStatus? userStatus, bool? isGood) async {
     await _userRepository.updateCharacterStats(userStatus, isGood);
     _characterStatsState.value = _userRepository.readCharacterStatsState();
   }
 
-  void fetchCarbonCloudStates(DateTime currentAt) async {
+  Future<void> fetchCarbonCloudStates(DateTime currentAt) async {
     _carbonCloudStates.clear();
     await Future.delayed(const Duration(seconds: 1));
     _carbonCloudStates.addAll(
