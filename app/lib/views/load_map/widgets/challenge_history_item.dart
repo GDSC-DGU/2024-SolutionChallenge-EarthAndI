@@ -20,30 +20,34 @@ class ChallengeHistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: ColorSystem.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: borderColor,
-            width: 2,
-          ),
+    return Ink(
+      decoration: BoxDecoration(
+        color: ColorSystem.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: borderColor,
+          width: 2,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // 행위 리스트의 아이콘
-            thumbnailView(),
-            const SizedBox(width: 12),
-            // 행위 리스트의 이름과 간단한 설명
-            titleView(),
-            // 진행중인지 달성한 챌린지인지에 따라 나타낼 체크 표시
-            checkView(),
-          ],
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        highlightColor: ColorSystem.grey,
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // 행위 리스트의 아이콘
+              thumbnailView(),
+              const SizedBox(width: 12),
+              // 행위 리스트의 이름과 간단한 설명
+              titleView(),
+              // 진행중인지 달성한 챌린지인지에 따라 나타낼 체크 표시
+              checkView(),
+            ],
+          ),
         ),
       ),
     );

@@ -3,7 +3,10 @@ import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
 import 'package:earth_and_i/models/profile/calendar_state.dart';
 import 'package:earth_and_i/repositories/action_history_repository.dart';
+import 'package:earth_and_i/repositories/follow_repository.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -14,6 +17,8 @@ class ProfileViewModel extends GetxController {
   /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
   late final ActionHistoryRepository _actionHistoryRepository;
+
+  late final FollowRepository _followRepository;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
@@ -38,6 +43,8 @@ class ProfileViewModel extends GetxController {
     _userRepository = Get.find<UserRepository>();
     _actionHistoryRepository = Get.find<ActionHistoryRepository>();
 
+    _followRepository = Get.find<FollowRepository>();
+
     // Private Fields
     _userBriefState = _userRepository.readUserBriefState().obs;
     _calendarState = CalendarState.initial().obs;
@@ -50,6 +57,7 @@ class ProfileViewModel extends GetxController {
     // TODO: implement onReady
     super.onReady();
 
+    fetchUserBriefState();
     fetchDailyDeltaCO2State(_calendarState.value.selectedDate);
     fetchActionHistoryStates(_calendarState.value.selectedDate);
   }
@@ -71,16 +79,34 @@ class ProfileViewModel extends GetxController {
 
   void changeSelectedDate(DateTime selectedDate) {
     if (!isSameDay(selectedDate, _calendarState.value.selectedDate)) {
-      _calendarState.value = _calendarState.value
-          .copyWith(selectedDate: selectedDate, focusedDate: selectedDate);
+      _calendarState.value = _calendarState.value.copyWith(
+        selectedDate: selectedDate,
+        focusedDate: selectedDate,
+      );
     }
 
     fetchDailyDeltaCO2State(selectedDate);
     fetchActionHistoryStates(selectedDate);
   }
 
-  void fetchUserBriefState() {
-    _userBriefState.value = _userRepository.readUserBriefState();
+  void fetchUserBriefState() async {
+    UserBriefState temp = _userRepository.readUserBriefState();
+
+    if (SecurityUtil.isSignin) {
+      _userBriefState.value = _userBriefState.value.copyWith(
+        id: temp.id,
+        nickname: temp.nickname,
+        followingCount: await _followRepository.readFollowingsCount(),
+        followerCount: await _followRepository.readFollowersCount(),
+      );
+    } else {
+      _userBriefState.value = _userBriefState.value.copyWith(
+        id: "GUEST",
+        nickname: "GUEST",
+        followingCount: 0,
+        followerCount: 0,
+      );
+    }
   }
 
   void fetchDailyDeltaCO2State(DateTime? currentAt) async {

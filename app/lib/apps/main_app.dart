@@ -1,6 +1,6 @@
-import 'package:earth_and_i/bindings/init_binding.dart';
 import 'package:earth_and_i/utilities/static/app_pages.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/translation/app_translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,17 +21,13 @@ class MainApp extends StatelessWidget {
 
       translations: AppTranslations(),
       locale: Get.deviceLocale,
-      supportedLocales: const [
-        Locale('ko', 'KR'),
-        Locale('en', 'UK'),
-      ],
       fallbackLocale: const Locale('en', 'UK'),
 
       // Theme
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Pretendard',
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: ColorSystem.green,
         scaffoldBackgroundColor: const Color(0xFFf6f6f8),
       ),
       initialRoute: Routes.ROOT,

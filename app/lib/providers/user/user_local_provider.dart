@@ -2,12 +2,25 @@ import 'package:earth_and_i/domains/type/e_challenge.dart';
 
 abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
+  /* ------------------------ Initialize ------------------------ */
+  /* ------------------------------------------------------------ */
+  Future<void> onInit();
+  Future<void> onReady();
+  Future<void> dispose();
+
+  bool getFirstRun();
+  bool getSynced();
+
+  Future<void> setFirstRun(bool isFirstRun);
+  Future<void> setSynced(bool isSynced);
+
+  /* ------------------------------------------------------------ */
   /* -------------------------Getter----------------------------- */
   /* ------------------------------------------------------------ */
-  // User Setting
-  bool getAlarmActive();
-  int getAlarmHour();
-  int getAlarmMinute();
+  // System Information
+  bool getNotificationActive();
+  int getNotificationHour();
+  int getNotificationMinute();
 
   // User Brief Information
   String getId();
@@ -28,10 +41,10 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   /* -------------------------- Setter -------------------------- */
   /* ------------------------------------------------------------ */
-  // User Setting
-  Future<void> setAlarmActive(bool isActive);
-  Future<void> setAlarmHour(int hour);
-  Future<void> setAlarmMinute(int minute);
+  // System Information
+  Future<void> setNotificationActive(bool isActive);
+  Future<void> setNotificationHour(int hour);
+  Future<void> setNotificationMinute(int minute);
 
   // User Brief Information
   Future<void> setId(String id);

@@ -3,6 +3,7 @@ abstract class CommonTranslations {
         // Common
         "sign_in": "로그인",
         "sign_out": "로그아웃",
+        "withdrawal": "회원탈퇴",
         "confirm": "확인",
         "cancel": "취소",
         "next": "다음",
@@ -10,6 +11,9 @@ abstract class CommonTranslations {
         "health": "건강",
         "mental": "멘탈",
         "cash": "돈",
+        "follow": "팔로우",
+        "following": "팔로잉",
+        "follower": "팔로워",
 
         // Notification
         "local_notification_content": "오늘은 어떤 변화가 있을까요?",
@@ -32,12 +36,20 @@ abstract class CommonTranslations {
         "sign_out_success_long": "AI 서비스를 이용할 수 없습니다.",
         "sign_out_failed": "로그아웃 실패",
         "sign_out_failed_long": "잠시 후 다시 시도해주세요.",
+
+        // Withdrawal Dialog
+        "withdrawal_required": "탈퇴 시 동기화된 모든 정보가\n사라집니다.\n정말 탈퇴하시겠어요?",
+        "withdrawal_success": "탈퇴 성공",
+        "withdrawal_success_long": "탈퇴가 완료되었습니다.",
+        "withdrawal_failed": "탈퇴 실패",
+        "withdrawal_failed_long": "잠시 후 다시 시도해주세요.",
       };
 
   static Map<String, String> get en => {
         // Common
         "sign_in": "Login",
         "sign_out": "Logout",
+        "withdrawal": "Withdrawal",
         "cancel": "Cancel",
         "confirm": "Confirm",
         "next": "Next",
@@ -45,6 +57,9 @@ abstract class CommonTranslations {
         "health": "Health",
         "mental": "Mental",
         "cash": "Cash",
+        "follow": "Follow",
+        "following": "Following",
+        "follower": "Follower",
 
         // Notification
         "local_notification_content": "What changes will happen today?",
@@ -69,5 +84,13 @@ abstract class CommonTranslations {
         "sign_out_success_long": "You cannot use the AI service.",
         "sign_out_failed": "Logout failed",
         "sign_out_failed_long": "Please try again later.",
+
+        // Withdrawal Dialog
+        "withdrawal_required":
+            "All synchronized information will be lost when you withdraw.\nAre you sure you want to withdraw?",
+        "withdrawal_success": "Withdrawal success",
+        "withdrawal_success_long": "Withdrawal is complete.",
+        "withdrawal_failed": "Withdrawal failed",
+        "withdrawal_failed_long": "Please try again later.",
       };
 }

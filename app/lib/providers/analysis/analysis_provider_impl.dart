@@ -3,9 +3,13 @@ import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/providers/analysis/analysis_provider.dart';
 import 'package:earth_and_i/providers/base/base_connect.dart';
 import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 class AnalysisProviderImpl extends BaseConnect implements AnalysisProvider {
+  @override
+  String get hostUrl => dotenv.env['API_SERVER_HOST']!;
+
   @override
   Future<Map<String, dynamic>> postAnalysisText(
     EUserStatus userStatus,

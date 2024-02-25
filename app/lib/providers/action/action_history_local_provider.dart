@@ -22,4 +22,6 @@ abstract class ActionHistoryLocalProvider {
     int offset,
     int limit,
   );
+
+  Future<void> deleteAll();
 }

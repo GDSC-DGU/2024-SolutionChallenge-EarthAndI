@@ -18,10 +18,7 @@ class ActionHistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 104,
-      padding: const EdgeInsets.all(16.0),
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+    return Ink(
       decoration: BoxDecoration(
         color: ColorSystem.white,
         borderRadius: BorderRadius.circular(8),
@@ -33,31 +30,39 @@ class ActionHistoryItem extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          thumbnailView(),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                topView(),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+      child: InkWell(
+        onTap: () {},
+        highlightColor: ColorSystem.grey,
+        child: Container(
+          height: 104,
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              thumbnailView(),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    leftBottomView(),
-                    const SizedBox(width: 4),
-                    rightBottomView(),
+                    const SizedBox(height: 4),
+                    topView(),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        leftBottomView(),
+                        const SizedBox(width: 4),
+                        rightBottomView(),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
                   ],
                 ),
-                const SizedBox(height: 4),
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -132,7 +137,7 @@ class ActionHistoryItem extends StatelessWidget {
     }
 
     return SizedBox(
-      width: Get.width - 228,
+      width: Get.width - 236,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -155,7 +160,7 @@ class ActionHistoryItem extends StatelessWidget {
 
   Widget rightBottomView() {
     return SizedBox(
-      width: 76,
+      width: 84,
       child: DeltaCO2Text(
         deltaCO2: state.changeCapacity,
         style: FontSystem.KR12B,

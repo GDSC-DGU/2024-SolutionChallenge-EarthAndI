@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
@@ -7,8 +8,10 @@ import 'package:earth_and_i/views/profile/delegate/calendar_delegate.dart';
 import 'package:earth_and_i/views/profile/widgets/color_sized_box.dart';
 import 'package:earth_and_i/views/profile/widgets/delta_co2_bar_chart.dart';
 import 'package:earth_and_i/views/profile/widgets/action_history_item.dart';
+import 'package:earth_and_i/views/profile/widgets/follow_count_button.dart';
 import 'package:earth_and_i/widgets/appbar/custom_icon_button.dart';
 import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
+import 'package:earth_and_i/widgets/dialog/sign_in_dialog.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,15 +37,19 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
   Widget buildBody(BuildContext context) {
     return ExtendedNestedScrollView(
       headerSliverBuilder: _sliverBuilder,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            _dailyDeltaCO2View(),
-            const SizedBox(height: 16),
-            _actionHistoriesView(),
-            const SizedBox(height: 28),
-          ],
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              _dailyDeltaCO2View(),
+              const SizedBox(height: 16),
+              _actionHistoriesView(),
+              const SizedBox(height: 28),
+            ],
+          ),
         ),
       ),
     );
@@ -89,27 +96,81 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
 
   Widget userBriefView() => Container(
         width: Get.width,
+        height: 60,
         color: ColorSystem.white,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Center(
-          child: Obx(
-            () => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  viewModel.userBriefState.nickname,
-                  style: FontSystem.KR20SB120,
-                ),
-                Text(
-                  "#${viewModel.userBriefState.id}",
-                  style: FontSystem.KR16R.copyWith(
-                    color: ColorSystem.grey[500],
+        child: Row(
+          children: [
+            SizedBox(
+              width: Get.width - 185,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => Text(
+                      viewModel.userBriefState.nickname,
+                      style: FontSystem.KR20SB120,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                  Obx(
+                    () => Text(
+                      "#${viewModel.userBriefState.id}",
+                      style: FontSystem.KR16R.copyWith(
+                        color: ColorSystem.grey[500],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+            Obx(
+              () => FollowCountButton(
+                width: 68,
+                count: viewModel.userBriefState.followingCount,
+                title: 'following'.tr,
+                onTap: () {
+                  if (SecurityUtil.isSignin) {
+                    Get.toNamed(
+                      Routes.FOLLOW,
+                      arguments: {'friendTabType': 'following'},
+                    );
+                  } else {
+                    Get.dialog(
+                      const SignInDialog(),
+                    );
+                  }
+                },
+              ),
+            ),
+            Container(
+              width: 1,
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              height: double.infinity,
+              color: ColorSystem.grey[300],
+            ),
+            Obx(
+              () => FollowCountButton(
+                width: 64,
+                count: viewModel.userBriefState.followerCount,
+                title: 'follower'.tr,
+                onTap: () {
+                  if (SecurityUtil.isSignin) {
+                    Get.toNamed(
+                      Routes.FOLLOW,
+                      arguments: {'friendTabType': 'follower'},
+                    );
+                  } else {
+                    Get.dialog(
+                      const SignInDialog(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       );
 
@@ -154,13 +215,10 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Obx(
-                  () => SizedBox(
-                    width: 76,
-                    child: DeltaCO2Text(
-                      deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
-                      style: FontSystem.KR12B,
-                      textAlign: TextAlign.start,
-                    ),
+                  () => DeltaCO2Text(
+                    deltaCO2: viewModel.dailyDeltaCO2State.negativeDeltaCO2,
+                    style: FontSystem.KR12B,
+                    textAlign: TextAlign.start,
                   ),
                 ),
                 Expanded(
@@ -171,13 +229,10 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                   ),
                 ),
                 Obx(
-                  () => SizedBox(
-                    width: 76,
-                    child: DeltaCO2Text(
-                      deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
-                      style: FontSystem.KR12B,
-                      textAlign: TextAlign.end,
-                    ),
+                  () => DeltaCO2Text(
+                    deltaCO2: viewModel.dailyDeltaCO2State.positiveDeltaCO2,
+                    style: FontSystem.KR12B,
+                    textAlign: TextAlign.end,
                   ),
                 ),
               ],
@@ -238,20 +293,23 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
         ),
       );
 
-  Widget _actionHistoriesView() => Obx(
-        () => ListView.builder(
-          itemCount: viewModel.actionHistoryStates.length,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: ActionHistoryItem(
-                state: viewModel.actionHistoryStates[index],
-              ),
-            );
-          },
+  Widget _actionHistoriesView() => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: Obx(
+          () => ListView.builder(
+            itemCount: viewModel.actionHistoryStates.length,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: ActionHistoryItem(
+                  state: viewModel.actionHistoryStates[index],
+                ),
+              );
+            },
+          ),
         ),
       );
 }
