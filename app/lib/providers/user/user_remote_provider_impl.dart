@@ -137,6 +137,16 @@ class UserRemoteProviderImpl implements UserRemoteProvider {
     });
   }
 
+  /// Set the user's device language.
+  @override
+  Future<void> setDeviceLanguage(String language) {
+    String uid = SecurityUtil.auth.currentUser!.uid;
+
+    return _storage.collection('users').doc(uid).update({
+      URPExtension.deviceLanguage: language,
+    });
+  }
+
   /// Set the user's id.
   @override
   Future<void> setId(String id) {
@@ -228,6 +238,7 @@ extension URPExtension on UserRemoteProvider {
   // System Information
   static const String isNotificationActive = 'is_notification_active';
   static const String deviceToken = 'device_token';
+  static const String deviceLanguage = 'device_language';
 
   // User Brief Information
   static const String id = 'id';

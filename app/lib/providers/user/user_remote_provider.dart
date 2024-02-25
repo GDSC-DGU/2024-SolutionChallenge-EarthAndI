@@ -28,6 +28,7 @@ abstract class UserRemoteProvider {
   // System Information
   Future<void> setNotificationActive(bool isActive);
   Future<void> setDeviceToken(String token);
+  Future<void> setDeviceLanguage(String language);
 
   // User Brief Information
   Future<void> setId(String id);

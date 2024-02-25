@@ -7,13 +7,15 @@ import 'package:earth_and_i/bindings/init_binding.dart';
 import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
 import 'package:earth_and_i/utilities/functions/health_util.dart';
-import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
+import 'package:earth_and_i/utilities/functions/notification_util.dart';
 import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -44,7 +46,8 @@ Future<void> onSystemInit() async {
   // Permission
   await Permission.activityRecognition.request();
   await HealthUtil.initialize();
-  await LocalNotificationUtil.initialize();
+  await NotificationUtil.initialize();
+  await NotificationUtil.setupRemoteNotification();
 
   // Widget
   await WidgetUtil.onInit();
@@ -57,6 +60,7 @@ Future<void> onSystemInit() async {
 
 Future<void> onSystemReady() async {
   UserLocalProvider localProvider = LocalStorageFactory.userLocalProvider;
+  UserRemoteProvider remoteProvider = RemoteStorageFactory.userRemoteProvider;
 
   /*
   Here's how the app behaves when first launched:
@@ -69,12 +73,14 @@ Future<void> onSystemReady() async {
 
   if (isFirstRun) {
     if (FirebaseAuth.instance.currentUser != null) {
+      await remoteProvider.setDeviceToken("");
+
       await FirebaseAuth.instance.signOut();
     }
 
     await localProvider.onReady();
 
-    await LocalNotificationUtil.setScheduleNotification(
+    await NotificationUtil.setScheduleLocalNotification(
       isActive: localProvider.getNotificationActive(),
       hour: localProvider.getNotificationHour(),
       minute: localProvider.getNotificationMinute(),

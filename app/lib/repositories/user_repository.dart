@@ -9,9 +9,9 @@ import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/providers/follow/follow_provider.dart';
 import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
-import 'package:earth_and_i/utilities/functions/local_notification_util.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:earth_and_i/utilities/functions/notification_util.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxService {
@@ -95,7 +95,7 @@ class UserRepository extends GetxService {
       );
     }
 
-    await LocalNotificationUtil.setScheduleNotification(
+    await NotificationUtil.setScheduleLocalNotification(
       isActive: _localProvider.getNotificationActive(),
       hour: _localProvider.getNotificationHour(),
       minute: _localProvider.getNotificationMinute(),
@@ -106,6 +106,8 @@ class UserRepository extends GetxService {
     required bool isSignIn,
   }) async {
     if (!isSignIn) {
+      await _remoteProvider.setDeviceToken("");
+
       await _localProvider.setId("GUEST");
       await _localProvider.setNickname("GUEST");
       return;
@@ -129,6 +131,11 @@ class UserRepository extends GetxService {
       try {
         await _remoteProvider.setTotalPositiveDeltaCO2(savedPositiveDeltaCO2);
         await _remoteProvider.setTotalNegativeDeltaCO2(savedNegativeDeltaCO2);
+
+        await _remoteProvider
+            .setDeviceToken(await FirebaseMessaging.instance.getToken() ?? "");
+        await _remoteProvider.setDeviceLanguage(
+            Get.deviceLocale?.languageCode == "ko" ? "ko" : "en");
 
         break;
       } catch (e) {

@@ -98,7 +98,7 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
         child: Row(
           children: [
             SizedBox(
-              width: Get.width - 169,
+              width: Get.width - 185,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,6 +107,8 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
                     () => Text(
                       viewModel.userBriefState.nickname,
                       style: FontSystem.KR20SB120,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Obx(
@@ -122,9 +124,9 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
             ),
             Obx(
               () => FollowCountButton(
-                width: 60,
+                width: 68,
                 count: viewModel.userBriefState.followingCount,
-                title: 'following'.tr,
+                title: 'Following'.tr,
                 onTap: () {
                   if (SecurityUtil.isSignin) {
                     Get.toNamed(
@@ -147,9 +149,9 @@ class ProfileScreen extends BaseScreen<ProfileViewModel> {
             ),
             Obx(
               () => FollowCountButton(
-                width: 56,
+                width: 64,
                 count: viewModel.userBriefState.followerCount,
-                title: 'follower'.tr,
+                title: 'Follower'.tr,
                 onTap: () {
                   if (SecurityUtil.isSignin) {
                     Get.toNamed(
