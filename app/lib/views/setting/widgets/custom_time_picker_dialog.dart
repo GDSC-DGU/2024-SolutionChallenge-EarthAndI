@@ -35,7 +35,7 @@ class CustomTimePickerDialog extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Text(
-              '${"alarm_time".tr} ${"setting".tr}',
+              '${"notification_time".tr} ${"setting".tr}',
               style: FontSystem.KR20B,
             ),
             Expanded(
