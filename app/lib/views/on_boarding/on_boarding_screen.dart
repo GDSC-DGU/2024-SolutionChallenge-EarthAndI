@@ -84,11 +84,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: TextButton(
                       onPressed: () async {
                         if (_pageController.page == 5) {
-                          await LocalStorageFactory.userDAO.onInit(false);
                           Get.offAllNamed(Routes.ROOT);
                         } else {
                           _pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.ease,
                           );
                         }

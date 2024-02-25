@@ -49,23 +49,25 @@ class SignInScreen extends GetView<SignInViewModel> {
           child: _buildTermsView(),
         ),
         const SizedBox(height: 20),
-        MaterialButton(
-          onPressed: _onPressedSignInButton,
-          shape: RoundedRectangleBorder(
+        Ink(
+          decoration: BoxDecoration(
+            color: ColorSystem.white,
+            shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(16.0),
-          ),
-          elevation: 0,
-          padding: const EdgeInsets.all(16),
-          color: ColorSystem.green,
-          child: SizedBox(
-            width: Get.width - 64,
-            child: Text(
-              "sign_in_btn".tr,
-              style: FontSystem.KR24M.copyWith(
-                fontSize: 22,
-                color: ColorSystem.white,
+            boxShadow: [
+              BoxShadow(
+                color: ColorSystem.grey,
+                offset: const Offset(0, 1),
+                blurRadius: 3,
               ),
-              textAlign: TextAlign.center,
+            ],
+          ),
+          child: InkWell(
+            highlightColor: ColorSystem.transparent,
+            onTap: _onPressedSignInButton,
+            child: SvgPicture.asset(
+              'assets/images/google_sign_in.svg',
+              width: Get.width - 96,
             ),
           ),
         ),

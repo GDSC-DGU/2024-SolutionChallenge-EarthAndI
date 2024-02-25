@@ -39,4 +39,8 @@ class ChallengeHistoryRepository extends GetxService {
       rethrow;
     }
   }
+
+  Future<void> deleteAllChallengeHistories() async {
+    await _localProvider.deleteAll();
+  }
 }

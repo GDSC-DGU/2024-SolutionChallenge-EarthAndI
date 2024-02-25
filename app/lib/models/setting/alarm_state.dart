@@ -1,28 +1,28 @@
-class AlarmState {
+class NotificationState {
   final bool isActive;
   final int hour;
   final int minute;
 
-  const AlarmState({
+  const NotificationState({
     required this.isActive,
     required this.hour,
     required this.minute,
   });
 
-  AlarmState copyWith({
+  NotificationState copyWith({
     bool? isActive,
     int? hour,
     int? minute,
   }) {
-    return AlarmState(
+    return NotificationState(
       isActive: isActive ?? this.isActive,
       hour: hour ?? this.hour,
       minute: minute ?? this.minute,
     );
   }
 
-  factory AlarmState.initial() {
-    return const AlarmState(
+  factory NotificationState.initial() {
+    return const NotificationState(
       isActive: false,
       hour: 0,
       minute: 0,

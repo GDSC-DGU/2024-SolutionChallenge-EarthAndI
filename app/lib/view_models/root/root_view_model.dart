@@ -1,8 +1,5 @@
-import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:earth_and_i/domains/type/e_challenge.dart';
-import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
-import 'package:earth_and_i/repositories/challenge_history_repository.dart';
+import 'package:earth_and_i/utilities/functions/notification_util.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 class RootViewModel extends GetxController {
@@ -26,6 +23,11 @@ class RootViewModel extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
+    // FCM Setting
+    FirebaseMessaging.onMessage
+        .listen(NotificationUtil.showFlutterNotification);
+    FirebaseMessaging.onBackgroundMessage(NotificationUtil.onBackgroundHandler);
 
     // Private Fields
     _currentAt = DateTime.now().obs;

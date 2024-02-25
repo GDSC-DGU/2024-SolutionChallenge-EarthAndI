@@ -6,6 +6,7 @@ abstract class Routes {
   static const String SIGN_IN = "/sign_in";
   static const String SETTING = "/setting";
   static const String LANGUAGE = "/language";
-  static const String FRIEND = "/friend";
+  static const String FOLLOW = "/follow";
+  static const String USER_SEARCH = "/user_search";
   static const String CHALLENGE_AUTHENTICATION = "/challenge_authentication";
 }

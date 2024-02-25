@@ -1,14 +1,17 @@
 import 'package:earth_and_i/utilities/functions/log_util.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 abstract class BaseConnect extends GetConnect {
+  @protected
+  String get hostUrl;
+
   @override
   void onInit() {
     super.onInit();
     super.onInit();
     httpClient
-      ..baseUrl = dotenv.env['API_SERVER_HOST']
+      ..baseUrl = hostUrl
       ..defaultContentType = "application/json"
       ..timeout = const Duration(seconds: 30)
       ..addRequestModifier<dynamic>((request) {

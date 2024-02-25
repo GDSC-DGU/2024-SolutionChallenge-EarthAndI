@@ -93,4 +93,9 @@ class ActionHistoryDao extends DatabaseAccessor<LocalDatabase>
           .get();
     }
   }
+
+  @override
+  Future<void> deleteAll() {
+    return delete(actionHistory).go();
+  }
 }

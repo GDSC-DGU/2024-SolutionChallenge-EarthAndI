@@ -52,7 +52,7 @@ class SignOutDialog extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: RoundedRectangleTextButton(
-                    text: 'sign_in'.tr,
+                    text: 'sign_out'.tr,
                     textStyle: FontSystem.KR16B.copyWith(
                       color: ColorSystem.white,
                     ),
