@@ -6,6 +6,7 @@ abstract class UserLocalProvider {
   /* ------------------------------------------------------------ */
   Future<void> onInit();
   Future<void> onReady();
+  Future<void> dispose();
 
   bool getFirstRun();
   bool getSynced();

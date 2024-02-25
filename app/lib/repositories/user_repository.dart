@@ -281,4 +281,8 @@ class UserRepository extends GetxService {
       return FollowState.fromJson(user);
     }).toList();
   }
+
+  Future<void> deleteUser() async {
+    await _localProvider.dispose();
+  }
 }

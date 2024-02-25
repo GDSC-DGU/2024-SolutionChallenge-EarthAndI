@@ -108,7 +108,7 @@ class UserSearchScreen extends BaseScreen<UserSearchViewModel> {
                             },
                           )
                         : RoundedRectangleTextButton(
-                            text: 'search_btn'.tr,
+                            text: 'search'.tr,
                             textStyle: FontSystem.KR14B.copyWith(
                               color: ColorSystem.grey[300],
                             ),

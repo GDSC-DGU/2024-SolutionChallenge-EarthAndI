@@ -261,4 +261,8 @@ class ActionHistoryRepository extends GetxService {
       rethrow;
     }
   }
+
+  Future<void> deleteAllActionHistories() async {
+    await _localProvider.deleteAll();
+  }
 }

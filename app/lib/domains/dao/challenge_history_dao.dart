@@ -40,4 +40,9 @@ class ChallengeHistoryDao extends DatabaseAccessor<LocalDatabase>
           ..limit(limit, offset: offset))
         .get();
   }
+
+  @override
+  Future<void> deleteAll() {
+    return delete(challengeHistory).go();
+  }
 }

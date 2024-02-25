@@ -44,6 +44,31 @@ class UserLocalProviderImpl implements UserLocalProvider {
   }
 
   @override
+  Future<void> dispose() async {
+    await _storage.erase();
+
+    await _storage.write(ULPExtension.isFirstRun, false);
+    await _storage.write(ULPExtension.isSynced, false);
+
+    await _storage.write(ULPExtension.isNotificationActive, false);
+    await _storage.write(ULPExtension.notificationHour, 0);
+    await _storage.write(ULPExtension.notificationMinute, 0);
+
+    await _storage.write(ULPExtension.id, 'GUEST');
+    await _storage.write(ULPExtension.nickname, 'GUEST');
+
+    await _storage.write(ULPExtension.totalPositiveDeltaCO2, 0.0);
+    await _storage.write(ULPExtension.totalNegativeDeltaCO2, 0.0);
+
+    await _storage.write(ULPExtension.healthCondition, true);
+    await _storage.write(ULPExtension.mentalCondition, true);
+    await _storage.write(ULPExtension.cashCondition, true);
+
+    await _storage.write(ULPExtension.currentChallenge,
+        EChallenge.useEcoFriendlyProducts.toString());
+  }
+
+  @override
   bool getFirstRun() {
     return _storage.read(ULPExtension.isFirstRun)!;
   }
