@@ -1,7 +1,6 @@
 # 2024 - SolutionChallenge - E&I
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/73cd541e-80ac-445c-8e76-85d70be7998d" alt="cover"/>
 
-
 ## What is it?
 **Earth&I (E&I)** is a platform that aims to solve the problem of people being aware of **climate change**, but not actually taking action to reduce their carbon emissions.
 E&I leverages the value of interaction to **make people realize that taking action on climate change is not only for the planet, but also for their own health and lives**.
@@ -12,8 +11,6 @@ With this unique approach, we aim to change people's perceptions and behaviors, 
 
 ## Target UN-SDGs
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/48b420ab-85b1-4d75-96ef-f1dbc0cf1d21" alt="target_sdgs"/>
-
-# Demo Video
 
 # UI Screen
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/9ee3eafb-4e53-44e2-9edc-7b332c796a06" alt="ui_1"/>
@@ -26,7 +23,10 @@ With this unique approach, we aim to change people's perceptions and behaviors, 
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/254a7baa-dd20-474e-a14c-47d019236bfb" alt="architecture"/>
 
 ## Tech Stack
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/972b626e-b3f3-471a-9f61-15c23ceaa745" alt="tech_stack"/>
+<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/56931d7d-d1e6-450b-b1d7-986ea132b739" alt="tech_stack"/>
+
+## Demo Video
+[Click here to watch Demo Video](https://www.youtube.com/watch?v=rcZhUAFW9DA)
 
 # Get Started
 ```sh
