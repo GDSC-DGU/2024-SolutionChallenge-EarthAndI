@@ -67,15 +67,17 @@ class FollowProviderImpl implements FollowProvider {
       return [];
     }
 
-    List<bool> isFollowings = List.filled(followers.length, false);
+    Map<String, bool> isFollowings = {
+      for (var e in followers) e as String: false
+    };
 
-    List<dynamic> followings =
+    List<dynamic> followingIds =
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followings'];
 
     for (int i = 0; i < followers.length; i++) {
-      if (followings.contains(followers[i])) {
-        isFollowings[i] = true;
+      if (followingIds.contains(followers[i])) {
+        isFollowings[followers[i]] = true;
       }
     }
 
@@ -88,7 +90,7 @@ class FollowProviderImpl implements FollowProvider {
         .toList();
 
     return users.asMap().entries.map((e) {
-      e.value['is_following'] = isFollowings[e.key];
+      e.value['is_following'] = isFollowings[e.value['id']];
       return e.value;
     }).toList();
   }

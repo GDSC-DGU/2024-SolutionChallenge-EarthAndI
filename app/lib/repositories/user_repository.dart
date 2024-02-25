@@ -260,7 +260,9 @@ class UserRepository extends GetxService {
 
   Future<List<FollowState>> readUsers(String searchWord) async {
     List<dynamic> users = await _remoteProvider.getUsers(searchWord);
-    List<bool> isFollowings = users.map((e) => false).toList();
+    Map<String, bool> isFollowings = {
+      for (var e in users) e['id'] as String: false
+    };
 
     List<String> followings = (await _followProvider.getFollowings()).map((e) {
       return e['id'] as String;
@@ -268,12 +270,12 @@ class UserRepository extends GetxService {
 
     for (int i = 0; i < users.length; i++) {
       if (followings.contains(users[i]['id'])) {
-        isFollowings[i] = true;
+        isFollowings[users[i]['id']] = true;
       }
     }
 
     List<dynamic> afterUsers = users.asMap().entries.map((e) {
-      e.value['is_following'] = isFollowings[e.key];
+      e.value['is_following'] = isFollowings[e.value['id']];
       return e.value;
     }).toList();
 
