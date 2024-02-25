@@ -72,6 +72,17 @@ class FollowViewModel extends GetxController
       _followingStates[index] = _followingStates[index].copyWith(
         isFollowing: !_followingStates[index].isFollowing,
       );
+
+      final followerIndex = _followerStates.indexWhere(
+        (element) => element.id == _followingStates[index].id,
+      );
+
+      if (followerIndex != -1) {
+        _followerStates[followerIndex] =
+            _followerStates[followerIndex].copyWith(
+          isFollowing: !_followerStates[followerIndex].isFollowing,
+        );
+      }
     } else {
       await _followRepository.updateFollowing(
         _followerStates[index].id,
@@ -80,6 +91,19 @@ class FollowViewModel extends GetxController
       _followerStates[index] = _followerStates[index].copyWith(
         isFollowing: !_followerStates[index].isFollowing,
       );
+
+      final followingIndex = _followingStates.indexWhere(
+        (element) => element.id == _followerStates[index].id,
+      );
+
+      if (followingIndex != -1) {
+        _followingStates[followingIndex] =
+            _followingStates[followingIndex].copyWith(
+          isFollowing: !_followingStates[followingIndex].isFollowing,
+        );
+      } else {
+        _followingStates.add(_followerStates[index]);
+      }
     }
   }
 
@@ -96,6 +120,16 @@ class FollowViewModel extends GetxController
       _followingStates.add(followState);
     } else {
       _followingStates.remove(followState);
+    }
+
+    final followerIndex = _followerStates.indexWhere(
+      (element) => element.id == followState.id,
+    );
+
+    if (followerIndex != -1) {
+      _followerStates[followerIndex] = _followerStates[followerIndex].copyWith(
+        isFollowing: isFollowing,
+      );
     }
   }
 }
