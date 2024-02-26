@@ -75,4 +75,3 @@ def start(request):
     else:
         # Handle the case when 'input_text' is not present in the JSON data
         return jsonify({"error": "Missing 'input_text' in the request JSON."}), 400
-
