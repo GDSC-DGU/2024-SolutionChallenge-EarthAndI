@@ -29,7 +29,7 @@ abstract class NotificationUtil {
     'earth_and_i_remote_channel_id',
     'E & I',
     channelDescription: 'E & I Channel',
-    importance: Importance.max,
+    importance: Importance.high,
     priority: Priority.high,
     showWhen: false,
   );
@@ -73,10 +73,9 @@ abstract class NotificationUtil {
     if (isFlutterLocalNotificationsInitialized) return;
 
     AndroidNotificationChannel channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      description:
-          'This channel is used for important notifications.', // description
+      'earth_and_i_remote_channel_id', // id
+      'E & I', // title
+      description: 'earth_and_i_remote_channel_description', // description
       importance: Importance.high,
     );
 
@@ -118,7 +117,9 @@ abstract class NotificationUtil {
       await _plugin.zonedSchedule(
         0,
         'E & I',
-        'local_notification_content'.tr,
+        Get.deviceLocale?.languageCode == 'ko'
+            ? '오늘은 어떤 변화가 있을까요?'
+            : 'What changes will happen today?',
         _toDateTime(hour, minute),
         _platformLocalChannelSpecifics,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

@@ -9,7 +9,7 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ko_KR': korean,
-        'en_US': english,
+        'en_UK': english,
       };
 
   static Map<String, String> get korean => {
