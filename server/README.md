@@ -2,6 +2,7 @@
 This README provides instructions on how to set up and execute the pipeline for E&I's Vertex AI, along with configuring and deploying REST API Cloud Functions.
 
 ## Vertex AI Pipeline
+- [Vertex-AI Set Up](https://cloud.google.com/vertex-ai/docs/featurestore/setup?hl=ko)
 ### Text
 <img width="555" alt="vertex-ai-text" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/62001944/c86b427a-a569-49aa-baf5-91f3b9f5188e">
 
@@ -60,7 +61,6 @@ service cloud.firestore {
   }
 }
 ```
-- [Vertex-AI Set Up](https://cloud.google.com/vertex-ai/docs/featurestore/setup?hl=ko)
 
 ## Run And Deploy Trigger And Notificatoin API Cloud Functions
 1. Clone this repository
