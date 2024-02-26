@@ -1,4 +1,4 @@
-# E&I Firebase Cloud Function
+# E&I Cloud Functions(FaaS) And VertexAI
 This README provides instructions on how to set up and execute the pipeline for E&I's Vertex AI, along with configuring and deploying REST API Cloud Functions.
 
 ## Vertex AI Pipeline
