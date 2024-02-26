@@ -65,19 +65,22 @@ service cloud.firestore {
 ## Run And Deploy Trigger And Notificatoin API Cloud Functions
 1. Clone this repository
 ```bash
-git clone https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI.git server
+git clone https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI.git
 ```
 
 2. npm dependences install
 ```bash
-# Move to the `functions` subdirectory of quickstart-android
+# Move to the 'server' directory.
+cd ./2024-SolutionChallenge-EarthAndI/server
+
+# Move to the `functions` subdirectory.
 cd functions
 
-# Install all of the dependencies of the cloud functions
+# Install all of the dependencies of the cloud functions.
 cd functions
 npm install
 
-# Move to the `Parent Folder` subdirectory of quickstart-android
+# Move to the `Parent Folder` subdirectory.
 cd ../
 ```
 
