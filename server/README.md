@@ -3,7 +3,19 @@ This README provides instructions on how to set up and execute the pipeline for 
 
 ## Vertex AI Pipeline
 - [Vertex-AI Set Up](https://cloud.google.com/vertex-ai/docs/featurestore/setup?hl=ko)
-### Text
+
+### How To Ues Vertex AI?
+<img width="996" alt="vertex-ai-image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/62001944/2417c1a9-b413-4018-93c8-cfc651106f7e">
+
+This figure schematizes the process of training and deploying Google's Vertex AI and PaLM 2 large language models (LLMs). It shows the process of starting with training data in JSONL format, training a large language model with Vertex AI, and finally integrating the trained model into a real-world software application.
+
+1. JSONL Training Data: This represents the training data. The JSONL format is a text file where each line is a JSON object. Each object contains an input_text and output_text field, providing data for the model to train on.
+2. Vertex AI: Part of the Google Cloud Platform, this is a service that builds, deploys, and manages large-scale machine learning models. This service is used to train and optimize models using training data you provide.
+3. PaLM 2 LLM: This refers to Google's large language model, which is used as the base model for "adapter-based fine-tuning". Adapter-based fine-tuning is a technique for fine-tuning a model for a specific task by inserting small additional networks into an existing model.
+4. Software Component: This represents the software component where the AI model built using Vertex AI and PaLM 2 LLM will actually be implemented. This component can be an AI application, service, client, or subsystem of a system.
+
+
+### Pipeline
 <img width="555" alt="vertex-ai-text" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/62001944/c86b427a-a569-49aa-baf5-91f3b9f5188e">
 
 The figure shows a pipeline for fine-tuning Google's Pathways Language Model2 (PaLM2) language model using Vertex AI on Google Cloud.
@@ -22,15 +34,6 @@ The figure shows a pipeline for fine-tuning Google's Pathways Language Model2 (P
 12. create-endpoint-and-deploy: Creates an endpoint where the model is available and deploys the model.
 
 
-### Image
-<img width="996" alt="vertex-ai-image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/62001944/2417c1a9-b413-4018-93c8-cfc651106f7e">
-
-This figure schematizes the process of training and deploying Google's Vertex AI and PaLM 2 large language models (LLMs). It shows the process of starting with training data in JSONL format, training a large language model with Vertex AI, and finally integrating the trained model into a real-world software application.
-
-1. JSONL Training Data: This represents the training data. The JSONL format is a text file where each line is a JSON object. Each object contains an input_text and output_text field, providing data for the model to train on.
-2. Vertex AI: Part of the Google Cloud Platform, this is a service that builds, deploys, and manages large-scale machine learning models. This service is used to train and optimize models using training data you provide.
-3. PaLM 2 LLM: This refers to Google's large language model, which is used as the base model for "adapter-based fine-tuning". Adapter-based fine-tuning is a technique for fine-tuning a model for a specific task by inserting small additional networks into an existing model.
-4. Software Component: This represents the software component where the AI model built using Vertex AI and PaLM 2 LLM will actually be implemented. This component can be an AI application, service, client, or subsystem of a system.
 
 ## Prerequisites
 
