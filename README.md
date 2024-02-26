@@ -2,9 +2,14 @@
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/73cd541e-80ac-445c-8e76-85d70be7998d" alt="cover"/>
 
 ## What is it?
-**Earth&I (E&I)** is a platform that aims to solve the problem of people being aware of **climate change**, but not actually taking action to reduce their carbon emissions.
-E&I leverages the value of interaction to **make people realize that taking action on climate change is not only for the planet, but also for their own health and lives**.
-With this unique approach, we aim to change people's perceptions and behaviors, creating a sustainable cycle and culture that positively impacts climate change action.
+**Earth&I (E&I)** is a platform that aims to solve the problem of **people being aware of climate change, but not actually taking action to reduce their carbon emissions**.
+
+
+E&I leverages the value of **`interaction`** to **make people realize that taking action on climate change is not only for the planet, but also for their own health and lives**.
+
+
+With this unique approach, **`we aim to change people's perceptions and behaviors, creating a sustainable cycle and culture that positively impacts climate change action.`**
+
 
 ## Solution Overview
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/fd06c192-5d07-4fce-b84e-15290dc2364c" alt="solution_overview"/>
