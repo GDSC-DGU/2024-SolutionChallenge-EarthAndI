@@ -28,10 +28,20 @@ With this unique approach, we aim to change people's perceptions and behaviors, 
 ## Demo Video
 [Click here to watch Demo Video](https://www.youtube.com/watch?v=rcZhUAFW9DA)
 
+
 # Get Started
+
+## Download
+### [✨✨✨Android APK✨✨✨](https://drive.google.com/file/d/1EDS7hdspV1wO7n38_Oiy6Tbk0cix9L_q/view?usp=sharing)
+
+## Client(Please [click](/app/README.md) for more information)
 ```sh
+# Change Client Directory
+cd app/
+
 flutter pub get
 flutter run
+
 ## If you encounter any issues in iOS build, follow these steps to clean your build cache for iOS
 cd ios
 rm Podfile.lock
@@ -45,6 +55,7 @@ cd ios
 pod install
 flutter pub get
 flutter run
+
 ## If you encounter any issues in Android build, follow these steps to clean your build cache for Android 
 cd android
 ./gradlew clean
@@ -53,7 +64,28 @@ flutter clean
 flutter pub get
 flutter pub get
 flutter run
+```
 
+## Server(Please [click](/server/README.md) for more information)
+```sh
+# Change Server Directory
+cd server/
+
+# Move to the `functions` subdirectory of quickstart-android
+cd functions
+
+# Install all of the dependencies of the cloud functions
+cd functions
+npm install
+
+# Move to the `Parent Folder` subdirectory of quickstart-android
+cd ../
+
+# Select the Firebase project you have created.
+firebase use -add
+
+# Execute
+firebase emulators:start --only functions
 ```
 
 # GitHub Role
