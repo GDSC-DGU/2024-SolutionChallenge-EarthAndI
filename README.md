@@ -1,7 +1,7 @@
 # 2024 - SolutionChallenge - E&I
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/73cd541e-80ac-445c-8e76-85d70be7998d" alt="cover"/>
 
-## What is it?
+## What is E&I?
 **Earth&I (E&I)** is a platform that aims to solve the problem of **people being aware of climate change, but not actually taking action to reduce their carbon emissions**.
 
 
