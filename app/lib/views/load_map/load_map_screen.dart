@@ -9,6 +9,7 @@ import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
 import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
@@ -24,28 +25,28 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   @override
   bool get setBottomOuterSafeArea => false;
 
-  @override
-  PreferredSizeWidget? buildAppBar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(56),
-      child: DefaultAppBar(
-        title: "",
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.toNamed(Routes.COMING_SOON_CHALLENGE);
-            },
-            style: TextButton.styleFrom(
-              textStyle: FontSystem.KR16M,
-              foregroundColor: ColorSystem.black,
-              splashFactory: NoSplash.splashFactory,
-            ),
-            child: Text("coming_soon_challenge".tr),
-          ),
-        ],
-      ),
-    );
-  }
+  // @override
+  // PreferredSizeWidget? buildAppBar(BuildContext context) {
+  //   return PreferredSize(
+  //     preferredSize: const Size.fromHeight(56),
+  //     child: DefaultAppBar(
+  //       title: "",
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Get.toNamed(Routes.COMING_SOON_CHALLENGE);
+  //           },
+  //           style: TextButton.styleFrom(
+  //             textStyle: FontSystem.KR16M,
+  //             foregroundColor: ColorSystem.black,
+  //             splashFactory: NoSplash.splashFactory,
+  //           ),
+  //           child: Text("Coming Soon Challenge".tr),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget buildBody(BuildContext context) {
@@ -56,6 +57,8 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _comingSoonChallengeBannerView(),
+            const SizedBox(height: 20),
             _persistentAnimationView(),
             const SizedBox(height: 12),
             _textsHintView(),
@@ -73,6 +76,43 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
       ),
     );
   }
+
+  Widget _comingSoonChallengeBannerView() => Center(
+        child: InkWell(
+          onTap: () {
+            Get.toNamed(Routes.COMING_SOON_CHALLENGE);
+          },
+          child: Container(
+            width: Get.width - 32,
+            padding: const EdgeInsets.fromLTRB(16, 20, 20, 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: ColorSystem.green,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text("Coming Soon Challenge",
+                        style: FontSystem.KR20B
+                            .copyWith(color: ColorSystem.white)),
+                    const SizedBox(width: 4),
+                    SvgPicture.asset("assets/icons/right.svg",
+                        width: 16,
+                        colorFilter: ColorFilter.mode(
+                            ColorSystem.white, BlendMode.srcIn))
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text("coming_soon_challenge_banner".tr,
+                    style: FontSystem.KR16B.copyWith(color: ColorSystem.white))
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget _persistentAnimationView() => Center(
         child: SizedBox(
