@@ -66,8 +66,8 @@ class ComingSoonChallengeScreen
               child: Text("Comng Soon Challenge", style: FontSystem.KR24B),
             ),
             const SizedBox(height: 16),
-            const Text("새로운 챌린지를 확인하고"),
-            const Text("함께 실천해 나가요!"),
+            Text("coming_soon_challenge_description_1".tr),
+            Text("coming_soon_challenge_description_2".tr),
             const SizedBox(height: 16),
             AnimatedBuilder(
               animation: viewModel.animation,
