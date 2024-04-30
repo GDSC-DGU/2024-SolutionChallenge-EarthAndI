@@ -25,29 +25,6 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
   @override
   bool get setBottomOuterSafeArea => false;
 
-  // @override
-  // PreferredSizeWidget? buildAppBar(BuildContext context) {
-  //   return PreferredSize(
-  //     preferredSize: const Size.fromHeight(56),
-  //     child: DefaultAppBar(
-  //       title: "",
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             Get.toNamed(Routes.COMING_SOON_CHALLENGE);
-  //           },
-  //           style: TextButton.styleFrom(
-  //             textStyle: FontSystem.KR16M,
-  //             foregroundColor: ColorSystem.black,
-  //             splashFactory: NoSplash.splashFactory,
-  //           ),
-  //           child: Text("Coming Soon Challenge".tr),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   @override
   Widget buildBody(BuildContext context) {
     return Container(
