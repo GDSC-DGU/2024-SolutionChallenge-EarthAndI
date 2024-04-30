@@ -1,8 +1,8 @@
 import 'package:earth_and_i/utilities/translation/character_translations.dart';
 import 'package:earth_and_i/utilities/translation/common_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_action_translations.dart';
-import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_challenge_translations.dart';
+import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
@@ -62,6 +62,10 @@ class AppTranslations extends Translations {
         "setting": "설정",
         "notification_active": "알림 활성화",
         "notification_time": "알림 시간",
+
+        // Ranking Screen
+        "ranking": "순위",
+        "Total Rank": "전체 순위",
       };
 
   static Map<String, String> get english => {
@@ -114,5 +118,9 @@ class AppTranslations extends Translations {
         "setting": "Setting",
         "notification_active": "Notification Active",
         "notification_time": "Notification Time",
+
+        // Ranking Screen
+        "ranking": "Ranking",
+        "Total Rank": "Total Rank",
       };
 }
