@@ -1,9 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_history_item.dart';
+import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
 import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,29 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
 
   @override
   bool get setBottomOuterSafeArea => false;
+
+  @override
+  PreferredSizeWidget? buildAppBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(56),
+      child: DefaultAppBar(
+        title: "",
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.toNamed(Routes.COMING_SOON_CHALLENGE);
+            },
+            style: TextButton.styleFrom(
+              textStyle: FontSystem.KR16M,
+              foregroundColor: ColorSystem.black,
+              splashFactory: NoSplash.splashFactory,
+            ),
+            child: Text("coming_soon_challenge".tr),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget buildBody(BuildContext context) {
@@ -99,7 +124,10 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               borderColor: ColorSystem.green,
               onTap: () {
                 Get.dialog(
-                  ChallengeDialog(state: viewModel.currentChallengeState),
+                  ChallengeDialog(
+                    state: viewModel.currentChallengeState,
+                    isComingSoon: false,
+                  ),
                 );
               },
             ),
@@ -141,6 +169,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
                         Get.dialog(
                           ChallengeDialog(
                             state: viewModel.challengeHistoryStates[index],
+                            isComingSoon: false,
                           ),
                         );
                       },
