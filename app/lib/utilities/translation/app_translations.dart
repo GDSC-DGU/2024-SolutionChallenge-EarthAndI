@@ -28,6 +28,7 @@ class AppTranslations extends Translations {
         'clear_all_challenge_short_title': '모든 챌린지 클리어!',
         'clear_all_challenge_long_title': '모든 챌린지를 클리어했어요!',
         'clear_all_challenge_description': '모든 챌린지를 클리어했어요!\n 다음 챌린지를 기다려주세요!',
+        "coming_soon_challenge_banner": "챌린지를 확인하고, 실천해봐요!",
 
         // Home Screen
         "time_exception_title": "새로운 구름을 확인해주세요",
@@ -86,6 +87,7 @@ class AppTranslations extends Translations {
         'clear_all_challenge_long_title': 'You have cleared all challenges!',
         'clear_all_challenge_description':
             'You have cleared all challenges! Please wait for the next challenge!',
+        "coming_soon_challenge_banner": "Check Challenges and Practice them!",
 
         // Home Screen
         "time_exception_title": "Please check the new clouds",
