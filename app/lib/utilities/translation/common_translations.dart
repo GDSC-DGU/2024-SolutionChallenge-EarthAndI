@@ -14,6 +14,7 @@ abstract class CommonTranslations {
         "follow": "팔로우",
         "following": "팔로잉",
         "follower": "팔로워",
+        "send": "보내기",
 
         // Notification
         "local_notification_content": "오늘은 어떤 변화가 있을까요?",
@@ -43,6 +44,9 @@ abstract class CommonTranslations {
         "withdrawal_success_long": "탈퇴가 완료되었습니다.",
         "withdrawal_failed": "탈퇴 실패",
         "withdrawal_failed_long": "잠시 후 다시 시도해주세요.",
+
+        // Message Dialog
+        "message_hint": "친구에게 보낼 메세지를 적어주세요.",
       };
 
   static Map<String, String> get en => {
@@ -60,6 +64,7 @@ abstract class CommonTranslations {
         "follow": "Follow",
         "following": "Following",
         "follower": "Follower",
+        "send": "Send",
 
         // Notification
         "local_notification_content": "What changes will happen today?",
@@ -92,5 +97,8 @@ abstract class CommonTranslations {
         "withdrawal_success_long": "Withdrawal is complete.",
         "withdrawal_failed": "Withdrawal failed",
         "withdrawal_failed_long": "Please try again later.",
+
+        // Message Dialog
+        "message_hint": "Write a message to send to your friend.",
       };
 }

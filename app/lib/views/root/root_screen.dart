@@ -1,11 +1,12 @@
-import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
+import 'package:earth_and_i/utilities/functions/security_util.dart';
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/home/home_screen.dart';
 import 'package:earth_and_i/views/load_map/load_map_screen.dart';
 import 'package:earth_and_i/views/profile/profile_screen.dart';
 import 'package:earth_and_i/views/root/widgets/custom_bottom_navigation_bar.dart';
-import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
+import 'package:earth_and_i/widgets/dialog/sign_in_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -37,11 +38,11 @@ class RootScreen extends BaseScreen<RootViewModel> {
           if (viewModel.selectedIndex != 1) {
             viewModel.changeIndex(1);
           } else {
-            Get.dialog(
-              ChallengeDialog(
-                state: Get.find<LoadMapViewModel>().currentChallengeState,
-              ),
-            );
+            if (!SecurityUtil.isSignin) {
+              Get.dialog(const SignInDialog());
+            } else {
+              Get.toNamed(Routes.RANKING);
+            }
           }
         },
         backgroundColor: const Color(0xFF90CDBE),
