@@ -62,6 +62,11 @@ class AppTranslations extends Translations {
         "setting": "설정",
         "notification_active": "알림 활성화",
         "notification_time": "알림 시간",
+
+        // Coming Soon Challenge Screen
+        "coming_soon_challenge": "커밍순 챌린지",
+        "coming_soon_challenge_description_1": "새로운 챌린지를 확인하고",
+        "coming_soon_challenge_description_2": "함께 실천해 나가요!",
       };
 
   static Map<String, String> get english => {
@@ -114,5 +119,10 @@ class AppTranslations extends Translations {
         "setting": "Setting",
         "notification_active": "Notification Active",
         "notification_time": "Notification Time",
+
+        // Coming Soon Challenge Screen
+        "coming_soon_challenge": "Coming Soon Challenge",
+        "coming_soon_challenge_description_1": "Check out the new challenges",
+        "coming_soon_challenge_description_2": "and practice together!",
       };
 }
