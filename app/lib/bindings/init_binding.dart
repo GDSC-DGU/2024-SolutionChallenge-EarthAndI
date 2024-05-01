@@ -8,6 +8,8 @@ import 'package:earth_and_i/repositories/challenge_history_repository.dart';
 import 'package:earth_and_i/repositories/follow_repository.dart';
 import 'package:earth_and_i/repositories/friend_repository.dart';
 import 'package:earth_and_i/repositories/friend_repository_impl.dart';
+import 'package:earth_and_i/repositories/notification_repository.dart';
+import 'package:earth_and_i/repositories/notification_repository_impl.dart';
 import 'package:earth_and_i/repositories/user_repository.dart';
 import 'package:get/get.dart';
 
@@ -40,6 +42,9 @@ class InitBinding extends Bindings {
     );
     Get.putAsync<FriendRepository>(
       () async => FriendRepositoryImpl(),
+    );
+    Get.putAsync<NotificationRepository>(
+      () async => NotificationRepositoryImpl(),
     );
   }
 }

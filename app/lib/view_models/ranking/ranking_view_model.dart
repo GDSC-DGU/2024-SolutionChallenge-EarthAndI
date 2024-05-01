@@ -2,7 +2,7 @@ import 'package:earth_and_i/models/ranking/message_state.dart';
 import 'package:earth_and_i/models/ranking/ranking_state.dart';
 import 'package:earth_and_i/models/ranking/top_ranking_state.dart';
 import 'package:earth_and_i/repositories/friend_repository.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:earth_and_i/repositories/notification_repository.dart';
 import 'package:get/get.dart';
 
 class RankingViewModel extends GetxController {
@@ -10,12 +10,14 @@ class RankingViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final FriendRepository _friendRepository;
+  late final NotificationRepository _notificationRepository;
 
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
   late final RxBool _isLoadingTopRanking;
   late final RxBool _isLoadingRanking;
+  late final RxBool _isSendingMessage;
   late final RxList<TopRankingState> _topRankingStates;
   late final RxList<RankingState> _rankingStates;
   late final Rx<MessageState> _messageState;
@@ -25,6 +27,7 @@ class RankingViewModel extends GetxController {
   /* ------------------------------------------------------ */
   bool get isLoadingTopRanking => _isLoadingTopRanking.value;
   bool get isLoadingRanking => _isLoadingRanking.value;
+  bool get isSendingMessage => _isSendingMessage.value;
   List<TopRankingState> get topRankingStates => _topRankingStates;
   List<RankingState> get rankingStates => _rankingStates;
   MessageState get messageState => _messageState.value;
@@ -34,9 +37,11 @@ class RankingViewModel extends GetxController {
     super.onInit();
 
     _friendRepository = Get.find<FriendRepository>();
+    _notificationRepository = Get.find<NotificationRepository>();
 
     _isLoadingTopRanking = true.obs;
     _isLoadingRanking = true.obs;
+    _isSendingMessage = false.obs;
 
     _topRankingStates = List.generate(3, (_) => TopRankingState.empty()).obs;
     _rankingStates = <RankingState>[].obs;
@@ -87,7 +92,20 @@ class RankingViewModel extends GetxController {
     _messageState.value = _messageState.value.copyWith(message: message);
   }
 
-  void sendMessage() {
-    LogUtil.i("send message: ${_messageState.value.message}");
+  Future<bool> sendMessage() async {
+    _isSendingMessage.value = true;
+
+    bool result = await _notificationRepository.createNotification(
+      _messageState.value.id,
+      _messageState.value.message,
+    );
+
+    print(result);
+
+    clearMessageState();
+
+    _isSendingMessage.value = false;
+
+    return result;
   }
 }
