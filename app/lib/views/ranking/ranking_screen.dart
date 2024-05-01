@@ -222,7 +222,6 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
           if (viewModel.messageState.message.isNotEmpty)
             {
               viewModel.sendMessage().then((value) => {
-                    print(value),
                     if (value)
                       {
                         Get.snackbar(

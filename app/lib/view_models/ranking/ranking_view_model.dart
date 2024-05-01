@@ -1,8 +1,8 @@
 import 'package:earth_and_i/models/ranking/message_state.dart';
 import 'package:earth_and_i/models/ranking/ranking_state.dart';
 import 'package:earth_and_i/models/ranking/top_ranking_state.dart';
-import 'package:earth_and_i/repositories/friend_repository.dart';
-import 'package:earth_and_i/repositories/notification_repository.dart';
+import 'package:earth_and_i/repositories/friend/friend_repository.dart';
+import 'package:earth_and_i/repositories/notification/notification_repository.dart';
 import 'package:get/get.dart';
 
 class RankingViewModel extends GetxController {
@@ -99,8 +99,6 @@ class RankingViewModel extends GetxController {
       _messageState.value.id,
       _messageState.value.message,
     );
-
-    print(result);
 
     clearMessageState();
 

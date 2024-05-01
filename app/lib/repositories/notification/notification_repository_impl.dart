@@ -1,5 +1,5 @@
 import 'package:earth_and_i/providers/notification/notification_provider.dart';
-import 'package:earth_and_i/repositories/notification_repository.dart';
+import 'package:earth_and_i/repositories/notification/notification_repository.dart';
 import 'package:get/get.dart';
 
 class NotificationRepositoryImpl extends GetxService
