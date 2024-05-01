@@ -1,12 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:earth_and_i/utilities/static/app_routes.dart';
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/load_map/widgets/challenge_history_item.dart';
+import 'package:earth_and_i/widgets/appbar/default_appbar.dart';
 import 'package:earth_and_i/widgets/dialog/challenge_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 
@@ -35,6 +38,8 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
             const SizedBox(height: 12),
             _textsHintView(),
             const SizedBox(height: 20),
+            _comingSoonChallengeBannerView(),
+            const SizedBox(height: 20),
             _currentChallengeView(),
             const SizedBox(height: 20),
             InfinityLine(
@@ -48,6 +53,43 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
       ),
     );
   }
+
+  Widget _comingSoonChallengeBannerView() => Center(
+        child: InkWell(
+          onTap: () {
+            Get.toNamed(Routes.COMING_SOON_CHALLENGE);
+          },
+          child: Container(
+            width: Get.width - 32,
+            padding: const EdgeInsets.fromLTRB(16, 20, 20, 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: ColorSystem.green,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text("Coming Soon Challenge",
+                        style: FontSystem.KR20B
+                            .copyWith(color: ColorSystem.white)),
+                    const SizedBox(width: 4),
+                    SvgPicture.asset("assets/icons/right.svg",
+                        width: 16,
+                        colorFilter: ColorFilter.mode(
+                            ColorSystem.white, BlendMode.srcIn))
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text("coming_soon_challenge_banner".tr,
+                    style: FontSystem.KR16B.copyWith(color: ColorSystem.white))
+              ],
+            ),
+          ),
+        ),
+      );
 
   Widget _persistentAnimationView() => Center(
         child: SizedBox(
@@ -99,7 +141,10 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
               borderColor: ColorSystem.green,
               onTap: () {
                 Get.dialog(
-                  ChallengeDialog(state: viewModel.currentChallengeState),
+                  ChallengeDialog(
+                    state: viewModel.currentChallengeState,
+                    isComingSoon: false,
+                  ),
                 );
               },
             ),
@@ -141,6 +186,7 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
                         Get.dialog(
                           ChallengeDialog(
                             state: viewModel.challengeHistoryStates[index],
+                            isComingSoon: false,
                           ),
                         );
                       },

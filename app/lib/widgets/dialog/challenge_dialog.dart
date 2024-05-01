@@ -14,9 +14,11 @@ class ChallengeDialog extends StatelessWidget {
   const ChallengeDialog({
     super.key,
     this.state,
+    this.isComingSoon = true,
   });
 
   final ChallengeHistoryState? state;
+  final bool isComingSoon;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +124,7 @@ class ChallengeDialog extends StatelessWidget {
     } else {
       assetPath = 'assets/icons/${state!.type.assetPath}';
       description = state!.type.description.tr;
-      buttonText = state!.isCompleted
+      buttonText = state!.isCompleted || isComingSoon
           ? "confirm".tr
           : 'challenge_authentication_title'.tr;
     }
@@ -157,7 +159,7 @@ class ChallengeDialog extends StatelessWidget {
   }
 
   void _onPressedButton() {
-    if (state == null || state!.isCompleted) {
+    if (state == null || state!.isCompleted || isComingSoon) {
       Get.back();
       return;
     }
