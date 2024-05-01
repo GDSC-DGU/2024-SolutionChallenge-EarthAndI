@@ -75,6 +75,8 @@ class AppTranslations extends Translations {
         "party_rank": "파티 순위",
         "not_register_friend": "등록된 친구가 없습니다.",
         "recommend_sharing": "친구들에게 E&I를 공유해보세요!!",
+        "not_send_myself": "자신에게는 보낼 수 없어요.",
+        "not_send_myself_detail": "친구들에게 보내주세요.",
       };
 
   static Map<String, String> get english => {
@@ -140,5 +142,7 @@ class AppTranslations extends Translations {
         "party_rank": "Party Rank",
         "not_register_friend": "There are no registered friends.",
         "recommend_sharing": "Share E&I with your friends!!",
+        "not_send_myself": "You can't send it to yourself.",
+        "not_send_myself_detail": "Please send it to your friends.",
       };
 }

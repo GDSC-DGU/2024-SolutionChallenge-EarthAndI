@@ -8,6 +8,7 @@ import 'package:earth_and_i/views/ranking/widget/top_ranking_item.dart';
 import 'package:earth_and_i/widgets/appbar/default_back_appbar.dart';
 import 'package:earth_and_i/widgets/dialog/message_dialog.dart';
 import 'package:earth_and_i/widgets/line/infinity_line.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -76,7 +77,20 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
                         index: index,
                         state: viewModel.topRankingStates[index],
                         onTap: () {
-                          if (viewModel.topRankingStates[index].id == null) {
+                          if (viewModel.topRankingStates[index].id ==
+                              FirebaseAuth.instance.currentUser!.uid) {
+                            Get.snackbar(
+                              "not_send_myself".tr,
+                              "not_send_myself_detail".tr,
+                              backgroundColor: ColorSystem.grey[300],
+                              colorText: ColorSystem.black,
+                              duration: const Duration(
+                                seconds: 1,
+                                milliseconds: 500,
+                              ),
+                            );
+                          } else if (viewModel.topRankingStates[index].id ==
+                              null) {
                             Get.snackbar(
                               "not_register_friend".tr,
                               "recommend_sharing".tr,
