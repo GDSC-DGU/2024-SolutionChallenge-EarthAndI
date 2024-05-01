@@ -70,14 +70,15 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
                     itemCount: viewModel.topRankingStates.length,
                     itemBuilder: (BuildContext context, int index) {
                       return TopRankingItem(
+                        isLoading: viewModel.isLoadingTopRanking ||
+                            viewModel.isLoadingRanking,
                         index: index,
                         state: viewModel.topRankingStates[index],
                         onTap: () {
                           if (viewModel.topRankingStates[index].id == null) {
-                            // Todo: Implement not yet registered Translation
                             Get.snackbar(
-                              "error".tr,
-                              "not_yet_registered".tr,
+                              "not_register_friend".tr,
+                              "recommend_sharing".tr,
                               backgroundColor: ColorSystem.grey[300],
                               colorText: ColorSystem.black,
                               duration: const Duration(seconds: 1),
@@ -100,7 +101,10 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
   Widget rankView() => Obx(
         () => SliverList(
           delegate: SliverChildBuilderDelegate(
-            childCount: viewModel.rankingStates.length,
+            childCount:
+                viewModel.isLoadingTopRanking || viewModel.isLoadingRanking
+                    ? 0
+                    : viewModel.rankingStates.length,
             (BuildContext context, int index) {
               return RankingItem(
                 rank: index + 4,

@@ -14,6 +14,8 @@ class RankingViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Private Fields --------------------- */
   /* ------------------------------------------------------ */
+  late final RxBool _isLoadingTopRanking;
+  late final RxBool _isLoadingRanking;
   late final RxList<TopRankingState> _topRankingStates;
   late final RxList<RankingState> _rankingStates;
   late final Rx<MessageState> _messageState;
@@ -21,6 +23,8 @@ class RankingViewModel extends GetxController {
   /* ------------------------------------------------------ */
   /* ----------------- Public Fields ---------------------- */
   /* ------------------------------------------------------ */
+  bool get isLoadingTopRanking => _isLoadingTopRanking.value;
+  bool get isLoadingRanking => _isLoadingRanking.value;
   List<TopRankingState> get topRankingStates => _topRankingStates;
   List<RankingState> get rankingStates => _rankingStates;
   MessageState get messageState => _messageState.value;
@@ -31,12 +35,32 @@ class RankingViewModel extends GetxController {
 
     _friendRepository = Get.find<FriendRepository>();
 
+    _isLoadingTopRanking = true.obs;
+    _isLoadingRanking = true.obs;
+
     _topRankingStates = List.generate(3, (_) => TopRankingState.empty()).obs;
     _rankingStates = <RankingState>[].obs;
     _messageState = MessageState.empty().obs;
+  }
 
+  @override
+  void onReady() {
+    super.onReady();
+
+    fetchTopRankingStates();
+    fetchRankingStates();
+  }
+
+  void fetchTopRankingStates() async {
+    _isLoadingTopRanking.value = true;
     _topRankingStates.value = await _friendRepository.readTopRankings();
+    _isLoadingTopRanking.value = false;
+  }
+
+  void fetchRankingStates() async {
+    _isLoadingRanking.value = true;
     _rankingStates.value = await _friendRepository.readRankings();
+    _isLoadingRanking.value = false;
   }
 
   void clearMessageState() {
