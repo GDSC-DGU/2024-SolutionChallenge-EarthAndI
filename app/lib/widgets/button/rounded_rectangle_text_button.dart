@@ -1,3 +1,4 @@
+import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:flutter/material.dart';
 
 class RoundedRectangleTextButton extends StatelessWidget {
@@ -31,6 +32,7 @@ class RoundedRectangleTextButton extends StatelessWidget {
         fixedSize: Size(width, height),
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
+        disabledBackgroundColor: ColorSystem.grey,
         side: borderSide,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

@@ -10,4 +10,5 @@ abstract class Routes {
   static const String USER_SEARCH = "/user_search";
   static const String CHALLENGE_AUTHENTICATION = "/challenge_authentication";
   static const String COMING_SOON_CHALLENGE = "/coming_soon_challenge";
+  static const String RANKING = "/ranking";
 }

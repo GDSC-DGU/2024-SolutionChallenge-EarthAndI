@@ -1,8 +1,8 @@
 import 'package:earth_and_i/utilities/translation/character_translations.dart';
 import 'package:earth_and_i/utilities/translation/common_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_action_translations.dart';
-import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_challenge_translations.dart';
+import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
@@ -68,6 +68,10 @@ class AppTranslations extends Translations {
         "coming_soon_challenge": "커밍순 챌린지",
         "coming_soon_challenge_description_1": "새로운 챌린지를 확인하고",
         "coming_soon_challenge_description_2": "함께 실천해 나가요!",
+
+        // Ranking Screen
+        "ranking": "순위",
+        "Total Rank": "전체 순위",
       };
 
   static Map<String, String> get english => {
@@ -126,5 +130,9 @@ class AppTranslations extends Translations {
         "coming_soon_challenge": "Coming Soon Challenge",
         "coming_soon_challenge_description_1": "Check out the new challenges",
         "coming_soon_challenge_description_2": "and practice together!",
+
+        // Ranking Screen
+        "ranking": "Ranking",
+        "Total Rank": "Total Rank",
       };
 }
