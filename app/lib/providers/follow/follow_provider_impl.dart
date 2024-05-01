@@ -103,10 +103,6 @@ class FollowProviderImpl implements FollowProvider {
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followers'];
 
-    if (followers.isEmpty) {
-      return [];
-    }
-
     // get followingIds
     List<dynamic> followingIds =
         (await _storage.collection('follows').doc(uid).get())
@@ -155,10 +151,6 @@ class FollowProviderImpl implements FollowProvider {
     List<dynamic> followers =
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followers'];
-
-    if (followers.isEmpty) {
-      return [];
-    }
 
     // get followingIds
     List<dynamic> followingIds =
