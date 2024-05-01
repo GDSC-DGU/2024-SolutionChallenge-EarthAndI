@@ -1,5 +1,6 @@
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/ranking/ranking_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/ranking/widget/ranking_item.dart';
@@ -23,7 +24,7 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
       child: DefaultBackAppBar(
-        title: "ranking".tr,
+        title: "party".tr,
       ),
     );
   }
@@ -49,13 +50,13 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
               ),
               const SizedBox(height: 35),
               Text(
-                "E&I",
+                "${Get.find<ProfileViewModel>().userBriefState.nickname}${"honorific".tr}",
                 style: FontSystem.KR16M.copyWith(
                   color: ColorSystem.grey,
                 ),
               ),
               Text(
-                "Total Rank".tr,
+                "party_rank".tr,
                 style: FontSystem.KR32B.copyWith(
                   color: ColorSystem.grey[900],
                 ),
@@ -70,17 +71,21 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
                     itemCount: viewModel.topRankingStates.length,
                     itemBuilder: (BuildContext context, int index) {
                       return TopRankingItem(
+                        isLoading: viewModel.isLoadingTopRanking ||
+                            viewModel.isLoadingRanking,
                         index: index,
                         state: viewModel.topRankingStates[index],
                         onTap: () {
                           if (viewModel.topRankingStates[index].id == null) {
-                            // Todo: Implement not yet registered Translation
                             Get.snackbar(
-                              "error".tr,
-                              "not_yet_registered".tr,
+                              "not_register_friend".tr,
+                              "recommend_sharing".tr,
                               backgroundColor: ColorSystem.grey[300],
                               colorText: ColorSystem.black,
-                              duration: const Duration(seconds: 1),
+                              duration: const Duration(
+                                seconds: 1,
+                                milliseconds: 500,
+                              ),
                             );
                           } else {
                             onTapTopRankItem(index);
@@ -100,7 +105,10 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
   Widget rankView() => Obx(
         () => SliverList(
           delegate: SliverChildBuilderDelegate(
-            childCount: viewModel.rankingStates.length,
+            childCount:
+                viewModel.isLoadingTopRanking || viewModel.isLoadingRanking
+                    ? 0
+                    : viewModel.rankingStates.length,
             (BuildContext context, int index) {
               return RankingItem(
                 rank: index + 4,
