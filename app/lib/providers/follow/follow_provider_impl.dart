@@ -112,7 +112,7 @@ class FollowProviderImpl implements FollowProvider {
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followings'];
 
-    List<String> friendIds = [];
+    List<String> friendIds = [uid];
 
     // refine friendIds
     for (int i = 0; i < followers.length; i++) {
@@ -165,7 +165,7 @@ class FollowProviderImpl implements FollowProvider {
         (await _storage.collection('follows').doc(uid).get())
             .data()!['followings'];
 
-    List<String> friendIds = [];
+    List<String> friendIds = [uid];
 
     // refine friendIds
     for (int i = 0; i < followers.length; i++) {
