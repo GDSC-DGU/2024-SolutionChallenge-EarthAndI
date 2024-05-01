@@ -138,6 +138,21 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
       );
 
   void onTapTopRankItem(int index) {
+    if (viewModel.isSendingMessage) {
+      Get.snackbar(
+        "sending_message".tr,
+        "sending_message_detail".tr,
+        backgroundColor: ColorSystem.grey[300],
+        colorText: ColorSystem.black,
+        duration: const Duration(
+          seconds: 1,
+          milliseconds: 500,
+        ),
+      );
+
+      return;
+    }
+
     viewModel.fetchMessageState(true, index);
 
     Get.dialog(
@@ -145,10 +160,57 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
         state: viewModel.messageState,
         onSend: viewModel.fetchMessageInMessageState,
       ),
-    ).then((value) => viewModel.messageState.toString());
+    ).then((value) => {
+          if (viewModel.messageState.message.isNotEmpty)
+            {
+              viewModel.sendMessage().then((value) => {
+                    if (value)
+                      {
+                        Get.snackbar(
+                          "send_message_success".tr,
+                          "send_message_success_detail".tr,
+                          backgroundColor: ColorSystem.grey[300],
+                          colorText: ColorSystem.black,
+                          duration: const Duration(
+                            seconds: 1,
+                            milliseconds: 500,
+                          ),
+                        ),
+                      }
+                    else
+                      {
+                        Get.snackbar(
+                          "send_message_fail".tr,
+                          "send_message_fail_detail".tr,
+                          backgroundColor: ColorSystem.grey[300],
+                          colorText: ColorSystem.black,
+                          duration: const Duration(
+                            seconds: 1,
+                            milliseconds: 500,
+                          ),
+                        ),
+                      }
+                  })
+            }
+        });
   }
 
   void onTapRankItem(int index) {
+    if (viewModel.isSendingMessage) {
+      Get.snackbar(
+        "sending_message".tr,
+        "sending_message_detail".tr,
+        backgroundColor: ColorSystem.grey[300],
+        colorText: ColorSystem.black,
+        duration: const Duration(
+          seconds: 1,
+          milliseconds: 500,
+        ),
+      );
+
+      return;
+    }
+
     viewModel.fetchMessageState(false, index);
 
     Get.dialog(
@@ -159,7 +221,34 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
     ).then((value) => {
           if (viewModel.messageState.message.isNotEmpty)
             {
-              viewModel.sendMessage(),
+              viewModel.sendMessage().then((value) => {
+                    if (value)
+                      {
+                        Get.snackbar(
+                          "send_message_success".tr,
+                          "send_message_success_detail".tr,
+                          backgroundColor: ColorSystem.grey[300],
+                          colorText: ColorSystem.black,
+                          duration: const Duration(
+                            seconds: 1,
+                            milliseconds: 500,
+                          ),
+                        ),
+                      }
+                    else
+                      {
+                        Get.snackbar(
+                          "send_message_fail".tr,
+                          "send_message_fail_detail".tr,
+                          backgroundColor: ColorSystem.grey[300],
+                          colorText: ColorSystem.black,
+                          duration: const Duration(
+                            seconds: 1,
+                            milliseconds: 500,
+                          ),
+                        ),
+                      }
+                  })
             }
         });
   }

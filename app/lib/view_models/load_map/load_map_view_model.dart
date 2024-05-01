@@ -1,7 +1,7 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
-import 'package:earth_and_i/repositories/challenge_history_repository.dart';
-import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/repositories/challenge_history/challenge_history_repository.dart';
+import 'package:earth_and_i/repositories/user/user_repository.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 

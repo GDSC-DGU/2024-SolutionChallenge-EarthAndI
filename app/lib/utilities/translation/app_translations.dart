@@ -77,6 +77,12 @@ class AppTranslations extends Translations {
         "recommend_sharing": "친구들에게 E&I를 공유해보세요!!",
         "not_send_myself": "자신에게는 보낼 수 없어요.",
         "not_send_myself_detail": "친구들에게 보내주세요.",
+        "sending_message": "메시지 전송 중",
+        "sending_message_detail": "잠시만 기다려주세요.",
+        "send_message_success": "메시지를 전송했어요!",
+        "send_message_success_detail": "앞으로 1시간동안 해당 친구에게 메시지를 보낼 수 없어요.",
+        "send_message_fail": "메시지 전송에 실패했어요!",
+        "send_message_fail_detail": "1시간 내에 메세지를 보내지 않았다면 다시 시도해주세요.",
       };
 
   static Map<String, String> get english => {
@@ -144,5 +150,13 @@ class AppTranslations extends Translations {
         "recommend_sharing": "Share E&I with your friends!!",
         "not_send_myself": "You can't send it to yourself.",
         "not_send_myself_detail": "Please send it to your friends.",
+        "sending_message": "Sending message",
+        "sending_message_detail": "Please wait a moment.",
+        "send_message_success": "Message sent!",
+        "send_message_success_detail":
+            "You can't send messages to that friend for the next hour.",
+        "send_message_fail": "Failed to send message!",
+        "send_message_fail_detail":
+            "If you don't send a message within an hour, please try again.",
       };
 }

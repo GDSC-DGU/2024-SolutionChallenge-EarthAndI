@@ -1,7 +1,7 @@
 import 'package:earth_and_i/models/setting/alarm_state.dart';
-import 'package:earth_and_i/repositories/action_history_repository.dart';
-import 'package:earth_and_i/repositories/challenge_history_repository.dart';
-import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/repositories/action_history/action_history_repository_impl.dart';
+import 'package:earth_and_i/repositories/challenge_history/challenge_history_repository.dart';
+import 'package:earth_and_i/repositories/user/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';
@@ -15,7 +15,7 @@ class SettingViewModel extends GetxController {
   /* -------------------- DI Fields ----------------------- */
   /* ------------------------------------------------------ */
   late final UserRepository _userRepository;
-  late final ActionHistoryRepository _actionHistoryRepository;
+  late final ActionHistoryRepositoryImpl _actionHistoryRepository;
   late final ChallengeHistoryRepository _challengeHistoryRepository;
 
   /* ------------------------------------------------------ */
@@ -37,7 +37,7 @@ class SettingViewModel extends GetxController {
     super.onInit();
     // DI Fields
     _userRepository = Get.find<UserRepository>();
-    _actionHistoryRepository = Get.find<ActionHistoryRepository>();
+    _actionHistoryRepository = Get.find<ActionHistoryRepositoryImpl>();
     _challengeHistoryRepository = Get.find<ChallengeHistoryRepository>();
 
     // Private Fields

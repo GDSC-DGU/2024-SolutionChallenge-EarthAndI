@@ -1,5 +1,5 @@
 import 'package:earth_and_i/models/follow/follow_state.dart';
-import 'package:earth_and_i/repositories/follow_repository.dart';
+import 'package:earth_and_i/repositories/follow/follow_repository.dart';
 import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';

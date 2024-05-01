@@ -2,7 +2,7 @@ import 'package:earth_and_i/apps/factory/remote_storage_factory.dart';
 import 'package:earth_and_i/models/ranking/ranking_state.dart';
 import 'package:earth_and_i/models/ranking/top_ranking_state.dart';
 import 'package:earth_and_i/providers/follow/follow_provider.dart';
-import 'package:earth_and_i/repositories/friend_repository.dart';
+import 'package:earth_and_i/repositories/friend/friend_repository.dart';
 import 'package:get/get.dart';
 
 class FriendRepositoryImpl extends GetxService implements FriendRepository {

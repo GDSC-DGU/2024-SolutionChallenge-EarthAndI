@@ -1,12 +1,13 @@
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/apps/factory/local_database_factory.dart';
-import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/providers/challenge/challenge_history_local_provider.dart';
+import 'package:earth_and_i/repositories/challenge_history/challenge_history_repository.dart';
 import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
-class ChallengeHistoryRepository extends GetxService {
+class ChallengeHistoryRepositoryImpl extends GetxService
+    implements ChallengeHistoryRepository {
   late final ChallengeHistoryLocalProvider _localProvider;
 
   @override
@@ -17,6 +18,7 @@ class ChallengeHistoryRepository extends GetxService {
 
   /* ----------------------------------------------------- */
   /* ----------------------------------------------------- */
+  @override
   Future<List<ChallengeHistoryState>> readAllChallengeHistoryState() async {
     List<ChallengeHistoryData?> challengeHistories =
         await _localProvider.findAllByOffset(0, 10);
@@ -30,6 +32,7 @@ class ChallengeHistoryRepository extends GetxService {
         .toList();
   }
 
+  @override
   Future<ChallengeHistoryData> createOrUpdate(
       ChallengeHistoryCompanion data) async {
     try {

@@ -1,7 +1,6 @@
 import 'package:earth_and_i/apps/database/local_database.dart';
 import 'package:earth_and_i/providers/base/base_connect.dart';
 import 'package:earth_and_i/providers/notification/notification_provider.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -14,15 +13,10 @@ class NotificationProviderImpl extends BaseConnect
   @override
   Future<void> postActionHistoryLogs(
       List<ActionHistoryData> actionHistories) async {
-    LogUtil.d('postActionHistoryLogs');
-
     String? idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
     if (idToken == null) {
-      LogUtil.d('idToken is null');
       return;
     }
-
-    LogUtil.d('idToken: $idToken');
 
     try {
       await post(
@@ -42,9 +36,34 @@ class NotificationProviderImpl extends BaseConnect
           'Authorization': 'Bearer $idToken',
         },
       );
-    } catch (e) {
-      LogUtil.d('Error: ${e.toString()}');
+    } catch (_) {
       return;
+    }
+  }
+
+  @override
+  Future<void> postMessageLogs(String receiverId, String message) async {
+    String? idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    if (idToken == null) {
+      throw Exception('idToken is null');
+    }
+
+    Response response = await post(
+      '/v1/serving/messages',
+      {
+        'data': {
+          'receiverId': receiverId,
+          'message': message,
+        }
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $idToken',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('postMessageLogs failed');
     }
   }
 }
