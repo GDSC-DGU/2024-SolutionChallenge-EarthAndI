@@ -278,14 +278,14 @@ api.post('/serving/actions', async (req, res) => {
 
     const followersData = await admin.firestore().collection('users').where(admin.firestore.FieldPath.documentId(), 'in', notificationIds).get();
 
-    followersData.forEach((doc) => {
+    for (const doc of followersData.docs) {
         const nickname = requestNickname;
         const deviceToken = doc.data()["device_token"];
         const deviceLanguage = doc.data()["device_language"];
         const notificationBody = deviceLanguage === "ko" ? nickname + "(이)가 새로운 행동들을 했습니다." : nickname + " has done a new actions.";
 
-        if (doc.data().is_notification_active === false) {
-            return;
+        if (doc.data().is_notification_active === false || deviceToken === null || deviceToken === "" || deviceToken === undefined) {
+            continue;
         }
 
         // notification logs에 추가
@@ -315,7 +315,7 @@ api.post('/serving/actions', async (req, res) => {
                 },
             },
         });
-    });
+    }
 
 
     res.json({ result: "success" });
