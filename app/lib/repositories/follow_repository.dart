@@ -39,10 +39,6 @@ class FollowRepository extends GetxService {
     return followers.map((follower) => FollowState.fromJson(follower)).toList();
   }
 
-  void deleteFollowing(String id) {
-    // _provider.deleteFollowing(id);
-  }
-
   Future<void> updateFollowing(String id, bool isCreated) {
     if (isCreated) {
       return _provider.postFollowing(id);

@@ -33,13 +33,13 @@ class TopRankingState {
     return const TopRankingState(
       id: null,
       nickname: '',
-      totalDeltaCO2: 0,
+      totalDeltaCO2: 1000000.0,
       thumbnailPath: '',
       characterPath: '',
     );
   }
 
-  factory TopRankingState.fromMap(Map<String, dynamic> map) {
+  factory TopRankingState.fromJson(Map<String, dynamic> map) {
     String id = map['id'];
     String nickname = map['nickname'];
 
@@ -61,5 +61,10 @@ class TopRankingState {
       characterPath:
           "assets/images/analysis/${healthCondition}_${mentalCondition}_$cashCondition.svg",
     );
+  }
+
+  @override
+  String toString() {
+    return 'TopRankingState(id: $id, nickname: $nickname, totalDeltaCO2: $totalDeltaCO2, thumbnailPath: $thumbnailPath, characterPath: $characterPath)';
   }
 }

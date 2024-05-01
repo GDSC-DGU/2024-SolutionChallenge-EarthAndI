@@ -34,7 +34,7 @@ class RankingState {
     );
   }
 
-  factory RankingState.fromMap(Map<String, dynamic> map) {
+  factory RankingState.fromJson(Map<String, dynamic> map) {
     String id = map['id'];
     String nickname = map['nickname'];
 
@@ -52,7 +52,7 @@ class RankingState {
       nickname: nickname,
       totalDeltaCO2: totalPositiveDeltaCO2 + totalNegativeDeltaCO2,
       thumbnailPath:
-          'assets/images/character/character_${healthCondition}_${mentalCondition}_$cashCondition.svg',
+          'assets/images/thumbnail/${healthCondition}_${mentalCondition}_$cashCondition.svg',
     );
   }
 }
