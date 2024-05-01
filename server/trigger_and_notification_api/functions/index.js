@@ -412,4 +412,6 @@ api.post('/serving/messages', async (req, res) => {
             },
         },
     });
+
+    res.json({ result: "success" });
 });
