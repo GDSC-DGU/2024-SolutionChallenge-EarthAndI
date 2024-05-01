@@ -64,8 +64,11 @@ class AppTranslations extends Translations {
         "notification_time": "알림 시간",
 
         // Ranking Screen
-        "ranking": "순위",
-        "Total Rank": "전체 순위",
+        "honorific": "님의",
+        "party": "파티",
+        "party_rank": "파티 순위",
+        "not_register_friend": "등록된 친구가 없습니다.",
+        "recommend_sharing": "친구들에게 E&I를 공유해보세요!!",
       };
 
   static Map<String, String> get english => {
@@ -120,7 +123,10 @@ class AppTranslations extends Translations {
         "notification_time": "Notification Time",
 
         // Ranking Screen
-        "ranking": "Ranking",
-        "Total Rank": "Total Rank",
+        "honorific": "'s",
+        "party": "Party",
+        "party_rank": "Party Rank",
+        "not_register_friend": "There are no registered friends.",
+        "recommend_sharing": "Share E&I with your friends!!",
       };
 }

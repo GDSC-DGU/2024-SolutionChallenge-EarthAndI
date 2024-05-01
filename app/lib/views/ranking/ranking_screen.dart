@@ -1,5 +1,6 @@
 import 'package:earth_and_i/utilities/system/color_system.dart';
 import 'package:earth_and_i/utilities/system/font_system.dart';
+import 'package:earth_and_i/view_models/profile/profile_view_model.dart';
 import 'package:earth_and_i/view_models/ranking/ranking_view_model.dart';
 import 'package:earth_and_i/views/base/base_screen.dart';
 import 'package:earth_and_i/views/ranking/widget/ranking_item.dart';
@@ -23,7 +24,7 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(56),
       child: DefaultBackAppBar(
-        title: "ranking".tr,
+        title: "party".tr,
       ),
     );
   }
@@ -49,13 +50,13 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
               ),
               const SizedBox(height: 35),
               Text(
-                "E&I",
+                "${Get.find<ProfileViewModel>().userBriefState.nickname}${"honorific".tr}",
                 style: FontSystem.KR16M.copyWith(
                   color: ColorSystem.grey,
                 ),
               ),
               Text(
-                "Total Rank".tr,
+                "party_rank".tr,
                 style: FontSystem.KR32B.copyWith(
                   color: ColorSystem.grey[900],
                 ),
@@ -81,7 +82,10 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
                               "recommend_sharing".tr,
                               backgroundColor: ColorSystem.grey[300],
                               colorText: ColorSystem.black,
-                              duration: const Duration(seconds: 1),
+                              duration: const Duration(
+                                seconds: 1,
+                                milliseconds: 500,
+                              ),
                             );
                           } else {
                             onTapTopRankItem(index);
