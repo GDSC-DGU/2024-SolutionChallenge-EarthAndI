@@ -34,11 +34,11 @@ class LoadMapScreen extends BaseScreen<LoadMapViewModel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _comingSoonChallengeBannerView(),
-            const SizedBox(height: 20),
             _persistentAnimationView(),
             const SizedBox(height: 12),
             _textsHintView(),
+            const SizedBox(height: 20),
+            _comingSoonChallengeBannerView(),
             const SizedBox(height: 20),
             _currentChallengeView(),
             const SizedBox(height: 20),
