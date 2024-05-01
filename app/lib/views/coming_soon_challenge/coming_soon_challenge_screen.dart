@@ -54,7 +54,7 @@ class ComingSoonChallengeScreen
               opacity: 0.5,
               child: SizedBox(
                 width: Get.width - 32,
-                height: Get.height * 0.66,
+                height: Get.height * 0.66 - 24,
                 child: Image.asset(
                   "assets/images/coming_soon_challenge.png",
                   fit: BoxFit.cover,
