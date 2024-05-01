@@ -278,14 +278,14 @@ api.post('/serving/actions', async (req, res) => {
 
     const followersData = await admin.firestore().collection('users').where(admin.firestore.FieldPath.documentId(), 'in', notificationIds).get();
 
-    followersData.forEach((doc) => {
+    for (const doc of followersData.docs) {
         const nickname = requestNickname;
         const deviceToken = doc.data()["device_token"];
         const deviceLanguage = doc.data()["device_language"];
         const notificationBody = deviceLanguage === "ko" ? nickname + "(이)가 새로운 행동들을 했습니다." : nickname + " has done a new actions.";
 
-        if (doc.data().is_notification_active === false) {
-            return;
+        if (doc.data().is_notification_active === false || deviceToken === null || deviceToken === "" || deviceToken === undefined) {
+            continue;
         }
 
         // notification logs에 추가
@@ -315,8 +315,101 @@ api.post('/serving/actions', async (req, res) => {
                 },
             },
         });
-    });
+    }
 
 
     res.json({ result: "success" });
+});
+
+// REST API: POST /serving/messages
+api.post('/serving/messages', async (req, res) => {
+    let senderId;
+    let receiverId;
+    let message;
+    const { data } = req.body;
+
+    // sender Authentication
+    try {
+        const idToken = req.headers.authorization.split('Bearer ')[1];
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        senderId = decodedToken.uid;
+    } catch (error) {
+        res.status(401).json();
+        return;
+    }
+
+    // Body Validation
+    try {
+        receiverId = data.receiverId;
+        message = data.message;
+    } catch (error) {
+        res.status(400).json();
+        return;
+    }
+
+    // Duplicate Message Log In 1 Hours
+    const endAt = new Date(Date.now() + 32400000);
+    const startAt = new Date(endAt - 3600000);
+
+    const messageLog = await admin.firestore().collection('notification_logs')
+        .where("from_user_id", "==", senderId)
+        .where("to_user_id", "==", receiverId)
+        .where("type", "==", "message")
+        .where("timestamp", ">=", startAt)
+        .where("timestamp", "<=", endAt)
+        .get();
+
+    if (messageLog.docs.length > 0) {
+        res.status(400).json();
+        return;
+    }
+
+    // User Validation
+    let senderData;
+    let receiverData;
+    try {
+        senderData = await admin.firestore().collection('users').doc(senderId).get();
+        receiverData = await admin.firestore().collection('users').doc(receiverId).get();
+    } catch (error) {
+        res.status(400).json();
+        return;
+    }
+
+    // Notification
+    const deviceToken = receiverData.data()["device_token"];
+    const deviceLanguage = receiverData.data()["device_language"];
+    const notificationTitle = deviceLanguage === "ko" ? senderData.data().nickname + "님의 메시지" : "Message from " + senderData.data().nickname;
+
+    if (receiverData.data().is_notification_active === false || deviceToken === null || deviceToken === "" || deviceToken === undefined) {
+        res.json({ result: "success" });
+        return;
+    }
+
+    // Notification Log
+    admin.firestore().collection('notification_logs').add({
+        "from_user_id": senderId,
+        "to_user_id": receiverId,
+        "type": "message",
+        "timestamp": admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // FCM
+    admin.messaging().send({
+        token: deviceToken,
+        notification: {
+            title: notificationTitle,
+            body: message,
+        },
+        data: {
+            type: "message",
+            userId: senderId,
+        },
+        apns: {
+            payload: {
+                aps: {
+                    sound: "default",
+                },
+            },
+        },
+    });
 });
