@@ -3,6 +3,7 @@ enum EChallenge implements Comparable<EChallenge> {
   deleteEmail,
   eatVegetarian,
   useColdWater,
+  clearAllChallenge,
   usePublicTransport,
   useReusableContainer,
   unplugDevices,
@@ -50,6 +51,8 @@ enum EChallenge implements Comparable<EChallenge> {
         return 'use_energy_efficiency.png';
       case EChallenge.climateControl:
         return 'climate_control.png';
+      case EChallenge.clearAllChallenge:
+        return 'clear_challenge.png';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
@@ -82,6 +85,8 @@ enum EChallenge implements Comparable<EChallenge> {
       case EChallenge.useEnergyEfficiency:
         return '${name}_short_title';
       case EChallenge.climateControl:
+        return '${name}_short_title';
+      case EChallenge.clearAllChallenge:
         return '${name}_short_title';
       default:
         throw Exception('Unknown EChallenge: $this');
@@ -116,6 +121,8 @@ enum EChallenge implements Comparable<EChallenge> {
         return '${name}_long_title';
       case EChallenge.climateControl:
         return '${name}_long_title';
+      case EChallenge.clearAllChallenge:
+        return '${name}_long_title';
       default:
         throw Exception('Unknown EChallenge: $this');
     }
@@ -148,6 +155,8 @@ enum EChallenge implements Comparable<EChallenge> {
       case EChallenge.useEnergyEfficiency:
         return '${name}_description';
       case EChallenge.climateControl:
+        return '${name}_description';
+      case EChallenge.clearAllChallenge:
         return '${name}_description';
       default:
         throw Exception('Unknown EChallenge: $this');
@@ -182,6 +191,8 @@ enum EChallenge implements Comparable<EChallenge> {
         return EChallenge.useEnergyEfficiency;
       case 'climateControl':
         return EChallenge.climateControl;
+      case 'clearAllChallenge':
+        return EChallenge.clearAllChallenge;
       default:
         throw Exception('Unknown EChallenge: $name');
     }

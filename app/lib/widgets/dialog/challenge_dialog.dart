@@ -1,3 +1,4 @@
+import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/models/load_map/challenge_history_state.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/utilities/static/app_routes.dart';
@@ -50,8 +51,8 @@ class ChallengeDialog extends StatelessWidget {
     String longTitle;
 
     if (state == null) {
-      shortTitle = "clear_all_challenge_short_title".tr;
-      longTitle = "clear_all_challenge_long_title".tr;
+      shortTitle = "clearAllChallenge_short_title".tr;
+      longTitle = "clearAllChallenge_long_title".tr;
     } else {
       shortTitle = state!.type.shortTitle.tr;
       longTitle = state!.type.longTitle.tr;
@@ -119,7 +120,11 @@ class ChallengeDialog extends StatelessWidget {
 
     if (state == null) {
       assetPath = "assets/icons/clear_challenge.png";
-      description = "clear_all_challenge_description".tr;
+      description = "clearAllChallenge_description".tr;
+      buttonText = "confirm".tr;
+    } else if (state!.type == EChallenge.clearAllChallenge) {
+      assetPath = "assets/icons/clear_challenge.png";
+      description = "clearAllChallenge_description".tr;
       buttonText = "confirm".tr;
     } else {
       assetPath = 'assets/icons/${state!.type.assetPath}';
@@ -159,7 +164,10 @@ class ChallengeDialog extends StatelessWidget {
   }
 
   void _onPressedButton() {
-    if (state == null || state!.isCompleted || isComingSoon) {
+    if (state == null ||
+        state!.isCompleted ||
+        state!.type == EChallenge.clearAllChallenge ||
+        isComingSoon) {
       Get.back();
       return;
     }
