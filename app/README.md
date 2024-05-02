@@ -41,8 +41,8 @@ touch .env
 <strong>Fill out the following in .env </strong>
 
 ```
-API_SERVER_HOST=[analysis_api Server URL]
-LOG_SERVER_HOST=[trigger_and_notification_api Server URL]
+API_SERVER_HOST=[analysis_api Cloud Function Http URL]
+LOG_SERVER_HOST=[trigger_and_notification_api Cloud Function Http URL]
 ```
 
 3. Run Flutter
@@ -128,6 +128,7 @@ flutter run
 - flutter_app_badger: ^1.5.0
 - flutter_local_notifications: ^16.3.2
 - firebase_messaging: ^14.7.16
+- shimmer: ^3.0.0
 
 ### Directory Structure
 
