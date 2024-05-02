@@ -129,7 +129,21 @@ class RankingScreen extends BaseScreen<RankingViewModel> {
                 isLast: index == viewModel.rankingStates.length - 1,
                 state: viewModel.rankingStates[index],
                 onTap: () {
-                  onTapRankItem(index);
+                  if (viewModel.rankingStates[index].id ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                    Get.snackbar(
+                      "not_send_myself".tr,
+                      "not_send_myself_detail".tr,
+                      backgroundColor: ColorSystem.grey[300],
+                      colorText: ColorSystem.black,
+                      duration: const Duration(
+                        seconds: 1,
+                        milliseconds: 500,
+                      ),
+                    );
+                  } else {
+                    onTapRankItem(index);
+                  }
                 },
               );
             },
