@@ -13,6 +13,7 @@ abstract class EChallengeTranslations {
         ...krUseLED,
         ...krUseEnergyEfficiency,
         ...krClimateControl,
+        ...krClearAllChallenge,
       };
 
   static Map<String, String> get en => {
@@ -29,6 +30,7 @@ abstract class EChallengeTranslations {
         ...enUseLED,
         ...enUseEnergyEfficiency,
         ...enClimateControl,
+        ...enClearAllChallenge,
       };
 
   static Map<String, String> get krUseEcoFriendlyProducts => {
@@ -219,5 +221,16 @@ abstract class EChallengeTranslations {
             'Adjust indoor temperature according to the season!',
         'climateControl_description':
             'By adjusting the indoor temperature to optimize energy use, you can reduce carbon emissions from heating and cooling. There is an annual maximum energy saving effect of 15%!',
+      };
+  static Map<String, String> get krClearAllChallenge => {
+        'clearAllChallenge_short_title': '모든 챌린지 클리어!',
+        'clearAllChallenge_long_title': '모든 챌린지를 클리어했어요!',
+        'clearAllChallenge_description': '모든 챌린지를 클리어했어요!\n 다음 챌린지를 기다려주세요!',
+      };
+  static Map<String, String> get enClearAllChallenge => {
+        'clearAllChallenge_short_title': 'Clear All Challenge',
+        'clearAllChallenge_long_title': 'You have cleared all challenges!',
+        'clearAllChallenge_description':
+            'You have cleared all challenges! Please wait for the next challenge!',
       };
 }

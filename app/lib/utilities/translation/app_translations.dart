@@ -25,9 +25,6 @@ class AppTranslations extends Translations {
         "hint_text_2": "종이컵 대신 개인용 텀블러를 사용해보세요!",
         "current_challenge": "진행중인 챌린지",
         "completed_challenge": "완료한 챌린지",
-        'clear_all_challenge_short_title': '모든 챌린지 클리어!',
-        'clear_all_challenge_long_title': '모든 챌린지를 클리어했어요!',
-        'clear_all_challenge_description': '모든 챌린지를 클리어했어요!\n 다음 챌린지를 기다려주세요!',
         "coming_soon_challenge_banner": "챌린지를 확인하고, 실천해봐요!",
 
         // Home Screen
@@ -98,10 +95,6 @@ class AppTranslations extends Translations {
         "hint_text_2": "Try using a personal tumbler\ninstead of a paper cup!",
         "current_challenge": "Current Challenge",
         "completed_challenge": "Completed Challenge",
-        'clear_all_challenge_short_title': 'Clear All Challenge',
-        'clear_all_challenge_long_title': 'You have cleared all challenges!',
-        'clear_all_challenge_description':
-            'You have cleared all challenges! Please wait for the next challenge!',
         "coming_soon_challenge_banner": "Check Challenges and Practice them!",
 
         // Home Screen
