@@ -1,4 +1,5 @@
 # E&I Flutter Client
+
 The README contains the initial setup and execution instructions for the client.
 
 ## Prerequisites
@@ -7,33 +8,55 @@ Before running this function, make sure you have the following:
 
 - [Dart, Flutter installed](https://flutter-ko.dev/)
 - [Firebase project app set up](https://firebase.google.com/?_gl=1*1wpq7mv*_up*MQ..*_ga*NzEyODE4MDQ5LjE3MDg4OTM3MDE.*_ga_CW55HF8NVT*MTcwODg5MzcwMC4xLjAuMTcwODg5MzcwMC4wLjAuMA..&hl=ko)
-    - Must move firebase_options.dart File To `/lib/app/firebase` when it created
+  - Must move firebase_options.dart File To `/lib/app/firebase` when it created
 - [Firebase FCM(+APNs) set up ](https://firebase.google.com/docs/cloud-messaging/flutter/client?hl=ko&_gl=1*1y4het9*_up*MQ..*_ga*OTUzNjk1ODIwLjE3MDg5MTI2MzQ.*_ga_CW55HF8NVT*MTcwODkxMjYzMy4xLjAuMTcwODkxMjYzMy4wLjAuMA..)
 - [Apple Health Kit/ Android Google Fit set up](https://pub.dev/packages/health)
-    - Create Document `users`, `follows`, `notification_logs`
+
 - [Home Widget set up](https://pub.dev/packages/home_widget)
 
 ## Run
+
 1. Clone this repository
+
 ```bash
 git clone https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI.git
 ```
 
 2. Change Directory
+
 ```bash
 # Change App Directory
 cd ./2024-SolutionChallenge-EarthAndI/app
 ```
 
+3. Add .env File
+
+```bash
+# Add .env File
+cd assets
+mkdir config
+touch .env
+```
+
+<strong>Fill out the following in .env </strong>
+
+```
+API_SERVER_HOST=[analysis_api Server URL]
+LOG_SERVER_HOST=[trigger_and_notification_api Server URL]
+```
+
 3. Run Flutter
+
 ```bash
 flutter pub get
 flutter run
 ```
 
 ### If you encounter any issues in iOS build
+
 4. follow these steps to clean your build cache for iOS
-``` bash
+
+```bash
 cd ios
 rm Podfile.lock
 rm Podfile
@@ -49,7 +72,9 @@ flutter run
 ```
 
 ### If you encounter any issues in Android build
+
 4. follow these steps to clean your build cache for Android
+
 ```bash
 cd android
 ./gradlew clean
@@ -61,11 +86,14 @@ flutter run
 ```
 
 ## Environment, Dependences And Directory Structure
+
 ### Environment
+
 - Dart SDK version: 3.2.3
 - Flutter version: 3.16.6
 
 ### Dependences
+
 - cupertino_icons: ^1.0.2
 - flutter_launcher_icons: ^0.13.1
 - flutter_native_splash: ^2.3.6
@@ -102,6 +130,7 @@ flutter run
 - firebase_messaging: ^14.7.16
 
 ### Directory Structure
+
 ```sh
 ├── android
 ├── assets
