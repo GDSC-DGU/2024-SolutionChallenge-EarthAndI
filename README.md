@@ -13,18 +13,21 @@ With this unique approach, **`we aim to change people's perceptions and behavior
 ## Solution Overview
 
 <img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/fd06c192-5d07-4fce-b84e-15290dc2364c" alt="solution_overview"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/783d272d-0875-429d-8c6d-3abab9d98c7f" alt="overview"/>
 
 ## Target UN-SDGs
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/bd92ffe2-5872-4526-8139-be30883b05d1"/>
 
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/48b420ab-85b1-4d75-96ef-f1dbc0cf1d21" alt="target_sdgs"/>
+# Application
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/bb671842-654a-4fd1-b70b-c6348e895644" alt="ui_1"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/7de8cf14-cf2e-45bf-bb40-0f29101e15f1" alt="ui_2"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/d579897d-ba0a-4210-8962-24cfaa1b4839" alt="ui_3"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/af550ede-75c2-467a-af74-9cf3024a46f2" alt="ui_4"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/3ad8e984-afe3-4195-8857-281b23ac77ba" alt="ui_5"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/52d6cd91-2da1-406a-beac-1878a0e67247" alt="ui_6"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/3cf18f92-982b-4e4f-9096-105e5db0ee2f" alt="ui_7"/>
+<img src="https://github.com/wonho1401/2024-SolutionChallenge-EarthAndI/assets/59119468/4d801501-f835-4ac4-a778-34343d08b9e5" alt="ui_8"/>
 
-# UI Screen
-
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/9ee3eafb-4e53-44e2-9edc-7b332c796a06" alt="ui_1"/>
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/8babe729-f2be-4d78-b88d-ed9a9e3a8bec" alt="ui_2"/>
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/9954e88b-e557-406c-a941-d291f3b3d91d" alt="ui_3"/>
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/4f52b3e3-7840-476d-a247-f02b0d83497e" alt="ui_4"/>
-<img src="https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI/assets/59119468/337c6538-090c-4329-aa31-a104a5fa88f7" alt="ui_5"/>
 
 # Project Architecture
 
