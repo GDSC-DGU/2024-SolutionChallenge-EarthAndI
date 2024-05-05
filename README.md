@@ -91,14 +91,13 @@ flutter run
 ## Server(Please [click](/server/README.md) for more information)
 
 ```sh
-# Change Server Directory
-cd server/
+# Change Trigger/Notification Server Directory In Server Directory
+cd server/trigger_and_notification_api
 
 # Move to the `functions` subdirectory of quickstart-android
 cd functions
 
 # Install all of the dependencies of the cloud functions
-cd functions
 npm install
 
 # Move to the `Parent Folder` subdirectory of quickstart-android
