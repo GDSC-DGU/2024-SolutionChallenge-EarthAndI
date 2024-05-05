@@ -74,13 +74,12 @@ git clone https://github.com/GDSC-DGU/2024-SolutionChallenge-EarthAndI.git
 2. npm dependences install
 ```bash
 # Move to the 'server' directory.
-cd ./2024-SolutionChallenge-EarthAndI/server
+cd ./2024-SolutionChallenge-EarthAndI/server/trigger_and_notification_api
 
 # Move to the `functions` subdirectory.
 cd functions
 
 # Install all of the dependencies of the cloud functions.
-cd functions
 npm install
 
 # Move to the `Parent Folder` subdirectory.

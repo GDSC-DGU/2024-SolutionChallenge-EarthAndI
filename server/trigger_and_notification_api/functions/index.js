@@ -107,7 +107,7 @@ exports.updateFollows = functions.region('asia-northeast3').firestore.document('
         });
 
         // 만약 하루 이내에 이미 팔로우한 경우에는 notification을 보내지 않는다
-        const yesterday = new Date(Date.now() - 86400000); // 24시간 전의 시간을 계산합니다.
+        const yesterday = new Date(Date.now() - 86400000);
 
         const notificationLogs = await admin.firestore().collection('notification_logs')
             .where("from_user_id", "==", context.params.userId)
@@ -123,7 +123,7 @@ exports.updateFollows = functions.region('asia-northeast3').firestore.document('
             const followingUser = await admin.firestore().collection('users').doc(followingId).get()
             const currentUser = await admin.firestore().collection('users').doc(context.params.userId).get()
 
-            if (followingUser.data().is_notification_active === false) {
+            if (followingUser.data().is_notification_active === false || followingUser.data().device_token === null || followingUser.data().device_token === undefined || followingUser.data().device_token === "") {
                 return;
             }
     
@@ -180,10 +180,6 @@ app.use('/v1', api);
 
 exports.api = functions.region('asia-northeast3').https.onRequest(app);
 
-// 00 ~ 06 -> _actionGroups[0]
-// 06 ~ 12 -> _actionGroups[1]
-// 12 ~ 18 -> _actionGroups[2]
-// 18 ~ 24 -> _actionGroups[3]
 const actionGroups = [
     [],
     ["meal", "publicTransportation", "sns"],
@@ -217,7 +213,7 @@ api.post('/serving/actions', async (req, res) => {
         };
     });
 
-    const now = new Date(Date.now() + 32400000);
+    const now = new Date(Date.now());
     const hour = now.getHours();
     const actionGroupIndex = Math.floor(hour / 6);
     const actionGroup = actionGroups[actionGroupIndex];
@@ -278,14 +274,14 @@ api.post('/serving/actions', async (req, res) => {
 
     const followersData = await admin.firestore().collection('users').where(admin.firestore.FieldPath.documentId(), 'in', notificationIds).get();
 
-    followersData.forEach((doc) => {
+    for (const doc of followersData.docs) {
         const nickname = requestNickname;
         const deviceToken = doc.data()["device_token"];
         const deviceLanguage = doc.data()["device_language"];
         const notificationBody = deviceLanguage === "ko" ? nickname + "(이)가 새로운 행동들을 했습니다." : nickname + " has done a new actions.";
 
-        if (doc.data().is_notification_active === false) {
-            return;
+        if (receiverData.data().is_notification_active === false || deviceToken === null || deviceToken === undefined || deviceToken === "") {
+            continue;
         }
 
         // notification logs에 추가
@@ -315,8 +311,107 @@ api.post('/serving/actions', async (req, res) => {
                 },
             },
         });
+    }
+
+
+    res.json({ result: "success" });
+});
+
+// REST API: POST /serving/messages
+api.post('/serving/messages', async (req, res) => {
+    let senderId;
+    let receiverId;
+    let message;
+    const { data } = req.body;
+
+    // sender Authentication
+    try {
+        const idToken = req.headers.authorization.split('Bearer ')[1];
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        senderId = decodedToken.uid;
+    } catch (error) {
+        res.status(401).json();
+        return;
+    }
+
+    // Body Validation
+    try {
+        receiverId = data.receiverId;
+        message = data.message;
+    } catch (error) {
+        res.status(400).json();
+        return;
+    }
+
+    // Duplicate Message Log In 1 Hours
+    const endAt = new Date(Date.now());
+    const startAt = new Date(endAt - 3600000);
+
+    const notificationLogs = await admin.firestore().collection('notification_logs')
+        .where("from_user_id", "==", senderId)
+        .where("to_user_id", "==", receiverId)
+        .get();
+
+    const messageLogs = notificationLogs.docs.filter((doc) => {
+        const logTime = doc.data().timestamp.toDate();
+
+        return doc.data().type === "message" && logTime > startAt && logTime < endAt;
     });
 
+    // 400 Bad Request
+    if (messageLogs.length > 0) {
+        res.status(400).json();
+        return;
+    }
+
+    // User Validation
+    let senderData;
+    let receiverData;
+    try {
+        senderData = await admin.firestore().collection('users').doc(senderId).get();
+        receiverData = await admin.firestore().collection('users').doc(receiverId).get();
+    } catch (error) {
+        res.status(400).json();
+        return;
+    }
+
+    // Notification
+    const deviceToken = receiverData.data()["device_token"];
+    const deviceLanguage = receiverData.data()["device_language"];
+    const notificationTitle = deviceLanguage === "ko" ? senderData.data().nickname + "님의 메시지" : "Message from " + senderData.data().nickname;
+
+    if (receiverData.data().is_notification_active === false || deviceToken === null || deviceToken === undefined || deviceToken === "") {
+        res.json({ result: "success" });
+        return;
+    }
+
+    // Notification Log
+    admin.firestore().collection('notification_logs').add({
+        "from_user_id": senderId,
+        "to_user_id": receiverId,
+        "type": "message",
+        "timestamp": admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // FCM
+    admin.messaging().send({
+        token: deviceToken,
+        notification: {
+            title: notificationTitle,
+            body: message,
+        },
+        data: {
+            type: "message",
+            userId: senderId,
+        },
+        apns: {
+            payload: {
+                aps: {
+                    sound: "default",
+                },
+            },
+        },
+    });
 
     res.json({ result: "success" });
 });
