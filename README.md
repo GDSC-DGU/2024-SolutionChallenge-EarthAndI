@@ -6,7 +6,9 @@
 
 **Earth&I (E&I)** is a platform that aims to solve the problem of **people being aware of climate change, but not actually taking action to reduce their carbon emissions**.
 
+
 E&I leverages the value of **`interaction`** to **make people realize that taking action on climate change is not only for the planet, but also for their own health and lives**.
+
 
 With this unique approach, **`we aim to change people's perceptions and behaviors, creating a sustainable cycle and culture that positively impacts climate change action.`**
 
