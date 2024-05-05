@@ -3,9 +3,9 @@ import 'package:earth_and_i/apps/factory/remote_storage_factory.dart';
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/models/follow/follow_state.dart';
+import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
 import 'package:earth_and_i/models/setting/alarm_state.dart';
-import 'package:earth_and_i/models/home/character_state.dart';
 import 'package:earth_and_i/providers/follow/follow_provider.dart';
 import 'package:earth_and_i/providers/user/user_local_provider.dart';
 import 'package:earth_and_i/providers/user/user_remote_provider.dart';
@@ -15,7 +15,9 @@ import 'package:earth_and_i/utilities/functions/widget_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-class UserRepository extends GetxService {
+import 'user_repository.dart';
+
+class UserRepositoryImpl extends GetxService implements UserRepository {
   late final UserLocalProvider _localProvider;
   late final UserRemoteProvider _remoteProvider;
 
@@ -33,14 +35,17 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   /* --------------------------- Read --------------------------- */
   /* ------------------------------------------------------------ */
+  @override
   double readTotalPositiveDeltaCO2() {
     return _localProvider.getTotalPositiveDeltaCO2();
   }
 
+  @override
   double readTotalNegativeDeltaCO2() {
     return _localProvider.getTotalNegativeDeltaCO2();
   }
 
+  @override
   UserBriefState readUserBriefState() {
     return UserBriefState(
       id: _localProvider.getId(),
@@ -50,6 +55,7 @@ class UserRepository extends GetxService {
     );
   }
 
+  @override
   NotificationState readNotificationState() {
     return NotificationState(
       isActive: _localProvider.getNotificationActive(),
@@ -58,10 +64,12 @@ class UserRepository extends GetxService {
     );
   }
 
+  @override
   EChallenge? readCurrentChallenge() {
     return _localProvider.getCurrentChallenge();
   }
 
+  @override
   CharacterStatsState readCharacterStatsState() {
     return CharacterStatsState(
       isEnvironmentCondition: _localProvider.getTotalPositiveDeltaCO2().abs() >=
@@ -75,6 +83,7 @@ class UserRepository extends GetxService {
   /* ------------------------------------------------------------ */
   /* -------------------------- Update -------------------------- */
   /* ------------------------------------------------------------ */
+  @override
   Future<void> updateUserNotificationSetting({
     bool? isActive,
     int? hour,
@@ -103,6 +112,7 @@ class UserRepository extends GetxService {
     );
   }
 
+  @override
   Future<void> updateUserInformation({
     required bool isSignIn,
   }) async {
@@ -183,6 +193,7 @@ class UserRepository extends GetxService {
     );
   }
 
+  @override
   Future<void> updateTotalPositiveDeltaCO2(
     double changedDeltaCO2,
   ) async {
@@ -199,6 +210,7 @@ class UserRepository extends GetxService {
     }
   }
 
+  @override
   Future<void> updateTotalNegativeDeltaCO2(
     double changedDeltaCO2,
   ) async {
@@ -215,6 +227,7 @@ class UserRepository extends GetxService {
     }
   }
 
+  @override
   Future<void> updateCharacterStats(
     EUserStatus? userStatus,
     bool? isGood,
@@ -250,6 +263,7 @@ class UserRepository extends GetxService {
     }
   }
 
+  @override
   Future<void> updateCurrentChallenge(EChallenge? challenge) async {
     await _localProvider.setCurrentChallenge(challenge);
   }
@@ -267,6 +281,7 @@ class UserRepository extends GetxService {
     }
   }
 
+  @override
   Future<List<FollowState>> readUsers(String searchWord) async {
     List<dynamic> users = await _remoteProvider.getUsers(searchWord);
     Map<String, bool> isFollowings = {
@@ -293,6 +308,7 @@ class UserRepository extends GetxService {
     }).toList();
   }
 
+  @override
   Future<void> deleteUser() async {
     await _localProvider.dispose();
   }

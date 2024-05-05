@@ -1,8 +1,8 @@
 import 'package:earth_and_i/utilities/translation/character_translations.dart';
 import 'package:earth_and_i/utilities/translation/common_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_action_translations.dart';
-import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:earth_and_i/utilities/translation/e_challenge_translations.dart';
+import 'package:earth_and_i/utilities/translation/language_translations.dart';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
@@ -25,9 +25,7 @@ class AppTranslations extends Translations {
         "hint_text_2": "종이컵 대신 개인용 텀블러를 사용해보세요!",
         "current_challenge": "진행중인 챌린지",
         "completed_challenge": "완료한 챌린지",
-        'clear_all_challenge_short_title': '모든 챌린지 클리어!',
-        'clear_all_challenge_long_title': '모든 챌린지를 클리어했어요!',
-        'clear_all_challenge_description': '모든 챌린지를 클리어했어요!\n 다음 챌린지를 기다려주세요!',
+        "coming_soon_challenge_banner": "챌린지를 확인하고, 실천해봐요!",
 
         // Home Screen
         "time_exception_title": "새로운 구름을 확인해주세요",
@@ -62,6 +60,26 @@ class AppTranslations extends Translations {
         "setting": "설정",
         "notification_active": "알림 활성화",
         "notification_time": "알림 시간",
+
+        // Coming Soon Challenge Screen
+        "coming_soon_challenge": "커밍순 챌린지",
+        "coming_soon_challenge_description_1": "새로운 챌린지를 확인하고",
+        "coming_soon_challenge_description_2": "함께 실천해 나가요!",
+
+        // Ranking Screen
+        "honorific": "님의",
+        "party": "파티",
+        "party_rank": "파티 순위",
+        "not_register_friend": "등록된 친구가 없습니다.",
+        "recommend_sharing": "친구들에게 E&I를 공유해보세요!!",
+        "not_send_myself": "자신에게는 보낼 수 없어요.",
+        "not_send_myself_detail": "친구들에게 보내주세요.",
+        "sending_message": "메시지 전송 중",
+        "sending_message_detail": "잠시만 기다려주세요.",
+        "send_message_success": "메시지를 전송했어요!",
+        "send_message_success_detail": "앞으로 1시간동안 해당 친구에게 메시지를 보낼 수 없어요.",
+        "send_message_fail": "메시지 전송에 실패했어요!",
+        "send_message_fail_detail": "1시간 내에 메세지를 보내지 않았다면 다시 시도해주세요.",
       };
 
   static Map<String, String> get english => {
@@ -77,10 +95,7 @@ class AppTranslations extends Translations {
         "hint_text_2": "Try using a personal tumbler\ninstead of a paper cup!",
         "current_challenge": "Current Challenge",
         "completed_challenge": "Completed Challenge",
-        'clear_all_challenge_short_title': 'Clear All Challenge',
-        'clear_all_challenge_long_title': 'You have cleared all challenges!',
-        'clear_all_challenge_description':
-            'You have cleared all challenges! Please wait for the next challenge!',
+        "coming_soon_challenge_banner": "Check Challenges and Practice them!",
 
         // Home Screen
         "time_exception_title": "Please check the new clouds",
@@ -114,5 +129,27 @@ class AppTranslations extends Translations {
         "setting": "Setting",
         "notification_active": "Notification Active",
         "notification_time": "Notification Time",
+
+        // Coming Soon Challenge Screen
+        "coming_soon_challenge": "Coming Soon Challenge",
+        "coming_soon_challenge_description_1": "Check out the new challenges",
+        "coming_soon_challenge_description_2": "and practice together!",
+
+        // Ranking Screen
+        "honorific": "'s",
+        "party": "Party",
+        "party_rank": "Party Rank",
+        "not_register_friend": "There are no registered friends.",
+        "recommend_sharing": "Share E&I with your friends!!",
+        "not_send_myself": "You can't send it to yourself.",
+        "not_send_myself_detail": "Please send it to your friends.",
+        "sending_message": "Sending message",
+        "sending_message_detail": "Please wait a moment.",
+        "send_message_success": "Message sent!",
+        "send_message_success_detail":
+            "You can't send messages to that friend for the next hour.",
+        "send_message_fail": "Failed to send message!",
+        "send_message_fail_detail":
+            "If you don't send a message within an hour, please try again.",
       };
 }

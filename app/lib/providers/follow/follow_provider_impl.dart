@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earth_and_i/providers/follow/follow_provider.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FollowProviderImpl implements FollowProvider {
@@ -93,5 +92,102 @@ class FollowProviderImpl implements FollowProvider {
       e.value['is_following'] = isFollowings[e.value['id']];
       return e.value;
     }).toList();
+  }
+
+  @override
+  Future<List<dynamic>> getTopRankings() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    // get FollowerIds
+    List<dynamic> followers =
+        (await _storage.collection('follows').doc(uid).get())
+            .data()!['followers'];
+
+    // get followingIds
+    List<dynamic> followingIds =
+        (await _storage.collection('follows').doc(uid).get())
+            .data()!['followings'];
+
+    List<String> friendIds = [uid];
+
+    // refine friendIds
+    for (int i = 0; i < followers.length; i++) {
+      if (followingIds.contains(followers[i])) {
+        friendIds.add(followers[i]);
+      }
+    }
+
+    if (friendIds.isEmpty) {
+      return [];
+    }
+
+    // get Friend Data
+    List<dynamic> users = (await _storage
+            .collection("users")
+            .where("id", whereIn: friendIds)
+            .get())
+        .docs
+        .map((e) => e.data())
+        .toList();
+
+    // sort by totalDeltaCO2
+    users.sort((a, b) {
+      double aTotalDeltaCO2 =
+          a['total_negative_delta_co2'] + a['total_positive_delta_co2'];
+      double bTotalDeltaCO2 =
+          b['total_negative_delta_co2'] + b['total_positive_delta_co2'];
+      return aTotalDeltaCO2.compareTo(bTotalDeltaCO2);
+    });
+
+    // return top 3
+    return users.sublist(0, users.length > 3 ? 3 : users.length);
+  }
+
+  @override
+  Future<List> getRankings() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    // get FollowerIds
+    List<dynamic> followers =
+        (await _storage.collection('follows').doc(uid).get())
+            .data()!['followers'];
+
+    // get followingIds
+    List<dynamic> followingIds =
+        (await _storage.collection('follows').doc(uid).get())
+            .data()!['followings'];
+
+    List<String> friendIds = [uid];
+
+    // refine friendIds
+    for (int i = 0; i < followers.length; i++) {
+      if (followingIds.contains(followers[i])) {
+        friendIds.add(followers[i]);
+      }
+    }
+
+    if (friendIds.isEmpty || friendIds.length < 3) {
+      return [];
+    }
+
+    // get Friend Data
+    List<dynamic> users = (await _storage
+            .collection("users")
+            .where("id", whereIn: friendIds)
+            .get())
+        .docs
+        .map((e) => e.data())
+        .toList();
+
+    // sort by totalDeltaCO2
+    users.sort((a, b) {
+      double aTotalDeltaCO2 =
+          a['total_negative_delta_co2'] + a['total_positive_delta_co2'];
+      double bTotalDeltaCO2 =
+          b['total_negative_delta_co2'] + b['total_positive_delta_co2'];
+      return aTotalDeltaCO2.compareTo(bTotalDeltaCO2);
+    });
+
+    return users.sublist(3, users.length);
   }
 }

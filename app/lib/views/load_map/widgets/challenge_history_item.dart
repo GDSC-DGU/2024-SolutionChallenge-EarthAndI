@@ -77,8 +77,8 @@ class ChallengeHistoryItem extends StatelessWidget {
     double width = Get.width - 64 - 52 - 4 - 12;
 
     if (state == null) {
-      shortTitle = "clear_all_challenge_short_title".tr;
-      longTitle = "clear_all_challenge_long_title".tr;
+      shortTitle = "clearAllChallenge_short_title".tr;
+      longTitle = "clearAllChallenge_long_title".tr;
     } else {
       shortTitle = state!.type.shortTitle.tr;
       longTitle = state!.type.longTitle.tr;

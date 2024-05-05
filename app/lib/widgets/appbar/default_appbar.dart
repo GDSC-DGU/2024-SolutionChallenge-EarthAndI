@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class DefaultAppBar extends StatelessWidget {
   final String title;
-  final List<CustomIconButton> actions;
+  final List<Widget> actions;
   const DefaultAppBar({
     super.key,
     required this.title,

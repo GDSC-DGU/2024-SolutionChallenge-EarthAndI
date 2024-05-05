@@ -1,11 +1,10 @@
 import 'package:earth_and_i/models/profile/action_history_state.dart';
+import 'package:earth_and_i/models/profile/calendar_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/models/profile/user_brief_state.dart';
-import 'package:earth_and_i/models/profile/calendar_state.dart';
-import 'package:earth_and_i/repositories/action_history_repository.dart';
-import 'package:earth_and_i/repositories/follow_repository.dart';
-import 'package:earth_and_i/repositories/user_repository.dart';
-import 'package:earth_and_i/utilities/functions/log_util.dart';
+import 'package:earth_and_i/repositories/action_history/action_history_repository.dart';
+import 'package:earth_and_i/repositories/follow/follow_repository.dart';
+import 'package:earth_and_i/repositories/user/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/root/root_view_model.dart';
 import 'package:get/get.dart';

@@ -37,7 +37,6 @@ doc/api/
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
-.fvm/flutter_sdk
 .pub-cache/
 .pub/
 coverage/
@@ -101,7 +100,6 @@ lib/generated_plugin_registrant.dart
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
@@ -325,5 +323,7 @@ ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 android/app/google-services.json
 
-
 # End of https://www.toptal.com/developers/gitignore/api/dart,flutter,macos,androidstudio,xcode,windows,visualstudiocode
+
+# FVM Version Cache
+.fvm/

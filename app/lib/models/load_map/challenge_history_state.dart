@@ -7,7 +7,7 @@ class ChallengeHistoryState {
 
   ChallengeHistoryState({
     required this.type,
-    required this.completedAt,
+    this.completedAt,
     required this.isCompleted,
   });
 

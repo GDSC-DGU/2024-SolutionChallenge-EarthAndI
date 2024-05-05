@@ -1,7 +1,7 @@
 import 'package:earth_and_i/models/setting/alarm_state.dart';
-import 'package:earth_and_i/repositories/action_history_repository.dart';
-import 'package:earth_and_i/repositories/challenge_history_repository.dart';
-import 'package:earth_and_i/repositories/user_repository.dart';
+import 'package:earth_and_i/repositories/action_history/action_history_repository.dart';
+import 'package:earth_and_i/repositories/challenge_history/challenge_history_repository.dart';
+import 'package:earth_and_i/repositories/user/user_repository.dart';
 import 'package:earth_and_i/utilities/functions/security_util.dart';
 import 'package:earth_and_i/view_models/home/home_view_model.dart';
 import 'package:earth_and_i/view_models/load_map/load_map_view_model.dart';

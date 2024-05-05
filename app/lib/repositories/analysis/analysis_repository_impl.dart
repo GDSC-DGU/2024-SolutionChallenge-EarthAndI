@@ -1,9 +1,10 @@
 import 'package:earth_and_i/domains/type/e_challenge.dart';
 import 'package:earth_and_i/domains/type/e_user_status.dart';
 import 'package:earth_and_i/providers/analysis/analysis_provider.dart';
+import 'package:earth_and_i/repositories/analysis/analysis_repository.dart';
 import 'package:get/get.dart';
 
-class AnalysisRepository extends GetxService {
+class AnalysisRepositoryImpl extends GetxService implements AnalysisRepository {
   late final AnalysisProvider _analysisProvider;
 
   @override
@@ -12,6 +13,7 @@ class AnalysisRepository extends GetxService {
     _analysisProvider = Get.find<AnalysisProvider>();
   }
 
+  @override
   Future<Map<String, dynamic>> analysisAction(
     EUserStatus userStatus,
     String question,
@@ -38,6 +40,7 @@ class AnalysisRepository extends GetxService {
     };
   }
 
+  @override
   Future<Map<String, dynamic>> analysisChallenge(
     EChallenge challenge,
     String image,

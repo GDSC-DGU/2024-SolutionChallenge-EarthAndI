@@ -7,10 +7,12 @@ import 'package:earth_and_i/models/profile/action_history_state.dart';
 import 'package:earth_and_i/models/profile/daily_delta_co2_state.dart';
 import 'package:earth_and_i/providers/action/action_history_local_provider.dart';
 import 'package:earth_and_i/providers/notification/notification_provider.dart';
+import 'package:earth_and_i/repositories/action_history/action_history_repository.dart';
 import 'package:earth_and_i/utilities/functions/log_util.dart';
 import 'package:get/get.dart';
 
-class ActionHistoryRepository extends GetxService {
+class ActionHistoryRepositoryImpl extends GetxService
+    implements ActionHistoryRepository {
   late final ActionHistoryLocalProvider _localProvider;
   late final NotificationProvider _notificationProvider;
 
@@ -50,6 +52,7 @@ class ActionHistoryRepository extends GetxService {
   /* ----------------------------------------------------- */
   /* ----------------------- State ----------------------- */
   /* ----------------------------------------------------- */
+  @override
   Future<List<CarbonCloudState>> readCarbonCloudStates(
     DateTime currentAt,
   ) async {
@@ -94,6 +97,7 @@ class ActionHistoryRepository extends GetxService {
     return states;
   }
 
+  @override
   Future<DailyDeltaCO2State> readDailyDeltaCO2State(DateTime currentAt) async {
     DateTime startAt = DateTime(currentAt.year, currentAt.month, currentAt.day);
     DateTime endAt =
@@ -167,6 +171,7 @@ class ActionHistoryRepository extends GetxService {
     return currentState;
   }
 
+  @override
   Future<List<ActionHistoryState>> readActionHistoryStates(
     DateTime currentAt,
     int page,
@@ -214,6 +219,7 @@ class ActionHistoryRepository extends GetxService {
   /* ----------------------------------------------------- */
   /* ---------------------- DataBase --------------------- */
   /* ----------------------------------------------------- */
+  @override
   Future<void> createOrUpdate(ActionHistoryCompanion data) async {
     try {
       await _localProvider.save(data);
@@ -249,6 +255,7 @@ class ActionHistoryRepository extends GetxService {
     }
   }
 
+  @override
   Future<ActionHistoryData?> readOneByTypeAndDateRange(
     EAction type,
     DateTime startAt,
@@ -262,6 +269,7 @@ class ActionHistoryRepository extends GetxService {
     }
   }
 
+  @override
   Future<void> deleteAllActionHistories() async {
     await _localProvider.deleteAll();
   }
