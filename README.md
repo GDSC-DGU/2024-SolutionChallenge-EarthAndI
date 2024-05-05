@@ -48,7 +48,7 @@ With this unique approach, **`we aim to change people's perceptions and behavior
 
 ## Download
 
-### [✨✨✨Android APK✨✨✨](https://drive.google.com/file/d/1EDS7hdspV1wO7n38_Oiy6Tbk0cix9L_q/view?usp=sharing)
+### [✨✨✨Android APK✨✨✨](https://drive.google.com/file/d/1leHanZD8JeFUPxpcQTkvwWiW0yqamuIW/view?usp=sharing)
 
 ## Client(Please [click](/app/README.md) for more information)
 
